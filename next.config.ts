@@ -8,10 +8,9 @@ const nextConfig: NextConfig = {
 	},
 	images: {
 		remotePatterns: [
-			{
-				hostname: "localhost",
-				port: "4000",
-			},
+			{ hostname: "localhost", port: "4000" },
+			{ hostname: "picsum.photos" },
+			{ hostname: "i.pravatar.cc" },
 		],
 	},
 	typescript: {

@@ -40,9 +40,7 @@ export default function RootLayout({
 					<ThemeProvider>
 						<ToastProvider />
 						<Navbar />
-						<main className="container mx-auto px-4 py-6">
-							{children}
-						</main>
+						{children}
 					</ThemeProvider>
 				</AuthProvider>
 			</body>
