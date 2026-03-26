@@ -69,7 +69,7 @@ export function SidebarFollowButton({
 			disabled={isPending}
 		>
 			<UserCheck className="h-3.5 w-3.5" />
-			Following
+			Friends
 		</Button>
 	);
 }

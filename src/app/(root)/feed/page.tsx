@@ -27,7 +27,7 @@ export default async function FeedPage() {
 				where: { id: userId },
 				include: {
 					avatar: true,
-					_count: { select: { followers: true, following: true, posts: true } },
+					_count: { select: { followers: true, posts: true } },
 				},
 			}),
 			prisma.post.findMany({

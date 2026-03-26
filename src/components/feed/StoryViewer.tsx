@@ -192,6 +192,7 @@ export function StoryViewer({
 						src={story.mediaUrl}
 						alt={story.caption ?? "Story"}
 						fill
+						unoptimized
 						className="object-cover"
 						sizes="400px"
 						priority

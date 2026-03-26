@@ -28,7 +28,7 @@ export default async function ProfilePage({ params }: PageProps) {
         include: {
             avatar: true,
             coverPhoto: true,
-            _count: { select: { followers: true, following: true, posts: true } },
+            _count: { select: { followers: { where: { state: "accepted" } }, posts: true } },
             posts: {
                 where: {
                     isDeleted: false,
@@ -56,7 +56,7 @@ export default async function ProfilePage({ params }: PageProps) {
 
     const isOwnProfile = currentUserId === user.id;
 
-    const [followRecord, followers, following] = await Promise.all([
+    const [followRecord, friends] = await Promise.all([
         currentUserId && !isOwnProfile
             ? prisma.userFollow.findUnique({
                   where: {
@@ -69,23 +69,6 @@ export default async function ProfilePage({ params }: PageProps) {
               })
             : null,
         prisma.userFollow.findMany({
-            where: { followingId: user.id, state: "accepted" },
-            take: 24,
-            orderBy: { createdAt: "desc" },
-            include: {
-                follower: {
-                    select: {
-                        id: true,
-                        userName: true,
-                        firstName: true,
-                        lastName: true,
-                        avatar: { select: { photoSrc: true } },
-                        _count: { select: { followers: true } },
-                    },
-                },
-            },
-        }),
-        prisma.userFollow.findMany({
             where: { followerId: user.id, state: "accepted" },
             take: 24,
             orderBy: { createdAt: "desc" },
@@ -97,7 +80,7 @@ export default async function ProfilePage({ params }: PageProps) {
                         firstName: true,
                         lastName: true,
                         avatar: { select: { photoSrc: true } },
-                        _count: { select: { followers: true } },
+                        _count: { select: { following: { where: { state: "accepted" } } } },
                     },
                 },
             },
@@ -118,8 +101,7 @@ export default async function ProfilePage({ params }: PageProps) {
             isOwnProfile={isOwnProfile}
             currentUserId={currentUserId}
             followState={followState}
-            followers={followers.map((f) => f.follower)}
-            following={following.map((f) => f.following)}
+            friends={friends.map((f) => f.following)}
         />
     );
 }

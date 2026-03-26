@@ -21,7 +21,7 @@ type Request = {
 		lastName: string | null;
 		location: string | null;
 		avatar: { photoSrc: string } | null;
-		_count: { followers: number };
+		_count: { following: number };
 	};
 };
 
@@ -75,7 +75,7 @@ function RequestCard({
 						<span>@{follower.userName}</span>
 						<span className="flex items-center gap-0.5">
 							<Users className="h-3 w-3" />
-							{follower._count.followers} followers
+						{follower._count.following} friends
 						</span>
 						{follower.location && (
 							<span className="flex items-center gap-0.5">

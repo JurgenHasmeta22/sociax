@@ -7,6 +7,7 @@ const nextConfig: NextConfig = {
 		},
 	},
 	images: {
+		unoptimized: true,
 		remotePatterns: [
 			{ hostname: "localhost", port: "4000" },
 			{ hostname: "picsum.photos" },

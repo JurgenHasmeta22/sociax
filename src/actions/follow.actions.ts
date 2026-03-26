@@ -46,14 +46,30 @@ export async function cancelFollowRequest(targetUserId: number) {
 export async function acceptFollowRequest(requesterId: number) {
 	const userId = await getSessionUserId();
 
-	await prisma.userFollow.updateMany({
-		where: {
-			followerId: requesterId,
-			followingId: userId,
-			state: "pending",
-		},
-		data: { state: "accepted" },
-	});
+	await prisma.$transaction([
+		prisma.userFollow.updateMany({
+			where: {
+				followerId: requesterId,
+				followingId: userId,
+				state: "pending",
+			},
+			data: { state: "accepted" },
+		}),
+		prisma.userFollow.upsert({
+			where: {
+				followerId_followingId: {
+					followerId: userId,
+					followingId: requesterId,
+				},
+			},
+			create: {
+				followerId: userId,
+				followingId: requesterId,
+				state: "accepted",
+			},
+			update: { state: "accepted" },
+		}),
+	]);
 
 	revalidatePath("/people");
 	revalidatePath("/notifications");
@@ -74,7 +90,12 @@ export async function unfollowUser(targetUserId: number) {
 	const userId = await getSessionUserId();
 
 	await prisma.userFollow.deleteMany({
-		where: { followerId: userId, followingId: targetUserId },
+		where: {
+			OR: [
+				{ followerId: userId, followingId: targetUserId },
+				{ followerId: targetUserId, followingId: userId },
+			],
+		},
 	});
 
 	revalidatePath("/people");
@@ -94,7 +115,7 @@ export async function getPendingRequests() {
 					lastName: true,
 					location: true,
 					avatar: true,
-					_count: { select: { followers: true } },
+					_count: { select: { following: { where: { state: "accepted" } } } },
 				},
 			},
 		},
@@ -131,7 +152,7 @@ export async function fetchMorePeople(skip: number, query: string) {
 			orderBy: { createdAt: "desc" },
 			include: {
 				avatar: true,
-				_count: { select: { followers: true, posts: true } },
+				_count: { select: { following: { where: { state: "accepted" } }, posts: true } },
 			},
 		}),
 		prisma.user.count({ where }),

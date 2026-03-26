@@ -34,7 +34,7 @@ type FriendUser = {
     firstName: string | null;
     lastName: string | null;
     avatar: { photoSrc: string } | null;
-    _count: { followers: number };
+    _count: { following: number };
 };
 
 type Post = {
@@ -67,11 +67,11 @@ type ProfileUser = {
     gender: string;
     avatar: { photoSrc: string } | null;
     coverPhoto: { photoSrc: string } | null;
-    _count: { followers: number; following: number; posts: number };
+    _count: { followers: number; posts: number };
     posts: Post[];
 };
 
-const TABS = ["Posts", "About", "Followers", "Following"] as const;
+const TABS = ["Posts", "About", "Friends"] as const;
 type Tab = (typeof TABS)[number];
 
 const displayName = (u: { firstName: string | null; lastName: string | null; userName: string }) =>
@@ -113,7 +113,7 @@ function FriendGrid({ people, emptyLabel }: { people: FriendUser[]; emptyLabel: 
                                     {n}
                                 </p>
                                 <p className="text-xs text-muted-foreground mt-0.5">
-                                    {person._count.followers} followers
+                                    {person._count.following} friends
                                 </p>
                             </CardContent>
                         </Card>
@@ -129,15 +129,13 @@ export function ProfileContent({
     isOwnProfile,
     currentUserId,
     followState: initialFollowState,
-    followers,
-    following,
+    friends,
 }: {
     user: ProfileUser;
     isOwnProfile: boolean;
     currentUserId: number | null;
     followState: "none" | "outgoing_pending" | "accepted" | null;
-    followers: FriendUser[];
-    following: FriendUser[];
+    friends: FriendUser[];
 }) {
     const [activeTab, setActiveTab] = useState<Tab>("Posts");
     const [followState, setFollowState] = useState(initialFollowState);
@@ -198,22 +196,13 @@ export function ProfileContent({
                             <p className="text-muted-foreground text-sm">@{user.userName}</p>
                             <div className="flex items-center gap-3 mt-1 text-sm text-muted-foreground">
                                 <button
-                                    onClick={() => setActiveTab("Followers")}
+                                    onClick={() => setActiveTab("Friends")}
                                     className="hover:underline"
                                 >
                                     <span className="font-semibold text-foreground">
                                         {user._count.followers.toLocaleString()}
                                     </span>{" "}
-                                    followers
-                                </button>
-                                <button
-                                    onClick={() => setActiveTab("Following")}
-                                    className="hover:underline"
-                                >
-                                    <span className="font-semibold text-foreground">
-                                        {user._count.following.toLocaleString()}
-                                    </span>{" "}
-                                    following
+                                    friends
                                 </button>
                                 <span>
                                     <span className="font-semibold text-foreground">
@@ -367,30 +356,30 @@ export function ProfileContent({
                                     <Separator className="my-3" />
                                     <div className="flex items-center justify-between text-sm text-muted-foreground">
                                         <button
-                                            onClick={() => setActiveTab("Followers")}
+                                            onClick={() => setActiveTab("Friends")}
                                             className="hover:underline"
                                         >
-                                            {user._count.followers} followers
+                                            {user._count.followers} friends
                                         </button>
                                         <Badge variant="secondary">{user.gender}</Badge>
                                     </div>
                                 </CardContent>
                             </Card>
 
-                            {followers.length > 0 && (
+                            {friends.length > 0 && (
                                 <Card>
                                     <CardContent className="pt-4 pb-4">
                                         <div className="flex items-center justify-between mb-3">
-                                            <h3 className="font-semibold">Followers</h3>
+                                            <h3 className="font-semibold">Friends</h3>
                                             <button
-                                                onClick={() => setActiveTab("Followers")}
+                                                onClick={() => setActiveTab("Friends")}
                                                 className="text-primary text-xs hover:underline"
                                             >
                                                 See all
                                             </button>
                                         </div>
                                         <div className="grid grid-cols-3 gap-2">
-                                            {followers.slice(0, 9).map((f) => {
+                                            {friends.slice(0, 9).map((f) => {
                                                 const n = displayName(f);
                                                 return (
                                                     <Link
@@ -538,13 +527,7 @@ export function ProfileContent({
                                         <p className="text-2xl font-bold">
                                             {user._count.followers.toLocaleString()}
                                         </p>
-                                        <p className="text-muted-foreground">Followers</p>
-                                    </div>
-                                    <div className="text-center">
-                                        <p className="text-2xl font-bold">
-                                            {user._count.following.toLocaleString()}
-                                        </p>
-                                        <p className="text-muted-foreground">Following</p>
+                                        <p className="text-muted-foreground">Friends</p>
                                     </div>
                                 </div>
                             </CardContent>
@@ -552,26 +535,14 @@ export function ProfileContent({
                     </div>
                 )}
 
-                {activeTab === "Followers" && (
+                {activeTab === "Friends" && (
                     <div className="pb-10">
                         <h2 className="text-base font-semibold mb-4">
-                            {user._count.followers.toLocaleString()} Followers
+                            {user._count.followers.toLocaleString()} Friends
                         </h2>
                         <FriendGrid
-                            people={followers}
-                            emptyLabel="No followers yet"
-                        />
-                    </div>
-                )}
-
-                {activeTab === "Following" && (
-                    <div className="pb-10">
-                        <h2 className="text-base font-semibold mb-4">
-                            Following {user._count.following.toLocaleString()}
-                        </h2>
-                        <FriendGrid
-                            people={following}
-                            emptyLabel="Not following anyone yet"
+                            people={friends}
+                            emptyLabel="No friends yet"
                         />
                     </div>
                 )}

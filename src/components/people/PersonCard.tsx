@@ -28,7 +28,7 @@ type Person = {
 	lastName: string | null;
 	location: string | null;
 	avatar: { photoSrc: string } | null;
-	_count: { followers: number; posts: number };
+	_count: { following: number; posts: number };
 };
 
 export function PersonCard({
@@ -111,7 +111,7 @@ export function PersonCard({
 				<div className="flex items-center gap-2 mt-1.5 text-xs text-muted-foreground">
 					<span className="flex items-center gap-1">
 						<Users className="h-3 w-3" />
-						{person._count.followers}
+						{person._count.following}
 					</span>
 					<Badge variant="outline" className="text-[10px] h-4 px-1">
 						{person._count.posts} posts
@@ -176,7 +176,7 @@ export function PersonCard({
 						disabled={isPending}
 					>
 						<UserCheck className="h-3 w-3" />
-						Following
+						Friends
 					</Button>
 				)}
 			</CardContent>

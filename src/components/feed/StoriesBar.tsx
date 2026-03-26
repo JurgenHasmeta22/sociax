@@ -69,6 +69,7 @@ export function StoriesBar({
 									src={currentUser.avatar.photoSrc}
 									alt=""
 									fill
+									unoptimized
 									className="object-cover opacity-80 group-hover:scale-105 transition-transform duration-200"
 									sizes="112px"
 								/>
@@ -97,6 +98,7 @@ export function StoriesBar({
 									src={story.mediaUrl}
 									alt=""
 									fill
+									unoptimized
 									className="object-cover group-hover:scale-105 transition-transform duration-200"
 									sizes="112px"
 								/>

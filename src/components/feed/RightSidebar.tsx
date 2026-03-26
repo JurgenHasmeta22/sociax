@@ -95,7 +95,7 @@ export function RightSidebar({
 									)}
 									<p className="text-xs text-muted-foreground mt-0.5">
 										{user._count.followers.toLocaleString()}{" "}
-										followers
+										friends
 									</p>
 									<SidebarFollowButton
 										userId={user.id}

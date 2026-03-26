@@ -12,8 +12,7 @@ export default async function SavedPage() {
 	if (!session) redirect("/login");
 	const userId = parseInt(session.user.id);
 
-	const saved = await fetchSavedPosts(0);
-	const posts = saved.map((s) => s.post);
+	const posts = await fetchSavedPosts(0);
 
 	return (
 		<div className="max-w-[600px] mx-auto py-6 px-3 space-y-4">

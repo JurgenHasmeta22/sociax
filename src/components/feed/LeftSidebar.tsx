@@ -22,7 +22,6 @@ type SidebarUser = {
 	avatar: { photoSrc: string } | null;
 	_count: {
 		followers: number;
-		following: number;
 		posts: number;
 	};
 };
@@ -98,11 +97,10 @@ export function LeftSidebar({ user }: { user: SidebarUser }) {
 			<p className="px-2 text-xs font-semibold text-muted-foreground uppercase tracking-wide">
 				Your stats
 			</p>
-			<div className="grid grid-cols-3 gap-1 px-2 py-1">
+			<div className="grid grid-cols-2 gap-1 px-2 py-1">
 				{[
 					{ label: "Posts", value: user._count.posts },
-					{ label: "Followers", value: user._count.followers },
-					{ label: "Following", value: user._count.following },
+					{ label: "Friends", value: user._count.followers },
 				].map(({ label, value }) => (
 					<div
 						key={label}
