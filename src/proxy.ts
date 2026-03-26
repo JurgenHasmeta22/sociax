@@ -29,15 +29,10 @@ export async function proxy(req: NextRequest) {
 	) {
 		return NextResponse.redirect(new URL("/login", req.url));
 	}
-	
+
 	return NextResponse.next();
 }
 
 export const config = {
-	matcher: [
-		"/login",
-		"/register",
-		"/users/:path*",
-		"/admin/:path*",
-	],
+	matcher: ["/login", "/register", "/users/:path*", "/admin/:path*"],
 };

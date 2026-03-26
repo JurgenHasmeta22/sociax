@@ -7,45 +7,45 @@ import { Navbar } from "@/components/root/Navbar";
 import "../globals.css";
 
 const inter = Inter({
-    subsets: ["latin"],
-    display: "swap",
+	subsets: ["latin"],
+	display: "swap",
 });
 
 export const metadata: Metadata = {
-    title: {
-        default: "Sociax",
-        template: "%s | Sociax",
-    },
-    description: "A social media platform",
-    robots: {
-        follow: true,
-        index: true,
-    },
+	title: {
+		default: "Sociax",
+		template: "%s | Sociax",
+	},
+	description: "A social media platform",
+	robots: {
+		follow: true,
+		index: true,
+	},
 };
 
 export const viewport: Viewport = {
-    width: "device-width",
-    initialScale: 1,
+	width: "device-width",
+	initialScale: 1,
 };
 
 export default function RootLayout({
-    children,
+	children,
 }: Readonly<{
-    children: React.ReactNode;
+	children: React.ReactNode;
 }>) {
-    return (
-        <html suppressHydrationWarning lang="en">
-            <body className={inter.className}>
-                <AuthProvider>
-                    <ThemeProvider>
-                        <ToastProvider />
-                        <Navbar />
-                        <main className="container mx-auto px-4 py-6">
-                            {children}
-                        </main>
-                    </ThemeProvider>
-                </AuthProvider>
-            </body>
-        </html>
-    );
+	return (
+		<html suppressHydrationWarning lang="en">
+			<body className={inter.className}>
+				<AuthProvider>
+					<ThemeProvider>
+						<ToastProvider />
+						<Navbar />
+						<main className="container mx-auto px-4 py-6">
+							{children}
+						</main>
+					</ThemeProvider>
+				</AuthProvider>
+			</body>
+		</html>
+	);
 }
