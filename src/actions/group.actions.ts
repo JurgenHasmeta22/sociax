@@ -170,3 +170,77 @@ export async function getGroupPostComments(groupPostId: number) {
 		},
 	});
 }
+
+const GROUPS_LIMIT = 12;
+
+export async function fetchMoreGroups(skip: number, query: string) {
+	const session = await getServerSession(authOptions);
+	const userId = session ? parseInt(session.user.id) : null;
+
+	const where = query.trim()
+		? { name: { contains: query.trim() } }
+		: undefined;
+
+	const [groups, total, memberships] = await Promise.all([
+		prisma.group.findMany({
+			where,
+			skip,
+			take: GROUPS_LIMIT,
+			orderBy: { createdAt: "desc" },
+			include: {
+				owner: { include: { avatar: true } },
+				_count: { select: { members: true, posts: true } },
+			},
+		}),
+		prisma.group.count({ where }),
+		userId
+			? prisma.groupMember.findMany({
+					where: { userId },
+					select: { groupId: true, status: true },
+				})
+			: [],
+	]);
+
+	const membershipMap: Record<number, string> = {};
+	for (const m of memberships) membershipMap[m.groupId] = m.status;
+
+	return { groups, membershipMap, total };
+}
+
+export async function createGroup(data: {
+	name: string;
+	description: string;
+	privacy: string;
+}) {
+	const userId = await getSessionUserId();
+	if (!data.name.trim()) throw new Error("Name required");
+
+	const baseSlug = data.name
+		.toLowerCase()
+		.trim()
+		.replace(/\s+/g, "-")
+		.replace(/[^a-z0-9-]/g, "")
+		.slice(0, 50) || "group";
+
+	let slug = baseSlug;
+	let counter = 1;
+	while (await prisma.group.findUnique({ where: { slug } })) {
+		slug = `${baseSlug}-${counter++}`;
+	}
+
+	const group = await prisma.group.create({
+		data: {
+			name: data.name.trim(),
+			slug,
+			description: data.description.trim() || null,
+			privacy: data.privacy as "Public" | "Private" | "Secret",
+			ownerId: userId,
+			members: {
+				create: { userId, role: "Admin", status: "Approved" },
+			},
+		},
+	});
+
+	revalidatePath("/groups");
+	return group;
+}

@@ -30,6 +30,7 @@ import {
 	Users,
 	Lock,
 	Bookmark,
+	BookmarkCheck,
 	Trash2,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
@@ -37,8 +38,9 @@ import {
 	togglePostLike,
 	deletePost,
 	getPostReactions,
+	togglePostSave,
 } from "@/actions/post.actions";
-import type { ReactionType } from "../../../prisma/generated/prisma";
+import type { ReactionType } from "../../../prisma/generated/prisma/enums";
 import { CommentsSection } from "@/components/feed/CommentsSection";
 
 const REACTIONS: Record<string, { emoji: string; label: string }> = {
@@ -57,6 +59,7 @@ type Post = {
 	content: string | null;
 	createdAt: Date;
 	privacy: string;
+	saves?: { id: number }[];
 	user: {
 		id: number;
 		userName: string;
@@ -232,6 +235,7 @@ export function PostCard({
 	const [showReactionsModal, setShowReactionsModal] = useState(false);
 	const [showPicker, setShowPicker] = useState(false);
 	const [deleted, setDeleted] = useState(false);
+	const [saved, setSaved] = useState((post.saves?.length ?? 0) > 0);
 	const [isPending, startTransition] = useTransition();
 	const hoverTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
@@ -342,9 +346,18 @@ export function PostCard({
 							</Button>
 						</DropdownMenuTrigger>
 						<DropdownMenuContent align="end">
-							<DropdownMenuItem>
-								<Bookmark className="h-4 w-4 mr-2" />
-								Save post
+							<DropdownMenuItem
+								onClick={() => {
+									setSaved((p) => !p);
+									startTransition(() => { togglePostSave(post.id); });
+								}}
+							>
+								{saved ? (
+									<BookmarkCheck className="h-4 w-4 mr-2 text-primary" />
+								) : (
+									<Bookmark className="h-4 w-4 mr-2" />
+								)}
+								{saved ? "Unsave post" : "Save post"}
 							</DropdownMenuItem>
 							{isOwnPost && (
 								<DropdownMenuItem

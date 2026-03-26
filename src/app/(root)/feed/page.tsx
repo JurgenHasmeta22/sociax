@@ -14,40 +14,54 @@ export default async function FeedPage() {
 
 	const userId = parseInt(session.user.id);
 
+	const friendFollows = await prisma.userFollow.findMany({
+		where: { followerId: userId, state: "accepted" },
+		select: { followingId: true },
+	});
+	const friendIds = friendFollows.map((f) => f.followingId);
+	const allowedIds = [userId, ...friendIds];
+
 	const [currentUser, posts, stories, suggestedUsers, events] =
 		await Promise.all([
 			prisma.user.findUnique({
 				where: { id: userId },
 				include: {
 					avatar: true,
-					_count: {
-						select: {
-							followers: true,
-							following: true,
-							posts: true,
-						},
-					},
+					_count: { select: { followers: true, following: true, posts: true } },
 				},
 			}),
 			prisma.post.findMany({
-				where: { isDeleted: false },
+				where: {
+					isDeleted: false,
+					userId: { in: allowedIds },
+					OR: [
+						{ userId },
+						{ privacy: { in: ["Public", "FriendsOnly"] } },
+					],
+				},
 				orderBy: { createdAt: "desc" },
 				take: 20,
 				include: {
 					user: { include: { avatar: true } },
 					media: true,
-					likes: {
-						select: { id: true, reactionType: true, userId: true },
-					},
+					likes: { select: { id: true, reactionType: true, userId: true } },
+					saves: { where: { userId }, select: { id: true } },
 					_count: { select: { comments: true, shares: true } },
 					hashtags: { include: { hashtag: true } },
 				},
 			}),
 			prisma.story.findMany({
-				where: { expiresAt: { gt: new Date() } },
+				where: {
+					userId: { in: allowedIds },
+					expiresAt: { gt: new Date() },
+				},
 				take: 15,
 				orderBy: { createdAt: "desc" },
-				include: { user: { include: { avatar: true } } },
+				include: {
+					user: { include: { avatar: true } },
+					views: { where: { userId }, select: { id: true } },
+					_count: { select: { views: true } },
+				},
 			}),
 			prisma.user.findMany({
 				where: { id: { not: userId }, active: true },
@@ -87,17 +101,13 @@ export default async function FeedPage() {
 					<StoriesBar stories={stories} currentUser={currentUser} />
 					<PostComposer user={currentUser} />
 					{posts.map((post) => (
-						<PostCard
-							key={post.id}
-							post={post}
-							currentUserId={userId}
-						/>
+						<PostCard key={post.id} post={post} currentUserId={userId} />
 					))}
 					{posts.length === 0 && (
 						<div className="text-center py-16 text-muted-foreground">
 							<p className="text-lg font-medium">No posts yet</p>
 							<p className="text-sm mt-1">
-								Be the first to share something!
+								Add friends to see their posts here!
 							</p>
 						</div>
 					)}

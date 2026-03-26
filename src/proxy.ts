@@ -5,7 +5,6 @@ import type { NextRequest } from "next/server";
 const PROTECTED_ROUTES = [
 	"/feed",
 	"/profile",
-	"/groups",
 	"/people",
 	"/pages",
 	"/events",

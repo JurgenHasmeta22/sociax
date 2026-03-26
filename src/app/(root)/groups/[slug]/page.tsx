@@ -1,6 +1,6 @@
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/app/api/auth/[...nextauth]/route";
-import { notFound, redirect } from "next/navigation";
+import { notFound } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
 import { prisma } from "@/lib/prisma";
@@ -28,25 +28,25 @@ export default async function GroupDetailPage({
 }) {
 	const { slug } = await params;
 	const session = await getServerSession(authOptions);
-	if (!session) redirect("/login");
-
-	const userId = parseInt(session.user.id);
+	const userId = session ? parseInt(session.user.id) : null;
 
 	const group = await prisma.group.findUnique({
 		where: { slug },
 		include: {
 			owner: { include: { avatar: true } },
 			_count: { select: { members: true, posts: true } },
-			members: {
-				where: { userId },
-				select: { status: true, role: true },
-			},
+			members: userId
+				? {
+						where: { userId },
+						select: { status: true, role: true },
+					}
+				: false,
 		},
 	});
 
 	if (!group) notFound();
 
-	const myMembership = group.members[0] ?? null;
+	const myMembership = Array.isArray(group.members) ? (group.members[0] ?? null) : null;
 	const isApproved = myMembership?.status === "Approved";
 	const isPrivate = group.privacy !== "Public";
 	const canView = isApproved || !isPrivate;

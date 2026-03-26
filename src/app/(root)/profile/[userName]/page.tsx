@@ -30,13 +30,21 @@ export default async function ProfilePage({ params }: PageProps) {
             coverPhoto: true,
             _count: { select: { followers: true, following: true, posts: true } },
             posts: {
-                where: { isDeleted: false },
+                where: {
+                    isDeleted: false,
+                    ...(currentUserId !== null
+                        ? {}
+                        : { privacy: "Public" }),
+                },
                 orderBy: { createdAt: "desc" },
                 take: 20,
                 include: {
                     user: { include: { avatar: true } },
                     media: { orderBy: { order: "asc" } },
                     likes: { select: { id: true, userId: true, reactionType: true } },
+                    saves: currentUserId
+                        ? { where: { userId: currentUserId }, select: { id: true } }
+                        : false,
                     _count: { select: { comments: true, shares: true } },
                     hashtags: { include: { hashtag: true } },
                 },

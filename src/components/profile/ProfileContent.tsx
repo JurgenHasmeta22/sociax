@@ -13,7 +13,7 @@ import {
     Link as LinkIcon,
     CalendarDays,
     UserPlus,
-    UserCheck,
+    UserMinus,
     Clock,
     MessageCircle,
     MoreHorizontal,
@@ -26,6 +26,7 @@ import {
     unfollowUser,
 } from "@/actions/follow.actions";
 import { PostCard } from "@/components/feed/PostCard";
+import { PostComposer } from "@/components/feed/PostComposer";
 
 type FriendUser = {
     id: number;
@@ -244,18 +245,18 @@ export function ProfileContent({
                                 >
                                     {followState === "accepted" ? (
                                         <>
-                                            <UserCheck className="h-4 w-4" />
-                                            Following
+                                            <UserMinus className="h-4 w-4" />
+                                            Friends
                                         </>
                                     ) : followState === "outgoing_pending" ? (
                                         <>
                                             <Clock className="h-4 w-4" />
-                                            Requested
+                                            Request Sent
                                         </>
                                     ) : (
                                         <>
                                             <UserPlus className="h-4 w-4" />
-                                            Follow
+                                            Add Friend
                                         </>
                                     )}
                                 </Button>
@@ -418,6 +419,9 @@ export function ProfileContent({
                         </div>
 
                         <div className="space-y-3">
+                            {isOwnProfile && (
+                                <PostComposer user={user} />
+                            )}
                             {user.posts.length === 0 ? (
                                 <div className="text-center py-12 text-muted-foreground border border-dashed rounded-xl">
                                     <p className="font-medium">No posts yet</p>

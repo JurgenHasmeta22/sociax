@@ -103,3 +103,62 @@ export async function getPendingRequests() {
 
 	return requests;
 }
+
+const PEOPLE_LIMIT = 20;
+
+export async function fetchMorePeople(skip: number, query: string) {
+	const session = await getServerSession(authOptions);
+	if (!session) throw new Error("Unauthorized");
+	const userId = parseInt(session.user.id);
+
+	const where = query.trim()
+		? {
+				id: { not: userId },
+				active: true,
+				OR: [
+					{ userName: { contains: query.trim() } },
+					{ firstName: { contains: query.trim() } },
+					{ lastName: { contains: query.trim() } },
+				],
+			}
+		: { id: { not: userId }, active: true };
+
+	const [people, total, myFollowing, incomingRequests] = await Promise.all([
+		prisma.user.findMany({
+			where,
+			skip,
+			take: PEOPLE_LIMIT,
+			orderBy: { createdAt: "desc" },
+			include: {
+				avatar: true,
+				_count: { select: { followers: true, posts: true } },
+			},
+		}),
+		prisma.user.count({ where }),
+		prisma.userFollow.findMany({
+			where: { followerId: userId },
+			select: { followingId: true, state: true },
+		}),
+		prisma.userFollow.findMany({
+			where: { followingId: userId, state: "pending" },
+			select: { followerId: true },
+		}),
+	]);
+
+	const outgoing = new Map(myFollowing.map((f) => [f.followingId, f.state]));
+	const incoming = new Set(incomingRequests.map((r) => r.followerId));
+
+	const followStates: Record<
+		number,
+		"none" | "outgoing_pending" | "incoming_pending" | "accepted"
+	> = {};
+	for (const p of people) {
+		const out = outgoing.get(p.id);
+		if (out === "accepted") followStates[p.id] = "accepted";
+		else if (out === "pending") followStates[p.id] = "outgoing_pending";
+		else if (incoming.has(p.id)) followStates[p.id] = "incoming_pending";
+		else followStates[p.id] = "none";
+	}
+
+	return { people, followStates, total };
+}

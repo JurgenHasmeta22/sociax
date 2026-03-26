@@ -29,7 +29,7 @@ import {
 	createGroupPostComment,
 	deleteGroupPostComment,
 } from "@/actions/group.actions";
-import type { ReactionType } from "../../../prisma/generated/prisma";
+import type { ReactionType } from "../../../prisma/generated/prisma/enums";
 
 const REACTIONS: Record<string, { emoji: string; label: string }> = {
 	Like: { emoji: "👍", label: "Like" },
@@ -82,7 +82,7 @@ function GroupPostCard({
 	onDelete,
 }: {
 	post: GroupPostData;
-	currentUserId: number;
+	currentUserId: number | null;
 	groupId: number;
 	onDelete: (id: number) => void;
 }) {
@@ -133,6 +133,7 @@ function GroupPostCard({
 	};
 
 	const handleComment = () => {
+		if (!currentUserId) return;
 		const text = commentText.trim();
 		if (!text) return;
 		setCommentText("");
@@ -345,26 +346,30 @@ function GroupPostCard({
 						))}
 					</div>
 					<div className="flex gap-2 mt-3">
-						<Textarea
-							value={commentText}
-							onChange={(e) => setCommentText(e.target.value)}
-							onKeyDown={(e) => {
-								if (e.key === "Enter" && !e.shiftKey) {
-									e.preventDefault();
-									handleComment();
-								}
-							}}
-							placeholder="Write a comment…"
-							className="min-h-0 h-9 resize-none text-sm rounded-full py-2 px-4"
-						/>
-						<Button
-							size="icon"
-							className="h-9 w-9 rounded-full shrink-0"
-							onClick={handleComment}
-							disabled={!commentText.trim() || isPending}
-						>
-							<Send className="h-4 w-4" />
-						</Button>
+						{currentUserId && (
+							<>
+								<Textarea
+									value={commentText}
+									onChange={(e) => setCommentText(e.target.value)}
+									onKeyDown={(e) => {
+										if (e.key === "Enter" && !e.shiftKey) {
+											e.preventDefault();
+											handleComment();
+										}
+									}}
+									placeholder="Write a comment…"
+									className="min-h-0 h-9 resize-none text-sm rounded-full py-2 px-4"
+								/>
+								<Button
+									size="icon"
+									className="h-9 w-9 rounded-full shrink-0"
+									onClick={handleComment}
+									disabled={!commentText.trim() || isPending}
+								>
+									<Send className="h-4 w-4" />
+								</Button>
+							</>
+						)}
 					</div>
 				</CardContent>
 			)}
@@ -379,7 +384,7 @@ function GroupPostComposer({
 	onPost,
 }: {
 	groupId: number;
-	currentUserId: number;
+	currentUserId: number | null;
 	isMember: boolean;
 	onPost: (post: GroupPostData) => void;
 }) {
@@ -430,7 +435,7 @@ export function GroupFeed({
 }: {
 	posts: GroupPostData[];
 	groupId: number;
-	currentUserId: number;
+	currentUserId: number | null;
 	isMember: boolean;
 }) {
 	const [posts, setPosts] = useState<GroupPostData[]>(initialPosts);
