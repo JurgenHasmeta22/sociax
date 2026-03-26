@@ -1,0 +1,58 @@
+enum EventPrivacy {
+    Public
+    FriendsOnly
+    Private
+}
+
+enum AttendeeStatus {
+    Going
+    Interested
+    NotGoing
+}
+
+model Event {
+    id          Int          @id @default(autoincrement())
+    title       String
+    slug        String       @unique
+    description String?
+    coverUrl    String?
+    location    String?
+    isOnline    Boolean      @default(false)
+    onlineLink  String?
+    privacy     EventPrivacy @default(Public)
+    startDate   DateTime
+    endDate     DateTime?
+    createdAt   DateTime     @default(now())
+    updatedAt   DateTime     @updatedAt
+
+    // FK Keys
+    creatorId Int
+
+    // Relations
+    creator   User            @relation("EventCreator", fields: [creatorId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+    attendees EventAttendee[]
+
+    @@index([creatorId])
+    @@index([startDate])
+    @@index([privacy])
+    @@index([createdAt])
+}
+
+model EventAttendee {
+    id        Int            @id @default(autoincrement())
+    status    AttendeeStatus @default(Interested)
+    createdAt DateTime       @default(now())
+    updatedAt DateTime       @updatedAt
+
+    // FK Keys
+    eventId Int
+    userId  Int
+
+    // Relations
+    event Event @relation(fields: [eventId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+    user  User  @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+
+    @@unique([eventId, userId])
+    @@index([eventId])
+    @@index([status])
+}

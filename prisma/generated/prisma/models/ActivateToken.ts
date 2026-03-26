@@ -320,16 +320,6 @@ export type ActivateTokenUncheckedUpdateManyInput = {
   userId?: Prisma.IntFieldUpdateOperationsInput | number
 }
 
-export type ActivateTokenListRelationFilter = {
-  every?: Prisma.ActivateTokenWhereInput
-  some?: Prisma.ActivateTokenWhereInput
-  none?: Prisma.ActivateTokenWhereInput
-}
-
-export type ActivateTokenOrderByRelationAggregateInput = {
-  _count?: Prisma.SortOrder
-}
-
 export type ActivateTokenCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
   token?: Prisma.SortOrder
@@ -362,6 +352,20 @@ export type ActivateTokenMinOrderByAggregateInput = {
 export type ActivateTokenSumOrderByAggregateInput = {
   id?: Prisma.SortOrder
   userId?: Prisma.SortOrder
+}
+
+export type ActivateTokenListRelationFilter = {
+  every?: Prisma.ActivateTokenWhereInput
+  some?: Prisma.ActivateTokenWhereInput
+  none?: Prisma.ActivateTokenWhereInput
+}
+
+export type ActivateTokenOrderByRelationAggregateInput = {
+  _count?: Prisma.SortOrder
+}
+
+export type NullableDateTimeFieldUpdateOperationsInput = {
+  set?: Date | string | null
 }
 
 export type ActivateTokenCreateNestedManyWithoutUserInput = {

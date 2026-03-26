@@ -1,0 +1,46 @@
+enum NotificationStatus {
+    read
+    unread
+}
+
+enum NotificationType {
+    follow_request
+    follow_accepted
+    post_liked
+    post_commented
+    post_shared
+    comment_liked
+    comment_replied
+    story_viewed
+    story_reacted
+    message_received
+    group_invite
+    group_post_liked
+    group_post_commented
+    page_followed
+    event_invite
+    event_reminder
+    tag_in_post
+    tag_in_comment
+}
+
+model Notification {
+    id        Int                @id @default(autoincrement())
+    type      NotificationType
+    content   String
+    status    NotificationStatus @default(unread)
+    link      String?
+    createdAt DateTime           @default(now())
+
+    // FK Keys
+    userId   Int
+    senderId Int
+
+    // Relations
+    user   User @relation("NotificationReceiver", fields: [userId], references: [id], onDelete: Cascade)
+    sender User @relation("NotificationSender", fields: [senderId], references: [id], onDelete: Cascade)
+
+    @@index([userId])
+    @@index([status])
+    @@index([createdAt])
+}

@@ -1,0 +1,69 @@
+enum ReportType {
+    Post
+    Comment
+    Story
+    Message
+    Group
+    Page
+    Event
+    User
+    Other
+}
+
+enum ReportStatus {
+    Pending
+    Resolved
+    Rejected
+}
+
+enum ModerationAction {
+    DeletePost
+    DeleteComment
+    DeleteStory
+    BanUser
+    WarnUser
+    SuspendUser
+    RemoveGroupMember
+}
+
+model ReportedContent {
+    id                Int          @id @default(autoincrement())
+    reportType        ReportType
+    reason            String?
+    status            ReportStatus @default(Pending)
+    resolutionDetails String?
+    createdAt         DateTime     @default(now())
+
+    // FK Keys
+    contentId       Int
+    reportingUserId Int
+    reportedUserId  Int?
+
+    // Relations
+    reportingUser User  @relation("ReportingUser", fields: [reportingUserId], references: [id], onDelete: Cascade)
+    reportedUser  User? @relation("ReportedUser", fields: [reportedUserId], references: [id])
+
+    @@index([contentId])
+    @@index([status])
+    @@index([reportingUserId])
+}
+
+model ModerationLog {
+    id         Int              @id @default(autoincrement())
+    actionType ModerationAction
+    details    String?
+    createdAt  DateTime         @default(now())
+
+    // FK Keys
+    moderatorUserId Int
+    targetUserId    Int?
+    targetContentId Int?
+
+    // Relations
+    moderatorUser User  @relation("ModeratorUser", fields: [moderatorUserId], references: [id], onDelete: Cascade)
+    targetUser    User? @relation("TargetUser", fields: [targetUserId], references: [id])
+
+    @@index([targetUserId])
+    @@index([targetContentId])
+    @@index([createdAt])
+}

@@ -1,0 +1,174 @@
+enum UserRole {
+    User
+    Admin
+    Moderator
+}
+
+enum FollowState {
+    pending
+    accepted
+    rejected
+}
+
+enum Gender {
+    Male
+    Female
+    Other
+    PreferNotToSay
+}
+
+enum ProfilePrivacy {
+    Public
+    FriendsOnly
+    Private
+}
+
+model User {
+    id               Int            @id @default(autoincrement())
+    userName         String         @unique
+    email            String         @unique
+    password         String?
+    role             UserRole       @default(User)
+    firstName        String?
+    lastName         String?
+    bio              String?
+    birthday         DateTime?
+    gender           Gender         @default(PreferNotToSay)
+    phone            String?
+    website          String?
+    location         String?
+    profilePrivacy   ProfilePrivacy @default(Public)
+    active           Boolean        @default(false)
+    canResetPassword Boolean        @default(false)
+    createdAt        DateTime       @default(now())
+    updatedAt        DateTime       @updatedAt
+
+    // Auth Relations
+    resetPasswordTokens ResetPasswordToken[]
+    activateTokens      ActivateToken[]
+    accounts            Account[]
+    sessions            Session[]
+
+    // Profile Relations
+    avatar     Avatar?
+    coverPhoto CoverPhoto?
+
+    // Social Graph Relations
+    followers UserFollow[] @relation("UserFollowing")
+    following UserFollow[] @relation("UserFollowers")
+    blockedBy UserBlock[]  @relation("BlockedUser")
+    blocking  UserBlock[]  @relation("BlockingUser")
+
+    // Post Relations
+    posts          Post[]
+    postLikes      PostLike[]
+    postSaves      PostSave[]
+    postShares     PostShare[]
+    postComments   PostComment[]
+    commentLikes   CommentLike[]
+    commentReplies CommentReply[]
+    replyLikes     ReplyLike[]
+    postsEdited    PostHistory[]   @relation("PostEditor")
+
+    // Story Relations
+    stories        Story[]
+    storyViews     StoryView[]
+    storyReactions StoryReaction[]
+
+    // Messaging Relations
+    conversations        ConversationParticipant[]
+    messagesSent         Message[]                 @relation("MessageSender")
+    messageReactions     MessageReaction[]
+
+    // Group Relations
+    ownedGroups   Group[]       @relation("GroupOwner")
+    groupMemberships GroupMember[]
+    groupPosts    GroupPost[]
+    groupPostLikes GroupPostLike[]
+    groupPostComments GroupPostComment[]
+
+    // Page Relations
+    ownedPages   Page[]        @relation("PageOwner")
+    pageFollows  PageFollower[]
+    pagePosts    PagePost[]
+    pagePostLikes PagePostLike[]
+    pagePostComments PagePostComment[]
+
+    // Event Relations
+    createdEvents   Event[]         @relation("EventCreator")
+    eventAttendances EventAttendee[]
+
+    // Notification Relations
+    notificationsReceived Notification[] @relation("NotificationReceiver")
+    notificationsSent     Notification[] @relation("NotificationSender")
+
+    // Moderation Relations
+    reportedContentCreated  ReportedContent[] @relation("ReportingUser")
+    reportedContentReceived ReportedContent[] @relation("ReportedUser")
+    moderationLogsCreated   ModerationLog[]   @relation("ModeratorUser")
+    moderationLogsTargeted  ModerationLog[]   @relation("TargetUser")
+
+    @@index([userName(sort: Asc)])
+    @@index([email])
+    @@index([createdAt])
+}
+
+model Avatar {
+    id        Int      @id @default(autoincrement())
+    photoSrc  String
+    createdAt DateTime @default(now())
+
+    // FK Keys
+    userId Int @unique
+
+    // Relations
+    user User @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+}
+
+model CoverPhoto {
+    id        Int      @id @default(autoincrement())
+    photoSrc  String
+    createdAt DateTime @default(now())
+
+    // FK Keys
+    userId Int @unique
+
+    // Relations
+    user User @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+}
+
+model UserFollow {
+    id        Int         @id @default(autoincrement())
+    state     FollowState @default(pending)
+    createdAt DateTime    @default(now())
+    updatedAt DateTime    @updatedAt
+
+    // FK Keys
+    followerId  Int
+    followingId Int
+
+    // Relations
+    follower  User @relation("UserFollowers", fields: [followerId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+    following User @relation("UserFollowing", fields: [followingId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+
+    @@unique([followerId, followingId])
+    @@index([state])
+    @@index([followerId])
+    @@index([followingId])
+}
+
+model UserBlock {
+    id        Int      @id @default(autoincrement())
+    createdAt DateTime @default(now())
+
+    // FK Keys
+    blockerId Int
+    blockedId Int
+
+    // Relations
+    blocker User @relation("BlockingUser", fields: [blockerId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+    blocked User @relation("BlockedUser", fields: [blockedId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+
+    @@unique([blockerId, blockedId])
+    @@index([blockerId])
+}

@@ -1,0 +1,116 @@
+enum PageCategory {
+    Business
+    Community
+    Entertainment
+    Education
+    Sports
+    Technology
+    Arts
+    NonProfit
+    Government
+    Other
+}
+
+model Page {
+    id          Int          @id @default(autoincrement())
+    name        String
+    slug        String       @unique
+    description String?
+    coverUrl    String?
+    avatarUrl   String?
+    category    PageCategory @default(Other)
+    website     String?
+    isVerified  Boolean      @default(false)
+    isActive    Boolean      @default(true)
+    createdAt   DateTime     @default(now())
+    updatedAt   DateTime     @updatedAt
+
+    // FK Keys
+    ownerId Int
+
+    // Relations
+    owner     User              @relation("PageOwner", fields: [ownerId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+    followers PageFollower[]
+    posts     PagePost[]
+
+    @@index([slug])
+    @@index([category])
+    @@index([createdAt])
+}
+
+model PageFollower {
+    id        Int      @id @default(autoincrement())
+    createdAt DateTime @default(now())
+
+    // FK Keys
+    userId Int
+    pageId Int
+
+    // Relations
+    user User @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+    page Page @relation(fields: [pageId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+
+    @@unique([userId, pageId])
+    @@index([pageId])
+    @@index([userId])
+}
+
+model PagePost {
+    id        Int      @id @default(autoincrement())
+    content   String?
+    mediaUrl  String?
+    isDeleted Boolean  @default(false)
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+
+    // FK Keys
+    pageId Int
+    userId Int
+
+    // Relations
+    page     Page             @relation(fields: [pageId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+    user     User             @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+    likes    PagePostLike[]
+    comments PagePostComment[]
+
+    @@index([pageId])
+    @@index([userId])
+    @@index([createdAt])
+}
+
+model PagePostLike {
+    id           Int          @id @default(autoincrement())
+    reactionType ReactionType @default(Like)
+    createdAt    DateTime     @default(now())
+
+    // FK Keys
+    userId     Int
+    pagePostId Int
+
+    // Relations
+    user     User     @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+    pagePost PagePost @relation(fields: [pagePostId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+
+    @@unique([userId, pagePostId])
+    @@index([pagePostId])
+}
+
+model PagePostComment {
+    id        Int       @id @default(autoincrement())
+    content   String
+    isDeleted Boolean   @default(false)
+    createdAt DateTime  @default(now())
+    updatedAt DateTime? @updatedAt
+
+    // FK Keys
+    pagePostId Int
+    userId     Int
+
+    // Relations
+    pagePost PagePost @relation(fields: [pagePostId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+    user     User     @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+
+    @@index([pagePostId])
+    @@index([userId])
+    @@index([createdAt])
+}

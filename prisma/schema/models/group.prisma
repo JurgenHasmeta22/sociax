@@ -1,0 +1,122 @@
+enum GroupPrivacy {
+    Public
+    Private
+    Secret
+}
+
+enum GroupMemberRole {
+    Admin
+    Moderator
+    Member
+}
+
+enum GroupMemberStatus {
+    Pending
+    Approved
+    Banned
+}
+
+model Group {
+    id          Int          @id @default(autoincrement())
+    name        String
+    slug        String       @unique
+    description String?
+    coverUrl    String?
+    avatarUrl   String?
+    privacy     GroupPrivacy @default(Public)
+    isActive    Boolean      @default(true)
+    createdAt   DateTime     @default(now())
+    updatedAt   DateTime     @updatedAt
+
+    // FK Keys
+    ownerId Int
+
+    // Relations
+    owner   User          @relation("GroupOwner", fields: [ownerId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+    members GroupMember[]
+    posts   GroupPost[]
+
+    @@index([slug])
+    @@index([privacy])
+    @@index([createdAt])
+}
+
+model GroupMember {
+    id        Int               @id @default(autoincrement())
+    role      GroupMemberRole   @default(Member)
+    status    GroupMemberStatus @default(Pending)
+    joinedAt  DateTime          @default(now())
+    updatedAt DateTime          @updatedAt
+
+    // FK Keys
+    userId  Int
+    groupId Int
+
+    // Relations
+    user  User  @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+    group Group @relation(fields: [groupId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+
+    @@unique([userId, groupId])
+    @@index([groupId])
+    @@index([status])
+}
+
+model GroupPost {
+    id        Int      @id @default(autoincrement())
+    content   String?
+    mediaUrl  String?
+    isDeleted Boolean  @default(false)
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+
+    // FK Keys
+    groupId Int
+    userId  Int
+
+    // Relations
+    group    Group              @relation(fields: [groupId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+    user     User               @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+    likes    GroupPostLike[]
+    comments GroupPostComment[]
+
+    @@index([groupId])
+    @@index([userId])
+    @@index([createdAt])
+}
+
+model GroupPostLike {
+    id           Int          @id @default(autoincrement())
+    reactionType ReactionType @default(Like)
+    createdAt    DateTime     @default(now())
+
+    // FK Keys
+    userId      Int
+    groupPostId Int
+
+    // Relations
+    user      User      @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+    groupPost GroupPost @relation(fields: [groupPostId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+
+    @@unique([userId, groupPostId])
+    @@index([groupPostId])
+}
+
+model GroupPostComment {
+    id        Int       @id @default(autoincrement())
+    content   String
+    isDeleted Boolean   @default(false)
+    createdAt DateTime  @default(now())
+    updatedAt DateTime? @updatedAt
+
+    // FK Keys
+    groupPostId Int
+    userId      Int
+
+    // Relations
+    groupPost GroupPost @relation(fields: [groupPostId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+    user      User      @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+
+    @@index([groupPostId])
+    @@index([userId])
+    @@index([createdAt])
+}

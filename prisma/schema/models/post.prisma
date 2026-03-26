@@ -1,0 +1,165 @@
+enum PostType {
+    Original
+    Shared
+}
+
+enum PostPrivacy {
+    Public
+    FriendsOnly
+    OnlyMe
+}
+
+enum PostMediaType {
+    Image
+    Video
+    Gif
+}
+
+enum ReactionType {
+    Like
+    Love
+    Haha
+    Wow
+    Sad
+    Angry
+}
+
+model Post {
+    id          Int         @id @default(autoincrement())
+    content     String?
+    type        PostType    @default(Original)
+    privacy     PostPrivacy @default(Public)
+    isEdited    Boolean     @default(false)
+    isDeleted   Boolean     @default(false)
+    createdAt   DateTime    @default(now())
+    updatedAt   DateTime    @updatedAt
+    deletedAt   DateTime?
+
+    // FK Keys
+    userId       Int
+    sharedPostId Int?
+
+    // Relations
+    user       User           @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+    sharedPost Post?          @relation("PostShares", fields: [sharedPostId], references: [id])
+    sharesOf   Post[]         @relation("PostShares")
+    media      PostMedia[]
+    likes      PostLike[]
+    comments   PostComment[]
+    saves      PostSave[]
+    shares     PostShare[]
+    history    PostHistory[]
+    hashtags   PostHashtag[]
+
+    @@index([userId])
+    @@index([createdAt])
+    @@index([privacy])
+    @@index([isDeleted])
+}
+
+model PostMedia {
+    id        Int           @id @default(autoincrement())
+    url       String
+    type      PostMediaType @default(Image)
+    order     Int           @default(0)
+    createdAt DateTime      @default(now())
+
+    // FK Keys
+    postId Int
+
+    // Relations
+    post Post @relation(fields: [postId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+
+    @@index([postId])
+}
+
+model PostLike {
+    id           Int          @id @default(autoincrement())
+    reactionType ReactionType @default(Like)
+    createdAt    DateTime     @default(now())
+
+    // FK Keys
+    userId Int
+    postId Int
+
+    // Relations
+    user User @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+    post Post @relation(fields: [postId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+
+    @@unique([userId, postId])
+    @@index([postId])
+}
+
+model PostSave {
+    id        Int      @id @default(autoincrement())
+    createdAt DateTime @default(now())
+
+    // FK Keys
+    userId Int
+    postId Int
+
+    // Relations
+    user User @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+    post Post @relation(fields: [postId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+
+    @@unique([userId, postId])
+    @@index([userId])
+}
+
+model PostShare {
+    id        Int      @id @default(autoincrement())
+    createdAt DateTime @default(now())
+
+    // FK Keys
+    userId Int
+    postId Int
+
+    // Relations
+    user User @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+    post Post @relation(fields: [postId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+
+    @@unique([userId, postId])
+    @@index([postId])
+}
+
+model PostHistory {
+    id        Int      @id @default(autoincrement())
+    content   String?
+    editedAt  DateTime @default(now())
+
+    // FK Keys
+    postId     Int
+    editedById Int
+
+    // Relations
+    post     Post @relation(fields: [postId], references: [id], onDelete: Cascade)
+    editedBy User @relation("PostEditor", fields: [editedById], references: [id])
+
+    @@index([postId])
+    @@index([editedAt])
+}
+
+model Hashtag {
+    id        Int      @id @default(autoincrement())
+    name      String   @unique
+    createdAt DateTime @default(now())
+
+    // Relations
+    posts PostHashtag[]
+
+    @@index([name(sort: Asc)])
+}
+
+model PostHashtag {
+    id Int @id @default(autoincrement())
+
+    // FK Keys
+    postId    Int
+    hashtagId Int
+
+    // Relations
+    post    Post    @relation(fields: [postId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+    hashtag Hashtag @relation(fields: [hashtagId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+
+    @@unique([postId, hashtagId])
+}

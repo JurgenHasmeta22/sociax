@@ -9,7 +9,236 @@
 * 🟢 You can import this file directly.
 */
 
+export const EventPrivacy = {
+  Public: 'Public',
+  FriendsOnly: 'FriendsOnly',
+  Private: 'Private'
+} as const
+
+export type EventPrivacy = (typeof EventPrivacy)[keyof typeof EventPrivacy]
 
 
-// This file is empty because there are no enums in the schema.
-export {}
+export const AttendeeStatus = {
+  Going: 'Going',
+  Interested: 'Interested',
+  NotGoing: 'NotGoing'
+} as const
+
+export type AttendeeStatus = (typeof AttendeeStatus)[keyof typeof AttendeeStatus]
+
+
+export const GroupPrivacy = {
+  Public: 'Public',
+  Private: 'Private',
+  Secret: 'Secret'
+} as const
+
+export type GroupPrivacy = (typeof GroupPrivacy)[keyof typeof GroupPrivacy]
+
+
+export const GroupMemberRole = {
+  Admin: 'Admin',
+  Moderator: 'Moderator',
+  Member: 'Member'
+} as const
+
+export type GroupMemberRole = (typeof GroupMemberRole)[keyof typeof GroupMemberRole]
+
+
+export const GroupMemberStatus = {
+  Pending: 'Pending',
+  Approved: 'Approved',
+  Banned: 'Banned'
+} as const
+
+export type GroupMemberStatus = (typeof GroupMemberStatus)[keyof typeof GroupMemberStatus]
+
+
+export const MessageType = {
+  Text: 'Text',
+  Image: 'Image',
+  Video: 'Video',
+  Audio: 'Audio',
+  File: 'File',
+  Gif: 'Gif'
+} as const
+
+export type MessageType = (typeof MessageType)[keyof typeof MessageType]
+
+
+export const MessageStatus = {
+  Sent: 'Sent',
+  Delivered: 'Delivered',
+  Read: 'Read'
+} as const
+
+export type MessageStatus = (typeof MessageStatus)[keyof typeof MessageStatus]
+
+
+export const ReportType = {
+  Post: 'Post',
+  Comment: 'Comment',
+  Story: 'Story',
+  Message: 'Message',
+  Group: 'Group',
+  Page: 'Page',
+  Event: 'Event',
+  User: 'User',
+  Other: 'Other'
+} as const
+
+export type ReportType = (typeof ReportType)[keyof typeof ReportType]
+
+
+export const ReportStatus = {
+  Pending: 'Pending',
+  Resolved: 'Resolved',
+  Rejected: 'Rejected'
+} as const
+
+export type ReportStatus = (typeof ReportStatus)[keyof typeof ReportStatus]
+
+
+export const ModerationAction = {
+  DeletePost: 'DeletePost',
+  DeleteComment: 'DeleteComment',
+  DeleteStory: 'DeleteStory',
+  BanUser: 'BanUser',
+  WarnUser: 'WarnUser',
+  SuspendUser: 'SuspendUser',
+  RemoveGroupMember: 'RemoveGroupMember'
+} as const
+
+export type ModerationAction = (typeof ModerationAction)[keyof typeof ModerationAction]
+
+
+export const NotificationStatus = {
+  read: 'read',
+  unread: 'unread'
+} as const
+
+export type NotificationStatus = (typeof NotificationStatus)[keyof typeof NotificationStatus]
+
+
+export const NotificationType = {
+  follow_request: 'follow_request',
+  follow_accepted: 'follow_accepted',
+  post_liked: 'post_liked',
+  post_commented: 'post_commented',
+  post_shared: 'post_shared',
+  comment_liked: 'comment_liked',
+  comment_replied: 'comment_replied',
+  story_viewed: 'story_viewed',
+  story_reacted: 'story_reacted',
+  message_received: 'message_received',
+  group_invite: 'group_invite',
+  group_post_liked: 'group_post_liked',
+  group_post_commented: 'group_post_commented',
+  page_followed: 'page_followed',
+  event_invite: 'event_invite',
+  event_reminder: 'event_reminder',
+  tag_in_post: 'tag_in_post',
+  tag_in_comment: 'tag_in_comment'
+} as const
+
+export type NotificationType = (typeof NotificationType)[keyof typeof NotificationType]
+
+
+export const PageCategory = {
+  Business: 'Business',
+  Community: 'Community',
+  Entertainment: 'Entertainment',
+  Education: 'Education',
+  Sports: 'Sports',
+  Technology: 'Technology',
+  Arts: 'Arts',
+  NonProfit: 'NonProfit',
+  Government: 'Government',
+  Other: 'Other'
+} as const
+
+export type PageCategory = (typeof PageCategory)[keyof typeof PageCategory]
+
+
+export const PostType = {
+  Original: 'Original',
+  Shared: 'Shared'
+} as const
+
+export type PostType = (typeof PostType)[keyof typeof PostType]
+
+
+export const PostPrivacy = {
+  Public: 'Public',
+  FriendsOnly: 'FriendsOnly',
+  OnlyMe: 'OnlyMe'
+} as const
+
+export type PostPrivacy = (typeof PostPrivacy)[keyof typeof PostPrivacy]
+
+
+export const PostMediaType = {
+  Image: 'Image',
+  Video: 'Video',
+  Gif: 'Gif'
+} as const
+
+export type PostMediaType = (typeof PostMediaType)[keyof typeof PostMediaType]
+
+
+export const ReactionType = {
+  Like: 'Like',
+  Love: 'Love',
+  Haha: 'Haha',
+  Wow: 'Wow',
+  Sad: 'Sad',
+  Angry: 'Angry'
+} as const
+
+export type ReactionType = (typeof ReactionType)[keyof typeof ReactionType]
+
+
+export const StoryPrivacy = {
+  Public: 'Public',
+  FriendsOnly: 'FriendsOnly',
+  CloseFriends: 'CloseFriends'
+} as const
+
+export type StoryPrivacy = (typeof StoryPrivacy)[keyof typeof StoryPrivacy]
+
+
+export const UserRole = {
+  User: 'User',
+  Admin: 'Admin',
+  Moderator: 'Moderator'
+} as const
+
+export type UserRole = (typeof UserRole)[keyof typeof UserRole]
+
+
+export const FollowState = {
+  pending: 'pending',
+  accepted: 'accepted',
+  rejected: 'rejected'
+} as const
+
+export type FollowState = (typeof FollowState)[keyof typeof FollowState]
+
+
+export const Gender = {
+  Male: 'Male',
+  Female: 'Female',
+  Other: 'Other',
+  PreferNotToSay: 'PreferNotToSay'
+} as const
+
+export type Gender = (typeof Gender)[keyof typeof Gender]
+
+
+export const ProfilePrivacy = {
+  Public: 'Public',
+  FriendsOnly: 'FriendsOnly',
+  Private: 'Private'
+} as const
+
+export type ProfilePrivacy = (typeof ProfilePrivacy)[keyof typeof ProfilePrivacy]

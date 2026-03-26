@@ -1,0 +1,88 @@
+enum MessageType {
+    Text
+    Image
+    Video
+    Audio
+    File
+    Gif
+}
+
+enum MessageStatus {
+    Sent
+    Delivered
+    Read
+}
+
+model Conversation {
+    id        Int      @id @default(autoincrement())
+    isGroup   Boolean  @default(false)
+    name      String?
+    coverUrl  String?
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+
+    // Relations
+    participants ConversationParticipant[]
+    messages     Message[]
+}
+
+model ConversationParticipant {
+    id       Int      @id @default(autoincrement())
+    joinedAt DateTime @default(now())
+    isAdmin  Boolean  @default(false)
+
+    // FK Keys
+    userId         Int
+    conversationId Int
+
+    // Relations
+    user         User         @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+    conversation Conversation @relation(fields: [conversationId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+
+    @@unique([userId, conversationId])
+    @@index([conversationId])
+    @@index([userId])
+}
+
+model Message {
+    id        Int           @id @default(autoincrement())
+    content   String?
+    mediaUrl  String?
+    type      MessageType   @default(Text)
+    status    MessageStatus @default(Sent)
+    isEdited  Boolean       @default(false)
+    isDeleted Boolean       @default(false)
+    createdAt DateTime      @default(now())
+    updatedAt DateTime?     @updatedAt
+    deletedAt DateTime?
+
+    // FK Keys
+    senderId       Int
+    conversationId Int
+
+    // Relations
+    sender       User              @relation("MessageSender", fields: [senderId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+    conversation Conversation      @relation(fields: [conversationId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+    reactions    MessageReaction[]
+
+    @@index([conversationId])
+    @@index([senderId])
+    @@index([createdAt])
+}
+
+model MessageReaction {
+    id           Int          @id @default(autoincrement())
+    reactionType ReactionType @default(Like)
+    createdAt    DateTime     @default(now())
+
+    // FK Keys
+    messageId Int
+    userId    Int
+
+    // Relations
+    message Message @relation(fields: [messageId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+    user    User    @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+
+    @@unique([messageId, userId])
+    @@index([messageId])
+}

@@ -31,8 +31,8 @@ export * from "./enums"
  * const prisma = new PrismaClient({
  *   adapter: new PrismaPg({ connectionString: process.env.DATABASE_URL })
  * })
- * // Fetch zero or more Users
- * const users = await prisma.user.findMany()
+ * // Fetch zero or more Accounts
+ * const accounts = await prisma.account.findMany()
  * ```
  * 
  * Read more in our [docs](https://pris.ly/d/client).
@@ -41,11 +41,6 @@ export const PrismaClient = $Class.getPrismaClientClass()
 export type PrismaClient<LogOpts extends Prisma.LogLevel = never, OmitOpts extends Prisma.PrismaClientOptions["omit"] = Prisma.PrismaClientOptions["omit"], ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = $Class.PrismaClient<LogOpts, OmitOpts, ExtArgs>
 export { Prisma }
 
-/**
- * Model User
- * 
- */
-export type User = Prisma.UserModel
 /**
  * Model Account
  * 
@@ -66,3 +61,203 @@ export type VerificationToken = Prisma.VerificationTokenModel
  * 
  */
 export type ActivateToken = Prisma.ActivateTokenModel
+/**
+ * Model ResetPasswordToken
+ * 
+ */
+export type ResetPasswordToken = Prisma.ResetPasswordTokenModel
+/**
+ * Model PostComment
+ * 
+ */
+export type PostComment = Prisma.PostCommentModel
+/**
+ * Model CommentLike
+ * 
+ */
+export type CommentLike = Prisma.CommentLikeModel
+/**
+ * Model CommentReply
+ * 
+ */
+export type CommentReply = Prisma.CommentReplyModel
+/**
+ * Model ReplyLike
+ * 
+ */
+export type ReplyLike = Prisma.ReplyLikeModel
+/**
+ * Model Event
+ * 
+ */
+export type Event = Prisma.EventModel
+/**
+ * Model EventAttendee
+ * 
+ */
+export type EventAttendee = Prisma.EventAttendeeModel
+/**
+ * Model Group
+ * 
+ */
+export type Group = Prisma.GroupModel
+/**
+ * Model GroupMember
+ * 
+ */
+export type GroupMember = Prisma.GroupMemberModel
+/**
+ * Model GroupPost
+ * 
+ */
+export type GroupPost = Prisma.GroupPostModel
+/**
+ * Model GroupPostLike
+ * 
+ */
+export type GroupPostLike = Prisma.GroupPostLikeModel
+/**
+ * Model GroupPostComment
+ * 
+ */
+export type GroupPostComment = Prisma.GroupPostCommentModel
+/**
+ * Model Conversation
+ * 
+ */
+export type Conversation = Prisma.ConversationModel
+/**
+ * Model ConversationParticipant
+ * 
+ */
+export type ConversationParticipant = Prisma.ConversationParticipantModel
+/**
+ * Model Message
+ * 
+ */
+export type Message = Prisma.MessageModel
+/**
+ * Model MessageReaction
+ * 
+ */
+export type MessageReaction = Prisma.MessageReactionModel
+/**
+ * Model ReportedContent
+ * 
+ */
+export type ReportedContent = Prisma.ReportedContentModel
+/**
+ * Model ModerationLog
+ * 
+ */
+export type ModerationLog = Prisma.ModerationLogModel
+/**
+ * Model Notification
+ * 
+ */
+export type Notification = Prisma.NotificationModel
+/**
+ * Model Page
+ * 
+ */
+export type Page = Prisma.PageModel
+/**
+ * Model PageFollower
+ * 
+ */
+export type PageFollower = Prisma.PageFollowerModel
+/**
+ * Model PagePost
+ * 
+ */
+export type PagePost = Prisma.PagePostModel
+/**
+ * Model PagePostLike
+ * 
+ */
+export type PagePostLike = Prisma.PagePostLikeModel
+/**
+ * Model PagePostComment
+ * 
+ */
+export type PagePostComment = Prisma.PagePostCommentModel
+/**
+ * Model Post
+ * 
+ */
+export type Post = Prisma.PostModel
+/**
+ * Model PostMedia
+ * 
+ */
+export type PostMedia = Prisma.PostMediaModel
+/**
+ * Model PostLike
+ * 
+ */
+export type PostLike = Prisma.PostLikeModel
+/**
+ * Model PostSave
+ * 
+ */
+export type PostSave = Prisma.PostSaveModel
+/**
+ * Model PostShare
+ * 
+ */
+export type PostShare = Prisma.PostShareModel
+/**
+ * Model PostHistory
+ * 
+ */
+export type PostHistory = Prisma.PostHistoryModel
+/**
+ * Model Hashtag
+ * 
+ */
+export type Hashtag = Prisma.HashtagModel
+/**
+ * Model PostHashtag
+ * 
+ */
+export type PostHashtag = Prisma.PostHashtagModel
+/**
+ * Model Story
+ * 
+ */
+export type Story = Prisma.StoryModel
+/**
+ * Model StoryView
+ * 
+ */
+export type StoryView = Prisma.StoryViewModel
+/**
+ * Model StoryReaction
+ * 
+ */
+export type StoryReaction = Prisma.StoryReactionModel
+/**
+ * Model User
+ * 
+ */
+export type User = Prisma.UserModel
+/**
+ * Model Avatar
+ * 
+ */
+export type Avatar = Prisma.AvatarModel
+/**
+ * Model CoverPhoto
+ * 
+ */
+export type CoverPhoto = Prisma.CoverPhotoModel
+/**
+ * Model UserFollow
+ * 
+ */
+export type UserFollow = Prisma.UserFollowModel
+/**
+ * Model UserBlock
+ * 
+ */
+export type UserBlock = Prisma.UserBlockModel

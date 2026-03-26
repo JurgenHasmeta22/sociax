@@ -51,11 +51,50 @@ export const AnyNull = runtime.AnyNull
 
 
 export const ModelName = {
-  User: 'User',
   Account: 'Account',
   Session: 'Session',
   VerificationToken: 'VerificationToken',
-  ActivateToken: 'ActivateToken'
+  ActivateToken: 'ActivateToken',
+  ResetPasswordToken: 'ResetPasswordToken',
+  PostComment: 'PostComment',
+  CommentLike: 'CommentLike',
+  CommentReply: 'CommentReply',
+  ReplyLike: 'ReplyLike',
+  Event: 'Event',
+  EventAttendee: 'EventAttendee',
+  Group: 'Group',
+  GroupMember: 'GroupMember',
+  GroupPost: 'GroupPost',
+  GroupPostLike: 'GroupPostLike',
+  GroupPostComment: 'GroupPostComment',
+  Conversation: 'Conversation',
+  ConversationParticipant: 'ConversationParticipant',
+  Message: 'Message',
+  MessageReaction: 'MessageReaction',
+  ReportedContent: 'ReportedContent',
+  ModerationLog: 'ModerationLog',
+  Notification: 'Notification',
+  Page: 'Page',
+  PageFollower: 'PageFollower',
+  PagePost: 'PagePost',
+  PagePostLike: 'PagePostLike',
+  PagePostComment: 'PagePostComment',
+  Post: 'Post',
+  PostMedia: 'PostMedia',
+  PostLike: 'PostLike',
+  PostSave: 'PostSave',
+  PostShare: 'PostShare',
+  PostHistory: 'PostHistory',
+  Hashtag: 'Hashtag',
+  PostHashtag: 'PostHashtag',
+  Story: 'Story',
+  StoryView: 'StoryView',
+  StoryReaction: 'StoryReaction',
+  User: 'User',
+  Avatar: 'Avatar',
+  CoverPhoto: 'CoverPhoto',
+  UserFollow: 'UserFollow',
+  UserBlock: 'UserBlock'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -71,37 +110,19 @@ export const TransactionIsolationLevel = runtime.makeStrictEnum({
 export type TransactionIsolationLevel = (typeof TransactionIsolationLevel)[keyof typeof TransactionIsolationLevel]
 
 
-export const UserScalarFieldEnum = {
-  id: 'id',
-  name: 'name',
-  userName: 'userName',
-  email: 'email',
-  emailVerified: 'emailVerified',
-  password: 'password',
-  image: 'image',
-  bio: 'bio',
-  role: 'role',
-  active: 'active',
-  createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
-} as const
-
-export type UserScalarFieldEnum = (typeof UserScalarFieldEnum)[keyof typeof UserScalarFieldEnum]
-
-
 export const AccountScalarFieldEnum = {
   id: 'id',
-  userId: 'userId',
   type: 'type',
   provider: 'provider',
-  providerAccountId: 'providerAccountId',
   refresh_token: 'refresh_token',
   access_token: 'access_token',
   expires_at: 'expires_at',
   token_type: 'token_type',
   scope: 'scope',
   id_token: 'id_token',
-  session_state: 'session_state'
+  session_state: 'session_state',
+  userId: 'userId',
+  providerAccountId: 'providerAccountId'
 } as const
 
 export type AccountScalarFieldEnum = (typeof AccountScalarFieldEnum)[keyof typeof AccountScalarFieldEnum]
@@ -110,8 +131,8 @@ export type AccountScalarFieldEnum = (typeof AccountScalarFieldEnum)[keyof typeo
 export const SessionScalarFieldEnum = {
   id: 'id',
   sessionToken: 'sessionToken',
-  userId: 'userId',
-  expires: 'expires'
+  expires: 'expires',
+  userId: 'userId'
 } as const
 
 export type SessionScalarFieldEnum = (typeof SessionScalarFieldEnum)[keyof typeof SessionScalarFieldEnum]
@@ -135,6 +156,519 @@ export const ActivateTokenScalarFieldEnum = {
 } as const
 
 export type ActivateTokenScalarFieldEnum = (typeof ActivateTokenScalarFieldEnum)[keyof typeof ActivateTokenScalarFieldEnum]
+
+
+export const ResetPasswordTokenScalarFieldEnum = {
+  id: 'id',
+  token: 'token',
+  createdAt: 'createdAt',
+  resetPasswordAt: 'resetPasswordAt',
+  userId: 'userId'
+} as const
+
+export type ResetPasswordTokenScalarFieldEnum = (typeof ResetPasswordTokenScalarFieldEnum)[keyof typeof ResetPasswordTokenScalarFieldEnum]
+
+
+export const PostCommentScalarFieldEnum = {
+  id: 'id',
+  content: 'content',
+  isEdited: 'isEdited',
+  isDeleted: 'isDeleted',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  deletedAt: 'deletedAt',
+  postId: 'postId',
+  userId: 'userId'
+} as const
+
+export type PostCommentScalarFieldEnum = (typeof PostCommentScalarFieldEnum)[keyof typeof PostCommentScalarFieldEnum]
+
+
+export const CommentLikeScalarFieldEnum = {
+  id: 'id',
+  reactionType: 'reactionType',
+  createdAt: 'createdAt',
+  userId: 'userId',
+  commentId: 'commentId'
+} as const
+
+export type CommentLikeScalarFieldEnum = (typeof CommentLikeScalarFieldEnum)[keyof typeof CommentLikeScalarFieldEnum]
+
+
+export const CommentReplyScalarFieldEnum = {
+  id: 'id',
+  content: 'content',
+  isEdited: 'isEdited',
+  isDeleted: 'isDeleted',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  deletedAt: 'deletedAt',
+  commentId: 'commentId',
+  userId: 'userId'
+} as const
+
+export type CommentReplyScalarFieldEnum = (typeof CommentReplyScalarFieldEnum)[keyof typeof CommentReplyScalarFieldEnum]
+
+
+export const ReplyLikeScalarFieldEnum = {
+  id: 'id',
+  reactionType: 'reactionType',
+  createdAt: 'createdAt',
+  userId: 'userId',
+  replyId: 'replyId'
+} as const
+
+export type ReplyLikeScalarFieldEnum = (typeof ReplyLikeScalarFieldEnum)[keyof typeof ReplyLikeScalarFieldEnum]
+
+
+export const EventScalarFieldEnum = {
+  id: 'id',
+  title: 'title',
+  slug: 'slug',
+  description: 'description',
+  coverUrl: 'coverUrl',
+  location: 'location',
+  isOnline: 'isOnline',
+  onlineLink: 'onlineLink',
+  privacy: 'privacy',
+  startDate: 'startDate',
+  endDate: 'endDate',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  creatorId: 'creatorId'
+} as const
+
+export type EventScalarFieldEnum = (typeof EventScalarFieldEnum)[keyof typeof EventScalarFieldEnum]
+
+
+export const EventAttendeeScalarFieldEnum = {
+  id: 'id',
+  status: 'status',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  eventId: 'eventId',
+  userId: 'userId'
+} as const
+
+export type EventAttendeeScalarFieldEnum = (typeof EventAttendeeScalarFieldEnum)[keyof typeof EventAttendeeScalarFieldEnum]
+
+
+export const GroupScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  slug: 'slug',
+  description: 'description',
+  coverUrl: 'coverUrl',
+  avatarUrl: 'avatarUrl',
+  privacy: 'privacy',
+  isActive: 'isActive',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  ownerId: 'ownerId'
+} as const
+
+export type GroupScalarFieldEnum = (typeof GroupScalarFieldEnum)[keyof typeof GroupScalarFieldEnum]
+
+
+export const GroupMemberScalarFieldEnum = {
+  id: 'id',
+  role: 'role',
+  status: 'status',
+  joinedAt: 'joinedAt',
+  updatedAt: 'updatedAt',
+  userId: 'userId',
+  groupId: 'groupId'
+} as const
+
+export type GroupMemberScalarFieldEnum = (typeof GroupMemberScalarFieldEnum)[keyof typeof GroupMemberScalarFieldEnum]
+
+
+export const GroupPostScalarFieldEnum = {
+  id: 'id',
+  content: 'content',
+  mediaUrl: 'mediaUrl',
+  isDeleted: 'isDeleted',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  groupId: 'groupId',
+  userId: 'userId'
+} as const
+
+export type GroupPostScalarFieldEnum = (typeof GroupPostScalarFieldEnum)[keyof typeof GroupPostScalarFieldEnum]
+
+
+export const GroupPostLikeScalarFieldEnum = {
+  id: 'id',
+  reactionType: 'reactionType',
+  createdAt: 'createdAt',
+  userId: 'userId',
+  groupPostId: 'groupPostId'
+} as const
+
+export type GroupPostLikeScalarFieldEnum = (typeof GroupPostLikeScalarFieldEnum)[keyof typeof GroupPostLikeScalarFieldEnum]
+
+
+export const GroupPostCommentScalarFieldEnum = {
+  id: 'id',
+  content: 'content',
+  isDeleted: 'isDeleted',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  groupPostId: 'groupPostId',
+  userId: 'userId'
+} as const
+
+export type GroupPostCommentScalarFieldEnum = (typeof GroupPostCommentScalarFieldEnum)[keyof typeof GroupPostCommentScalarFieldEnum]
+
+
+export const ConversationScalarFieldEnum = {
+  id: 'id',
+  isGroup: 'isGroup',
+  name: 'name',
+  coverUrl: 'coverUrl',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type ConversationScalarFieldEnum = (typeof ConversationScalarFieldEnum)[keyof typeof ConversationScalarFieldEnum]
+
+
+export const ConversationParticipantScalarFieldEnum = {
+  id: 'id',
+  joinedAt: 'joinedAt',
+  isAdmin: 'isAdmin',
+  userId: 'userId',
+  conversationId: 'conversationId'
+} as const
+
+export type ConversationParticipantScalarFieldEnum = (typeof ConversationParticipantScalarFieldEnum)[keyof typeof ConversationParticipantScalarFieldEnum]
+
+
+export const MessageScalarFieldEnum = {
+  id: 'id',
+  content: 'content',
+  mediaUrl: 'mediaUrl',
+  type: 'type',
+  status: 'status',
+  isEdited: 'isEdited',
+  isDeleted: 'isDeleted',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  deletedAt: 'deletedAt',
+  senderId: 'senderId',
+  conversationId: 'conversationId'
+} as const
+
+export type MessageScalarFieldEnum = (typeof MessageScalarFieldEnum)[keyof typeof MessageScalarFieldEnum]
+
+
+export const MessageReactionScalarFieldEnum = {
+  id: 'id',
+  reactionType: 'reactionType',
+  createdAt: 'createdAt',
+  messageId: 'messageId',
+  userId: 'userId'
+} as const
+
+export type MessageReactionScalarFieldEnum = (typeof MessageReactionScalarFieldEnum)[keyof typeof MessageReactionScalarFieldEnum]
+
+
+export const ReportedContentScalarFieldEnum = {
+  id: 'id',
+  reportType: 'reportType',
+  reason: 'reason',
+  status: 'status',
+  resolutionDetails: 'resolutionDetails',
+  createdAt: 'createdAt',
+  contentId: 'contentId',
+  reportingUserId: 'reportingUserId',
+  reportedUserId: 'reportedUserId'
+} as const
+
+export type ReportedContentScalarFieldEnum = (typeof ReportedContentScalarFieldEnum)[keyof typeof ReportedContentScalarFieldEnum]
+
+
+export const ModerationLogScalarFieldEnum = {
+  id: 'id',
+  actionType: 'actionType',
+  details: 'details',
+  createdAt: 'createdAt',
+  moderatorUserId: 'moderatorUserId',
+  targetUserId: 'targetUserId',
+  targetContentId: 'targetContentId'
+} as const
+
+export type ModerationLogScalarFieldEnum = (typeof ModerationLogScalarFieldEnum)[keyof typeof ModerationLogScalarFieldEnum]
+
+
+export const NotificationScalarFieldEnum = {
+  id: 'id',
+  type: 'type',
+  content: 'content',
+  status: 'status',
+  link: 'link',
+  createdAt: 'createdAt',
+  userId: 'userId',
+  senderId: 'senderId'
+} as const
+
+export type NotificationScalarFieldEnum = (typeof NotificationScalarFieldEnum)[keyof typeof NotificationScalarFieldEnum]
+
+
+export const PageScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  slug: 'slug',
+  description: 'description',
+  coverUrl: 'coverUrl',
+  avatarUrl: 'avatarUrl',
+  category: 'category',
+  website: 'website',
+  isVerified: 'isVerified',
+  isActive: 'isActive',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  ownerId: 'ownerId'
+} as const
+
+export type PageScalarFieldEnum = (typeof PageScalarFieldEnum)[keyof typeof PageScalarFieldEnum]
+
+
+export const PageFollowerScalarFieldEnum = {
+  id: 'id',
+  createdAt: 'createdAt',
+  userId: 'userId',
+  pageId: 'pageId'
+} as const
+
+export type PageFollowerScalarFieldEnum = (typeof PageFollowerScalarFieldEnum)[keyof typeof PageFollowerScalarFieldEnum]
+
+
+export const PagePostScalarFieldEnum = {
+  id: 'id',
+  content: 'content',
+  mediaUrl: 'mediaUrl',
+  isDeleted: 'isDeleted',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  pageId: 'pageId',
+  userId: 'userId'
+} as const
+
+export type PagePostScalarFieldEnum = (typeof PagePostScalarFieldEnum)[keyof typeof PagePostScalarFieldEnum]
+
+
+export const PagePostLikeScalarFieldEnum = {
+  id: 'id',
+  reactionType: 'reactionType',
+  createdAt: 'createdAt',
+  userId: 'userId',
+  pagePostId: 'pagePostId'
+} as const
+
+export type PagePostLikeScalarFieldEnum = (typeof PagePostLikeScalarFieldEnum)[keyof typeof PagePostLikeScalarFieldEnum]
+
+
+export const PagePostCommentScalarFieldEnum = {
+  id: 'id',
+  content: 'content',
+  isDeleted: 'isDeleted',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  pagePostId: 'pagePostId',
+  userId: 'userId'
+} as const
+
+export type PagePostCommentScalarFieldEnum = (typeof PagePostCommentScalarFieldEnum)[keyof typeof PagePostCommentScalarFieldEnum]
+
+
+export const PostScalarFieldEnum = {
+  id: 'id',
+  content: 'content',
+  type: 'type',
+  privacy: 'privacy',
+  isEdited: 'isEdited',
+  isDeleted: 'isDeleted',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  deletedAt: 'deletedAt',
+  userId: 'userId',
+  sharedPostId: 'sharedPostId'
+} as const
+
+export type PostScalarFieldEnum = (typeof PostScalarFieldEnum)[keyof typeof PostScalarFieldEnum]
+
+
+export const PostMediaScalarFieldEnum = {
+  id: 'id',
+  url: 'url',
+  type: 'type',
+  order: 'order',
+  createdAt: 'createdAt',
+  postId: 'postId'
+} as const
+
+export type PostMediaScalarFieldEnum = (typeof PostMediaScalarFieldEnum)[keyof typeof PostMediaScalarFieldEnum]
+
+
+export const PostLikeScalarFieldEnum = {
+  id: 'id',
+  reactionType: 'reactionType',
+  createdAt: 'createdAt',
+  userId: 'userId',
+  postId: 'postId'
+} as const
+
+export type PostLikeScalarFieldEnum = (typeof PostLikeScalarFieldEnum)[keyof typeof PostLikeScalarFieldEnum]
+
+
+export const PostSaveScalarFieldEnum = {
+  id: 'id',
+  createdAt: 'createdAt',
+  userId: 'userId',
+  postId: 'postId'
+} as const
+
+export type PostSaveScalarFieldEnum = (typeof PostSaveScalarFieldEnum)[keyof typeof PostSaveScalarFieldEnum]
+
+
+export const PostShareScalarFieldEnum = {
+  id: 'id',
+  createdAt: 'createdAt',
+  userId: 'userId',
+  postId: 'postId'
+} as const
+
+export type PostShareScalarFieldEnum = (typeof PostShareScalarFieldEnum)[keyof typeof PostShareScalarFieldEnum]
+
+
+export const PostHistoryScalarFieldEnum = {
+  id: 'id',
+  content: 'content',
+  editedAt: 'editedAt',
+  postId: 'postId',
+  editedById: 'editedById'
+} as const
+
+export type PostHistoryScalarFieldEnum = (typeof PostHistoryScalarFieldEnum)[keyof typeof PostHistoryScalarFieldEnum]
+
+
+export const HashtagScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  createdAt: 'createdAt'
+} as const
+
+export type HashtagScalarFieldEnum = (typeof HashtagScalarFieldEnum)[keyof typeof HashtagScalarFieldEnum]
+
+
+export const PostHashtagScalarFieldEnum = {
+  id: 'id',
+  postId: 'postId',
+  hashtagId: 'hashtagId'
+} as const
+
+export type PostHashtagScalarFieldEnum = (typeof PostHashtagScalarFieldEnum)[keyof typeof PostHashtagScalarFieldEnum]
+
+
+export const StoryScalarFieldEnum = {
+  id: 'id',
+  mediaUrl: 'mediaUrl',
+  caption: 'caption',
+  privacy: 'privacy',
+  expiresAt: 'expiresAt',
+  createdAt: 'createdAt',
+  userId: 'userId'
+} as const
+
+export type StoryScalarFieldEnum = (typeof StoryScalarFieldEnum)[keyof typeof StoryScalarFieldEnum]
+
+
+export const StoryViewScalarFieldEnum = {
+  id: 'id',
+  viewedAt: 'viewedAt',
+  storyId: 'storyId',
+  userId: 'userId'
+} as const
+
+export type StoryViewScalarFieldEnum = (typeof StoryViewScalarFieldEnum)[keyof typeof StoryViewScalarFieldEnum]
+
+
+export const StoryReactionScalarFieldEnum = {
+  id: 'id',
+  reaction: 'reaction',
+  createdAt: 'createdAt',
+  storyId: 'storyId',
+  userId: 'userId'
+} as const
+
+export type StoryReactionScalarFieldEnum = (typeof StoryReactionScalarFieldEnum)[keyof typeof StoryReactionScalarFieldEnum]
+
+
+export const UserScalarFieldEnum = {
+  id: 'id',
+  userName: 'userName',
+  email: 'email',
+  password: 'password',
+  role: 'role',
+  firstName: 'firstName',
+  lastName: 'lastName',
+  bio: 'bio',
+  birthday: 'birthday',
+  gender: 'gender',
+  phone: 'phone',
+  website: 'website',
+  location: 'location',
+  profilePrivacy: 'profilePrivacy',
+  active: 'active',
+  canResetPassword: 'canResetPassword',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type UserScalarFieldEnum = (typeof UserScalarFieldEnum)[keyof typeof UserScalarFieldEnum]
+
+
+export const AvatarScalarFieldEnum = {
+  id: 'id',
+  photoSrc: 'photoSrc',
+  createdAt: 'createdAt',
+  userId: 'userId'
+} as const
+
+export type AvatarScalarFieldEnum = (typeof AvatarScalarFieldEnum)[keyof typeof AvatarScalarFieldEnum]
+
+
+export const CoverPhotoScalarFieldEnum = {
+  id: 'id',
+  photoSrc: 'photoSrc',
+  createdAt: 'createdAt',
+  userId: 'userId'
+} as const
+
+export type CoverPhotoScalarFieldEnum = (typeof CoverPhotoScalarFieldEnum)[keyof typeof CoverPhotoScalarFieldEnum]
+
+
+export const UserFollowScalarFieldEnum = {
+  id: 'id',
+  state: 'state',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  followerId: 'followerId',
+  followingId: 'followingId'
+} as const
+
+export type UserFollowScalarFieldEnum = (typeof UserFollowScalarFieldEnum)[keyof typeof UserFollowScalarFieldEnum]
+
+
+export const UserBlockScalarFieldEnum = {
+  id: 'id',
+  createdAt: 'createdAt',
+  blockerId: 'blockerId',
+  blockedId: 'blockedId'
+} as const
+
+export type UserBlockScalarFieldEnum = (typeof UserBlockScalarFieldEnum)[keyof typeof UserBlockScalarFieldEnum]
 
 
 export const SortOrder = {
