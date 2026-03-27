@@ -5,27 +5,27 @@ import { Bell } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 const NOTIFICATION_LABELS: Record<string, string> = {
-	NewFollower: "started following you",
-	FollowRequest: "sent you a follow request",
-	FollowAccepted: "accepted your follow request",
-	PostLike: "liked your post",
-	PostComment: "commented on your post",
-	CommentLike: "liked your comment",
-	CommentReply: "replied to your comment",
-	PostMention: "mentioned you in a post",
-	CommentMention: "mentioned you in a comment",
-	GroupInvite: "invited you to a group",
-	GroupJoinRequest: "requested to join your group",
-	GroupJoinApproved: "approved your group request",
-	GroupPostLike: "liked your group post",
-	GroupPostComment: "commented on your group post",
-	NewMessage: "sent you a message",
-	EventInvite: "invited you to an event",
-	EventReminder: "Upcoming event reminder",
-	SystemAlert: "System notification",
+	follow_request: "sent you a friend request",
+	follow_accepted: "accepted your friend request",
+	post_liked: "liked your post",
+	post_commented: "commented on your post",
+	post_shared: "shared your post",
+	comment_liked: "liked your comment",
+	comment_replied: "replied to your comment",
+	story_viewed: "viewed your story",
+	story_reacted: "reacted to your story",
+	message_received: "sent you a message",
+	group_invite: "invited you to a group",
+	group_post_liked: "liked your group post",
+	group_post_commented: "commented on your group post",
+	page_followed: "started following your page",
+	event_invite: "invited you to an event",
+	event_reminder: "Upcoming event reminder",
+	tag_in_post: "mentioned you in a post",
+	tag_in_comment: "mentioned you in a comment",
 };
 
-type NotificationActor = {
+type NotificationSender = {
 	id: number;
 	userName: string;
 	firstName: string | null;
@@ -36,13 +36,13 @@ type NotificationActor = {
 type Notification = {
 	id: number;
 	type: string;
-	isRead: boolean;
+	status: string;
 	createdAt: Date;
-	actor: NotificationActor;
+	sender: NotificationSender;
 };
 
 function NotificationItem({ n }: { n: Notification }) {
-	const actor = n.actor;
+	const actor = n.sender;
 	const actorName = actor
 		? [actor.firstName, actor.lastName].filter(Boolean).join(" ") ||
 			actor.userName
@@ -93,7 +93,7 @@ function NotificationItem({ n }: { n: Notification }) {
 					{timeAgo}
 				</p>
 			</div>
-			{!n.isRead && (
+			{n.status === "unread" && (
 				<div className="h-2.5 w-2.5 rounded-full bg-primary mt-1.5 shrink-0" />
 			)}
 		</div>

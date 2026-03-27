@@ -339,9 +339,18 @@ export async function searchChatUsers(query: string) {
 
     if (!query.trim()) return [];
 
+    // Only search among accepted friends (mutual follow)
+    const friendRows = await prisma.userFollow.findMany({
+        where: { followerId: userId, state: "accepted" },
+        select: { followingId: true },
+    });
+    const friendIds = friendRows.map((r) => r.followingId);
+
+    if (friendIds.length === 0) return [];
+
     const users = await prisma.user.findMany({
         where: {
-            id: { not: userId },
+            id: { in: friendIds },
             active: true,
             OR: [
                 { userName: { contains: query } },
@@ -364,5 +373,41 @@ export async function searchChatUsers(query: string) {
         ...u,
         isOnline: isOnline(u.lastActiveAt),
     }));
+}
+
+export async function getUnreadMessageNotifications() {
+    const userId = await getSessionUserId();
+
+    // Get recent unread messages not sent by the current user
+    const messages = await prisma.message.findMany({
+        where: {
+            senderId: { not: userId },
+            status: { not: "Read" },
+            isDeleted: false,
+            conversation: {
+                participants: { some: { userId } },
+            },
+        },
+        orderBy: { createdAt: "desc" },
+        take: 20,
+        select: {
+            id: true,
+            content: true,
+            type: true,
+            createdAt: true,
+            conversationId: true,
+            sender: {
+                select: {
+                    id: true,
+                    userName: true,
+                    firstName: true,
+                    lastName: true,
+                    avatar: { select: { photoSrc: true } },
+                },
+            },
+        },
+    });
+
+    return messages;
 }
 

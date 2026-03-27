@@ -28,7 +28,7 @@ export default async function NotificationsPage() {
 						lastName: true,
 						location: true,
 						avatar: { select: { photoSrc: true } },
-						_count: { select: { followers: true } },
+						_count: { select: { following: { where: { state: "accepted" } } } },
 					},
 				},
 			},
@@ -38,7 +38,7 @@ export default async function NotificationsPage() {
 			orderBy: { createdAt: "desc" },
 			take: 40,
 			include: {
-				actor: {
+				sender: {
 					select: {
 						id: true,
 						userName: true,

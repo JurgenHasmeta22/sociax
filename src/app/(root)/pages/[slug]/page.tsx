@@ -8,7 +8,6 @@ import Link from "next/link";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { LeftSidebar } from "@/components/feed/LeftSidebar";
 import { PageFeed } from "@/components/pages/PageFeed";
 import { PageFollowButton } from "@/components/pages/PageFollowButton";
 import { PageFollowersModal } from "@/components/pages/PageFollowersModal";
@@ -88,13 +87,8 @@ export default async function PageDetailPage({ params }: PageProps) {
 		page.owner.userName;
 
 	return (
-		<div className="flex bg-muted/20 min-h-[calc(100vh-56px)]">
-			<aside className="hidden lg:block w-[280px] shrink-0 sticky top-14 h-[calc(100vh-56px)] overflow-y-auto border-r border-border/60">
-				<LeftSidebar user={currentUser} />
-			</aside>
-
-			<main className="flex-1 overflow-hidden">
-				<div className="relative h-48 md:h-64 bg-muted overflow-hidden">
+		<div className="bg-muted/20 min-h-[calc(100vh-56px)]">
+			<div className="relative h-48 md:h-64 bg-muted overflow-hidden">
 					{page.coverUrl ? (
 						<Image
 							src={page.coverUrl}
@@ -191,7 +185,6 @@ export default async function PageDetailPage({ params }: PageProps) {
 						isOwner={isOwner}
 					/>
 				</div>
-			</main>
 		</div>
 	);
 }

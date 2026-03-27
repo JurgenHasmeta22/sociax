@@ -298,12 +298,16 @@ pages,
 buttonVariant,
 buttonLabel,
 onSeeAll,
+onButtonClick,
+followedIds,
 }: {
 title: string;
 pages: OwnedPage[];
 buttonVariant: "default" | "secondary" | "outline";
 buttonLabel: string;
 onSeeAll?: () => void;
+onButtonClick?: (id: number) => void;
+followedIds?: Set<number>;
 }) {
 return (
 <div className="bg-card border border-border rounded-xl p-4">
@@ -319,7 +323,9 @@ See all
 )}
 </div>
 <div className="space-y-3">
-{pages.map((page) => (
+{pages.map((page) => {
+const isFollowed = followedIds?.has(page.id) ?? false;
+return (
 <div key={page.id} className="flex items-center gap-3">
 <Avatar className="h-9 w-9 shrink-0">
 <AvatarImage src={page.avatarUrl ?? undefined} />
@@ -337,14 +343,26 @@ See all
 Updated {timeAgo(page.updatedAt)}
 </p>
 </div>
-<Button size="sm" variant={buttonVariant} className="shrink-0 h-7 px-3 text-xs">
-{buttonLabel}
+{onButtonClick ? (
+<Button
+size="sm"
+variant={isFollowed ? "secondary" : buttonVariant}
+className="shrink-0 h-7 px-3 text-xs"
+onClick={() => onButtonClick(page.id)}
+>
+{isFollowed ? "Liked" : buttonLabel}
 </Button>
+) : (
+<Button size="sm" variant={buttonVariant} className="shrink-0 h-7 px-3 text-xs" asChild>
+<Link href={`/pages/${page.slug}`}>{buttonLabel}</Link>
+</Button>
+)}
 </div>
-))}
+);
+})}
 </div>
-{pages.length > 0 && (
-<Button variant="ghost" className="w-full mt-3 text-sm h-8">
+{pages.length > 0 && onSeeAll && (
+<Button variant="ghost" className="w-full mt-3 text-sm h-8" onClick={onSeeAll}>
 See all
 </Button>
 )}
@@ -371,6 +389,9 @@ const [hasMore, setHasMore] = useState(initialPages.length === LIMIT);
 const [createOpen, setCreateOpen] = useState(false);
 const [isLoading, setIsLoading] = useState(false);
 const [isLoadingMore, setIsLoadingMore] = useState(false);
+const [sidebarFollowed, setSidebarFollowed] = useState<Set<number>>(
+	() => new Set(initialPages.filter((p) => p.isFollowing).map((p) => p.id)),
+);
 
 useEffect(() => {
 const timer = setTimeout(async () => {
@@ -410,6 +431,18 @@ followers: nowFollowing
 : p,
 ),
 );
+};
+
+const handleSidebarLike = (pageId: number) => {
+const isNowFollowed = !sidebarFollowed.has(pageId);
+setSidebarFollowed((prev) => {
+const next = new Set(prev);
+if (isNowFollowed) next.add(pageId);
+else next.delete(pageId);
+return next;
+});
+if (isNowFollowed) followPage(pageId).catch(() => {});
+else unfollowPage(pageId).catch(() => {});
 };
 
 // Featured: top 4 pages
@@ -582,6 +615,9 @@ title="Suggested pages"
 pages={suggestedPages}
 buttonVariant="default"
 buttonLabel="Like"
+onSeeAll={() => setTab("suggestions")}
+onButtonClick={handleSidebarLike}
+followedIds={sidebarFollowed}
 />
 </aside>
 </div>

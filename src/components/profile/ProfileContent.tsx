@@ -1,6 +1,7 @@
 ﻿"use client";
 
-import { useState, useTransition, useRef } from "react";
+import { useState, useTransition, useRef, useCallback } from "react";
+import { useRouter } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
@@ -35,6 +36,7 @@ Pencil,
 import { format } from "date-fns";
 import { sendFollowRequest, cancelFollowRequest, unfollowUser } from "@/actions/follow.actions";
 import { updateAvatar, updateCoverPhoto } from "@/actions/user.actions";
+import { getOrCreateConversation } from "@/actions/message.actions";
 import { PostCard } from "@/components/feed/PostCard";
 import { PostComposer } from "@/components/feed/PostComposer";
 import { toast } from "sonner";
@@ -333,15 +335,30 @@ ownedPages: PageItem[];
 createdEvents: EventItem[];
 attendingEvents: EventItem[];
 }) {
+const router = useRouter();
 const [activeTab, setActiveTab] = useState<Tab>("Timeline");
 const [followState, setFollowState] = useState(initialFollowState);
 const [isPending, startTransition] = useTransition();
+const [isMessaging, setIsMessaging] = useState(false);
 const [avatarSrc, setAvatarSrc] = useState(user.avatar?.photoSrc ?? null);
 const [coverSrc, setCoverSrc] = useState(user.coverPhoto?.photoSrc ?? null);
 const [posts, setPosts] = useState<Post[]>(user.posts);
 const avatarInputRef = useRef<HTMLInputElement>(null);
 const coverInputRef = useRef<HTMLInputElement>(null);
 const name = displayName(user);
+
+const handleMessage = useCallback(async () => {
+	if (!currentUserId) return;
+	setIsMessaging(true);
+	try {
+		const conv = await getOrCreateConversation(user.id);
+		router.push(`/messages?conv=${conv.id}`);
+	} catch {
+		toast.error("Could not open conversation");
+	} finally {
+		setIsMessaging(false);
+	}
+}, [currentUserId, user.id, router]);
 
 const handleFollow = () => {
 if (!currentUserId) return;
@@ -518,9 +535,9 @@ variant={followState === "accepted" ? "secondary" : "default"}
 <><UserPlus className="h-4 w-4" />Add Friend</>
 )}
 </Button>
-<Button variant="secondary" className="gap-2 font-semibold">
+<Button variant="secondary" className="gap-2 font-semibold" onClick={handleMessage} disabled={isMessaging || !currentUserId}>
 <MessageCircle className="h-4 w-4" />
-Message
+{isMessaging ? "Opening..." : "Message"}
 </Button>
 <Button variant="secondary" size="icon">
 <MoreHorizontal className="h-4 w-4" />
