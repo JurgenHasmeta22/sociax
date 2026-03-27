@@ -45,6 +45,7 @@ export default async function FeedPage() {
 		stories,
 		suggestedUsers,
 		events,
+		shortcutFriends,
 	] = await Promise.all([
 		prisma.user.findUnique({
 			where: { id: userId },
@@ -167,6 +168,13 @@ export default async function FeedPage() {
 			orderBy: { startDate: "asc" },
 			include: { _count: { select: { attendees: true } } },
 		}),
+		friendIds.length > 0
+			? prisma.user.findMany({
+					where: { id: { in: friendIds.slice(0, 3) } },
+					include: { avatar: true },
+					take: 3,
+			  })
+			: Promise.resolve([]),
 	]);
 
 	if (!currentUser) redirect("/login");
@@ -211,9 +219,9 @@ export default async function FeedPage() {
 	].sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime());
 
 	return (
-		<div className="flex bg-muted/20 min-h-[calc(100vh-56px)]">
+		<div className="flex min-h-[calc(100vh-56px)]">
 			<aside className="hidden lg:block w-[280px] shrink-0 sticky top-14 h-[calc(100vh-56px)] overflow-y-auto border-r border-border/60">
-				<LeftSidebar user={currentUser} />
+				<LeftSidebar user={currentUser} shortcuts={shortcutFriends} />
 			</aside>
 
 			<main className="flex-1 py-4 px-3 overflow-hidden">
@@ -262,7 +270,6 @@ export default async function FeedPage() {
 			<aside className="hidden xl:block w-[320px] shrink-0 sticky top-14 h-[calc(100vh-56px)] overflow-y-auto border-l border-border/60">
 				<RightSidebar
 					suggestedUsers={suggestedUsers}
-					events={events}
 					currentUserId={userId}
 					followStates={followStates}
 				/>

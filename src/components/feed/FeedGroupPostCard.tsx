@@ -8,7 +8,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import { Textarea } from "@/components/ui/textarea";
-import { MessageCircle, Send, ThumbsUp, Trash2, Users } from "lucide-react";
+import { MessageCircle, Send, Heart, Trash2, Users } from "lucide-react";
 import { cn } from "@/lib/utils";
 import {
 	toggleGroupPostLike,
@@ -274,7 +274,7 @@ export function FeedGroupPostCard({
 									{REACTIONS[myReaction]?.emoji}
 								</span>
 							) : (
-								<ThumbsUp className="h-[18px] w-[18px]" />
+								<Heart className="h-[18px] w-[18px]" />
 							)}
 							{myReaction ? REACTIONS[myReaction]?.label : "Like"}
 						</Button>

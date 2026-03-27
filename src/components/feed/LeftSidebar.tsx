@@ -1,123 +1,201 @@
-"use client";
+﻿"use client";
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Separator } from "@/components/ui/separator";
 import {
-	Home,
-	Users,
-	UsersRound,
-	Flag,
-	CalendarDays,
-	Bookmark,
-	Clock,
+Home,
+MessageCircle,
+Video,
+CalendarDays,
+Flag,
+UsersRound,
+ShoppingBag,
+BookOpen,
+ChevronDown,
+Bookmark,
+Clock,
+Users,
+Settings,
+CreditCard,
+ShieldCheck,
+Code2,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { useState } from "react";
 
-type SidebarUser = {
-	userName: string;
-	firstName: string | null;
-	lastName: string | null;
-	avatar: { photoSrc: string } | null;
-	_count: {
-		followers: number;
-		posts: number;
-	};
+type ShortcutUser = {
+userName: string;
+firstName: string | null;
+lastName: string | null;
+avatar: { photoSrc: string } | null;
 };
 
-const LINKS = [
-	{ href: "/feed", icon: Home, label: "Home" },
-	{ href: "/people", icon: Users, label: "People" },
-	{ href: "/groups", icon: UsersRound, label: "Groups" },
-	{ href: "/pages", icon: Flag, label: "Pages" },
-	{ href: "/events", icon: CalendarDays, label: "Events" },
-	{ href: "/saved", icon: Bookmark, label: "Saved" },
-	{ href: "/memories", icon: Clock, label: "Memories" },
+type SidebarUser = {
+userName: string;
+firstName: string | null;
+lastName: string | null;
+avatar: { photoSrc: string } | null;
+_count: {
+followers: number;
+posts: number;
+};
+};
+
+const PRIMARY_LINKS = [
+{ href: "/feed", icon: Home, label: "Feed", color: "bg-blue-600" },
+{ href: "/messages", icon: MessageCircle, label: "Messages", color: "bg-teal-500" },
+{ href: "/video", icon: Video, label: "Video", color: "bg-indigo-500" },
+{ href: "/events", icon: CalendarDays, label: "Event", color: "bg-green-500" },
+{ href: "/pages", icon: Flag, label: "Pages", color: "bg-rose-500" },
+{ href: "/groups", icon: UsersRound, label: "Groups", color: "bg-amber-500" },
+{ href: "/market", icon: ShoppingBag, label: "Market", color: "bg-purple-500" },
+{ href: "/blog", icon: BookOpen, label: "Blog", color: "bg-sky-500" },
 ];
 
-export function LeftSidebar({ user }: { user: SidebarUser }) {
-	const pathname = usePathname();
-	const displayName =
-		[user.firstName, user.lastName].filter(Boolean).join(" ") ||
-		user.userName;
+const MORE_LINKS = [
+{ href: "/people", icon: Users, label: "People", color: "bg-pink-500" },
+{ href: "/saved", icon: Bookmark, label: "Saved", color: "bg-amber-600" },
+{ href: "/memories", icon: Clock, label: "Memories", color: "bg-cyan-500" },
+];
 
-	return (
-		<div className="px-2 py-3 space-y-1">
-			<Link
-				href={`/profile/${user.userName}`}
-				className="flex items-center gap-3 px-2 py-2 rounded-lg hover:bg-muted transition-colors mb-1"
-			>
-				<Avatar className="h-9 w-9 shrink-0">
-					<AvatarImage src={user.avatar?.photoSrc ?? undefined} />
-					<AvatarFallback className="bg-primary text-primary-foreground font-semibold text-sm">
-						{displayName[0]?.toUpperCase()}
-					</AvatarFallback>
-				</Avatar>
-				<span className="font-semibold text-sm truncate">
-					{displayName}
-				</span>
-			</Link>
+const PAGE_LINKS = [
+{ href: "/settings", icon: Settings, label: "Setting" },
+{ href: "/upgrade", icon: CreditCard, label: "Upgrade" },
+{ href: "/login", icon: ShieldCheck, label: "Authentication" },
+{ href: "/dev", icon: Code2, label: "Development" },
+];
 
-			{LINKS.map(({ href, icon: Icon, label }) => {
-				const isActive = pathname === href;
-				return (
-					<Link
-						key={href}
-						href={href}
-						className={cn(
-							"flex items-center gap-3 px-2 py-2 rounded-lg transition-colors font-medium text-sm",
-							isActive
-								? "bg-primary/10 text-primary"
-								: "text-foreground hover:bg-muted",
-						)}
-					>
-						<div
-							className={cn(
-								"w-9 h-9 rounded-full flex items-center justify-center shrink-0",
-								isActive ? "bg-primary/20" : "bg-muted",
-							)}
-						>
-							<Icon
-								className={cn(
-									"h-[18px] w-[18px]",
-									isActive
-										? "text-primary"
-										: "text-foreground",
-								)}
-							/>
-						</div>
-						{label}
-					</Link>
-				);
-			})}
+interface NavLinkDef {
+href: string;
+icon: React.ElementType;
+label: string;
+color: string;
+}
 
-			<Separator className="my-3" />
+function NavLink({ href, icon: Icon, label, color, isActive }: NavLinkDef & { isActive: boolean }) {
+return (
+<Link
+href={href}
+className={cn(
+"flex items-center gap-3 px-2 py-2 rounded-xl transition-colors font-medium text-sm",
+isActive
+? "bg-primary/15 text-foreground"
+: "text-foreground/75 hover:bg-muted hover:text-foreground",
+)}
+>
+<div className={cn("w-9 h-9 rounded-full flex items-center justify-center shrink-0", color)}>
+<Icon className="h-[18px] w-[18px] text-white" />
+</div>
+{label}
+</Link>
+);
+}
 
-			<p className="px-2 text-xs font-semibold text-muted-foreground uppercase tracking-wide">
-				Your stats
-			</p>
-			<div className="grid grid-cols-2 gap-1 px-2 py-1">
-				{[
-					{ label: "Posts", value: user._count.posts },
-					{ label: "Friends", value: user._count.followers },
-				].map(({ label, value }) => (
-					<div
-						key={label}
-						className="text-center py-2 rounded-lg bg-muted"
-					>
-						<p className="font-bold text-sm text-foreground">
-							{value}
-						</p>
-						<p className="text-[10px] text-muted-foreground leading-tight">
-							{label}
-						</p>
-					</div>
-				))}
-			</div>
+export function LeftSidebar({
+user,
+shortcuts = [],
+}: {
+user: SidebarUser;
+shortcuts?: ShortcutUser[];
+}) {
+const pathname = usePathname();
+const [showMore, setShowMore] = useState(false);
 
-			<Separator className="my-3" />
-			<p className="px-2 text-xs text-muted-foreground">Sociax © 2026</p>
-		</div>
-	);
+const displayName =
+[user.firstName, user.lastName].filter(Boolean).join(" ") || user.userName;
+
+return (
+<div className="px-3 py-4 space-y-0.5">
+{/* Profile */}
+<Link
+href={`/profile/${user.userName}`}
+className="flex items-center gap-3 px-2 py-2.5 rounded-xl hover:bg-muted transition-colors mb-2"
+>
+<Avatar className="h-10 w-10 shrink-0 ring-2 ring-primary/30">
+<AvatarImage src={user.avatar?.photoSrc ?? undefined} />
+<AvatarFallback className="bg-primary text-primary-foreground font-semibold">
+{displayName[0]?.toUpperCase()}
+</AvatarFallback>
+</Avatar>
+<div className="min-w-0">
+<span className="font-semibold text-sm block truncate">{displayName}</span>
+<span className="text-xs text-muted-foreground truncate block">@{user.userName}</span>
+</div>
+</Link>
+
+{/* Primary nav */}
+{PRIMARY_LINKS.map((link) => (
+<NavLink key={link.href} {...link} isActive={pathname === link.href} />
+))}
+
+{/* More links */}
+{showMore && MORE_LINKS.map((link) => (
+<NavLink key={link.href} {...link} isActive={pathname === link.href} />
+))}
+
+{/* See More toggle */}
+<button
+onClick={() => setShowMore((p) => !p)}
+className="flex items-center gap-3 px-2 py-2 rounded-xl w-full text-left transition-colors font-medium text-sm text-foreground/75 hover:bg-muted hover:text-foreground"
+>
+<div className="w-9 h-9 rounded-full flex items-center justify-center shrink-0 bg-muted">
+<ChevronDown className={cn("h-[18px] w-[18px] transition-transform duration-200", showMore && "rotate-180")} />
+</div>
+{showMore ? "See Less" : "See More"}
+</button>
+
+{/* Shortcut friends */}
+{shortcuts.length > 0 && (
+<>
+<p className="px-2 pt-4 pb-1 text-xs font-semibold text-muted-foreground uppercase tracking-wider">
+Shortcut
+</p>
+{shortcuts.map((friend) => {
+const friendName =
+[friend.firstName, friend.lastName].filter(Boolean).join(" ") || friend.userName;
+return (
+<Link
+key={friend.userName}
+href={`/profile/${friend.userName}`}
+className="flex items-center gap-3 px-2 py-2 rounded-xl hover:bg-muted transition-colors"
+>
+<div className="relative shrink-0">
+<Avatar className="h-9 w-9 ring-2 ring-primary/20">
+<AvatarImage src={friend.avatar?.photoSrc ?? undefined} />
+<AvatarFallback className="bg-primary/20 text-primary text-sm font-semibold">
+{friendName[0]?.toUpperCase()}
+</AvatarFallback>
+</Avatar>
+<span className="absolute bottom-0 right-0 w-2.5 h-2.5 rounded-full bg-green-500 border-2 border-background" />
+</div>
+<span className="text-sm font-medium truncate text-foreground/80">{friendName}</span>
+</Link>
+);
+})}
+</>
+)}
+
+{/* Pages section */}
+<p className="px-2 pt-4 pb-1 text-xs font-semibold text-muted-foreground uppercase tracking-wider">
+Pages
+</p>
+{PAGE_LINKS.map(({ href, icon: Icon, label }) => (
+<Link
+key={href}
+href={href}
+className="flex items-center gap-3 px-2 py-2 rounded-xl hover:bg-muted transition-colors text-sm font-medium text-foreground/75 hover:text-foreground"
+>
+<div className="w-9 h-9 rounded-full bg-muted flex items-center justify-center shrink-0">
+<Icon className="h-[18px] w-[18px] text-muted-foreground" />
+</div>
+{label}
+</Link>
+))}
+
+<p className="px-2 pt-4 text-xs text-muted-foreground/60">
+Sociax © 2026 · Privacy · Terms
+</p>
+</div>
+);
 }

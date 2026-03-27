@@ -8,7 +8,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import { Textarea } from "@/components/ui/textarea";
-import { Flag, MessageCircle, Send, ThumbsUp, Trash2 } from "lucide-react";
+import { Flag, MessageCircle, Send, Heart, Trash2 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import {
 	togglePagePostLike,
@@ -269,7 +269,7 @@ export function FeedPagePostCard({
 									{REACTIONS[myReaction]?.emoji}
 								</span>
 							) : (
-								<ThumbsUp className="h-[18px] w-[18px]" />
+								<Heart className="h-[18px] w-[18px]" />
 							)}
 							{myReaction ? REACTIONS[myReaction]?.label : "Like"}
 						</Button>

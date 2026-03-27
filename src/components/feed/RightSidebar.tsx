@@ -1,200 +1,223 @@
-import Link from "next/link";
-import Image from "next/image";
-import { format } from "date-fns";
+﻿import Link from "next/link";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Separator } from "@/components/ui/separator";
-import { CalendarDays, MapPin } from "lucide-react";
+import { RefreshCw, Hash } from "lucide-react";
 import { SidebarFollowButton } from "@/components/feed/SidebarFollowButton";
 
 type SuggestedUser = {
-	id: number;
-	userName: string;
-	firstName: string | null;
-	lastName: string | null;
-	location: string | null;
-	avatar: { photoSrc: string } | null;
-	_count: { followers: number };
-};
-
-type UpcomingEvent = {
-	id: number;
-	title: string;
-	slug: string;
-	location: string | null;
-	startDate: Date;
-	coverUrl: string | null;
-	_count: { attendees: number };
+id: number;
+userName: string;
+firstName: string | null;
+lastName: string | null;
+location: string | null;
+avatar: { photoSrc: string } | null;
+_count: { followers: number };
 };
 
 const name = (u: {
-	firstName: string | null;
-	lastName: string | null;
-	userName: string;
+firstName: string | null;
+lastName: string | null;
+userName: string;
 }) => [u.firstName, u.lastName].filter(Boolean).join(" ") || u.userName;
 
+const TRENDS = [
+{ tag: "Artificial Intelligence", posts: "1,245,62" },
+{ tag: "Web Developers", posts: "1,624" },
+{ tag: "Ui Designers", posts: "820" },
+{ tag: "Affiliate Marketing", posts: "480" },
+];
+
 export function RightSidebar({
-	suggestedUsers,
-	events,
-	currentUserId,
-	followStates,
+suggestedUsers,
+currentUserId,
+followStates,
 }: {
-	suggestedUsers: SuggestedUser[];
-	events: UpcomingEvent[];
-	currentUserId: number;
-	followStates: Record<number, string>;
+suggestedUsers: SuggestedUser[];
+currentUserId: number;
+followStates: Record<number, string>;
 }) {
-	return (
-		<div className="px-2 py-4 space-y-4">
-			<div>
-				<div className="flex items-center justify-between mb-3">
-					<h3 className="font-semibold text-base">
-						People you may know
-					</h3>
-					<Link
-						href="/people"
-						className="text-primary text-sm font-medium hover:underline"
-					>
-						See all
-					</Link>
-				</div>
-				<div className="space-y-3">
-					{suggestedUsers.map((user) => {
-						const displayName = name(user);
-						return (
-							<div
-								key={user.id}
-								className="flex items-start gap-2.5"
-							>
-								<Link
-									href={`/profile/${user.userName}`}
-									className="shrink-0"
-								>
-									<Avatar className="h-10 w-10">
-										<AvatarImage
-											src={
-												user.avatar?.photoSrc ??
-												undefined
-											}
-										/>
-										<AvatarFallback className="bg-primary text-primary-foreground font-semibold text-sm">
-											{displayName[0]?.toUpperCase()}
-										</AvatarFallback>
-									</Avatar>
-								</Link>
-								<div className="flex-1 min-w-0">
-									<Link href={`/profile/${user.userName}`}>
-										<p className="font-semibold text-sm leading-tight hover:underline truncate">
-											{displayName}
-										</p>
-									</Link>
-									{user.location && (
-										<p className="text-xs text-muted-foreground flex items-center gap-1 truncate mt-0.5">
-											<MapPin className="h-3 w-3 shrink-0" />
-											{user.location}
-										</p>
-									)}
-									<p className="text-xs text-muted-foreground mt-0.5">
-										{user._count.followers.toLocaleString()}{" "}
-										friends
-									</p>
-									<SidebarFollowButton
-										userId={user.id}
-										initialState={
-											followStates[user.id] === "accepted"
-												? "accepted"
-												: followStates[user.id] ===
-													  "pending"
-													? "outgoing_pending"
-													: "none"
-										}
-									/>
-								</div>
-							</div>
-						);
-					})}
-				</div>
-			</div>
+const onlineFriends = suggestedUsers.slice(0, 6);
+const proMembers = suggestedUsers.slice(0, 2);
 
-			{events.length > 0 && (
-				<>
-					<Separator />
-					<div>
-						<div className="flex items-center justify-between mb-3">
-							<h3 className="font-semibold text-base">
-								Upcoming events
-							</h3>
-							<Link
-								href="/events"
-								className="text-primary text-sm font-medium hover:underline"
-							>
-								See all
-							</Link>
-						</div>
-						<div className="space-y-3">
-							{events.map((event) => (
-								<Link
-									key={event.id}
-									href={`/events/${event.slug}`}
-									className="flex items-start gap-2.5 p-1.5 rounded-lg hover:bg-muted transition-colors"
-								>
-									<div className="relative shrink-0 w-14 h-14 rounded-lg overflow-hidden bg-muted">
-										{event.coverUrl ? (
-											<Image
-												src={event.coverUrl}
-												alt=""
-												fill
-												className="object-cover"
-												sizes="56px"
-											/>
-										) : (
-											<div className="w-full h-full flex items-center justify-center">
-												<CalendarDays className="h-6 w-6 text-muted-foreground" />
-											</div>
-										)}
-									</div>
-									<div className="flex-1 min-w-0">
-										<p className="font-semibold text-sm leading-tight truncate">
-											{event.title}
-										</p>
-										<p className="text-xs text-muted-foreground flex items-center gap-1 mt-0.5">
-											<CalendarDays className="h-3 w-3 shrink-0" />
-											{format(
-												new Date(event.startDate),
-												"MMM d · h:mm a",
-											)}
-										</p>
-										{event.location && (
-											<p className="text-xs text-muted-foreground flex items-center gap-1 mt-0.5 truncate">
-												<MapPin className="h-3 w-3 shrink-0" />
-												{event.location}
-											</p>
-										)}
-										<p className="text-xs text-muted-foreground mt-0.5">
-											{event._count.attendees} going
-										</p>
-									</div>
-								</Link>
-							))}
-						</div>
-					</div>
-				</>
-			)}
+return (
+<div className="px-3 py-4 space-y-5">
+{/* People you may know */}
+<div>
+<div className="flex items-center justify-between mb-3">
+<h3 className="font-semibold text-sm text-foreground">
+People you may know
+</h3>
+<Link
+href="/people"
+className="text-primary text-xs font-medium hover:underline"
+>
+See all
+</Link>
+</div>
+<div className="space-y-3">
+{suggestedUsers.map((user) => {
+const displayName = name(user);
+return (
+<div key={user.id} className="flex items-center gap-2.5">
+<Link href={`/profile/${user.userName}`} className="shrink-0">
+<Avatar className="h-10 w-10">
+<AvatarImage src={user.avatar?.photoSrc ?? undefined} />
+<AvatarFallback className="bg-primary text-primary-foreground font-semibold text-sm">
+{displayName[0]?.toUpperCase()}
+</AvatarFallback>
+</Avatar>
+</Link>
+<div className="flex-1 min-w-0">
+<Link href={`/profile/${user.userName}`}>
+<p className="font-semibold text-sm leading-tight hover:underline truncate">
+{displayName}
+</p>
+</Link>
+<p className="text-xs text-muted-foreground mt-0.5">
+{user._count.followers.toLocaleString()}k Following
+</p>
+</div>
+<SidebarFollowButton
+userId={user.id}
+initialState={
+followStates[user.id] === "accepted"
+? "accepted"
+: followStates[user.id] === "pending"
+? "outgoing_pending"
+: "none"
+}
+/>
+</div>
+);
+})}
+</div>
+</div>
 
-			<Separator />
-			<div className="flex flex-wrap gap-x-2 gap-y-1">
-				{["Privacy", "Terms", "Advertising", "Cookies"].map((item) => (
-					<a
-						key={item}
-						href="#"
-						className="text-xs text-muted-foreground hover:underline"
-					>
-						{item}
-					</a>
-				))}
-				<span className="text-xs text-muted-foreground">
-					Sociax © 2026
-				</span>
-			</div>
-		</div>
-	);
+{/* Online Friends */}
+{onlineFriends.length > 0 && (
+<div>
+<div className="flex items-center justify-between mb-3">
+<h3 className="font-semibold text-sm text-foreground">
+Online Friends
+</h3>
+<button className="text-muted-foreground hover:text-foreground transition-colors">
+<RefreshCw className="h-3.5 w-3.5" />
+</button>
+</div>
+<div className="flex items-center">
+<div className="flex -space-x-2">
+{onlineFriends.map((user) => {
+const displayName = name(user);
+return (
+<Link
+key={user.id}
+href={`/profile/${user.userName}`}
+title={displayName}
+className="relative shrink-0"
+>
+<Avatar className="h-9 w-9 ring-2 ring-background">
+<AvatarImage src={user.avatar?.photoSrc ?? undefined} />
+<AvatarFallback className="bg-primary text-primary-foreground text-xs font-semibold">
+{displayName[0]?.toUpperCase()}
+</AvatarFallback>
+</Avatar>
+<span className="absolute bottom-0 right-0 w-2.5 h-2.5 rounded-full bg-green-500 border-2 border-background" />
+</Link>
+);
+})}
+</div>
+</div>
+</div>
+)}
+
+{/* Pro Members */}
+{proMembers.length > 0 && (
+<div>
+<div className="flex items-center justify-between mb-3">
+<h3 className="font-semibold text-sm text-foreground">
+Pro Members
+</h3>
+</div>
+<div className="grid grid-cols-2 gap-2">
+{proMembers.map((user) => {
+const displayName = name(user);
+return (
+<div
+key={user.id}
+className="flex flex-col items-center gap-2 p-3 rounded-xl bg-muted/50 border border-border/50"
+>
+<Avatar className="h-14 w-14 ring-2 ring-primary/20">
+<AvatarImage src={user.avatar?.photoSrc ?? undefined} />
+<AvatarFallback className="bg-primary text-primary-foreground font-semibold">
+{displayName[0]?.toUpperCase()}
+</AvatarFallback>
+</Avatar>
+<div className="text-center">
+<p className="font-semibold text-xs truncate max-w-full">
+{displayName}
+</p>
+<p className="text-[11px] text-muted-foreground">
+{user._count.followers.toLocaleString()}K Followers
+</p>
+</div>
+<SidebarFollowButton
+userId={user.id}
+initialState={
+followStates[user.id] === "accepted"
+? "accepted"
+: followStates[user.id] === "pending"
+? "outgoing_pending"
+: "none"
+}
+/>
+</div>
+);
+})}
+</div>
+</div>
+)}
+
+{/* Trends for you */}
+<div>
+<div className="flex items-center justify-between mb-3">
+<h3 className="font-semibold text-sm text-foreground">
+Trends for you
+</h3>
+<button className="text-muted-foreground hover:text-foreground transition-colors">
+<RefreshCw className="h-3.5 w-3.5" />
+</button>
+</div>
+<div className="space-y-2.5">
+{TRENDS.map((trend) => (
+<Link
+key={trend.tag}
+href={`/search?q=${encodeURIComponent(trend.tag)}`}
+className="flex items-center gap-2.5 group"
+>
+<div className="w-7 h-7 rounded-lg bg-muted flex items-center justify-center shrink-0">
+<Hash className="h-3.5 w-3.5 text-primary" />
+</div>
+<div className="min-w-0">
+<p className="text-sm font-medium text-foreground group-hover:text-primary transition-colors truncate">
+{trend.tag}
+</p>
+<p className="text-[11px] text-muted-foreground">
+{trend.posts} Post
+</p>
+</div>
+</Link>
+))}
+</div>
+</div>
+
+{/* Footer */}
+<div className="flex flex-wrap gap-x-2 gap-y-1 pt-1">
+{["About", "Privacy", "Terms", "Advertising", "Support"].map((item) => (
+<a key={item} href="#" className="text-xs text-muted-foreground/60 hover:text-muted-foreground transition-colors">
+{item}
+</a>
+))}
+<span className="text-xs text-muted-foreground/60">Sociax © 2026</span>
+</div>
+</div>
+);
 }

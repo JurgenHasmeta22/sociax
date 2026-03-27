@@ -57,34 +57,42 @@ export function StoriesBar({
 
 	return (
 		<>
-			<ScrollArea className="w-full pb-2">
-				<div className="flex gap-2.5">
+			<ScrollArea className="w-full">
+				<div className="flex gap-4 px-1 py-2">
+					{/* Create Story button */}
 					<button
 						onClick={() => setCreateOpen(true)}
-						className="relative w-[112px] h-[196px] rounded-xl overflow-hidden bg-muted flex-shrink-0 cursor-pointer group border border-border"
+						className="flex flex-col items-center gap-1.5 flex-shrink-0 group"
 					>
-						<div className="h-[140px] w-full overflow-hidden relative bg-muted">
-							{currentUser.avatar && (
-								<Image
-									src={currentUser.avatar.photoSrc}
-									alt=""
-									fill
-									unoptimized
-									className="object-cover opacity-80 group-hover:scale-105 transition-transform duration-200"
-									sizes="112px"
-								/>
-							)}
+						<div className="relative w-14 h-14">
+							<div className="w-14 h-14 rounded-full overflow-hidden border-2 border-muted bg-muted group-hover:border-primary/50 transition-colors">
+								{currentUser.avatar ? (
+									<Image
+										src={currentUser.avatar.photoSrc}
+										alt=""
+										fill
+										unoptimized
+										className="object-cover"
+										sizes="56px"
+									/>
+								) : (
+									<div className="w-full h-full flex items-center justify-center bg-muted">
+										<span className="text-muted-foreground font-bold text-lg">
+											{userName[0]?.toUpperCase()}
+										</span>
+									</div>
+								)}
+							</div>
+							<div className="absolute -bottom-0.5 -right-0.5 w-5 h-5 rounded-full bg-primary flex items-center justify-center border-2 border-background">
+								<Plus className="h-3 w-3 text-primary-foreground" />
+							</div>
 						</div>
-						<div className="absolute top-[110px] left-1/2 -translate-x-1/2 w-10 h-10 rounded-full bg-primary flex items-center justify-center border-4 border-background z-10">
-							<Plus className="h-5 w-5 text-primary-foreground" />
-						</div>
-						<div className="absolute bottom-0 left-0 right-0 bg-card pb-3 pt-6 px-2">
-							<p className="text-[11px] font-semibold text-center leading-tight truncate">
-								Create story
-							</p>
-						</div>
+						<span className="text-[11px] text-muted-foreground font-medium w-14 text-center truncate">
+							Add story
+						</span>
 					</button>
 
+					{/* Story items */}
 					{stories.map((story, i) => {
 						const storyName = displayName(story.user);
 						const viewed = story.views.length > 0;
@@ -92,37 +100,30 @@ export function StoriesBar({
 							<button
 								key={story.id}
 								onClick={() => setViewIndex(i)}
-								className="relative w-[112px] h-[196px] rounded-xl overflow-hidden flex-shrink-0 cursor-pointer group"
+								className="flex flex-col items-center gap-1.5 flex-shrink-0 group"
 							>
-								<Image
-									src={story.mediaUrl}
-									alt=""
-									fill
-									unoptimized
-									className="object-cover group-hover:scale-105 transition-transform duration-200"
-									sizes="112px"
-								/>
-								<div className="absolute inset-0 bg-gradient-to-b from-black/30 via-transparent to-black/60" />
 								<div
-									className={`absolute top-2 left-2 rounded-full p-0.5 ${viewed ? "ring-2 ring-white/60" : "ring-[3px] ring-primary"}`}
+									className={`w-14 h-14 rounded-full p-0.5 ${
+										viewed
+											? "bg-muted"
+											: "bg-gradient-to-br from-fuchsia-500 via-rose-400 to-amber-400"
+									}`}
 								>
-									<Avatar className="h-9 w-9">
-										<AvatarImage
-											src={
-												story.user.avatar?.photoSrc ??
-												undefined
-											}
-										/>
-										<AvatarFallback className="bg-primary text-primary-foreground text-xs font-bold">
-											{storyName[0]?.toUpperCase()}
-										</AvatarFallback>
-									</Avatar>
+									<div className="w-full h-full rounded-full overflow-hidden border-2 border-background">
+										<Avatar className="h-full w-full rounded-full">
+											<AvatarImage
+												src={story.user.avatar?.photoSrc ?? undefined}
+												className="object-cover"
+											/>
+											<AvatarFallback className="bg-primary text-primary-foreground text-sm font-bold rounded-full">
+												{storyName[0]?.toUpperCase()}
+											</AvatarFallback>
+										</Avatar>
+									</div>
 								</div>
-								<div className="absolute bottom-2 left-2 right-2">
-									<p className="text-white text-xs font-semibold truncate drop-shadow">
-										{storyName}
-									</p>
-								</div>
+								<span className="text-[11px] text-foreground/70 font-medium w-14 text-center truncate">
+									{storyName.split(" ")[0]}
+								</span>
 							</button>
 						);
 					})}

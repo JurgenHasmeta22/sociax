@@ -22,8 +22,9 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import {
-	ThumbsUp,
+	Heart,
 	MessageCircle,
+	Send,
 	Share2,
 	MoreHorizontal,
 	Globe,
@@ -310,7 +311,7 @@ export function PostCard({
 	if (deleted) return null;
 
 	return (
-		<Card className="w-full shadow-sm hover:shadow-md transition-shadow duration-200 overflow-hidden">
+		<Card className="w-full shadow-sm hover:shadow-md transition-shadow duration-200 overflow-hidden border-border/50">
 			<CardContent className="pt-4 pb-0">
 				<div className="flex items-start justify-between">
 					<div className="flex items-center gap-3">
@@ -457,32 +458,17 @@ export function PostCard({
 			)}
 
 			<CardContent className="pt-3 pb-2">
-				{(likeCount > 0 ||
-					commentCount > 0 ||
-					post._count.shares > 0) && (
+				{(likeCount > 0 || commentCount > 0) && (
 					<>
 						<div className="flex items-center justify-between text-sm text-muted-foreground mb-2">
 							<div className="flex items-center gap-1.5">
-								{topReactions.length > 0 && (
-									<div className="flex -space-x-1">
-										{topReactions.map((r) => (
-											<span
-												key={r}
-												className="text-base leading-none"
-											>
-												{REACTIONS[r]?.emoji}
-											</span>
-										))}
-									</div>
-								)}
 								{likeCount > 0 && (
 									<button
-										onClick={() =>
-											setShowReactionsModal(true)
-										}
-										className="hover:underline"
+										onClick={() => setShowReactionsModal(true)}
+										className="flex items-center gap-1 hover:text-foreground transition-colors"
 									>
-										{likeCount.toLocaleString()}
+										<span className="text-base leading-none">❤️</span>
+										<span>{likeCount.toLocaleString()}</span>
 									</button>
 								)}
 							</div>
@@ -490,15 +476,18 @@ export function PostCard({
 								{commentCount > 0 && (
 									<button
 										onClick={() => setShowComments(true)}
-										className="hover:underline"
+										className="flex items-center gap-1 hover:text-foreground transition-colors"
 									>
-										{commentCount} comment
-										{commentCount !== 1 ? "s" : ""}
+										<MessageCircle className="h-3.5 w-3.5" />
+										<span>{commentCount.toLocaleString()}</span>
 									</button>
 								)}
-								{post._count.shares > 0 && (
-									<span>{post._count.shares} shares</span>
-								)}
+								<button className="hover:text-foreground transition-colors">
+									<Send className="h-3.5 w-3.5" />
+								</button>
+								<button className="hover:text-foreground transition-colors">
+									<Share2 className="h-3.5 w-3.5" />
+								</button>
 							</div>
 						</div>
 						<Separator className="mb-1" />
@@ -541,7 +530,7 @@ export function PostCard({
 									{REACTIONS[myReaction]?.emoji}
 								</span>
 							) : (
-								<ThumbsUp className="h-[18px] w-[18px]" />
+							<Heart className="h-[18px] w-[18px]" />
 							)}
 							{myReaction ? REACTIONS[myReaction]?.label : "Like"}
 						</Button>
@@ -564,8 +553,8 @@ export function PostCard({
 						size="sm"
 						className="flex-1 gap-2 text-muted-foreground hover:text-foreground rounded-lg font-semibold text-sm h-9"
 					>
-						<Share2 className="h-[18px] w-[18px]" />
-						Share
+						<Send className="h-[18px] w-[18px]" />
+						Send
 					</Button>
 				</div>
 			</CardContent>
