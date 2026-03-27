@@ -8,7 +8,7 @@ import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { Textarea } from "@/components/ui/textarea";
 import { Skeleton } from "@/components/ui/skeleton";
-import { ThumbsUp, Trash2, SendHorizonal, ChevronDown } from "lucide-react";
+import { ThumbsUp, Trash2, SendHorizonal, ChevronDown, ImagePlus, X } from "lucide-react";
 import { cn } from "@/lib/utils";
 import {
 	getComments,
@@ -29,6 +29,7 @@ type CommentUser = {
 type Comment = {
 	id: number;
 	content: string;
+	mediaUrl: string | null;
 	createdAt: Date;
 	isDeleted: boolean;
 	user: CommentUser;
@@ -94,9 +95,18 @@ function CommentItem({
 						>
 							{displayName}
 						</Link>
-						<p className="text-sm leading-snug break-words">
-							{comment.content}
-						</p>
+						{comment.content && (
+							<p className="text-sm leading-snug break-words">{comment.content}</p>
+						)}
+						{comment.mediaUrl && (
+							<div className="mt-1.5 max-w-xs">
+								<img
+									src={comment.mediaUrl}
+									alt="comment media"
+									className="rounded-xl max-h-48 w-auto object-cover cursor-pointer"
+								/>
+							</div>
+						)}
 					</div>
 					<div className="flex items-center gap-3 mt-1 ml-2 text-xs text-muted-foreground">
 						<span>{timeAgo}</span>
@@ -150,8 +160,25 @@ export function CommentsSection({
 	const [comments, setComments] = useState<Comment[] | null>(null);
 	const [loading, setLoading] = useState(false);
 	const [input, setInput] = useState("");
+	const [mediaFile, setMediaFile] = useState<File | null>(null);
+	const [mediaPreview, setMediaPreview] = useState<string | null>(null);
+	const [isUploading, setIsUploading] = useState(false);
 	const [isPending, startTransition] = useTransition();
 	const textareaRef = useRef<HTMLTextAreaElement>(null);
+	const mediaInputRef = useRef<HTMLInputElement>(null);
+
+	const handleMediaSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
+		const file = e.target.files?.[0];
+		if (!file) return;
+		setMediaFile(file);
+		setMediaPreview(URL.createObjectURL(file));
+	};
+
+	const clearMedia = () => {
+		setMediaFile(null);
+		setMediaPreview(null);
+		if (mediaInputRef.current) mediaInputRef.current.value = "";
+	};
 
 	const loadComments = async () => {
 		if (comments !== null) return;
@@ -164,13 +191,30 @@ export function CommentsSection({
 		}
 	};
 
-	const handleSubmit = () => {
+	const handleSubmit = async () => {
 		const text = input.trim();
-		if (!text) return;
+		if (!text && !mediaFile) return;
+
+		let uploadedUrl: string | undefined;
+		if (mediaFile) {
+			setIsUploading(true);
+			try {
+				const fd = new FormData();
+				fd.append("file", mediaFile);
+				const res = await fetch("/api/upload", { method: "POST", body: fd });
+				if (res.ok) {
+					const { url } = await res.json();
+					uploadedUrl = url;
+				}
+			} finally {
+				setIsUploading(false);
+			}
+		}
 
 		const optimistic: Comment = {
 			id: Date.now(),
 			content: text,
+			mediaUrl: mediaPreview,
 			createdAt: new Date(),
 			isDeleted: false,
 			user: {
@@ -185,11 +229,12 @@ export function CommentsSection({
 
 		setComments((prev) => [...(prev ?? []), optimistic]);
 		setInput("");
+		clearMedia();
 
 		startTransition(async () => {
-			await createComment(postId, text);
+			await createComment(postId, text, uploadedUrl);
 			const fresh = await getComments(postId);
-			setComments(fresh);
+			setComments(fresh as Comment[]);
 		});
 	};
 
@@ -200,7 +245,7 @@ export function CommentsSection({
 	const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
 		if (e.key === "Enter" && !e.shiftKey) {
 			e.preventDefault();
-			handleSubmit();
+			void handleSubmit();
 		}
 	};
 
@@ -256,26 +301,55 @@ export function CommentsSection({
 						Y
 					</AvatarFallback>
 				</Avatar>
-				<div className="flex-1 flex items-end gap-2 bg-muted rounded-2xl px-3 py-1.5">
-					<Textarea
-						ref={textareaRef}
-						value={input}
-						onChange={(e) => setInput(e.target.value)}
-						onKeyDown={handleKeyDown}
-						onFocus={loadComments}
-						placeholder="Write a comment…"
-						className="min-h-0 h-7 resize-none border-0 bg-transparent p-0 shadow-none focus-visible:ring-0 text-sm leading-snug"
-						rows={1}
-					/>
-					<Button
-						variant="ghost"
-						size="icon"
-						className="h-6 w-6 shrink-0 text-primary hover:bg-transparent"
-						onClick={handleSubmit}
-						disabled={!input.trim() || isPending}
-					>
-						<SendHorizonal className="h-4 w-4" />
-					</Button>
+				<div className="flex-1 flex flex-col gap-1.5 bg-muted rounded-2xl px-3 py-2">
+					{mediaPreview && (
+						<div className="relative inline-flex">
+							<img src={mediaPreview} alt="preview" className="max-h-32 rounded-xl object-cover" />
+							<button
+								onClick={clearMedia}
+								className="absolute -top-1.5 -right-1.5 bg-background border rounded-full p-0.5 hover:bg-muted transition-colors"
+							>
+								<X className="h-3 w-3" />
+							</button>
+						</div>
+					)}
+					<div className="flex items-end gap-2">
+						<Textarea
+							ref={textareaRef}
+							value={input}
+							onChange={(e) => setInput(e.target.value)}
+							onKeyDown={handleKeyDown}
+							onFocus={loadComments}
+							placeholder="Write a comment…"
+							className="min-h-0 h-7 resize-none border-0 bg-transparent p-0 shadow-none focus-visible:ring-0 text-sm leading-snug flex-1"
+							rows={1}
+						/>
+						<input
+							ref={mediaInputRef}
+							type="file"
+							accept="image/*,.gif"
+							className="hidden"
+							onChange={handleMediaSelect}
+						/>
+						<Button
+							variant="ghost"
+							size="icon"
+							className="h-6 w-6 shrink-0 text-muted-foreground hover:text-foreground hover:bg-transparent"
+							onClick={() => mediaInputRef.current?.click()}
+							disabled={isPending || isUploading}
+						>
+							<ImagePlus className="h-4 w-4" />
+						</Button>
+						<Button
+							variant="ghost"
+							size="icon"
+							className="h-6 w-6 shrink-0 text-primary hover:bg-transparent"
+							onClick={() => void handleSubmit()}
+							disabled={(!input.trim() && !mediaFile) || isPending || isUploading}
+						>
+							<SendHorizonal className="h-4 w-4" />
+						</Button>
+					</div>
 				</div>
 			</div>
 		</div>

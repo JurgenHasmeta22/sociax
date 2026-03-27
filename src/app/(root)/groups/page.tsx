@@ -5,26 +5,29 @@ import { GroupsClient } from "@/components/groups/GroupsClient";
 
 export const metadata = { title: "Groups · Sociax" };
 
-type PageProps = { searchParams: Promise<{ q?: string }> };
-
-export default async function GroupsPage({ searchParams }: PageProps) {
+export default async function GroupsPage() {
 	const session = await getServerSession(authOptions);
 	const userId = session ? parseInt(session.user.id) : null;
-	const { q = "" } = await searchParams;
 
-	const where = q.trim() ? { name: { contains: q.trim() } } : undefined;
+	const TAKE = 12;
 
-	const [groups, total, memberships] = await Promise.all([
+	const [suggestions, popular, memberships] = await Promise.all([
 		prisma.group.findMany({
-			where,
 			orderBy: { createdAt: "desc" },
-			take: 12,
+			take: TAKE,
 			include: {
 				owner: { include: { avatar: true } },
 				_count: { select: { members: true, posts: true } },
 			},
 		}),
-		prisma.group.count({ where }),
+		prisma.group.findMany({
+			orderBy: { members: { _count: "desc" } },
+			take: TAKE,
+			include: {
+				owner: { include: { avatar: true } },
+				_count: { select: { members: true, posts: true } },
+			},
+		}),
 		userId
 			? prisma.groupMember.findMany({
 					where: { userId },
@@ -33,16 +36,48 @@ export default async function GroupsPage({ searchParams }: PageProps) {
 			: [],
 	]);
 
+	// My groups
+	let myGroups: typeof suggestions = [];
+	let totalMyGroups = 0;
+	if (userId) {
+		const myMemberships = await prisma.groupMember.findMany({
+			where: { userId, status: "Approved" },
+			take: TAKE,
+			orderBy: { joinedAt: "desc" },
+			include: {
+				group: {
+					include: {
+						owner: { include: { avatar: true } },
+						_count: { select: { members: true, posts: true } },
+					},
+				},
+			},
+		});
+		myGroups = myMemberships.map((m) => m.group);
+		totalMyGroups = await prisma.groupMember.count({
+			where: { userId, status: "Approved" },
+		});
+	}
+
+	const [totalSuggestions, totalPopular] = await Promise.all([
+		prisma.group.count(),
+		prisma.group.count(),
+	]);
+
 	const membershipMap: Record<number, string> = {};
 	for (const m of memberships) membershipMap[m.groupId] = m.status;
 
 	return (
 		<GroupsClient
-			initialGroups={groups}
-			total={total}
-			initialQuery={q}
+			initialSuggestions={suggestions}
+			initialPopular={popular}
+			initialMyGroups={myGroups}
+			totalSuggestions={totalSuggestions}
+			totalPopular={totalPopular}
+			totalMyGroups={totalMyGroups}
 			membershipMap={membershipMap}
 			isLoggedIn={!!session}
 		/>
 	);
 }
+

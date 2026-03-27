@@ -104,6 +104,7 @@ model GroupPostLike {
 model GroupPostComment {
     id        Int       @id @default(autoincrement())
     content   String
+    mediaUrl  String?
     isDeleted Boolean   @default(false)
     createdAt DateTime  @default(now())
     updatedAt DateTime? @updatedAt

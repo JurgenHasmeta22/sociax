@@ -190,12 +190,12 @@ export async function getPagePostReactions(postId: number) {
 	});
 }
 
-export async function createPagePostComment(postId: number, content: string) {
+export async function createPagePostComment(postId: number, content: string, mediaUrl?: string) {
 	const userId = await getSessionUserId();
-	if (!content.trim()) return;
+	if (!content.trim() && !mediaUrl) return;
 
 	await prisma.pagePostComment.create({
-		data: { pagePostId: postId, userId, content: content.trim() },
+		data: { pagePostId: postId, userId, content: content.trim(), ...(mediaUrl ? { mediaUrl } : {}) },
 	});
 }
 

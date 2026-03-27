@@ -58,6 +58,7 @@ type GroupPostLike = { id: number; userId: number; reactionType: string };
 type GroupPostComment = {
 	id: number;
 	content: string;
+	mediaUrl?: string | null;
 	createdAt: Date;
 	likeCount: number;
 	isLikedByMe: boolean;
@@ -233,6 +234,11 @@ function GroupPostCard({
 	const [showComments, setShowComments] = useState(false);
 	const [comments, setComments] = useState<GroupPostComment[]>([]);
 	const [commentText, setCommentText] = useState("");
+	const [commentMedia, setCommentMedia] = useState<File | null>(null);
+	const [commentMediaPreview, setCommentMediaPreview] = useState<string | null>(null);
+	const [isUploadingComment, setIsUploadingComment] = useState(false);
+	const commentMediaRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+	const commentFileRef = useRef<HTMLInputElement | null>(null);
 	const [isPending, startTransition] = useTransition();
 	const hoverTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
 	const [showPicker, setShowPicker] = useState(false);
@@ -284,14 +290,31 @@ function GroupPostCard({
 		}
 	};
 
-	const handleComment = () => {
+	const handleComment = async () => {
 		if (!currentUserId) return;
 		const text = commentText.trim();
-		if (!text) return;
+		if (!text && !commentMedia) return;
+
+		let uploadedUrl: string | undefined;
+		if (commentMedia) {
+			setIsUploadingComment(true);
+			try {
+				const fd = new FormData();
+				fd.append("file", commentMedia);
+				const res = await fetch("/api/upload", { method: "POST", body: fd });
+				if (res.ok) { const { url } = await res.json(); uploadedUrl = url; }
+			} finally {
+				setIsUploadingComment(false);
+			}
+		}
+
 		setCommentText("");
+		setCommentMedia(null);
+		setCommentMediaPreview(null);
 		const optimistic: GroupPostComment = {
 			id: Date.now(),
 			content: text,
+			mediaUrl: commentMediaPreview,
 			createdAt: new Date(),
 			likeCount: 0,
 			isLikedByMe: false,
@@ -305,7 +328,7 @@ function GroupPostCard({
 			},
 		};
 		setComments((p) => [...p, optimistic]);
-		startTransition(() => createGroupPostComment(post.id, text));
+		startTransition(() => createGroupPostComment(post.id, text, uploadedUrl));
 	};
 
 	const handleCommentLike = (commentId: number) => {
@@ -536,6 +559,11 @@ function GroupPostCard({
 												{displayName(c.user) || "You"}
 											</span>
 											{c.content}
+											{c.mediaUrl && (
+												<div className="mt-1.5">
+													<img src={c.mediaUrl} alt="media" className="max-h-32 rounded-xl object-cover" />
+												</div>
+											)}
 										</div>
 										<div className="flex items-center gap-3 px-1 mt-1">
 											<button
@@ -566,33 +594,62 @@ function GroupPostCard({
 						<div className="flex gap-2 mt-3">
 							{currentUserId && (
 								<>
-									<Textarea
-										value={commentText}
-										onChange={(e) =>
-											setCommentText(e.target.value)
-										}
-										onKeyDown={(e) => {
-											if (
-												e.key === "Enter" &&
-												!e.shiftKey
-											) {
-												e.preventDefault();
-												handleComment();
-											}
-										}}
-										placeholder="Write a comment…"
-										className="min-h-0 h-9 resize-none text-sm rounded-full py-2 px-4"
-									/>
-									<Button
-										size="icon"
-										className="h-9 w-9 rounded-full shrink-0"
-										onClick={handleComment}
-										disabled={
-											!commentText.trim() || isPending
-										}
-									>
-										<Send className="h-4 w-4" />
-									</Button>
+									<div className="flex-1 flex flex-col gap-1.5 bg-muted rounded-2xl px-3 py-2">
+										{commentMediaPreview && (
+											<div className="relative inline-flex">
+												<img src={commentMediaPreview} alt="preview" className="max-h-24 rounded-xl object-cover" />
+												<button
+													onClick={() => { setCommentMedia(null); setCommentMediaPreview(null); if (commentFileRef.current) commentFileRef.current.value = ""; }}
+													className="absolute -top-1.5 -right-1.5 bg-background border rounded-full p-0.5"
+												>
+													<X className="h-3 w-3" />
+												</button>
+											</div>
+										)}
+										<div className="flex items-end gap-2">
+											<Textarea
+												value={commentText}
+												onChange={(e) => setCommentText(e.target.value)}
+												onKeyDown={(e) => {
+													if (e.key === "Enter" && !e.shiftKey) {
+														e.preventDefault();
+														void handleComment();
+													}
+												}}
+												placeholder="Write a comment…"
+												className="min-h-0 h-8 resize-none text-sm border-0 bg-transparent p-0 shadow-none focus-visible:ring-0 flex-1"
+											/>
+											<input
+												ref={commentFileRef}
+												type="file"
+												accept="image/*,.gif"
+												className="hidden"
+												onChange={(e) => {
+													const file = e.target.files?.[0];
+													if (!file) return;
+													setCommentMedia(file);
+													setCommentMediaPreview(URL.createObjectURL(file));
+												}}
+											/>
+											<Button
+												variant="ghost"
+												size="icon"
+												className="h-7 w-7 shrink-0 text-muted-foreground hover:text-foreground hover:bg-transparent"
+												onClick={() => commentFileRef.current?.click()}
+												disabled={isPending || isUploadingComment}
+											>
+												<ImagePlus className="h-4 w-4" />
+											</Button>
+											<Button
+												size="icon"
+												className="h-7 w-7 rounded-full shrink-0"
+												onClick={() => void handleComment()}
+												disabled={(!commentText.trim() && !commentMedia) || isPending || isUploadingComment}
+											>
+												<Send className="h-4 w-4" />
+											</Button>
+										</div>
+									</div>
 								</>
 							)}
 						</div>

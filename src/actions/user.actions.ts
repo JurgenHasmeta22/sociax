@@ -82,3 +82,28 @@ export async function changePassword(
 		data: { password: hashed },
 	});
 }
+
+export async function updateAvatar(photoUrl: string) {
+	const userId = await getSessionUserId();
+
+	await prisma.avatar.upsert({
+		where: { userId },
+		create: { userId, photoSrc: photoUrl },
+		update: { photoSrc: photoUrl },
+	});
+
+	revalidatePath("/feed");
+}
+
+export async function updateCoverPhoto(photoUrl: string) {
+	const userId = await getSessionUserId();
+
+	await prisma.coverPhoto.upsert({
+		where: { userId },
+		create: { userId, photoSrc: photoUrl },
+		update: { photoSrc: photoUrl },
+	});
+
+	revalidatePath("/feed");
+}
+

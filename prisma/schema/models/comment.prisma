@@ -1,6 +1,7 @@
 model PostComment {
     id        Int       @id @default(autoincrement())
     content   String
+    mediaUrl  String?
     isEdited  Boolean   @default(false)
     isDeleted Boolean   @default(false)
     createdAt DateTime  @default(now())

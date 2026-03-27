@@ -229,6 +229,81 @@ export async function fetchEvents(filter: EventFilter = "all", skip = 0) {
 	};
 }
 
+export async function fetchPopularEvents(skip = 0) {
+	const session = await getServerSession(authOptions);
+	const userId = session ? parseInt(session.user.id) : null;
+
+	const events = await prisma.event.findMany({
+		where: {
+			privacy: "Public",
+			startDate: { gte: new Date() },
+		},
+		orderBy: { attendees: { _count: "desc" } },
+		skip,
+		take: EVENTS_LIMIT,
+		include: {
+			creator: {
+				select: {
+					id: true,
+					userName: true,
+					firstName: true,
+					lastName: true,
+					avatar: { select: { photoSrc: true } },
+				},
+			},
+			attendees: userId
+				? { where: { userId }, select: { status: true } }
+				: false,
+			_count: { select: { attendees: true } },
+		},
+	});
+
+	return {
+		events: events.map((e) => ({
+			...e,
+			myAttendance: (userId && Array.isArray(e.attendees) ? e.attendees[0]?.status : null) ?? null,
+		})),
+	};
+}
+
+export async function fetchMyEvents(skip = 0) {
+	const userId = await getSessionUserId();
+
+	const attendances = await prisma.eventAttendee.findMany({
+		where: {
+			userId,
+			status: { in: ["Going", "Interested"] },
+		},
+		skip,
+		take: EVENTS_LIMIT,
+		orderBy: { createdAt: "desc" },
+		include: {
+			event: {
+				include: {
+					creator: {
+						select: {
+							id: true,
+							userName: true,
+							firstName: true,
+							lastName: true,
+							avatar: { select: { photoSrc: true } },
+						},
+					},
+					attendees: { where: { userId }, select: { status: true } },
+					_count: { select: { attendees: true } },
+				},
+			},
+		},
+	});
+
+	return {
+		events: attendances.map((a) => ({
+			...a.event,
+			myAttendance: a.status,
+		})),
+	};
+}
+
 export async function getEventPosts(eventId: number, currentUserId?: number) {
 	const posts = await prisma.eventPost.findMany({
 		where: { eventId, isDeleted: false },
@@ -378,12 +453,12 @@ export async function getEventPostComments(
 	}));
 }
 
-export async function createEventPostComment(postId: number, content: string) {
+export async function createEventPostComment(postId: number, content: string, mediaUrl?: string) {
 	const userId = await getSessionUserId();
-	if (!content.trim()) throw new Error("Content required");
+	if (!content.trim() && !mediaUrl) throw new Error("Content required");
 
 	await prisma.eventPostComment.create({
-		data: { content: content.trim(), eventPostId: postId, userId },
+		data: { content: content.trim(), eventPostId: postId, userId, ...(mediaUrl ? { mediaUrl } : {}) },
 	});
 }
 

@@ -149,12 +149,13 @@ export async function getGroupPostReactions(groupPostId: number) {
 export async function createGroupPostComment(
 	groupPostId: number,
 	content: string,
+	mediaUrl?: string,
 ) {
 	const userId = await getSessionUserId();
-	if (!content.trim()) return;
+	if (!content.trim() && !mediaUrl) return;
 
 	await prisma.groupPostComment.create({
-		data: { groupPostId, userId, content: content.trim() },
+		data: { groupPostId, userId, content: content.trim(), ...(mediaUrl ? { mediaUrl } : {}) },
 	});
 
 	const post = await prisma.groupPost.findUnique({
@@ -271,6 +272,72 @@ export async function fetchMoreGroups(skip: number, query: string) {
 			: [],
 	]);
 
+	const membershipMap: Record<number, string> = {};
+	for (const m of memberships) membershipMap[m.groupId] = m.status;
+
+	return { groups, membershipMap, total };
+}
+
+export async function fetchPopularGroups(skip: number, query: string) {
+	const session = await getServerSession(authOptions);
+	const userId = session ? parseInt(session.user.id) : null;
+
+	const where = query.trim()
+		? { name: { contains: query.trim() } }
+		: undefined;
+
+	const [groups, total, memberships] = await Promise.all([
+		prisma.group.findMany({
+			where,
+			skip,
+			take: GROUPS_LIMIT,
+			orderBy: { members: { _count: "desc" } },
+			include: {
+				owner: { include: { avatar: true } },
+				_count: { select: { members: true, posts: true } },
+			},
+		}),
+		prisma.group.count({ where }),
+		userId
+			? prisma.groupMember.findMany({
+					where: { userId },
+					select: { groupId: true, status: true },
+				})
+			: [],
+	]);
+
+	const membershipMap: Record<number, string> = {};
+	for (const m of memberships) membershipMap[m.groupId] = m.status;
+
+	return { groups, membershipMap, total };
+}
+
+export async function fetchMyGroups(skip: number, query: string) {
+	const userId = await getSessionUserId();
+
+	const memberWhere = query.trim()
+		? { userId, status: "Approved" as const, group: { name: { contains: query.trim() } } }
+		: { userId, status: "Approved" as const };
+
+	const [memberships, total] = await Promise.all([
+		prisma.groupMember.findMany({
+			where: memberWhere,
+			skip,
+			take: GROUPS_LIMIT,
+			orderBy: { joinedAt: "desc" },
+			include: {
+				group: {
+					include: {
+						owner: { include: { avatar: true } },
+						_count: { select: { members: true, posts: true } },
+					},
+				},
+			},
+		}),
+		prisma.groupMember.count({ where: memberWhere }),
+	]);
+
+	const groups = memberships.map((m) => m.group);
 	const membershipMap: Record<number, string> = {};
 	for (const m of memberships) membershipMap[m.groupId] = m.status;
 

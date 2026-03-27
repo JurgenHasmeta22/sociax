@@ -2,7 +2,6 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 import { redirect } from "next/navigation";
 import { prisma } from "@/lib/prisma";
-import { LeftSidebar } from "@/components/feed/LeftSidebar";
 import { PagesClient } from "@/components/pages/PagesClient";
 
 export const metadata = { title: "Pages · Sociax" };
@@ -13,47 +12,58 @@ export default async function PagesPage() {
 
 	const userId = parseInt(session.user.id);
 
-	const [currentUser, pages, total, myFollows] = await Promise.all([
-		prisma.user.findUnique({
-			where: { id: userId },
-			include: {
-				avatar: true,
-				_count: {
-					select: { followers: true, following: true, posts: true },
-				},
-			},
-		}),
+	const [pages, myFollows, ownedPages, suggestedPages] = await Promise.all([
 		prisma.page.findMany({
 			where: { isActive: true },
 			take: 20,
 			orderBy: { createdAt: "desc" },
 			include: { _count: { select: { followers: true, posts: true } } },
 		}),
-		prisma.page.count({ where: { isActive: true } }),
 		prisma.pageFollower.findMany({
 			where: { userId },
 			select: { pageId: true },
 		}),
+		prisma.page.findMany({
+			where: { ownerId: userId, isActive: true },
+			take: 6,
+			orderBy: { updatedAt: "desc" },
+			select: {
+				id: true,
+				name: true,
+				slug: true,
+				avatarUrl: true,
+				updatedAt: true,
+			},
+		}),
+		prisma.page.findMany({
+			where: { isActive: true },
+			take: 4,
+			orderBy: { followers: { _count: "desc" } },
+			select: {
+				id: true,
+				name: true,
+				slug: true,
+				avatarUrl: true,
+				updatedAt: true,
+			},
+		}),
 	]);
-
-	if (!currentUser) redirect("/login");
 
 	const followedIds = new Set(myFollows.map((f) => f.pageId));
 	const initialPages = pages.map((p) => ({
 		...p,
+		coverUrl: null as string | null,
 		isFollowing: followedIds.has(p.id),
 	}));
 
 	return (
-		<div className="flex bg-muted/20 min-h-[calc(100vh-56px)]">
-			<aside className="hidden lg:block w-[280px] shrink-0 sticky top-14 h-[calc(100vh-56px)] overflow-y-auto border-r border-border/60">
-				<LeftSidebar user={currentUser} />
-			</aside>
-
-			<main className="flex-1 py-6 px-4 max-w-6xl mx-auto w-full">
-				<h1 className="text-2xl font-bold mb-6">Pages</h1>
-				<PagesClient initialPages={initialPages} />
-			</main>
+		<div className="max-w-6xl mx-auto px-4 py-6 min-h-[calc(100vh-56px)]">
+			<PagesClient
+				initialPages={initialPages}
+				ownedPages={ownedPages}
+				suggestedPages={suggestedPages}
+			/>
 		</div>
 	);
 }
+

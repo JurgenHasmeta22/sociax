@@ -8,7 +8,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import { Textarea } from "@/components/ui/textarea";
-import { Flag, MessageCircle, Send, Heart, Trash2 } from "lucide-react";
+import { Flag, MessageCircle, Send, Heart, Trash2, ImagePlus, X } from "lucide-react";
 import { cn } from "@/lib/utils";
 import {
 	togglePagePostLike,
@@ -30,6 +30,7 @@ const REACTIONS: Record<string, { emoji: string; label: string }> = {
 type PageComment = {
 	id: number;
 	content: string;
+	mediaUrl?: string | null;
 	createdAt: Date;
 	user: {
 		id: number;
@@ -78,6 +79,10 @@ export function FeedPagePostCard({
 	const [showComments, setShowComments] = useState(false);
 	const [comments, setComments] = useState<PageComment[]>([]);
 	const [commentText, setCommentText] = useState("");
+	const [commentMedia, setCommentMedia] = useState<File | null>(null);
+	const [commentMediaPreview, setCommentMediaPreview] = useState<string | null>(null);
+	const [isUploadingComment, setIsUploadingComment] = useState(false);
+	const commentFileRef = useRef<HTMLInputElement | null>(null);
 	const [isPending, startTransition] = useTransition();
 	const hoverTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
 	const [showPicker, setShowPicker] = useState(false);
@@ -110,13 +115,30 @@ export function FeedPagePostCard({
 		}
 	};
 
-	const handleComment = () => {
+	const handleComment = async () => {
 		const text = commentText.trim();
-		if (!text) return;
+		if (!text && !commentMedia) return;
+
+		let uploadedUrl: string | undefined;
+		if (commentMedia) {
+			setIsUploadingComment(true);
+			try {
+				const fd = new FormData();
+				fd.append("file", commentMedia);
+				const res = await fetch("/api/upload", { method: "POST", body: fd });
+				if (res.ok) { const { url } = await res.json(); uploadedUrl = url; }
+			} finally {
+				setIsUploadingComment(false);
+			}
+		}
+
 		setCommentText("");
+		setCommentMedia(null);
+		setCommentMediaPreview(null);
 		const optimistic: PageComment = {
 			id: Date.now(),
 			content: text,
+			mediaUrl: commentMediaPreview,
 			createdAt: new Date(),
 			user: {
 				id: currentUserId,
@@ -127,7 +149,7 @@ export function FeedPagePostCard({
 			},
 		};
 		setComments((p) => [...p, optimistic]);
-		startTransition(() => createPagePostComment(post.id, text));
+		startTransition(() => createPagePostComment(post.id, text, uploadedUrl));
 	};
 
 	const handleDeleteComment = (commentId: number) => {
@@ -308,6 +330,11 @@ export function FeedPagePostCard({
 											{displayName(c.user) || "You"}
 										</span>
 										{c.content}
+										{c.mediaUrl && (
+											<div className="mt-1.5">
+												<img src={c.mediaUrl} alt="media" className="max-h-32 rounded-xl object-cover" />
+											</div>
+										)}
 									</div>
 								</div>
 								{c.user.id === currentUserId && (

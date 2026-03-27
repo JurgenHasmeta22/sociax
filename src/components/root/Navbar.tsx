@@ -22,8 +22,6 @@ import {
 	CalendarDays,
 	Search,
 	Bell,
-	MessageCircle,
-	Plus,
 	Settings,
 	LogOut,
 	User,
@@ -53,80 +51,71 @@ export function Navbar() {
 	return (
 		<>
 			<header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 shadow-sm">
-				<div className="flex h-14 items-center gap-2 px-4">
-					<div className="flex items-center gap-2 w-64 shrink-0">
+				<div className="flex h-14 items-center px-4">
+					{/* Left: Logo + Nav links */}
+					<div className="flex items-center shrink-0 gap-0.5">
 						<Link
 							href={session ? "/feed" : "/"}
-							className="flex items-center gap-2"
+							className="flex items-center gap-2 mr-1"
 						>
 							<div className="w-10 h-10 rounded-full bg-primary flex items-center justify-center text-primary-foreground font-bold text-lg shrink-0">
 								S
 							</div>
-							<span className="font-bold text-xl text-primary hidden sm:block">
+							<span className="font-bold text-xl text-primary hidden xl:block">
 								Sociax
 							</span>
 						</Link>
 						{session && (
+							<nav className="hidden md:flex items-center">
+								{NAV_LINKS.map(({ href, icon: Icon, label }) => {
+									const isActive =
+										pathname === href ||
+										pathname.startsWith(href + "/");
+									return (
+										<Link
+											key={href}
+											href={href}
+											title={label}
+											className={cn(
+												"relative flex items-center justify-center h-14 w-11 rounded-md transition-colors text-muted-foreground hover:bg-muted",
+												isActive && "text-primary",
+											)}
+										>
+											<Icon className="h-5 w-5" />
+											{isActive && (
+												<span className="absolute bottom-0 left-1 right-1 h-[3px] bg-primary rounded-t-full" />
+											)}
+										</Link>
+									);
+								})}
+							</nav>
+						)}
+					</div>
+
+					{/* Center: Search bar */}
+					{session && (
+						<div className="flex-1 flex justify-center px-4">
 							<button
 								onClick={() => setSearchOpen(true)}
-								className="relative ml-1 hidden lg:flex items-center gap-2 h-9 w-44 bg-muted rounded-full px-3 text-sm text-muted-foreground hover:bg-muted/80 transition-colors"
+								className="hidden sm:flex items-center gap-2 h-9 w-full max-w-sm bg-muted rounded-full px-4 text-sm text-muted-foreground hover:bg-muted/80 transition-colors"
 							>
 								<Search className="h-4 w-4 shrink-0" />
 								Search
 							</button>
-						)}
-					</div>
-
-					{session && (
-						<nav className="hidden md:flex flex-1 items-center justify-center">
-							{NAV_LINKS.map(({ href, icon: Icon, label }) => {
-								const isActive =
-									pathname === href ||
-									pathname.startsWith(href + "/");
-								return (
-									<Link
-										key={href}
-										href={href}
-										title={label}
-										className={cn(
-											"relative flex items-center justify-center h-14 w-24 rounded-md transition-colors text-muted-foreground hover:bg-muted",
-											isActive && "text-primary",
-										)}
-									>
-										<Icon className="h-6 w-6" />
-										{isActive && (
-											<span className="absolute bottom-0 left-3 right-3 h-[3px] bg-primary rounded-t-full" />
-										)}
-									</Link>
-								);
-							})}
-						</nav>
+						</div>
 					)}
 
+					{/* Right: Bell + Avatar */}
 					<div className="flex items-center gap-1.5 ml-auto">
 						{session ? (
 							<>
 								<Button
 									variant="ghost"
 									size="icon"
-									className="rounded-full bg-muted h-9 w-9 md:hidden"
+									className="rounded-full bg-muted h-9 w-9 sm:hidden"
 									onClick={() => setSearchOpen(true)}
 								>
 									<Search className="h-5 w-5" />
-								</Button>
-								<Button
-									variant="ghost"
-									size="icon"
-									className="rounded-full bg-muted h-9 w-9"
-								>
-									<Plus className="h-5 w-5" />
-								</Button>
-								<Button
-									variant="ghost"
-									size="icon"
-									className="rounded-full bg-muted h-9 w-9"
-								>
-									<MessageCircle className="h-5 w-5" />
 								</Button>
 								<Link href="/notifications">
 									<Button

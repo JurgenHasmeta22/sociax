@@ -11,10 +11,12 @@ export function GroupJoinButton({
 	groupId,
 	initialState,
 	privacy,
+	compact = false,
 }: {
 	groupId: number;
 	initialState: MemberState;
 	privacy: string;
+	compact?: boolean;
 }) {
 	const [state, setState] = useState<MemberState>(initialState);
 	const [isPending, startTransition] = useTransition();
@@ -30,30 +32,20 @@ export function GroupJoinButton({
 		startTransition(() => leaveGroup(groupId));
 	};
 
+	const base = compact ? "gap-1.5 font-semibold shrink-0" : "w-full mt-3 gap-1.5 font-semibold";
+
 	if (state === "Approved") {
 		return (
-			<Button
-				size="sm"
-				variant="secondary"
-				className="w-full mt-3 gap-1.5 font-semibold"
-				onClick={handleLeave}
-				disabled={isPending}
-			>
+			<Button size="sm" variant="secondary" className={base} onClick={handleLeave} disabled={isPending}>
 				<UserCheck className="h-3.5 w-3.5" />
-				Joined
+				{compact ? "Joined" : "Joined"}
 			</Button>
 		);
 	}
 
 	if (state === "Pending") {
 		return (
-			<Button
-				size="sm"
-				variant="outline"
-				className="w-full mt-3 gap-1.5 font-semibold"
-				onClick={handleLeave}
-				disabled={isPending}
-			>
+			<Button size="sm" variant="outline" className={base} onClick={handleLeave} disabled={isPending}>
 				<Clock className="h-3.5 w-3.5" />
 				Requested
 			</Button>
@@ -62,12 +54,7 @@ export function GroupJoinButton({
 
 	if (state === "Banned") {
 		return (
-			<Button
-				size="sm"
-				variant="ghost"
-				className="w-full mt-3 gap-1.5 font-semibold"
-				disabled
-			>
+			<Button size="sm" variant="ghost" className={base} disabled>
 				<UserX className="h-3.5 w-3.5" />
 				Banned
 			</Button>
@@ -75,15 +62,9 @@ export function GroupJoinButton({
 	}
 
 	return (
-		<Button
-			size="sm"
-			variant="secondary"
-			className="w-full mt-3 gap-1.5 font-semibold"
-			onClick={handleJoin}
-			disabled={isPending}
-		>
+		<Button size="sm" variant={compact ? "default" : "secondary"} className={base} onClick={handleJoin} disabled={isPending}>
 			<UserPlus className="h-3.5 w-3.5" />
-			Join group
+			{compact ? "Join group" : "Join group"}
 		</Button>
 	);
 }
