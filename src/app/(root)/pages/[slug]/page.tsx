@@ -35,7 +35,9 @@ export default async function PageDetailPage({ params }: PageProps) {
 			where: { id: userId },
 			include: {
 				avatar: true,
-				_count: { select: { followers: true, following: true, posts: true } },
+				_count: {
+					select: { followers: true, following: true, posts: true },
+				},
 			},
 		}),
 		prisma.page.findUnique({
@@ -120,12 +122,17 @@ export default async function PageDetailPage({ params }: PageProps) {
 								)}
 							</div>
 							<div className="pb-1">
-								<h1 className="text-2xl font-bold leading-tight">{page.name}</h1>
+								<h1 className="text-2xl font-bold leading-tight">
+									{page.name}
+								</h1>
 								<div className="flex items-center gap-2 mt-0.5">
-									<Badge variant="secondary">{page.category}</Badge>
+									<Badge variant="secondary">
+										{page.category}
+									</Badge>
 									<span className="text-sm text-muted-foreground flex items-center gap-1">
 										<Users className="h-3.5 w-3.5" />
-										{page._count.followers.toLocaleString()} followers
+										{page._count.followers.toLocaleString()}{" "}
+										followers
 									</span>
 								</div>
 							</div>

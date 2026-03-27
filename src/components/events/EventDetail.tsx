@@ -23,6 +23,7 @@ import {
 } from "lucide-react";
 import { rsvpEvent, deleteEvent } from "@/actions/event.actions";
 import { toast } from "sonner";
+import { ConfirmDeleteDialog } from "@/components/ui/ConfirmDeleteDialog";
 import type { AttendeeStatus } from "../../../prisma/generated/prisma/enums";
 
 type EventCreator = {
@@ -61,10 +62,17 @@ type EventData = {
 	_count: { attendees: number };
 };
 
-const displayName = (u: { firstName: string | null; lastName: string | null; userName: string }) =>
-	[u.firstName, u.lastName].filter(Boolean).join(" ") || u.userName;
+const displayName = (u: {
+	firstName: string | null;
+	lastName: string | null;
+	userName: string;
+}) => [u.firstName, u.lastName].filter(Boolean).join(" ") || u.userName;
 
-const RSVP_OPTIONS: { status: AttendeeStatus; label: string; icon: React.ElementType }[] = [
+const RSVP_OPTIONS: {
+	status: AttendeeStatus;
+	label: string;
+	icon: React.ElementType;
+}[] = [
 	{ status: "Going", label: "Going", icon: Check },
 	{ status: "Interested", label: "Interested", icon: Star },
 	{ status: "NotGoing", label: "Not going", icon: XCircle },
@@ -80,16 +88,23 @@ export function EventDetail({
 	initialAttendance: AttendeeStatus | null;
 }) {
 	const router = useRouter();
-	const [attendance, setAttendance] = useState<AttendeeStatus | null>(initialAttendance);
+	const [attendance, setAttendance] = useState<AttendeeStatus | null>(
+		initialAttendance,
+	);
 	const [isPending, startTransition] = useTransition();
 	const [isDeleting, startDeleteTransition] = useTransition();
+	const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
 
 	const isOwner = currentUserId === event.creator.id;
 	const creatorName = displayName(event.creator);
 
 	const goingAttendees = event.attendees.filter((a) => a.status === "Going");
-	const interestedCount = event.attendees.filter((a) => a.status === "Interested").length;
-	const goingCount = event.attendees.filter((a) => a.status === "Going").length;
+	const interestedCount = event.attendees.filter(
+		(a) => a.status === "Interested",
+	).length;
+	const goingCount = event.attendees.filter(
+		(a) => a.status === "Going",
+	).length;
 
 	const handleRsvp = (status: AttendeeStatus) => {
 		if (!currentUserId) return;
@@ -141,9 +156,14 @@ export function EventDetail({
 			<div className="px-4 mt-6 space-y-6">
 				<div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4">
 					<div className="flex-1 min-w-0">
-						<h1 className="text-2xl font-bold leading-tight">{event.title}</h1>
+						<h1 className="text-2xl font-bold leading-tight">
+							{event.title}
+						</h1>
 						<div className="flex flex-wrap items-center gap-2 mt-2">
-							<Badge variant="outline" className="text-xs capitalize">
+							<Badge
+								variant="outline"
+								className="text-xs capitalize"
+							>
 								{event.privacy}
 							</Badge>
 							{event.isOnline && (
@@ -158,7 +178,7 @@ export function EventDetail({
 						<Button
 							variant="destructive"
 							size="sm"
-							onClick={handleDelete}
+							onClick={() => setShowDeleteConfirm(true)}
 							disabled={isDeleting}
 							className="shrink-0"
 						>
@@ -177,12 +197,22 @@ export function EventDetail({
 						<CalendarDays className="h-5 w-5 text-primary shrink-0 mt-0.5" />
 						<div>
 							<p className="font-semibold">
-								{format(new Date(event.startDate), "EEEE, MMMM d, yyyy")}
+								{format(
+									new Date(event.startDate),
+									"EEEE, MMMM d, yyyy",
+								)}
 							</p>
 							<p className="text-muted-foreground">
 								{format(new Date(event.startDate), "h:mm a")}
 								{event.endDate && (
-									<> – {format(new Date(event.endDate), "h:mm a")}</>
+									<>
+										{" "}
+										–{" "}
+										{format(
+											new Date(event.endDate),
+											"h:mm a",
+										)}
+									</>
 								)}
 							</p>
 						</div>
@@ -211,7 +241,9 @@ export function EventDetail({
 							<MapPin className="h-5 w-5 text-primary shrink-0 mt-0.5" />
 							<div>
 								<p className="font-semibold">Location</p>
-								<p className="text-muted-foreground">{event.location}</p>
+								<p className="text-muted-foreground">
+									{event.location}
+								</p>
 							</div>
 						</div>
 					) : null}
@@ -222,7 +254,11 @@ export function EventDetail({
 						{RSVP_OPTIONS.map(({ status, label, icon: Icon }) => (
 							<Button
 								key={status}
-								variant={attendance === status ? "default" : "outline"}
+								variant={
+									attendance === status
+										? "default"
+										: "outline"
+								}
 								className="flex-1 gap-1.5"
 								onClick={() => handleRsvp(status)}
 								disabled={isPending}
@@ -237,27 +273,42 @@ export function EventDetail({
 				<div className="flex items-center gap-4 text-sm text-muted-foreground">
 					<span className="flex items-center gap-1.5">
 						<Check className="h-4 w-4 text-primary" />
-						<span className="font-semibold text-foreground">{goingCount}</span> going
+						<span className="font-semibold text-foreground">
+							{goingCount}
+						</span>{" "}
+						going
 					</span>
 					<span className="flex items-center gap-1.5">
 						<Star className="h-4 w-4 text-yellow-500" />
-						<span className="font-semibold text-foreground">{interestedCount}</span> interested
+						<span className="font-semibold text-foreground">
+							{interestedCount}
+						</span>{" "}
+						interested
 					</span>
 				</div>
 
 				<Separator />
 
 				<div className="flex items-center gap-3">
-					<Link href={`/profile/${event.creator.userName}`} className="shrink-0">
+					<Link
+						href={`/profile/${event.creator.userName}`}
+						className="shrink-0"
+					>
 						<Avatar className="h-10 w-10">
-							<AvatarImage src={event.creator.avatar?.photoSrc ?? undefined} />
+							<AvatarImage
+								src={
+									event.creator.avatar?.photoSrc ?? undefined
+								}
+							/>
 							<AvatarFallback className="bg-primary text-primary-foreground font-semibold">
 								{creatorName[0]?.toUpperCase()}
 							</AvatarFallback>
 						</Avatar>
 					</Link>
 					<div>
-						<p className="text-xs text-muted-foreground">Organised by</p>
+						<p className="text-xs text-muted-foreground">
+							Organised by
+						</p>
 						<Link
 							href={`/profile/${event.creator.userName}`}
 							className="font-semibold text-sm hover:underline"
@@ -271,7 +322,9 @@ export function EventDetail({
 					<>
 						<Separator />
 						<div>
-							<h2 className="font-semibold mb-2">About this event</h2>
+							<h2 className="font-semibold mb-2">
+								About this event
+							</h2>
 							<p className="text-sm text-muted-foreground leading-relaxed whitespace-pre-line">
 								{event.description}
 							</p>
@@ -297,7 +350,12 @@ export function EventDetail({
 											className="flex flex-col items-center gap-1 group"
 										>
 											<Avatar className="h-11 w-11">
-												<AvatarImage src={user.avatar?.photoSrc ?? undefined} />
+												<AvatarImage
+													src={
+														user.avatar?.photoSrc ??
+														undefined
+													}
+												/>
 												<AvatarFallback className="bg-primary text-primary-foreground font-semibold text-xs">
 													{n[0]?.toUpperCase()}
 												</AvatarFallback>
@@ -313,6 +371,14 @@ export function EventDetail({
 					</>
 				)}
 			</div>
+			<ConfirmDeleteDialog
+				open={showDeleteConfirm}
+				onClose={() => setShowDeleteConfirm(false)}
+				onConfirm={handleDelete}
+				title="Delete event?"
+				description="This event and all its attendees will be permanently removed."
+				isPending={isDeleting}
+			/>
 		</div>
 	);
 }

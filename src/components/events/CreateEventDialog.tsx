@@ -25,7 +25,11 @@ import { createEvent } from "@/actions/event.actions";
 import { toast } from "sonner";
 import type { EventPrivacy } from "../../../prisma/generated/prisma/enums";
 
-const PRIVACY_OPTIONS: { value: EventPrivacy; label: string; icon: React.ElementType }[] = [
+const PRIVACY_OPTIONS: {
+	value: EventPrivacy;
+	label: string;
+	icon: React.ElementType;
+}[] = [
 	{ value: "Public", label: "Public", icon: Globe },
 	{ value: "FriendsOnly", label: "Friends only", icon: Users },
 	{ value: "Private", label: "Private", icon: Lock },
@@ -172,7 +176,9 @@ export function CreateEventDialog({
 
 					<div className="grid grid-cols-2 gap-3">
 						<div className="space-y-1.5">
-							<Label htmlFor="start-date">Start date & time *</Label>
+							<Label htmlFor="start-date">
+								Start date & time *
+							</Label>
 							<Input
 								id="start-date"
 								type="datetime-local"
@@ -193,19 +199,24 @@ export function CreateEventDialog({
 
 					<div className="space-y-1.5">
 						<Label>Audience</Label>
-						<Select value={privacy} onValueChange={(v) => setPrivacy(v as EventPrivacy)}>
+						<Select
+							value={privacy}
+							onValueChange={(v) => setPrivacy(v as EventPrivacy)}
+						>
 							<SelectTrigger>
 								<SelectValue />
 							</SelectTrigger>
 							<SelectContent>
-								{PRIVACY_OPTIONS.map(({ value, label, icon: Icon }) => (
-									<SelectItem key={value} value={value}>
-										<span className="flex items-center gap-2">
-											<Icon className="h-4 w-4" />
-											{label}
-										</span>
-									</SelectItem>
-								))}
+								{PRIVACY_OPTIONS.map(
+									({ value, label, icon: Icon }) => (
+										<SelectItem key={value} value={value}>
+											<span className="flex items-center gap-2">
+												<Icon className="h-4 w-4" />
+												{label}
+											</span>
+										</SelectItem>
+									),
+								)}
 							</SelectContent>
 						</Select>
 					</div>
@@ -224,7 +235,9 @@ export function CreateEventDialog({
 							onClick={handleSubmit}
 							disabled={isPending || !title.trim() || !startDate}
 						>
-							{isPending && <Loader2 className="h-4 w-4 mr-2 animate-spin" />}
+							{isPending && (
+								<Loader2 className="h-4 w-4 mr-2 animate-spin" />
+							)}
 							Create event
 						</Button>
 					</div>

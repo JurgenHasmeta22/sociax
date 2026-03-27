@@ -16,6 +16,7 @@ import {
 	deleteComment,
 	toggleCommentLike,
 } from "@/actions/post.actions";
+import { ConfirmDeleteDialog } from "@/components/ui/ConfirmDeleteDialog";
 
 type CommentUser = {
 	id: number;
@@ -51,6 +52,7 @@ function CommentItem({
 	);
 	const [likeCount, setLikeCount] = useState(comment.likes.length);
 	const [isPending, startTransition] = useTransition();
+	const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
 
 	const handleLike = () => {
 		setLiked((p) => !p);
@@ -69,60 +71,70 @@ function CommentItem({
 	});
 
 	return (
-		<div className="flex gap-2.5 items-start group">
-			<Link
-				href={`/profile/${comment.user.userName}`}
-				className="shrink-0"
-			>
-				<Avatar className="h-8 w-8">
-					<AvatarFallback className="bg-primary text-primary-foreground text-xs font-semibold">
-						{displayName[0]?.toUpperCase()}
-					</AvatarFallback>
-					<AvatarImage
-						src={comment.user.avatar?.photoSrc ?? undefined}
-					/>
-				</Avatar>
-			</Link>
-			<div className="flex-1 min-w-0">
-				<div className="inline-block bg-muted rounded-2xl px-4 py-2 max-w-full">
-					<Link
-						href={`/profile/${comment.user.userName}`}
-						className="font-semibold text-xs block hover:underline"
-					>
-						{displayName}
-					</Link>
-					<p className="text-sm leading-snug break-words">
-						{comment.content}
-					</p>
-				</div>
-				<div className="flex items-center gap-3 mt-1 ml-2 text-xs text-muted-foreground">
-					<span>{timeAgo}</span>
-					<button
-						onClick={handleLike}
-						disabled={isPending}
-						className={cn(
-							"font-semibold hover:text-foreground transition-colors",
-							liked && "text-primary",
-						)}
-					>
-						{liked ? "👍 Liked" : "Like"}
-						{likeCount > 0 && (
-							<span className="ml-1 font-normal">
-								{likeCount}
-							</span>
-						)}
-					</button>
-					{comment.user.id === currentUserId && (
-						<button
-							onClick={handleDelete}
-							className="opacity-0 group-hover:opacity-100 transition-opacity hover:text-destructive"
+		<>
+			<div className="flex gap-2.5 items-start group">
+				<Link
+					href={`/profile/${comment.user.userName}`}
+					className="shrink-0"
+				>
+					<Avatar className="h-8 w-8">
+						<AvatarFallback className="bg-primary text-primary-foreground text-xs font-semibold">
+							{displayName[0]?.toUpperCase()}
+						</AvatarFallback>
+						<AvatarImage
+							src={comment.user.avatar?.photoSrc ?? undefined}
+						/>
+					</Avatar>
+				</Link>
+				<div className="flex-1 min-w-0">
+					<div className="inline-block bg-muted rounded-2xl px-4 py-2 max-w-full">
+						<Link
+							href={`/profile/${comment.user.userName}`}
+							className="font-semibold text-xs block hover:underline"
 						>
-							<Trash2 className="h-3 w-3" />
+							{displayName}
+						</Link>
+						<p className="text-sm leading-snug break-words">
+							{comment.content}
+						</p>
+					</div>
+					<div className="flex items-center gap-3 mt-1 ml-2 text-xs text-muted-foreground">
+						<span>{timeAgo}</span>
+						<button
+							onClick={handleLike}
+							disabled={isPending}
+							className={cn(
+								"font-semibold hover:text-foreground transition-colors",
+								liked && "text-primary",
+							)}
+						>
+							{liked ? "👍 Liked" : "Like"}
+							{likeCount > 0 && (
+								<span className="ml-1 font-normal">
+									{likeCount}
+								</span>
+							)}
 						</button>
-					)}
+						{comment.user.id === currentUserId && (
+							<button
+								onClick={() => setShowDeleteConfirm(true)}
+								className="opacity-0 group-hover:opacity-100 transition-opacity hover:text-destructive"
+							>
+								<Trash2 className="h-3 w-3" />
+							</button>
+						)}
+					</div>
 				</div>
 			</div>
-		</div>
+			<ConfirmDeleteDialog
+				open={showDeleteConfirm}
+				onClose={() => setShowDeleteConfirm(false)}
+				onConfirm={handleDelete}
+				title="Delete comment?"
+				description="This comment will be permanently removed."
+				isPending={isPending}
+			/>
+		</>
 	);
 }
 

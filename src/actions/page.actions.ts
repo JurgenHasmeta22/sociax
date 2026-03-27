@@ -154,12 +154,17 @@ export async function togglePagePostLike(postId: number) {
 		});
 		return false;
 	} else {
-		await prisma.pagePostLike.create({ data: { userId, pagePostId: postId } });
+		await prisma.pagePostLike.create({
+			data: { userId, pagePostId: postId },
+		});
 		return true;
 	}
 }
 
-export async function getPageBySlug(slug: string, currentUserId: number | null) {
+export async function getPageBySlug(
+	slug: string,
+	currentUserId: number | null,
+) {
 	const page = await prisma.page.findUnique({
 		where: { slug },
 		include: {
@@ -180,7 +185,9 @@ export async function getPageBySlug(slug: string, currentUserId: number | null) 
 
 	const isFollowing = currentUserId
 		? !!(await prisma.pageFollower.findUnique({
-				where: { userId_pageId: { userId: currentUserId, pageId: page.id } },
+				where: {
+					userId_pageId: { userId: currentUserId, pageId: page.id },
+				},
 			}))
 		: false;
 
@@ -223,14 +230,15 @@ export async function fetchPagePosts(
 				posts
 					.flatMap((p) => p.likes)
 					.filter((l) => l.userId === currentUserId)
-					.map((l) =>
-						posts.find((p) =>
-							p.likes.some(
-								(pl) =>
-									pl.userId === l.userId &&
-									pl.reactionType === l.reactionType,
-							),
-						)?.id,
+					.map(
+						(l) =>
+							posts.find((p) =>
+								p.likes.some(
+									(pl) =>
+										pl.userId === l.userId &&
+										pl.reactionType === l.reactionType,
+								),
+							)?.id,
 					)
 					.filter(Boolean),
 			)

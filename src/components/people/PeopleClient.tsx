@@ -7,7 +7,11 @@ import { Search, Users, Loader2 } from "lucide-react";
 import { PersonCard } from "@/components/people/PersonCard";
 import { fetchMorePeople } from "@/actions/follow.actions";
 
-type FollowState = "none" | "outgoing_pending" | "incoming_pending" | "accepted";
+type FollowState =
+	| "none"
+	| "outgoing_pending"
+	| "incoming_pending"
+	| "accepted";
 
 type Person = {
 	id: number;
@@ -31,7 +35,8 @@ export function PeopleClient({
 	initialQuery: string;
 }) {
 	const [people, setPeople] = useState<Person[]>(initialPeople);
-	const [followStates, setFollowStates] = useState<Record<number, FollowState>>(initialFollowStates);
+	const [followStates, setFollowStates] =
+		useState<Record<number, FollowState>>(initialFollowStates);
 	const [total, setTotal] = useState(initialTotal);
 	const [query, setQuery] = useState(initialQuery);
 	const [skip, setSkip] = useState(initialPeople.length);
@@ -102,7 +107,9 @@ export function PeopleClient({
 							<PersonCard
 								key={person.id}
 								person={person}
-								initialFollowState={followStates[person.id] ?? "none"}
+								initialFollowState={
+									followStates[person.id] ?? "none"
+								}
 							/>
 						))}
 					</div>

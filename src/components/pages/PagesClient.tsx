@@ -169,7 +169,10 @@ export function PagesClient({ initialPages }: { initialPages: PageItem[] }) {
 						className="pl-9"
 					/>
 				</div>
-				<Button onClick={() => setCreateOpen(true)} className="gap-2 shrink-0">
+				<Button
+					onClick={() => setCreateOpen(true)}
+					className="gap-2 shrink-0"
+				>
 					<Plus className="h-4 w-4" />
 					Create page
 				</Button>

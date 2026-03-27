@@ -44,7 +44,9 @@ export default async function FeedPage() {
 				include: {
 					user: { include: { avatar: true } },
 					media: true,
-					likes: { select: { id: true, reactionType: true, userId: true } },
+					likes: {
+						select: { id: true, reactionType: true, userId: true },
+					},
 					saves: { where: { userId }, select: { id: true } },
 					_count: { select: { comments: true, shares: true } },
 					hashtags: { include: { hashtag: true } },
@@ -101,7 +103,11 @@ export default async function FeedPage() {
 					<StoriesBar stories={stories} currentUser={currentUser} />
 					<PostComposer user={currentUser} />
 					{posts.map((post) => (
-						<PostCard key={post.id} post={post} currentUserId={userId} />
+						<PostCard
+							key={post.id}
+							post={post}
+							currentUserId={userId}
+						/>
 					))}
 					{posts.length === 0 && (
 						<div className="text-center py-16 text-muted-foreground">

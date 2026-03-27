@@ -46,7 +46,9 @@ export default async function GroupDetailPage({
 
 	if (!group) notFound();
 
-	const myMembership = Array.isArray(group.members) ? (group.members[0] ?? null) : null;
+	const myMembership = Array.isArray(group.members)
+		? (group.members[0] ?? null)
+		: null;
 	const isApproved = myMembership?.status === "Approved";
 	const isPrivate = group.privacy !== "Public";
 	const canView = isApproved || !isPrivate;

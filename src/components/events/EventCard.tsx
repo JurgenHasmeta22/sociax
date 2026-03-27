@@ -20,7 +20,10 @@ type EventCardProps = {
 	attendance: AttendeeStatus | null;
 };
 
-const ATTENDANCE_BADGE: Record<string, { label: string; variant: "default" | "secondary" | "outline" }> = {
+const ATTENDANCE_BADGE: Record<
+	string,
+	{ label: string; variant: "default" | "secondary" | "outline" }
+> = {
 	Going: { label: "Going", variant: "default" },
 	Interested: { label: "Interested", variant: "secondary" },
 };
@@ -46,7 +49,9 @@ export function EventCard({ event, attendance }: EventCardProps) {
 					)}
 					{attendance && ATTENDANCE_BADGE[attendance] && (
 						<div className="absolute top-2 right-2">
-							<Badge variant={ATTENDANCE_BADGE[attendance].variant}>
+							<Badge
+								variant={ATTENDANCE_BADGE[attendance].variant}
+							>
 								{ATTENDANCE_BADGE[attendance].label}
 							</Badge>
 						</div>
@@ -59,7 +64,10 @@ export function EventCard({ event, attendance }: EventCardProps) {
 					<div className="mt-2 space-y-1 text-xs text-muted-foreground">
 						<p className="flex items-center gap-1.5">
 							<CalendarDays className="h-3.5 w-3.5 shrink-0" />
-							{format(new Date(event.startDate), "EEE, MMM d · h:mm a")}
+							{format(
+								new Date(event.startDate),
+								"EEE, MMM d · h:mm a",
+							)}
 						</p>
 						{event.isOnline ? (
 							<p className="flex items-center gap-1.5">

@@ -75,7 +75,7 @@ function RequestCard({
 						<span>@{follower.userName}</span>
 						<span className="flex items-center gap-0.5">
 							<Users className="h-3 w-3" />
-						{follower._count.following} friends
+							{follower._count.following} friends
 						</span>
 						{follower.location && (
 							<span className="flex items-center gap-0.5">

@@ -177,7 +177,10 @@ export function SearchModal({
 													</p>
 													<p className="text-xs text-muted-foreground truncate">
 														@{person.userName} ·{" "}
-														{person._count.followers}{" "}
+														{
+															person._count
+																.followers
+														}{" "}
 														followers
 													</p>
 												</div>
@@ -220,7 +223,8 @@ export function SearchModal({
 												</p>
 												<p className="text-xs text-muted-foreground truncate">
 													{group.privacy} ·{" "}
-													{group._count.members} members
+													{group._count.members}{" "}
+													members
 												</p>
 											</div>
 										</button>
@@ -261,7 +265,8 @@ export function SearchModal({
 												</p>
 												<p className="text-xs text-muted-foreground truncate">
 													{page.category} ·{" "}
-													{page._count.followers} followers
+													{page._count.followers}{" "}
+													followers
 												</p>
 											</div>
 										</button>

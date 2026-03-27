@@ -18,7 +18,9 @@ export default async function PagesPage() {
 			where: { id: userId },
 			include: {
 				avatar: true,
-				_count: { select: { followers: true, following: true, posts: true } },
+				_count: {
+					select: { followers: true, following: true, posts: true },
+				},
 			},
 		}),
 		prisma.page.findMany({

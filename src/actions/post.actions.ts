@@ -4,7 +4,10 @@ import { revalidatePath } from "next/cache";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 import { prisma } from "@/lib/prisma";
-import type { ReactionType, PostPrivacy } from "../../prisma/generated/prisma/enums";
+import type {
+	ReactionType,
+	PostPrivacy,
+} from "../../prisma/generated/prisma/enums";
 
 async function getSessionUserId() {
 	const session = await getServerSession(authOptions);
@@ -162,7 +165,9 @@ export async function fetchSavedPosts(skip: number) {
 				include: {
 					user: { include: { avatar: true } },
 					media: { orderBy: { order: "asc" } },
-					likes: { select: { id: true, userId: true, reactionType: true } },
+					likes: {
+						select: { id: true, userId: true, reactionType: true },
+					},
 					saves: { where: { userId }, select: { id: true } },
 					_count: { select: { comments: true, shares: true } },
 					hashtags: { include: { hashtag: true } },

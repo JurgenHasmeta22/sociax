@@ -32,7 +32,11 @@ export default async function SavedPage() {
 			) : (
 				<div className="space-y-3">
 					{posts.map((post) => (
-						<PostCard key={post.id} post={post} currentUserId={userId} />
+						<PostCard
+							key={post.id}
+							post={post}
+							currentUserId={userId}
+						/>
 					))}
 				</div>
 			)}

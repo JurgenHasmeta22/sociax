@@ -4,7 +4,10 @@ import { revalidatePath } from "next/cache";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 import { prisma } from "@/lib/prisma";
-import type { AttendeeStatus, EventPrivacy } from "../../prisma/generated/prisma/enums";
+import type {
+	AttendeeStatus,
+	EventPrivacy,
+} from "../../prisma/generated/prisma/enums";
 
 async function getSessionUserId() {
 	const session = await getServerSession(authOptions);
@@ -117,10 +120,12 @@ const EVENTS_LIMIT = 20;
 export async function fetchEvents(filter: EventFilter = "all", skip = 0) {
 	const userId = await getSessionUserId();
 
-	const friendIds = await prisma.userFollow.findMany({
-		where: { followerId: userId, state: "accepted" },
-		select: { followingId: true },
-	}).then((r) => r.map((f) => f.followingId));
+	const friendIds = await prisma.userFollow
+		.findMany({
+			where: { followerId: userId, state: "accepted" },
+			select: { followingId: true },
+		})
+		.then((r) => r.map((f) => f.followingId));
 
 	const privacyFilter = {
 		OR: [

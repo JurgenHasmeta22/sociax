@@ -24,7 +24,11 @@ export default async function EventsPage({ searchParams }: PageProps) {
 	if (!session) redirect("/login");
 
 	const { filter: rawFilter } = await searchParams;
-	const filter = (["all", "going", "interested", "online"].includes(rawFilter ?? "") ? rawFilter : "all") as EventFilter;
+	const filter = (
+		["all", "going", "interested", "online"].includes(rawFilter ?? "")
+			? rawFilter
+			: "all"
+	) as EventFilter;
 
 	const { events } = await fetchEvents(filter, 0);
 

@@ -97,7 +97,9 @@ export function CreatePostDialog({
 		<Dialog open={open} onOpenChange={(o) => !o && handleClose()}>
 			<DialogContent className="sm:max-w-lg">
 				<DialogHeader>
-					<DialogTitle className="text-center">Create post</DialogTitle>
+					<DialogTitle className="text-center">
+						Create post
+					</DialogTitle>
 				</DialogHeader>
 
 				<div className="flex items-center gap-3 pt-1">
@@ -108,7 +110,9 @@ export function CreatePostDialog({
 						</AvatarFallback>
 					</Avatar>
 					<div>
-						<p className="font-semibold text-sm leading-tight">{name}</p>
+						<p className="font-semibold text-sm leading-tight">
+							{name}
+						</p>
 						<Select
 							value={privacy}
 							onValueChange={(v) => setPrivacy(v as Privacy)}
@@ -118,14 +122,16 @@ export function CreatePostDialog({
 								<SelectValue />
 							</SelectTrigger>
 							<SelectContent>
-								{PRIVACY_OPTIONS.map(({ value, label, icon: Icon }) => (
-									<SelectItem key={value} value={value}>
-										<span className="flex items-center gap-2">
-											<Icon className="h-3.5 w-3.5" />
-											{label}
-										</span>
-									</SelectItem>
-								))}
+								{PRIVACY_OPTIONS.map(
+									({ value, label, icon: Icon }) => (
+										<SelectItem key={value} value={value}>
+											<span className="flex items-center gap-2">
+												<Icon className="h-3.5 w-3.5" />
+												{label}
+											</span>
+										</SelectItem>
+									),
+								)}
 							</SelectContent>
 						</Select>
 					</div>
@@ -173,10 +179,14 @@ export function CreatePostDialog({
 
 				<Button
 					onClick={handleSubmit}
-					disabled={isPending || (!content.trim() && !mediaUrl.trim())}
+					disabled={
+						isPending || (!content.trim() && !mediaUrl.trim())
+					}
 					className="w-full font-semibold"
 				>
-					{isPending && <Loader2 className="h-4 w-4 mr-2 animate-spin" />}
+					{isPending && (
+						<Loader2 className="h-4 w-4 mr-2 animate-spin" />
+					)}
 					Post
 				</Button>
 			</DialogContent>

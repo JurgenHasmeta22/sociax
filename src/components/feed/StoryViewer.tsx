@@ -148,7 +148,9 @@ export function StoryViewer({
 				<div className="absolute top-6 left-0 right-0 z-10 flex items-center justify-between px-3 py-2">
 					<div className="flex items-center gap-2">
 						<Avatar className="h-9 w-9 ring-2 ring-white">
-							<AvatarImage src={story.user.avatar?.photoSrc ?? undefined} />
+							<AvatarImage
+								src={story.user.avatar?.photoSrc ?? undefined}
+							/>
 							<AvatarFallback className="bg-primary text-primary-foreground text-xs font-bold">
 								{name[0]?.toUpperCase()}
 							</AvatarFallback>
@@ -158,9 +160,12 @@ export function StoryViewer({
 								{name}
 							</p>
 							<p className="text-white/60 text-xs">
-								{formatDistanceToNow(new Date(story.createdAt), {
-									addSuffix: true,
-								})}
+								{formatDistanceToNow(
+									new Date(story.createdAt),
+									{
+										addSuffix: true,
+									},
+								)}
 							</p>
 						</div>
 					</div>

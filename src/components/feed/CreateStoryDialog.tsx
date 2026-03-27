@@ -87,7 +87,9 @@ export function CreateStoryDialog({
 					</div>
 
 					<div>
-						<p className="text-sm font-medium mb-1.5">Caption (optional)</p>
+						<p className="text-sm font-medium mb-1.5">
+							Caption (optional)
+						</p>
 						<Textarea
 							placeholder="Add a caption…"
 							value={caption}
@@ -106,14 +108,16 @@ export function CreateStoryDialog({
 								<SelectValue />
 							</SelectTrigger>
 							<SelectContent>
-								{PRIVACY_OPTIONS.map(({ value, label, icon: Icon }) => (
-									<SelectItem key={value} value={value}>
-										<span className="flex items-center gap-2">
-											<Icon className="h-4 w-4" />
-											{label}
-										</span>
-									</SelectItem>
-								))}
+								{PRIVACY_OPTIONS.map(
+									({ value, label, icon: Icon }) => (
+										<SelectItem key={value} value={value}>
+											<span className="flex items-center gap-2">
+												<Icon className="h-4 w-4" />
+												{label}
+											</span>
+										</SelectItem>
+									),
+								)}
 							</SelectContent>
 						</Select>
 					</div>
@@ -132,7 +136,9 @@ export function CreateStoryDialog({
 							onClick={handleSubmit}
 							disabled={isPending || !mediaUrl.trim()}
 						>
-							{isPending && <Loader2 className="h-4 w-4 mr-2 animate-spin" />}
+							{isPending && (
+								<Loader2 className="h-4 w-4 mr-2 animate-spin" />
+							)}
 							Share story
 						</Button>
 					</div>

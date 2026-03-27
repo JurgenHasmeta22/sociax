@@ -51,7 +51,8 @@ export function GroupsClient({
 	isLoggedIn: boolean;
 }) {
 	const [groups, setGroups] = useState<Group[]>(initialGroups);
-	const [membershipMap, setMembershipMap] = useState<Record<number, string>>(initialMembershipMap);
+	const [membershipMap, setMembershipMap] =
+		useState<Record<number, string>>(initialMembershipMap);
 	const [total, setTotal] = useState(initialTotal);
 	const [query, setQuery] = useState(initialQuery);
 	const [skip, setSkip] = useState(initialGroups.length);
@@ -174,7 +175,9 @@ export function GroupsClient({
 												<div className="absolute -bottom-5 left-4">
 													<div className="relative w-10 h-10 rounded-full ring-2 ring-background overflow-hidden bg-muted">
 														<Image
-															src={group.avatarUrl}
+															src={
+																group.avatarUrl
+															}
 															alt=""
 															fill
 															className="object-cover"
@@ -186,7 +189,11 @@ export function GroupsClient({
 										</div>
 									</Link>
 									<CardContent
-										className={group.avatarUrl ? "pt-7 pb-4" : "pt-4 pb-4"}
+										className={
+											group.avatarUrl
+												? "pt-7 pb-4"
+												: "pt-4 pb-4"
+										}
 									>
 										<Link href={`/groups/${group.slug}`}>
 											<h3 className="font-bold text-base leading-tight truncate hover:underline">
@@ -204,7 +211,9 @@ export function GroupsClient({
 												{group._count.members.toLocaleString()}{" "}
 												members
 											</span>
-											<span>{group._count.posts} posts</span>
+											<span>
+												{group._count.posts} posts
+											</span>
 										</div>
 										<div className="flex items-center gap-2 mt-3">
 											<Link

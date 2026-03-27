@@ -74,7 +74,10 @@ export async function globalSearch(query: string) {
 	if (currentUserId && people.length > 0) {
 		const personIds = people.map((p) => p.id);
 		const follows = await prisma.userFollow.findMany({
-			where: { followerId: currentUserId, followingId: { in: personIds } },
+			where: {
+				followerId: currentUserId,
+				followingId: { in: personIds },
+			},
 			select: { followingId: true, state: true },
 		});
 		followStates = Object.fromEntries(

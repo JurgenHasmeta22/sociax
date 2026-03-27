@@ -71,7 +71,12 @@ export function CreatePageDialog({
 
 		startTransition(async () => {
 			try {
-				const page = await createPage(name, description, category, website);
+				const page = await createPage(
+					name,
+					description,
+					category,
+					website,
+				);
 				toast.success("Page created!");
 				handleClose();
 				router.push(`/pages/${page.slug}`);
@@ -90,7 +95,9 @@ export function CreatePageDialog({
 
 				<div className="space-y-4">
 					<div>
-						<p className="text-sm font-medium mb-1.5">Page name *</p>
+						<p className="text-sm font-medium mb-1.5">
+							Page name *
+						</p>
 						<Input
 							placeholder="e.g. Awesome Tech Blog"
 							value={name}
@@ -118,7 +125,9 @@ export function CreatePageDialog({
 					</div>
 
 					<div>
-						<p className="text-sm font-medium mb-1.5">Description (optional)</p>
+						<p className="text-sm font-medium mb-1.5">
+							Description (optional)
+						</p>
 						<Textarea
 							placeholder="What is this page about?"
 							value={description}
@@ -128,7 +137,9 @@ export function CreatePageDialog({
 					</div>
 
 					<div>
-						<p className="text-sm font-medium mb-1.5">Website (optional)</p>
+						<p className="text-sm font-medium mb-1.5">
+							Website (optional)
+						</p>
 						<Input
 							placeholder="https://example.com"
 							value={website}
@@ -150,7 +161,9 @@ export function CreatePageDialog({
 							onClick={handleSubmit}
 							disabled={isPending || !name.trim()}
 						>
-							{isPending && <Loader2 className="h-4 w-4 mr-2 animate-spin" />}
+							{isPending && (
+								<Loader2 className="h-4 w-4 mr-2 animate-spin" />
+							)}
 							Create page
 						</Button>
 					</div>

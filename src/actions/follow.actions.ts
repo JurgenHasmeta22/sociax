@@ -115,7 +115,9 @@ export async function getPendingRequests() {
 					lastName: true,
 					location: true,
 					avatar: true,
-					_count: { select: { following: { where: { state: "accepted" } } } },
+					_count: {
+						select: { following: { where: { state: "accepted" } } },
+					},
 				},
 			},
 		},
@@ -152,7 +154,12 @@ export async function fetchMorePeople(skip: number, query: string) {
 			orderBy: { createdAt: "desc" },
 			include: {
 				avatar: true,
-				_count: { select: { following: { where: { state: "accepted" } }, posts: true } },
+				_count: {
+					select: {
+						following: { where: { state: "accepted" } },
+						posts: true,
+					},
+				},
 			},
 		}),
 		prisma.user.count({ where }),

@@ -215,12 +215,13 @@ export async function createGroup(data: {
 	const userId = await getSessionUserId();
 	if (!data.name.trim()) throw new Error("Name required");
 
-	const baseSlug = data.name
-		.toLowerCase()
-		.trim()
-		.replace(/\s+/g, "-")
-		.replace(/[^a-z0-9-]/g, "")
-		.slice(0, 50) || "group";
+	const baseSlug =
+		data.name
+			.toLowerCase()
+			.trim()
+			.replace(/\s+/g, "-")
+			.replace(/[^a-z0-9-]/g, "")
+			.slice(0, 50) || "group";
 
 	let slug = baseSlug;
 	let counter = 1;

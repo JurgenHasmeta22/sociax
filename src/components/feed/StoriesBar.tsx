@@ -108,7 +108,10 @@ export function StoriesBar({
 								>
 									<Avatar className="h-9 w-9">
 										<AvatarImage
-											src={story.user.avatar?.photoSrc ?? undefined}
+											src={
+												story.user.avatar?.photoSrc ??
+												undefined
+											}
 										/>
 										<AvatarFallback className="bg-primary text-primary-foreground text-xs font-bold">
 											{storyName[0]?.toUpperCase()}

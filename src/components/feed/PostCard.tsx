@@ -42,6 +42,7 @@ import {
 } from "@/actions/post.actions";
 import type { ReactionType } from "../../../prisma/generated/prisma/enums";
 import { CommentsSection } from "@/components/feed/CommentsSection";
+import { ConfirmDeleteDialog } from "@/components/ui/ConfirmDeleteDialog";
 
 const REACTIONS: Record<string, { emoji: string; label: string }> = {
 	Like: { emoji: "👍", label: "Like" },
@@ -236,6 +237,7 @@ export function PostCard({
 	const [showPicker, setShowPicker] = useState(false);
 	const [deleted, setDeleted] = useState(false);
 	const [saved, setSaved] = useState((post.saves?.length ?? 0) > 0);
+	const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
 	const [isPending, startTransition] = useTransition();
 	const hoverTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
@@ -349,7 +351,9 @@ export function PostCard({
 							<DropdownMenuItem
 								onClick={() => {
 									setSaved((p) => !p);
-									startTransition(() => { togglePostSave(post.id); });
+									startTransition(() => {
+										togglePostSave(post.id);
+									});
 								}}
 							>
 								{saved ? (
@@ -361,7 +365,7 @@ export function PostCard({
 							</DropdownMenuItem>
 							{isOwnPost && (
 								<DropdownMenuItem
-									onClick={handleDelete}
+									onClick={() => setShowDeleteConfirm(true)}
 									className="text-destructive focus:text-destructive"
 								>
 									<Trash2 className="h-4 w-4 mr-2" />
@@ -560,6 +564,14 @@ export function PostCard({
 				postId={post.id}
 				open={showReactionsModal}
 				onClose={() => setShowReactionsModal(false)}
+			/>
+			<ConfirmDeleteDialog
+				open={showDeleteConfirm}
+				onClose={() => setShowDeleteConfirm(false)}
+				onConfirm={handleDelete}
+				title="Delete post?"
+				description="This post will be permanently removed. This action cannot be undone."
+				isPending={isPending}
 			/>
 		</Card>
 	);

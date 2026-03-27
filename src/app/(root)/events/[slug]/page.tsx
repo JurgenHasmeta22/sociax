@@ -54,7 +54,8 @@ export default async function EventPage({ params }: PageProps) {
 	if (!event) notFound();
 
 	const myAttendance = currentUserId
-		? (event.attendees.find((a) => a.user.id === currentUserId)?.status ?? null)
+		? (event.attendees.find((a) => a.user.id === currentUserId)?.status ??
+			null)
 		: null;
 
 	return (
