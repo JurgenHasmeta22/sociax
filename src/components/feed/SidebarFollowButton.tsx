@@ -44,7 +44,7 @@ export function SidebarFollowButton({
 			<Button
 				size="sm"
 				variant="outline"
-				className="mt-1.5 gap-1.5 h-8 text-xs w-full font-semibold"
+				className="shrink-0 gap-1.5 h-7 text-xs px-2.5 font-semibold"
 				onClick={() => {
 					setState("none");
 					startTransition(() => cancelFollowRequest(userId));
@@ -61,7 +61,7 @@ export function SidebarFollowButton({
 		<Button
 			size="sm"
 			variant="secondary"
-			className="mt-1.5 gap-1.5 h-8 text-xs w-full font-semibold"
+			className="shrink-0 gap-1.5 h-7 text-xs px-2.5 font-semibold"
 			onClick={() => {
 				setState("none");
 				startTransition(() => unfollowUser(userId));

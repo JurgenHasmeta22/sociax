@@ -39,6 +39,7 @@ model User {
     location         String?
     profilePrivacy   ProfilePrivacy @default(Public)
     active           Boolean        @default(false)
+    lastActiveAt     DateTime?
     canResetPassword Boolean        @default(false)
     createdAt        DateTime       @default(now())
     updatedAt        DateTime       @updatedAt

@@ -50,6 +50,7 @@ export type UserMinAggregateOutputType = {
   location: string | null
   profilePrivacy: $Enums.ProfilePrivacy | null
   active: boolean | null
+  lastActiveAt: Date | null
   canResetPassword: boolean | null
   createdAt: Date | null
   updatedAt: Date | null
@@ -71,6 +72,7 @@ export type UserMaxAggregateOutputType = {
   location: string | null
   profilePrivacy: $Enums.ProfilePrivacy | null
   active: boolean | null
+  lastActiveAt: Date | null
   canResetPassword: boolean | null
   createdAt: Date | null
   updatedAt: Date | null
@@ -92,6 +94,7 @@ export type UserCountAggregateOutputType = {
   location: number
   profilePrivacy: number
   active: number
+  lastActiveAt: number
   canResetPassword: number
   createdAt: number
   updatedAt: number
@@ -123,6 +126,7 @@ export type UserMinAggregateInputType = {
   location?: true
   profilePrivacy?: true
   active?: true
+  lastActiveAt?: true
   canResetPassword?: true
   createdAt?: true
   updatedAt?: true
@@ -144,6 +148,7 @@ export type UserMaxAggregateInputType = {
   location?: true
   profilePrivacy?: true
   active?: true
+  lastActiveAt?: true
   canResetPassword?: true
   createdAt?: true
   updatedAt?: true
@@ -165,6 +170,7 @@ export type UserCountAggregateInputType = {
   location?: true
   profilePrivacy?: true
   active?: true
+  lastActiveAt?: true
   canResetPassword?: true
   createdAt?: true
   updatedAt?: true
@@ -273,6 +279,7 @@ export type UserGroupByOutputType = {
   location: string | null
   profilePrivacy: $Enums.ProfilePrivacy
   active: boolean
+  lastActiveAt: Date | null
   canResetPassword: boolean
   createdAt: Date
   updatedAt: Date
@@ -317,6 +324,7 @@ export type UserWhereInput = {
   location?: Prisma.StringNullableFilter<"User"> | string | null
   profilePrivacy?: Prisma.EnumProfilePrivacyFilter<"User"> | $Enums.ProfilePrivacy
   active?: Prisma.BoolFilter<"User"> | boolean
+  lastActiveAt?: Prisma.DateTimeNullableFilter<"User"> | Date | string | null
   canResetPassword?: Prisma.BoolFilter<"User"> | boolean
   createdAt?: Prisma.DateTimeFilter<"User"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"User"> | Date | string
@@ -388,6 +396,7 @@ export type UserOrderByWithRelationInput = {
   location?: Prisma.SortOrderInput | Prisma.SortOrder
   profilePrivacy?: Prisma.SortOrder
   active?: Prisma.SortOrder
+  lastActiveAt?: Prisma.SortOrderInput | Prisma.SortOrder
   canResetPassword?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
@@ -462,6 +471,7 @@ export type UserWhereUniqueInput = Prisma.AtLeast<{
   location?: Prisma.StringNullableFilter<"User"> | string | null
   profilePrivacy?: Prisma.EnumProfilePrivacyFilter<"User"> | $Enums.ProfilePrivacy
   active?: Prisma.BoolFilter<"User"> | boolean
+  lastActiveAt?: Prisma.DateTimeNullableFilter<"User"> | Date | string | null
   canResetPassword?: Prisma.BoolFilter<"User"> | boolean
   createdAt?: Prisma.DateTimeFilter<"User"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"User"> | Date | string
@@ -533,6 +543,7 @@ export type UserOrderByWithAggregationInput = {
   location?: Prisma.SortOrderInput | Prisma.SortOrder
   profilePrivacy?: Prisma.SortOrder
   active?: Prisma.SortOrder
+  lastActiveAt?: Prisma.SortOrderInput | Prisma.SortOrder
   canResetPassword?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
@@ -562,6 +573,7 @@ export type UserScalarWhereWithAggregatesInput = {
   location?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null
   profilePrivacy?: Prisma.EnumProfilePrivacyWithAggregatesFilter<"User"> | $Enums.ProfilePrivacy
   active?: Prisma.BoolWithAggregatesFilter<"User"> | boolean
+  lastActiveAt?: Prisma.DateTimeNullableWithAggregatesFilter<"User"> | Date | string | null
   canResetPassword?: Prisma.BoolWithAggregatesFilter<"User"> | boolean
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"User"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"User"> | Date | string
@@ -582,6 +594,7 @@ export type UserCreateInput = {
   location?: string | null
   profilePrivacy?: $Enums.ProfilePrivacy
   active?: boolean
+  lastActiveAt?: Date | string | null
   canResetPassword?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -653,6 +666,7 @@ export type UserUncheckedCreateInput = {
   location?: string | null
   profilePrivacy?: $Enums.ProfilePrivacy
   active?: boolean
+  lastActiveAt?: Date | string | null
   canResetPassword?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -723,6 +737,7 @@ export type UserUpdateInput = {
   location?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   profilePrivacy?: Prisma.EnumProfilePrivacyFieldUpdateOperationsInput | $Enums.ProfilePrivacy
   active?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  lastActiveAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   canResetPassword?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -794,6 +809,7 @@ export type UserUncheckedUpdateInput = {
   location?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   profilePrivacy?: Prisma.EnumProfilePrivacyFieldUpdateOperationsInput | $Enums.ProfilePrivacy
   active?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  lastActiveAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   canResetPassword?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -865,6 +881,7 @@ export type UserCreateManyInput = {
   location?: string | null
   profilePrivacy?: $Enums.ProfilePrivacy
   active?: boolean
+  lastActiveAt?: Date | string | null
   canResetPassword?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -885,6 +902,7 @@ export type UserUpdateManyMutationInput = {
   location?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   profilePrivacy?: Prisma.EnumProfilePrivacyFieldUpdateOperationsInput | $Enums.ProfilePrivacy
   active?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  lastActiveAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   canResetPassword?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -906,6 +924,7 @@ export type UserUncheckedUpdateManyInput = {
   location?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   profilePrivacy?: Prisma.EnumProfilePrivacyFieldUpdateOperationsInput | $Enums.ProfilePrivacy
   active?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  lastActiveAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   canResetPassword?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -937,6 +956,7 @@ export type UserCountOrderByAggregateInput = {
   location?: Prisma.SortOrder
   profilePrivacy?: Prisma.SortOrder
   active?: Prisma.SortOrder
+  lastActiveAt?: Prisma.SortOrder
   canResetPassword?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
@@ -962,6 +982,7 @@ export type UserMaxOrderByAggregateInput = {
   location?: Prisma.SortOrder
   profilePrivacy?: Prisma.SortOrder
   active?: Prisma.SortOrder
+  lastActiveAt?: Prisma.SortOrder
   canResetPassword?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
@@ -983,6 +1004,7 @@ export type UserMinOrderByAggregateInput = {
   location?: Prisma.SortOrder
   profilePrivacy?: Prisma.SortOrder
   active?: Prisma.SortOrder
+  lastActiveAt?: Prisma.SortOrder
   canResetPassword?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
@@ -1723,6 +1745,7 @@ export type UserCreateWithoutAccountsInput = {
   location?: string | null
   profilePrivacy?: $Enums.ProfilePrivacy
   active?: boolean
+  lastActiveAt?: Date | string | null
   canResetPassword?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -1793,6 +1816,7 @@ export type UserUncheckedCreateWithoutAccountsInput = {
   location?: string | null
   profilePrivacy?: $Enums.ProfilePrivacy
   active?: boolean
+  lastActiveAt?: Date | string | null
   canResetPassword?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -1878,6 +1902,7 @@ export type UserUpdateWithoutAccountsInput = {
   location?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   profilePrivacy?: Prisma.EnumProfilePrivacyFieldUpdateOperationsInput | $Enums.ProfilePrivacy
   active?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  lastActiveAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   canResetPassword?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1948,6 +1973,7 @@ export type UserUncheckedUpdateWithoutAccountsInput = {
   location?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   profilePrivacy?: Prisma.EnumProfilePrivacyFieldUpdateOperationsInput | $Enums.ProfilePrivacy
   active?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  lastActiveAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   canResetPassword?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -2017,6 +2043,7 @@ export type UserCreateWithoutSessionsInput = {
   location?: string | null
   profilePrivacy?: $Enums.ProfilePrivacy
   active?: boolean
+  lastActiveAt?: Date | string | null
   canResetPassword?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -2087,6 +2114,7 @@ export type UserUncheckedCreateWithoutSessionsInput = {
   location?: string | null
   profilePrivacy?: $Enums.ProfilePrivacy
   active?: boolean
+  lastActiveAt?: Date | string | null
   canResetPassword?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -2172,6 +2200,7 @@ export type UserUpdateWithoutSessionsInput = {
   location?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   profilePrivacy?: Prisma.EnumProfilePrivacyFieldUpdateOperationsInput | $Enums.ProfilePrivacy
   active?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  lastActiveAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   canResetPassword?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -2242,6 +2271,7 @@ export type UserUncheckedUpdateWithoutSessionsInput = {
   location?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   profilePrivacy?: Prisma.EnumProfilePrivacyFieldUpdateOperationsInput | $Enums.ProfilePrivacy
   active?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  lastActiveAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   canResetPassword?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -2311,6 +2341,7 @@ export type UserCreateWithoutActivateTokensInput = {
   location?: string | null
   profilePrivacy?: $Enums.ProfilePrivacy
   active?: boolean
+  lastActiveAt?: Date | string | null
   canResetPassword?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -2381,6 +2412,7 @@ export type UserUncheckedCreateWithoutActivateTokensInput = {
   location?: string | null
   profilePrivacy?: $Enums.ProfilePrivacy
   active?: boolean
+  lastActiveAt?: Date | string | null
   canResetPassword?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -2466,6 +2498,7 @@ export type UserUpdateWithoutActivateTokensInput = {
   location?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   profilePrivacy?: Prisma.EnumProfilePrivacyFieldUpdateOperationsInput | $Enums.ProfilePrivacy
   active?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  lastActiveAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   canResetPassword?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -2536,6 +2569,7 @@ export type UserUncheckedUpdateWithoutActivateTokensInput = {
   location?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   profilePrivacy?: Prisma.EnumProfilePrivacyFieldUpdateOperationsInput | $Enums.ProfilePrivacy
   active?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  lastActiveAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   canResetPassword?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -2605,6 +2639,7 @@ export type UserCreateWithoutResetPasswordTokensInput = {
   location?: string | null
   profilePrivacy?: $Enums.ProfilePrivacy
   active?: boolean
+  lastActiveAt?: Date | string | null
   canResetPassword?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -2675,6 +2710,7 @@ export type UserUncheckedCreateWithoutResetPasswordTokensInput = {
   location?: string | null
   profilePrivacy?: $Enums.ProfilePrivacy
   active?: boolean
+  lastActiveAt?: Date | string | null
   canResetPassword?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -2760,6 +2796,7 @@ export type UserUpdateWithoutResetPasswordTokensInput = {
   location?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   profilePrivacy?: Prisma.EnumProfilePrivacyFieldUpdateOperationsInput | $Enums.ProfilePrivacy
   active?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  lastActiveAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   canResetPassword?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -2830,6 +2867,7 @@ export type UserUncheckedUpdateWithoutResetPasswordTokensInput = {
   location?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   profilePrivacy?: Prisma.EnumProfilePrivacyFieldUpdateOperationsInput | $Enums.ProfilePrivacy
   active?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  lastActiveAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   canResetPassword?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -2899,6 +2937,7 @@ export type UserCreateWithoutPostCommentsInput = {
   location?: string | null
   profilePrivacy?: $Enums.ProfilePrivacy
   active?: boolean
+  lastActiveAt?: Date | string | null
   canResetPassword?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -2969,6 +3008,7 @@ export type UserUncheckedCreateWithoutPostCommentsInput = {
   location?: string | null
   profilePrivacy?: $Enums.ProfilePrivacy
   active?: boolean
+  lastActiveAt?: Date | string | null
   canResetPassword?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -3054,6 +3094,7 @@ export type UserUpdateWithoutPostCommentsInput = {
   location?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   profilePrivacy?: Prisma.EnumProfilePrivacyFieldUpdateOperationsInput | $Enums.ProfilePrivacy
   active?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  lastActiveAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   canResetPassword?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -3124,6 +3165,7 @@ export type UserUncheckedUpdateWithoutPostCommentsInput = {
   location?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   profilePrivacy?: Prisma.EnumProfilePrivacyFieldUpdateOperationsInput | $Enums.ProfilePrivacy
   active?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  lastActiveAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   canResetPassword?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -3193,6 +3235,7 @@ export type UserCreateWithoutCommentLikesInput = {
   location?: string | null
   profilePrivacy?: $Enums.ProfilePrivacy
   active?: boolean
+  lastActiveAt?: Date | string | null
   canResetPassword?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -3263,6 +3306,7 @@ export type UserUncheckedCreateWithoutCommentLikesInput = {
   location?: string | null
   profilePrivacy?: $Enums.ProfilePrivacy
   active?: boolean
+  lastActiveAt?: Date | string | null
   canResetPassword?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -3348,6 +3392,7 @@ export type UserUpdateWithoutCommentLikesInput = {
   location?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   profilePrivacy?: Prisma.EnumProfilePrivacyFieldUpdateOperationsInput | $Enums.ProfilePrivacy
   active?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  lastActiveAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   canResetPassword?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -3418,6 +3463,7 @@ export type UserUncheckedUpdateWithoutCommentLikesInput = {
   location?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   profilePrivacy?: Prisma.EnumProfilePrivacyFieldUpdateOperationsInput | $Enums.ProfilePrivacy
   active?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  lastActiveAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   canResetPassword?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -3487,6 +3533,7 @@ export type UserCreateWithoutCommentRepliesInput = {
   location?: string | null
   profilePrivacy?: $Enums.ProfilePrivacy
   active?: boolean
+  lastActiveAt?: Date | string | null
   canResetPassword?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -3557,6 +3604,7 @@ export type UserUncheckedCreateWithoutCommentRepliesInput = {
   location?: string | null
   profilePrivacy?: $Enums.ProfilePrivacy
   active?: boolean
+  lastActiveAt?: Date | string | null
   canResetPassword?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -3642,6 +3690,7 @@ export type UserUpdateWithoutCommentRepliesInput = {
   location?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   profilePrivacy?: Prisma.EnumProfilePrivacyFieldUpdateOperationsInput | $Enums.ProfilePrivacy
   active?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  lastActiveAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   canResetPassword?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -3712,6 +3761,7 @@ export type UserUncheckedUpdateWithoutCommentRepliesInput = {
   location?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   profilePrivacy?: Prisma.EnumProfilePrivacyFieldUpdateOperationsInput | $Enums.ProfilePrivacy
   active?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  lastActiveAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   canResetPassword?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -3781,6 +3831,7 @@ export type UserCreateWithoutReplyLikesInput = {
   location?: string | null
   profilePrivacy?: $Enums.ProfilePrivacy
   active?: boolean
+  lastActiveAt?: Date | string | null
   canResetPassword?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -3851,6 +3902,7 @@ export type UserUncheckedCreateWithoutReplyLikesInput = {
   location?: string | null
   profilePrivacy?: $Enums.ProfilePrivacy
   active?: boolean
+  lastActiveAt?: Date | string | null
   canResetPassword?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -3936,6 +3988,7 @@ export type UserUpdateWithoutReplyLikesInput = {
   location?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   profilePrivacy?: Prisma.EnumProfilePrivacyFieldUpdateOperationsInput | $Enums.ProfilePrivacy
   active?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  lastActiveAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   canResetPassword?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -4006,6 +4059,7 @@ export type UserUncheckedUpdateWithoutReplyLikesInput = {
   location?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   profilePrivacy?: Prisma.EnumProfilePrivacyFieldUpdateOperationsInput | $Enums.ProfilePrivacy
   active?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  lastActiveAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   canResetPassword?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -4075,6 +4129,7 @@ export type UserCreateWithoutCreatedEventsInput = {
   location?: string | null
   profilePrivacy?: $Enums.ProfilePrivacy
   active?: boolean
+  lastActiveAt?: Date | string | null
   canResetPassword?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -4145,6 +4200,7 @@ export type UserUncheckedCreateWithoutCreatedEventsInput = {
   location?: string | null
   profilePrivacy?: $Enums.ProfilePrivacy
   active?: boolean
+  lastActiveAt?: Date | string | null
   canResetPassword?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -4230,6 +4286,7 @@ export type UserUpdateWithoutCreatedEventsInput = {
   location?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   profilePrivacy?: Prisma.EnumProfilePrivacyFieldUpdateOperationsInput | $Enums.ProfilePrivacy
   active?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  lastActiveAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   canResetPassword?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -4300,6 +4357,7 @@ export type UserUncheckedUpdateWithoutCreatedEventsInput = {
   location?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   profilePrivacy?: Prisma.EnumProfilePrivacyFieldUpdateOperationsInput | $Enums.ProfilePrivacy
   active?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  lastActiveAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   canResetPassword?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -4369,6 +4427,7 @@ export type UserCreateWithoutEventAttendancesInput = {
   location?: string | null
   profilePrivacy?: $Enums.ProfilePrivacy
   active?: boolean
+  lastActiveAt?: Date | string | null
   canResetPassword?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -4439,6 +4498,7 @@ export type UserUncheckedCreateWithoutEventAttendancesInput = {
   location?: string | null
   profilePrivacy?: $Enums.ProfilePrivacy
   active?: boolean
+  lastActiveAt?: Date | string | null
   canResetPassword?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -4524,6 +4584,7 @@ export type UserUpdateWithoutEventAttendancesInput = {
   location?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   profilePrivacy?: Prisma.EnumProfilePrivacyFieldUpdateOperationsInput | $Enums.ProfilePrivacy
   active?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  lastActiveAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   canResetPassword?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -4594,6 +4655,7 @@ export type UserUncheckedUpdateWithoutEventAttendancesInput = {
   location?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   profilePrivacy?: Prisma.EnumProfilePrivacyFieldUpdateOperationsInput | $Enums.ProfilePrivacy
   active?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  lastActiveAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   canResetPassword?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -4663,6 +4725,7 @@ export type UserCreateWithoutEventPostsInput = {
   location?: string | null
   profilePrivacy?: $Enums.ProfilePrivacy
   active?: boolean
+  lastActiveAt?: Date | string | null
   canResetPassword?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -4733,6 +4796,7 @@ export type UserUncheckedCreateWithoutEventPostsInput = {
   location?: string | null
   profilePrivacy?: $Enums.ProfilePrivacy
   active?: boolean
+  lastActiveAt?: Date | string | null
   canResetPassword?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -4818,6 +4882,7 @@ export type UserUpdateWithoutEventPostsInput = {
   location?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   profilePrivacy?: Prisma.EnumProfilePrivacyFieldUpdateOperationsInput | $Enums.ProfilePrivacy
   active?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  lastActiveAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   canResetPassword?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -4888,6 +4953,7 @@ export type UserUncheckedUpdateWithoutEventPostsInput = {
   location?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   profilePrivacy?: Prisma.EnumProfilePrivacyFieldUpdateOperationsInput | $Enums.ProfilePrivacy
   active?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  lastActiveAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   canResetPassword?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -4957,6 +5023,7 @@ export type UserCreateWithoutEventPostLikesInput = {
   location?: string | null
   profilePrivacy?: $Enums.ProfilePrivacy
   active?: boolean
+  lastActiveAt?: Date | string | null
   canResetPassword?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -5027,6 +5094,7 @@ export type UserUncheckedCreateWithoutEventPostLikesInput = {
   location?: string | null
   profilePrivacy?: $Enums.ProfilePrivacy
   active?: boolean
+  lastActiveAt?: Date | string | null
   canResetPassword?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -5112,6 +5180,7 @@ export type UserUpdateWithoutEventPostLikesInput = {
   location?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   profilePrivacy?: Prisma.EnumProfilePrivacyFieldUpdateOperationsInput | $Enums.ProfilePrivacy
   active?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  lastActiveAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   canResetPassword?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -5182,6 +5251,7 @@ export type UserUncheckedUpdateWithoutEventPostLikesInput = {
   location?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   profilePrivacy?: Prisma.EnumProfilePrivacyFieldUpdateOperationsInput | $Enums.ProfilePrivacy
   active?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  lastActiveAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   canResetPassword?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -5251,6 +5321,7 @@ export type UserCreateWithoutEventPostCommentsInput = {
   location?: string | null
   profilePrivacy?: $Enums.ProfilePrivacy
   active?: boolean
+  lastActiveAt?: Date | string | null
   canResetPassword?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -5321,6 +5392,7 @@ export type UserUncheckedCreateWithoutEventPostCommentsInput = {
   location?: string | null
   profilePrivacy?: $Enums.ProfilePrivacy
   active?: boolean
+  lastActiveAt?: Date | string | null
   canResetPassword?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -5406,6 +5478,7 @@ export type UserUpdateWithoutEventPostCommentsInput = {
   location?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   profilePrivacy?: Prisma.EnumProfilePrivacyFieldUpdateOperationsInput | $Enums.ProfilePrivacy
   active?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  lastActiveAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   canResetPassword?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -5476,6 +5549,7 @@ export type UserUncheckedUpdateWithoutEventPostCommentsInput = {
   location?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   profilePrivacy?: Prisma.EnumProfilePrivacyFieldUpdateOperationsInput | $Enums.ProfilePrivacy
   active?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  lastActiveAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   canResetPassword?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -5545,6 +5619,7 @@ export type UserCreateWithoutEventPostCommentLikesInput = {
   location?: string | null
   profilePrivacy?: $Enums.ProfilePrivacy
   active?: boolean
+  lastActiveAt?: Date | string | null
   canResetPassword?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -5615,6 +5690,7 @@ export type UserUncheckedCreateWithoutEventPostCommentLikesInput = {
   location?: string | null
   profilePrivacy?: $Enums.ProfilePrivacy
   active?: boolean
+  lastActiveAt?: Date | string | null
   canResetPassword?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -5700,6 +5776,7 @@ export type UserUpdateWithoutEventPostCommentLikesInput = {
   location?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   profilePrivacy?: Prisma.EnumProfilePrivacyFieldUpdateOperationsInput | $Enums.ProfilePrivacy
   active?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  lastActiveAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   canResetPassword?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -5770,6 +5847,7 @@ export type UserUncheckedUpdateWithoutEventPostCommentLikesInput = {
   location?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   profilePrivacy?: Prisma.EnumProfilePrivacyFieldUpdateOperationsInput | $Enums.ProfilePrivacy
   active?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  lastActiveAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   canResetPassword?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -5839,6 +5917,7 @@ export type UserCreateWithoutOwnedGroupsInput = {
   location?: string | null
   profilePrivacy?: $Enums.ProfilePrivacy
   active?: boolean
+  lastActiveAt?: Date | string | null
   canResetPassword?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -5909,6 +5988,7 @@ export type UserUncheckedCreateWithoutOwnedGroupsInput = {
   location?: string | null
   profilePrivacy?: $Enums.ProfilePrivacy
   active?: boolean
+  lastActiveAt?: Date | string | null
   canResetPassword?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -5994,6 +6074,7 @@ export type UserUpdateWithoutOwnedGroupsInput = {
   location?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   profilePrivacy?: Prisma.EnumProfilePrivacyFieldUpdateOperationsInput | $Enums.ProfilePrivacy
   active?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  lastActiveAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   canResetPassword?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -6064,6 +6145,7 @@ export type UserUncheckedUpdateWithoutOwnedGroupsInput = {
   location?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   profilePrivacy?: Prisma.EnumProfilePrivacyFieldUpdateOperationsInput | $Enums.ProfilePrivacy
   active?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  lastActiveAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   canResetPassword?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -6133,6 +6215,7 @@ export type UserCreateWithoutGroupMembershipsInput = {
   location?: string | null
   profilePrivacy?: $Enums.ProfilePrivacy
   active?: boolean
+  lastActiveAt?: Date | string | null
   canResetPassword?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -6203,6 +6286,7 @@ export type UserUncheckedCreateWithoutGroupMembershipsInput = {
   location?: string | null
   profilePrivacy?: $Enums.ProfilePrivacy
   active?: boolean
+  lastActiveAt?: Date | string | null
   canResetPassword?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -6288,6 +6372,7 @@ export type UserUpdateWithoutGroupMembershipsInput = {
   location?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   profilePrivacy?: Prisma.EnumProfilePrivacyFieldUpdateOperationsInput | $Enums.ProfilePrivacy
   active?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  lastActiveAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   canResetPassword?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -6358,6 +6443,7 @@ export type UserUncheckedUpdateWithoutGroupMembershipsInput = {
   location?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   profilePrivacy?: Prisma.EnumProfilePrivacyFieldUpdateOperationsInput | $Enums.ProfilePrivacy
   active?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  lastActiveAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   canResetPassword?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -6427,6 +6513,7 @@ export type UserCreateWithoutGroupPostsInput = {
   location?: string | null
   profilePrivacy?: $Enums.ProfilePrivacy
   active?: boolean
+  lastActiveAt?: Date | string | null
   canResetPassword?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -6497,6 +6584,7 @@ export type UserUncheckedCreateWithoutGroupPostsInput = {
   location?: string | null
   profilePrivacy?: $Enums.ProfilePrivacy
   active?: boolean
+  lastActiveAt?: Date | string | null
   canResetPassword?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -6582,6 +6670,7 @@ export type UserUpdateWithoutGroupPostsInput = {
   location?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   profilePrivacy?: Prisma.EnumProfilePrivacyFieldUpdateOperationsInput | $Enums.ProfilePrivacy
   active?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  lastActiveAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   canResetPassword?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -6652,6 +6741,7 @@ export type UserUncheckedUpdateWithoutGroupPostsInput = {
   location?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   profilePrivacy?: Prisma.EnumProfilePrivacyFieldUpdateOperationsInput | $Enums.ProfilePrivacy
   active?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  lastActiveAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   canResetPassword?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -6721,6 +6811,7 @@ export type UserCreateWithoutGroupPostLikesInput = {
   location?: string | null
   profilePrivacy?: $Enums.ProfilePrivacy
   active?: boolean
+  lastActiveAt?: Date | string | null
   canResetPassword?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -6791,6 +6882,7 @@ export type UserUncheckedCreateWithoutGroupPostLikesInput = {
   location?: string | null
   profilePrivacy?: $Enums.ProfilePrivacy
   active?: boolean
+  lastActiveAt?: Date | string | null
   canResetPassword?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -6876,6 +6968,7 @@ export type UserUpdateWithoutGroupPostLikesInput = {
   location?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   profilePrivacy?: Prisma.EnumProfilePrivacyFieldUpdateOperationsInput | $Enums.ProfilePrivacy
   active?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  lastActiveAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   canResetPassword?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -6946,6 +7039,7 @@ export type UserUncheckedUpdateWithoutGroupPostLikesInput = {
   location?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   profilePrivacy?: Prisma.EnumProfilePrivacyFieldUpdateOperationsInput | $Enums.ProfilePrivacy
   active?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  lastActiveAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   canResetPassword?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -7015,6 +7109,7 @@ export type UserCreateWithoutGroupPostCommentsInput = {
   location?: string | null
   profilePrivacy?: $Enums.ProfilePrivacy
   active?: boolean
+  lastActiveAt?: Date | string | null
   canResetPassword?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -7085,6 +7180,7 @@ export type UserUncheckedCreateWithoutGroupPostCommentsInput = {
   location?: string | null
   profilePrivacy?: $Enums.ProfilePrivacy
   active?: boolean
+  lastActiveAt?: Date | string | null
   canResetPassword?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -7170,6 +7266,7 @@ export type UserUpdateWithoutGroupPostCommentsInput = {
   location?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   profilePrivacy?: Prisma.EnumProfilePrivacyFieldUpdateOperationsInput | $Enums.ProfilePrivacy
   active?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  lastActiveAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   canResetPassword?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -7240,6 +7337,7 @@ export type UserUncheckedUpdateWithoutGroupPostCommentsInput = {
   location?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   profilePrivacy?: Prisma.EnumProfilePrivacyFieldUpdateOperationsInput | $Enums.ProfilePrivacy
   active?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  lastActiveAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   canResetPassword?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -7309,6 +7407,7 @@ export type UserCreateWithoutGroupPostCommentLikesInput = {
   location?: string | null
   profilePrivacy?: $Enums.ProfilePrivacy
   active?: boolean
+  lastActiveAt?: Date | string | null
   canResetPassword?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -7379,6 +7478,7 @@ export type UserUncheckedCreateWithoutGroupPostCommentLikesInput = {
   location?: string | null
   profilePrivacy?: $Enums.ProfilePrivacy
   active?: boolean
+  lastActiveAt?: Date | string | null
   canResetPassword?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -7464,6 +7564,7 @@ export type UserUpdateWithoutGroupPostCommentLikesInput = {
   location?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   profilePrivacy?: Prisma.EnumProfilePrivacyFieldUpdateOperationsInput | $Enums.ProfilePrivacy
   active?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  lastActiveAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   canResetPassword?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -7534,6 +7635,7 @@ export type UserUncheckedUpdateWithoutGroupPostCommentLikesInput = {
   location?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   profilePrivacy?: Prisma.EnumProfilePrivacyFieldUpdateOperationsInput | $Enums.ProfilePrivacy
   active?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  lastActiveAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   canResetPassword?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -7603,6 +7705,7 @@ export type UserCreateWithoutMemoriesInput = {
   location?: string | null
   profilePrivacy?: $Enums.ProfilePrivacy
   active?: boolean
+  lastActiveAt?: Date | string | null
   canResetPassword?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -7673,6 +7776,7 @@ export type UserUncheckedCreateWithoutMemoriesInput = {
   location?: string | null
   profilePrivacy?: $Enums.ProfilePrivacy
   active?: boolean
+  lastActiveAt?: Date | string | null
   canResetPassword?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -7758,6 +7862,7 @@ export type UserUpdateWithoutMemoriesInput = {
   location?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   profilePrivacy?: Prisma.EnumProfilePrivacyFieldUpdateOperationsInput | $Enums.ProfilePrivacy
   active?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  lastActiveAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   canResetPassword?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -7828,6 +7933,7 @@ export type UserUncheckedUpdateWithoutMemoriesInput = {
   location?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   profilePrivacy?: Prisma.EnumProfilePrivacyFieldUpdateOperationsInput | $Enums.ProfilePrivacy
   active?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  lastActiveAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   canResetPassword?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -7897,6 +8003,7 @@ export type UserCreateWithoutConversationsInput = {
   location?: string | null
   profilePrivacy?: $Enums.ProfilePrivacy
   active?: boolean
+  lastActiveAt?: Date | string | null
   canResetPassword?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -7967,6 +8074,7 @@ export type UserUncheckedCreateWithoutConversationsInput = {
   location?: string | null
   profilePrivacy?: $Enums.ProfilePrivacy
   active?: boolean
+  lastActiveAt?: Date | string | null
   canResetPassword?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -8052,6 +8160,7 @@ export type UserUpdateWithoutConversationsInput = {
   location?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   profilePrivacy?: Prisma.EnumProfilePrivacyFieldUpdateOperationsInput | $Enums.ProfilePrivacy
   active?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  lastActiveAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   canResetPassword?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -8122,6 +8231,7 @@ export type UserUncheckedUpdateWithoutConversationsInput = {
   location?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   profilePrivacy?: Prisma.EnumProfilePrivacyFieldUpdateOperationsInput | $Enums.ProfilePrivacy
   active?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  lastActiveAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   canResetPassword?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -8191,6 +8301,7 @@ export type UserCreateWithoutMessagesSentInput = {
   location?: string | null
   profilePrivacy?: $Enums.ProfilePrivacy
   active?: boolean
+  lastActiveAt?: Date | string | null
   canResetPassword?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -8261,6 +8372,7 @@ export type UserUncheckedCreateWithoutMessagesSentInput = {
   location?: string | null
   profilePrivacy?: $Enums.ProfilePrivacy
   active?: boolean
+  lastActiveAt?: Date | string | null
   canResetPassword?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -8346,6 +8458,7 @@ export type UserUpdateWithoutMessagesSentInput = {
   location?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   profilePrivacy?: Prisma.EnumProfilePrivacyFieldUpdateOperationsInput | $Enums.ProfilePrivacy
   active?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  lastActiveAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   canResetPassword?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -8416,6 +8529,7 @@ export type UserUncheckedUpdateWithoutMessagesSentInput = {
   location?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   profilePrivacy?: Prisma.EnumProfilePrivacyFieldUpdateOperationsInput | $Enums.ProfilePrivacy
   active?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  lastActiveAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   canResetPassword?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -8485,6 +8599,7 @@ export type UserCreateWithoutMessageReactionsInput = {
   location?: string | null
   profilePrivacy?: $Enums.ProfilePrivacy
   active?: boolean
+  lastActiveAt?: Date | string | null
   canResetPassword?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -8555,6 +8670,7 @@ export type UserUncheckedCreateWithoutMessageReactionsInput = {
   location?: string | null
   profilePrivacy?: $Enums.ProfilePrivacy
   active?: boolean
+  lastActiveAt?: Date | string | null
   canResetPassword?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -8640,6 +8756,7 @@ export type UserUpdateWithoutMessageReactionsInput = {
   location?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   profilePrivacy?: Prisma.EnumProfilePrivacyFieldUpdateOperationsInput | $Enums.ProfilePrivacy
   active?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  lastActiveAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   canResetPassword?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -8710,6 +8827,7 @@ export type UserUncheckedUpdateWithoutMessageReactionsInput = {
   location?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   profilePrivacy?: Prisma.EnumProfilePrivacyFieldUpdateOperationsInput | $Enums.ProfilePrivacy
   active?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  lastActiveAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   canResetPassword?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -8779,6 +8897,7 @@ export type UserCreateWithoutReportedContentCreatedInput = {
   location?: string | null
   profilePrivacy?: $Enums.ProfilePrivacy
   active?: boolean
+  lastActiveAt?: Date | string | null
   canResetPassword?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -8849,6 +8968,7 @@ export type UserUncheckedCreateWithoutReportedContentCreatedInput = {
   location?: string | null
   profilePrivacy?: $Enums.ProfilePrivacy
   active?: boolean
+  lastActiveAt?: Date | string | null
   canResetPassword?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -8923,6 +9043,7 @@ export type UserCreateWithoutReportedContentReceivedInput = {
   location?: string | null
   profilePrivacy?: $Enums.ProfilePrivacy
   active?: boolean
+  lastActiveAt?: Date | string | null
   canResetPassword?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -8993,6 +9114,7 @@ export type UserUncheckedCreateWithoutReportedContentReceivedInput = {
   location?: string | null
   profilePrivacy?: $Enums.ProfilePrivacy
   active?: boolean
+  lastActiveAt?: Date | string | null
   canResetPassword?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -9078,6 +9200,7 @@ export type UserUpdateWithoutReportedContentCreatedInput = {
   location?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   profilePrivacy?: Prisma.EnumProfilePrivacyFieldUpdateOperationsInput | $Enums.ProfilePrivacy
   active?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  lastActiveAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   canResetPassword?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -9148,6 +9271,7 @@ export type UserUncheckedUpdateWithoutReportedContentCreatedInput = {
   location?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   profilePrivacy?: Prisma.EnumProfilePrivacyFieldUpdateOperationsInput | $Enums.ProfilePrivacy
   active?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  lastActiveAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   canResetPassword?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -9228,6 +9352,7 @@ export type UserUpdateWithoutReportedContentReceivedInput = {
   location?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   profilePrivacy?: Prisma.EnumProfilePrivacyFieldUpdateOperationsInput | $Enums.ProfilePrivacy
   active?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  lastActiveAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   canResetPassword?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -9298,6 +9423,7 @@ export type UserUncheckedUpdateWithoutReportedContentReceivedInput = {
   location?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   profilePrivacy?: Prisma.EnumProfilePrivacyFieldUpdateOperationsInput | $Enums.ProfilePrivacy
   active?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  lastActiveAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   canResetPassword?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -9367,6 +9493,7 @@ export type UserCreateWithoutModerationLogsCreatedInput = {
   location?: string | null
   profilePrivacy?: $Enums.ProfilePrivacy
   active?: boolean
+  lastActiveAt?: Date | string | null
   canResetPassword?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -9437,6 +9564,7 @@ export type UserUncheckedCreateWithoutModerationLogsCreatedInput = {
   location?: string | null
   profilePrivacy?: $Enums.ProfilePrivacy
   active?: boolean
+  lastActiveAt?: Date | string | null
   canResetPassword?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -9511,6 +9639,7 @@ export type UserCreateWithoutModerationLogsTargetedInput = {
   location?: string | null
   profilePrivacy?: $Enums.ProfilePrivacy
   active?: boolean
+  lastActiveAt?: Date | string | null
   canResetPassword?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -9581,6 +9710,7 @@ export type UserUncheckedCreateWithoutModerationLogsTargetedInput = {
   location?: string | null
   profilePrivacy?: $Enums.ProfilePrivacy
   active?: boolean
+  lastActiveAt?: Date | string | null
   canResetPassword?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -9666,6 +9796,7 @@ export type UserUpdateWithoutModerationLogsCreatedInput = {
   location?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   profilePrivacy?: Prisma.EnumProfilePrivacyFieldUpdateOperationsInput | $Enums.ProfilePrivacy
   active?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  lastActiveAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   canResetPassword?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -9736,6 +9867,7 @@ export type UserUncheckedUpdateWithoutModerationLogsCreatedInput = {
   location?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   profilePrivacy?: Prisma.EnumProfilePrivacyFieldUpdateOperationsInput | $Enums.ProfilePrivacy
   active?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  lastActiveAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   canResetPassword?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -9816,6 +9948,7 @@ export type UserUpdateWithoutModerationLogsTargetedInput = {
   location?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   profilePrivacy?: Prisma.EnumProfilePrivacyFieldUpdateOperationsInput | $Enums.ProfilePrivacy
   active?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  lastActiveAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   canResetPassword?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -9886,6 +10019,7 @@ export type UserUncheckedUpdateWithoutModerationLogsTargetedInput = {
   location?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   profilePrivacy?: Prisma.EnumProfilePrivacyFieldUpdateOperationsInput | $Enums.ProfilePrivacy
   active?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  lastActiveAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   canResetPassword?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -9955,6 +10089,7 @@ export type UserCreateWithoutNotificationsReceivedInput = {
   location?: string | null
   profilePrivacy?: $Enums.ProfilePrivacy
   active?: boolean
+  lastActiveAt?: Date | string | null
   canResetPassword?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -10025,6 +10160,7 @@ export type UserUncheckedCreateWithoutNotificationsReceivedInput = {
   location?: string | null
   profilePrivacy?: $Enums.ProfilePrivacy
   active?: boolean
+  lastActiveAt?: Date | string | null
   canResetPassword?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -10099,6 +10235,7 @@ export type UserCreateWithoutNotificationsSentInput = {
   location?: string | null
   profilePrivacy?: $Enums.ProfilePrivacy
   active?: boolean
+  lastActiveAt?: Date | string | null
   canResetPassword?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -10169,6 +10306,7 @@ export type UserUncheckedCreateWithoutNotificationsSentInput = {
   location?: string | null
   profilePrivacy?: $Enums.ProfilePrivacy
   active?: boolean
+  lastActiveAt?: Date | string | null
   canResetPassword?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -10254,6 +10392,7 @@ export type UserUpdateWithoutNotificationsReceivedInput = {
   location?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   profilePrivacy?: Prisma.EnumProfilePrivacyFieldUpdateOperationsInput | $Enums.ProfilePrivacy
   active?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  lastActiveAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   canResetPassword?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -10324,6 +10463,7 @@ export type UserUncheckedUpdateWithoutNotificationsReceivedInput = {
   location?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   profilePrivacy?: Prisma.EnumProfilePrivacyFieldUpdateOperationsInput | $Enums.ProfilePrivacy
   active?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  lastActiveAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   canResetPassword?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -10404,6 +10544,7 @@ export type UserUpdateWithoutNotificationsSentInput = {
   location?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   profilePrivacy?: Prisma.EnumProfilePrivacyFieldUpdateOperationsInput | $Enums.ProfilePrivacy
   active?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  lastActiveAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   canResetPassword?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -10474,6 +10615,7 @@ export type UserUncheckedUpdateWithoutNotificationsSentInput = {
   location?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   profilePrivacy?: Prisma.EnumProfilePrivacyFieldUpdateOperationsInput | $Enums.ProfilePrivacy
   active?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  lastActiveAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   canResetPassword?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -10543,6 +10685,7 @@ export type UserCreateWithoutOwnedPagesInput = {
   location?: string | null
   profilePrivacy?: $Enums.ProfilePrivacy
   active?: boolean
+  lastActiveAt?: Date | string | null
   canResetPassword?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -10613,6 +10756,7 @@ export type UserUncheckedCreateWithoutOwnedPagesInput = {
   location?: string | null
   profilePrivacy?: $Enums.ProfilePrivacy
   active?: boolean
+  lastActiveAt?: Date | string | null
   canResetPassword?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -10698,6 +10842,7 @@ export type UserUpdateWithoutOwnedPagesInput = {
   location?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   profilePrivacy?: Prisma.EnumProfilePrivacyFieldUpdateOperationsInput | $Enums.ProfilePrivacy
   active?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  lastActiveAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   canResetPassword?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -10768,6 +10913,7 @@ export type UserUncheckedUpdateWithoutOwnedPagesInput = {
   location?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   profilePrivacy?: Prisma.EnumProfilePrivacyFieldUpdateOperationsInput | $Enums.ProfilePrivacy
   active?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  lastActiveAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   canResetPassword?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -10837,6 +10983,7 @@ export type UserCreateWithoutPageFollowsInput = {
   location?: string | null
   profilePrivacy?: $Enums.ProfilePrivacy
   active?: boolean
+  lastActiveAt?: Date | string | null
   canResetPassword?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -10907,6 +11054,7 @@ export type UserUncheckedCreateWithoutPageFollowsInput = {
   location?: string | null
   profilePrivacy?: $Enums.ProfilePrivacy
   active?: boolean
+  lastActiveAt?: Date | string | null
   canResetPassword?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -10992,6 +11140,7 @@ export type UserUpdateWithoutPageFollowsInput = {
   location?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   profilePrivacy?: Prisma.EnumProfilePrivacyFieldUpdateOperationsInput | $Enums.ProfilePrivacy
   active?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  lastActiveAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   canResetPassword?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -11062,6 +11211,7 @@ export type UserUncheckedUpdateWithoutPageFollowsInput = {
   location?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   profilePrivacy?: Prisma.EnumProfilePrivacyFieldUpdateOperationsInput | $Enums.ProfilePrivacy
   active?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  lastActiveAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   canResetPassword?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -11131,6 +11281,7 @@ export type UserCreateWithoutPagePostsInput = {
   location?: string | null
   profilePrivacy?: $Enums.ProfilePrivacy
   active?: boolean
+  lastActiveAt?: Date | string | null
   canResetPassword?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -11201,6 +11352,7 @@ export type UserUncheckedCreateWithoutPagePostsInput = {
   location?: string | null
   profilePrivacy?: $Enums.ProfilePrivacy
   active?: boolean
+  lastActiveAt?: Date | string | null
   canResetPassword?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -11286,6 +11438,7 @@ export type UserUpdateWithoutPagePostsInput = {
   location?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   profilePrivacy?: Prisma.EnumProfilePrivacyFieldUpdateOperationsInput | $Enums.ProfilePrivacy
   active?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  lastActiveAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   canResetPassword?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -11356,6 +11509,7 @@ export type UserUncheckedUpdateWithoutPagePostsInput = {
   location?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   profilePrivacy?: Prisma.EnumProfilePrivacyFieldUpdateOperationsInput | $Enums.ProfilePrivacy
   active?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  lastActiveAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   canResetPassword?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -11425,6 +11579,7 @@ export type UserCreateWithoutPagePostLikesInput = {
   location?: string | null
   profilePrivacy?: $Enums.ProfilePrivacy
   active?: boolean
+  lastActiveAt?: Date | string | null
   canResetPassword?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -11495,6 +11650,7 @@ export type UserUncheckedCreateWithoutPagePostLikesInput = {
   location?: string | null
   profilePrivacy?: $Enums.ProfilePrivacy
   active?: boolean
+  lastActiveAt?: Date | string | null
   canResetPassword?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -11580,6 +11736,7 @@ export type UserUpdateWithoutPagePostLikesInput = {
   location?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   profilePrivacy?: Prisma.EnumProfilePrivacyFieldUpdateOperationsInput | $Enums.ProfilePrivacy
   active?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  lastActiveAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   canResetPassword?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -11650,6 +11807,7 @@ export type UserUncheckedUpdateWithoutPagePostLikesInput = {
   location?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   profilePrivacy?: Prisma.EnumProfilePrivacyFieldUpdateOperationsInput | $Enums.ProfilePrivacy
   active?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  lastActiveAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   canResetPassword?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -11719,6 +11877,7 @@ export type UserCreateWithoutPagePostCommentsInput = {
   location?: string | null
   profilePrivacy?: $Enums.ProfilePrivacy
   active?: boolean
+  lastActiveAt?: Date | string | null
   canResetPassword?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -11789,6 +11948,7 @@ export type UserUncheckedCreateWithoutPagePostCommentsInput = {
   location?: string | null
   profilePrivacy?: $Enums.ProfilePrivacy
   active?: boolean
+  lastActiveAt?: Date | string | null
   canResetPassword?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -11874,6 +12034,7 @@ export type UserUpdateWithoutPagePostCommentsInput = {
   location?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   profilePrivacy?: Prisma.EnumProfilePrivacyFieldUpdateOperationsInput | $Enums.ProfilePrivacy
   active?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  lastActiveAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   canResetPassword?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -11944,6 +12105,7 @@ export type UserUncheckedUpdateWithoutPagePostCommentsInput = {
   location?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   profilePrivacy?: Prisma.EnumProfilePrivacyFieldUpdateOperationsInput | $Enums.ProfilePrivacy
   active?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  lastActiveAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   canResetPassword?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -12013,6 +12175,7 @@ export type UserCreateWithoutPagePostCommentLikesInput = {
   location?: string | null
   profilePrivacy?: $Enums.ProfilePrivacy
   active?: boolean
+  lastActiveAt?: Date | string | null
   canResetPassword?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -12083,6 +12246,7 @@ export type UserUncheckedCreateWithoutPagePostCommentLikesInput = {
   location?: string | null
   profilePrivacy?: $Enums.ProfilePrivacy
   active?: boolean
+  lastActiveAt?: Date | string | null
   canResetPassword?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -12168,6 +12332,7 @@ export type UserUpdateWithoutPagePostCommentLikesInput = {
   location?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   profilePrivacy?: Prisma.EnumProfilePrivacyFieldUpdateOperationsInput | $Enums.ProfilePrivacy
   active?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  lastActiveAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   canResetPassword?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -12238,6 +12403,7 @@ export type UserUncheckedUpdateWithoutPagePostCommentLikesInput = {
   location?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   profilePrivacy?: Prisma.EnumProfilePrivacyFieldUpdateOperationsInput | $Enums.ProfilePrivacy
   active?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  lastActiveAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   canResetPassword?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -12307,6 +12473,7 @@ export type UserCreateWithoutPostsInput = {
   location?: string | null
   profilePrivacy?: $Enums.ProfilePrivacy
   active?: boolean
+  lastActiveAt?: Date | string | null
   canResetPassword?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -12377,6 +12544,7 @@ export type UserUncheckedCreateWithoutPostsInput = {
   location?: string | null
   profilePrivacy?: $Enums.ProfilePrivacy
   active?: boolean
+  lastActiveAt?: Date | string | null
   canResetPassword?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -12462,6 +12630,7 @@ export type UserUpdateWithoutPostsInput = {
   location?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   profilePrivacy?: Prisma.EnumProfilePrivacyFieldUpdateOperationsInput | $Enums.ProfilePrivacy
   active?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  lastActiveAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   canResetPassword?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -12532,6 +12701,7 @@ export type UserUncheckedUpdateWithoutPostsInput = {
   location?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   profilePrivacy?: Prisma.EnumProfilePrivacyFieldUpdateOperationsInput | $Enums.ProfilePrivacy
   active?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  lastActiveAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   canResetPassword?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -12601,6 +12771,7 @@ export type UserCreateWithoutPostLikesInput = {
   location?: string | null
   profilePrivacy?: $Enums.ProfilePrivacy
   active?: boolean
+  lastActiveAt?: Date | string | null
   canResetPassword?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -12671,6 +12842,7 @@ export type UserUncheckedCreateWithoutPostLikesInput = {
   location?: string | null
   profilePrivacy?: $Enums.ProfilePrivacy
   active?: boolean
+  lastActiveAt?: Date | string | null
   canResetPassword?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -12756,6 +12928,7 @@ export type UserUpdateWithoutPostLikesInput = {
   location?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   profilePrivacy?: Prisma.EnumProfilePrivacyFieldUpdateOperationsInput | $Enums.ProfilePrivacy
   active?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  lastActiveAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   canResetPassword?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -12826,6 +12999,7 @@ export type UserUncheckedUpdateWithoutPostLikesInput = {
   location?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   profilePrivacy?: Prisma.EnumProfilePrivacyFieldUpdateOperationsInput | $Enums.ProfilePrivacy
   active?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  lastActiveAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   canResetPassword?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -12895,6 +13069,7 @@ export type UserCreateWithoutPostSavesInput = {
   location?: string | null
   profilePrivacy?: $Enums.ProfilePrivacy
   active?: boolean
+  lastActiveAt?: Date | string | null
   canResetPassword?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -12965,6 +13140,7 @@ export type UserUncheckedCreateWithoutPostSavesInput = {
   location?: string | null
   profilePrivacy?: $Enums.ProfilePrivacy
   active?: boolean
+  lastActiveAt?: Date | string | null
   canResetPassword?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -13050,6 +13226,7 @@ export type UserUpdateWithoutPostSavesInput = {
   location?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   profilePrivacy?: Prisma.EnumProfilePrivacyFieldUpdateOperationsInput | $Enums.ProfilePrivacy
   active?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  lastActiveAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   canResetPassword?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -13120,6 +13297,7 @@ export type UserUncheckedUpdateWithoutPostSavesInput = {
   location?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   profilePrivacy?: Prisma.EnumProfilePrivacyFieldUpdateOperationsInput | $Enums.ProfilePrivacy
   active?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  lastActiveAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   canResetPassword?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -13189,6 +13367,7 @@ export type UserCreateWithoutPostSharesInput = {
   location?: string | null
   profilePrivacy?: $Enums.ProfilePrivacy
   active?: boolean
+  lastActiveAt?: Date | string | null
   canResetPassword?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -13259,6 +13438,7 @@ export type UserUncheckedCreateWithoutPostSharesInput = {
   location?: string | null
   profilePrivacy?: $Enums.ProfilePrivacy
   active?: boolean
+  lastActiveAt?: Date | string | null
   canResetPassword?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -13344,6 +13524,7 @@ export type UserUpdateWithoutPostSharesInput = {
   location?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   profilePrivacy?: Prisma.EnumProfilePrivacyFieldUpdateOperationsInput | $Enums.ProfilePrivacy
   active?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  lastActiveAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   canResetPassword?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -13414,6 +13595,7 @@ export type UserUncheckedUpdateWithoutPostSharesInput = {
   location?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   profilePrivacy?: Prisma.EnumProfilePrivacyFieldUpdateOperationsInput | $Enums.ProfilePrivacy
   active?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  lastActiveAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   canResetPassword?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -13483,6 +13665,7 @@ export type UserCreateWithoutPostsEditedInput = {
   location?: string | null
   profilePrivacy?: $Enums.ProfilePrivacy
   active?: boolean
+  lastActiveAt?: Date | string | null
   canResetPassword?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -13553,6 +13736,7 @@ export type UserUncheckedCreateWithoutPostsEditedInput = {
   location?: string | null
   profilePrivacy?: $Enums.ProfilePrivacy
   active?: boolean
+  lastActiveAt?: Date | string | null
   canResetPassword?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -13638,6 +13822,7 @@ export type UserUpdateWithoutPostsEditedInput = {
   location?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   profilePrivacy?: Prisma.EnumProfilePrivacyFieldUpdateOperationsInput | $Enums.ProfilePrivacy
   active?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  lastActiveAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   canResetPassword?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -13708,6 +13893,7 @@ export type UserUncheckedUpdateWithoutPostsEditedInput = {
   location?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   profilePrivacy?: Prisma.EnumProfilePrivacyFieldUpdateOperationsInput | $Enums.ProfilePrivacy
   active?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  lastActiveAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   canResetPassword?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -13777,6 +13963,7 @@ export type UserCreateWithoutStoriesInput = {
   location?: string | null
   profilePrivacy?: $Enums.ProfilePrivacy
   active?: boolean
+  lastActiveAt?: Date | string | null
   canResetPassword?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -13847,6 +14034,7 @@ export type UserUncheckedCreateWithoutStoriesInput = {
   location?: string | null
   profilePrivacy?: $Enums.ProfilePrivacy
   active?: boolean
+  lastActiveAt?: Date | string | null
   canResetPassword?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -13932,6 +14120,7 @@ export type UserUpdateWithoutStoriesInput = {
   location?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   profilePrivacy?: Prisma.EnumProfilePrivacyFieldUpdateOperationsInput | $Enums.ProfilePrivacy
   active?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  lastActiveAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   canResetPassword?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -14002,6 +14191,7 @@ export type UserUncheckedUpdateWithoutStoriesInput = {
   location?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   profilePrivacy?: Prisma.EnumProfilePrivacyFieldUpdateOperationsInput | $Enums.ProfilePrivacy
   active?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  lastActiveAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   canResetPassword?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -14071,6 +14261,7 @@ export type UserCreateWithoutStoryViewsInput = {
   location?: string | null
   profilePrivacy?: $Enums.ProfilePrivacy
   active?: boolean
+  lastActiveAt?: Date | string | null
   canResetPassword?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -14141,6 +14332,7 @@ export type UserUncheckedCreateWithoutStoryViewsInput = {
   location?: string | null
   profilePrivacy?: $Enums.ProfilePrivacy
   active?: boolean
+  lastActiveAt?: Date | string | null
   canResetPassword?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -14226,6 +14418,7 @@ export type UserUpdateWithoutStoryViewsInput = {
   location?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   profilePrivacy?: Prisma.EnumProfilePrivacyFieldUpdateOperationsInput | $Enums.ProfilePrivacy
   active?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  lastActiveAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   canResetPassword?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -14296,6 +14489,7 @@ export type UserUncheckedUpdateWithoutStoryViewsInput = {
   location?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   profilePrivacy?: Prisma.EnumProfilePrivacyFieldUpdateOperationsInput | $Enums.ProfilePrivacy
   active?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  lastActiveAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   canResetPassword?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -14365,6 +14559,7 @@ export type UserCreateWithoutStoryReactionsInput = {
   location?: string | null
   profilePrivacy?: $Enums.ProfilePrivacy
   active?: boolean
+  lastActiveAt?: Date | string | null
   canResetPassword?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -14435,6 +14630,7 @@ export type UserUncheckedCreateWithoutStoryReactionsInput = {
   location?: string | null
   profilePrivacy?: $Enums.ProfilePrivacy
   active?: boolean
+  lastActiveAt?: Date | string | null
   canResetPassword?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -14520,6 +14716,7 @@ export type UserUpdateWithoutStoryReactionsInput = {
   location?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   profilePrivacy?: Prisma.EnumProfilePrivacyFieldUpdateOperationsInput | $Enums.ProfilePrivacy
   active?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  lastActiveAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   canResetPassword?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -14590,6 +14787,7 @@ export type UserUncheckedUpdateWithoutStoryReactionsInput = {
   location?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   profilePrivacy?: Prisma.EnumProfilePrivacyFieldUpdateOperationsInput | $Enums.ProfilePrivacy
   active?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  lastActiveAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   canResetPassword?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -14659,6 +14857,7 @@ export type UserCreateWithoutAvatarInput = {
   location?: string | null
   profilePrivacy?: $Enums.ProfilePrivacy
   active?: boolean
+  lastActiveAt?: Date | string | null
   canResetPassword?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -14729,6 +14928,7 @@ export type UserUncheckedCreateWithoutAvatarInput = {
   location?: string | null
   profilePrivacy?: $Enums.ProfilePrivacy
   active?: boolean
+  lastActiveAt?: Date | string | null
   canResetPassword?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -14814,6 +15014,7 @@ export type UserUpdateWithoutAvatarInput = {
   location?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   profilePrivacy?: Prisma.EnumProfilePrivacyFieldUpdateOperationsInput | $Enums.ProfilePrivacy
   active?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  lastActiveAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   canResetPassword?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -14884,6 +15085,7 @@ export type UserUncheckedUpdateWithoutAvatarInput = {
   location?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   profilePrivacy?: Prisma.EnumProfilePrivacyFieldUpdateOperationsInput | $Enums.ProfilePrivacy
   active?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  lastActiveAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   canResetPassword?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -14953,6 +15155,7 @@ export type UserCreateWithoutCoverPhotoInput = {
   location?: string | null
   profilePrivacy?: $Enums.ProfilePrivacy
   active?: boolean
+  lastActiveAt?: Date | string | null
   canResetPassword?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -15023,6 +15226,7 @@ export type UserUncheckedCreateWithoutCoverPhotoInput = {
   location?: string | null
   profilePrivacy?: $Enums.ProfilePrivacy
   active?: boolean
+  lastActiveAt?: Date | string | null
   canResetPassword?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -15108,6 +15312,7 @@ export type UserUpdateWithoutCoverPhotoInput = {
   location?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   profilePrivacy?: Prisma.EnumProfilePrivacyFieldUpdateOperationsInput | $Enums.ProfilePrivacy
   active?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  lastActiveAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   canResetPassword?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -15178,6 +15383,7 @@ export type UserUncheckedUpdateWithoutCoverPhotoInput = {
   location?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   profilePrivacy?: Prisma.EnumProfilePrivacyFieldUpdateOperationsInput | $Enums.ProfilePrivacy
   active?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  lastActiveAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   canResetPassword?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -15247,6 +15453,7 @@ export type UserCreateWithoutFollowingInput = {
   location?: string | null
   profilePrivacy?: $Enums.ProfilePrivacy
   active?: boolean
+  lastActiveAt?: Date | string | null
   canResetPassword?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -15317,6 +15524,7 @@ export type UserUncheckedCreateWithoutFollowingInput = {
   location?: string | null
   profilePrivacy?: $Enums.ProfilePrivacy
   active?: boolean
+  lastActiveAt?: Date | string | null
   canResetPassword?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -15391,6 +15599,7 @@ export type UserCreateWithoutFollowersInput = {
   location?: string | null
   profilePrivacy?: $Enums.ProfilePrivacy
   active?: boolean
+  lastActiveAt?: Date | string | null
   canResetPassword?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -15461,6 +15670,7 @@ export type UserUncheckedCreateWithoutFollowersInput = {
   location?: string | null
   profilePrivacy?: $Enums.ProfilePrivacy
   active?: boolean
+  lastActiveAt?: Date | string | null
   canResetPassword?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -15546,6 +15756,7 @@ export type UserUpdateWithoutFollowingInput = {
   location?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   profilePrivacy?: Prisma.EnumProfilePrivacyFieldUpdateOperationsInput | $Enums.ProfilePrivacy
   active?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  lastActiveAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   canResetPassword?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -15616,6 +15827,7 @@ export type UserUncheckedUpdateWithoutFollowingInput = {
   location?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   profilePrivacy?: Prisma.EnumProfilePrivacyFieldUpdateOperationsInput | $Enums.ProfilePrivacy
   active?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  lastActiveAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   canResetPassword?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -15696,6 +15908,7 @@ export type UserUpdateWithoutFollowersInput = {
   location?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   profilePrivacy?: Prisma.EnumProfilePrivacyFieldUpdateOperationsInput | $Enums.ProfilePrivacy
   active?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  lastActiveAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   canResetPassword?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -15766,6 +15979,7 @@ export type UserUncheckedUpdateWithoutFollowersInput = {
   location?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   profilePrivacy?: Prisma.EnumProfilePrivacyFieldUpdateOperationsInput | $Enums.ProfilePrivacy
   active?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  lastActiveAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   canResetPassword?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -15835,6 +16049,7 @@ export type UserCreateWithoutBlockingInput = {
   location?: string | null
   profilePrivacy?: $Enums.ProfilePrivacy
   active?: boolean
+  lastActiveAt?: Date | string | null
   canResetPassword?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -15905,6 +16120,7 @@ export type UserUncheckedCreateWithoutBlockingInput = {
   location?: string | null
   profilePrivacy?: $Enums.ProfilePrivacy
   active?: boolean
+  lastActiveAt?: Date | string | null
   canResetPassword?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -15979,6 +16195,7 @@ export type UserCreateWithoutBlockedByInput = {
   location?: string | null
   profilePrivacy?: $Enums.ProfilePrivacy
   active?: boolean
+  lastActiveAt?: Date | string | null
   canResetPassword?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -16049,6 +16266,7 @@ export type UserUncheckedCreateWithoutBlockedByInput = {
   location?: string | null
   profilePrivacy?: $Enums.ProfilePrivacy
   active?: boolean
+  lastActiveAt?: Date | string | null
   canResetPassword?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -16134,6 +16352,7 @@ export type UserUpdateWithoutBlockingInput = {
   location?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   profilePrivacy?: Prisma.EnumProfilePrivacyFieldUpdateOperationsInput | $Enums.ProfilePrivacy
   active?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  lastActiveAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   canResetPassword?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -16204,6 +16423,7 @@ export type UserUncheckedUpdateWithoutBlockingInput = {
   location?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   profilePrivacy?: Prisma.EnumProfilePrivacyFieldUpdateOperationsInput | $Enums.ProfilePrivacy
   active?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  lastActiveAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   canResetPassword?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -16284,6 +16504,7 @@ export type UserUpdateWithoutBlockedByInput = {
   location?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   profilePrivacy?: Prisma.EnumProfilePrivacyFieldUpdateOperationsInput | $Enums.ProfilePrivacy
   active?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  lastActiveAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   canResetPassword?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -16354,6 +16575,7 @@ export type UserUncheckedUpdateWithoutBlockedByInput = {
   location?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   profilePrivacy?: Prisma.EnumProfilePrivacyFieldUpdateOperationsInput | $Enums.ProfilePrivacy
   active?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  lastActiveAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   canResetPassword?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -16878,6 +17100,7 @@ export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   location?: boolean
   profilePrivacy?: boolean
   active?: boolean
+  lastActiveAt?: boolean
   canResetPassword?: boolean
   createdAt?: boolean
   updatedAt?: boolean
@@ -16950,6 +17173,7 @@ export type UserSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensio
   location?: boolean
   profilePrivacy?: boolean
   active?: boolean
+  lastActiveAt?: boolean
   canResetPassword?: boolean
   createdAt?: boolean
   updatedAt?: boolean
@@ -16971,6 +17195,7 @@ export type UserSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensio
   location?: boolean
   profilePrivacy?: boolean
   active?: boolean
+  lastActiveAt?: boolean
   canResetPassword?: boolean
   createdAt?: boolean
   updatedAt?: boolean
@@ -16992,12 +17217,13 @@ export type UserSelectScalar = {
   location?: boolean
   profilePrivacy?: boolean
   active?: boolean
+  lastActiveAt?: boolean
   canResetPassword?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }
 
-export type UserOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "userName" | "email" | "password" | "role" | "firstName" | "lastName" | "bio" | "birthday" | "gender" | "phone" | "website" | "location" | "profilePrivacy" | "active" | "canResetPassword" | "createdAt" | "updatedAt", ExtArgs["result"]["user"]>
+export type UserOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "userName" | "email" | "password" | "role" | "firstName" | "lastName" | "bio" | "birthday" | "gender" | "phone" | "website" | "location" | "profilePrivacy" | "active" | "lastActiveAt" | "canResetPassword" | "createdAt" | "updatedAt", ExtArgs["result"]["user"]>
 export type UserInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   resetPasswordTokens?: boolean | Prisma.User$resetPasswordTokensArgs<ExtArgs>
   activateTokens?: boolean | Prisma.User$activateTokensArgs<ExtArgs>
@@ -17124,6 +17350,7 @@ export type $UserPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     location: string | null
     profilePrivacy: $Enums.ProfilePrivacy
     active: boolean
+    lastActiveAt: Date | null
     canResetPassword: boolean
     createdAt: Date
     updatedAt: Date
@@ -17615,6 +17842,7 @@ export interface UserFieldRefs {
   readonly location: Prisma.FieldRef<"User", 'String'>
   readonly profilePrivacy: Prisma.FieldRef<"User", 'ProfilePrivacy'>
   readonly active: Prisma.FieldRef<"User", 'Boolean'>
+  readonly lastActiveAt: Prisma.FieldRef<"User", 'DateTime'>
   readonly canResetPassword: Prisma.FieldRef<"User", 'Boolean'>
   readonly createdAt: Prisma.FieldRef<"User", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"User", 'DateTime'>

@@ -30,12 +30,14 @@ export function RightSidebar({
 suggestedUsers,
 currentUserId,
 followStates,
+onlineFriendIds = [],
 }: {
 suggestedUsers: SuggestedUser[];
 currentUserId: number;
 followStates: Record<number, string>;
+onlineFriendIds?: number[];
 }) {
-const onlineFriends = suggestedUsers.slice(0, 6);
+const onlineFriends = suggestedUsers.filter((u) => onlineFriendIds.includes(u.id));
 const proMembers = suggestedUsers.slice(0, 2);
 
 return (

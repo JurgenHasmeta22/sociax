@@ -4326,6 +4326,7 @@ export type ResetPasswordTokenScalarFieldEnum = (typeof ResetPasswordTokenScalar
 export const PostCommentScalarFieldEnum = {
   id: 'id',
   content: 'content',
+  mediaUrl: 'mediaUrl',
   isEdited: 'isEdited',
   isDeleted: 'isDeleted',
   createdAt: 'createdAt',
@@ -4435,6 +4436,7 @@ export type EventPostLikeScalarFieldEnum = (typeof EventPostLikeScalarFieldEnum)
 export const EventPostCommentScalarFieldEnum = {
   id: 'id',
   content: 'content',
+  mediaUrl: 'mediaUrl',
   isDeleted: 'isDeleted',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
@@ -4513,6 +4515,7 @@ export type GroupPostLikeScalarFieldEnum = (typeof GroupPostLikeScalarFieldEnum)
 export const GroupPostCommentScalarFieldEnum = {
   id: 'id',
   content: 'content',
+  mediaUrl: 'mediaUrl',
   isDeleted: 'isDeleted',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
@@ -4697,6 +4700,7 @@ export type PagePostLikeScalarFieldEnum = (typeof PagePostLikeScalarFieldEnum)[k
 export const PagePostCommentScalarFieldEnum = {
   id: 'id',
   content: 'content',
+  mediaUrl: 'mediaUrl',
   isDeleted: 'isDeleted',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
@@ -4857,6 +4861,7 @@ export const UserScalarFieldEnum = {
   location: 'location',
   profilePrivacy: 'profilePrivacy',
   active: 'active',
+  lastActiveAt: 'lastActiveAt',
   canResetPassword: 'canResetPassword',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'

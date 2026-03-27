@@ -41,6 +41,7 @@ export type GroupPostCommentSumAggregateOutputType = {
 export type GroupPostCommentMinAggregateOutputType = {
   id: number | null
   content: string | null
+  mediaUrl: string | null
   isDeleted: boolean | null
   createdAt: Date | null
   updatedAt: Date | null
@@ -51,6 +52,7 @@ export type GroupPostCommentMinAggregateOutputType = {
 export type GroupPostCommentMaxAggregateOutputType = {
   id: number | null
   content: string | null
+  mediaUrl: string | null
   isDeleted: boolean | null
   createdAt: Date | null
   updatedAt: Date | null
@@ -61,6 +63,7 @@ export type GroupPostCommentMaxAggregateOutputType = {
 export type GroupPostCommentCountAggregateOutputType = {
   id: number
   content: number
+  mediaUrl: number
   isDeleted: number
   createdAt: number
   updatedAt: number
@@ -85,6 +88,7 @@ export type GroupPostCommentSumAggregateInputType = {
 export type GroupPostCommentMinAggregateInputType = {
   id?: true
   content?: true
+  mediaUrl?: true
   isDeleted?: true
   createdAt?: true
   updatedAt?: true
@@ -95,6 +99,7 @@ export type GroupPostCommentMinAggregateInputType = {
 export type GroupPostCommentMaxAggregateInputType = {
   id?: true
   content?: true
+  mediaUrl?: true
   isDeleted?: true
   createdAt?: true
   updatedAt?: true
@@ -105,6 +110,7 @@ export type GroupPostCommentMaxAggregateInputType = {
 export type GroupPostCommentCountAggregateInputType = {
   id?: true
   content?: true
+  mediaUrl?: true
   isDeleted?: true
   createdAt?: true
   updatedAt?: true
@@ -202,6 +208,7 @@ export type GroupPostCommentGroupByArgs<ExtArgs extends runtime.Types.Extensions
 export type GroupPostCommentGroupByOutputType = {
   id: number
   content: string
+  mediaUrl: string | null
   isDeleted: boolean
   createdAt: Date
   updatedAt: Date | null
@@ -235,6 +242,7 @@ export type GroupPostCommentWhereInput = {
   NOT?: Prisma.GroupPostCommentWhereInput | Prisma.GroupPostCommentWhereInput[]
   id?: Prisma.IntFilter<"GroupPostComment"> | number
   content?: Prisma.StringFilter<"GroupPostComment"> | string
+  mediaUrl?: Prisma.StringNullableFilter<"GroupPostComment"> | string | null
   isDeleted?: Prisma.BoolFilter<"GroupPostComment"> | boolean
   createdAt?: Prisma.DateTimeFilter<"GroupPostComment"> | Date | string
   updatedAt?: Prisma.DateTimeNullableFilter<"GroupPostComment"> | Date | string | null
@@ -248,6 +256,7 @@ export type GroupPostCommentWhereInput = {
 export type GroupPostCommentOrderByWithRelationInput = {
   id?: Prisma.SortOrder
   content?: Prisma.SortOrder
+  mediaUrl?: Prisma.SortOrderInput | Prisma.SortOrder
   isDeleted?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -264,6 +273,7 @@ export type GroupPostCommentWhereUniqueInput = Prisma.AtLeast<{
   OR?: Prisma.GroupPostCommentWhereInput[]
   NOT?: Prisma.GroupPostCommentWhereInput | Prisma.GroupPostCommentWhereInput[]
   content?: Prisma.StringFilter<"GroupPostComment"> | string
+  mediaUrl?: Prisma.StringNullableFilter<"GroupPostComment"> | string | null
   isDeleted?: Prisma.BoolFilter<"GroupPostComment"> | boolean
   createdAt?: Prisma.DateTimeFilter<"GroupPostComment"> | Date | string
   updatedAt?: Prisma.DateTimeNullableFilter<"GroupPostComment"> | Date | string | null
@@ -277,6 +287,7 @@ export type GroupPostCommentWhereUniqueInput = Prisma.AtLeast<{
 export type GroupPostCommentOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
   content?: Prisma.SortOrder
+  mediaUrl?: Prisma.SortOrderInput | Prisma.SortOrder
   isDeleted?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -295,6 +306,7 @@ export type GroupPostCommentScalarWhereWithAggregatesInput = {
   NOT?: Prisma.GroupPostCommentScalarWhereWithAggregatesInput | Prisma.GroupPostCommentScalarWhereWithAggregatesInput[]
   id?: Prisma.IntWithAggregatesFilter<"GroupPostComment"> | number
   content?: Prisma.StringWithAggregatesFilter<"GroupPostComment"> | string
+  mediaUrl?: Prisma.StringNullableWithAggregatesFilter<"GroupPostComment"> | string | null
   isDeleted?: Prisma.BoolWithAggregatesFilter<"GroupPostComment"> | boolean
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"GroupPostComment"> | Date | string
   updatedAt?: Prisma.DateTimeNullableWithAggregatesFilter<"GroupPostComment"> | Date | string | null
@@ -304,6 +316,7 @@ export type GroupPostCommentScalarWhereWithAggregatesInput = {
 
 export type GroupPostCommentCreateInput = {
   content: string
+  mediaUrl?: string | null
   isDeleted?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string | null
@@ -315,6 +328,7 @@ export type GroupPostCommentCreateInput = {
 export type GroupPostCommentUncheckedCreateInput = {
   id?: number
   content: string
+  mediaUrl?: string | null
   isDeleted?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string | null
@@ -325,6 +339,7 @@ export type GroupPostCommentUncheckedCreateInput = {
 
 export type GroupPostCommentUpdateInput = {
   content?: Prisma.StringFieldUpdateOperationsInput | string
+  mediaUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -336,6 +351,7 @@ export type GroupPostCommentUpdateInput = {
 export type GroupPostCommentUncheckedUpdateInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   content?: Prisma.StringFieldUpdateOperationsInput | string
+  mediaUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -347,6 +363,7 @@ export type GroupPostCommentUncheckedUpdateInput = {
 export type GroupPostCommentCreateManyInput = {
   id?: number
   content: string
+  mediaUrl?: string | null
   isDeleted?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string | null
@@ -356,6 +373,7 @@ export type GroupPostCommentCreateManyInput = {
 
 export type GroupPostCommentUpdateManyMutationInput = {
   content?: Prisma.StringFieldUpdateOperationsInput | string
+  mediaUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -364,6 +382,7 @@ export type GroupPostCommentUpdateManyMutationInput = {
 export type GroupPostCommentUncheckedUpdateManyInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   content?: Prisma.StringFieldUpdateOperationsInput | string
+  mediaUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -384,6 +403,7 @@ export type GroupPostCommentOrderByRelationAggregateInput = {
 export type GroupPostCommentCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
   content?: Prisma.SortOrder
+  mediaUrl?: Prisma.SortOrder
   isDeleted?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
@@ -400,6 +420,7 @@ export type GroupPostCommentAvgOrderByAggregateInput = {
 export type GroupPostCommentMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
   content?: Prisma.SortOrder
+  mediaUrl?: Prisma.SortOrder
   isDeleted?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
@@ -410,6 +431,7 @@ export type GroupPostCommentMaxOrderByAggregateInput = {
 export type GroupPostCommentMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
   content?: Prisma.SortOrder
+  mediaUrl?: Prisma.SortOrder
   isDeleted?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
@@ -528,6 +550,7 @@ export type GroupPostCommentUncheckedUpdateManyWithoutUserNestedInput = {
 
 export type GroupPostCommentCreateWithoutGroupPostInput = {
   content: string
+  mediaUrl?: string | null
   isDeleted?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string | null
@@ -538,6 +561,7 @@ export type GroupPostCommentCreateWithoutGroupPostInput = {
 export type GroupPostCommentUncheckedCreateWithoutGroupPostInput = {
   id?: number
   content: string
+  mediaUrl?: string | null
   isDeleted?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string | null
@@ -576,6 +600,7 @@ export type GroupPostCommentScalarWhereInput = {
   NOT?: Prisma.GroupPostCommentScalarWhereInput | Prisma.GroupPostCommentScalarWhereInput[]
   id?: Prisma.IntFilter<"GroupPostComment"> | number
   content?: Prisma.StringFilter<"GroupPostComment"> | string
+  mediaUrl?: Prisma.StringNullableFilter<"GroupPostComment"> | string | null
   isDeleted?: Prisma.BoolFilter<"GroupPostComment"> | boolean
   createdAt?: Prisma.DateTimeFilter<"GroupPostComment"> | Date | string
   updatedAt?: Prisma.DateTimeNullableFilter<"GroupPostComment"> | Date | string | null
@@ -585,6 +610,7 @@ export type GroupPostCommentScalarWhereInput = {
 
 export type GroupPostCommentCreateWithoutLikesInput = {
   content: string
+  mediaUrl?: string | null
   isDeleted?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string | null
@@ -595,6 +621,7 @@ export type GroupPostCommentCreateWithoutLikesInput = {
 export type GroupPostCommentUncheckedCreateWithoutLikesInput = {
   id?: number
   content: string
+  mediaUrl?: string | null
   isDeleted?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string | null
@@ -620,6 +647,7 @@ export type GroupPostCommentUpdateToOneWithWhereWithoutLikesInput = {
 
 export type GroupPostCommentUpdateWithoutLikesInput = {
   content?: Prisma.StringFieldUpdateOperationsInput | string
+  mediaUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -630,6 +658,7 @@ export type GroupPostCommentUpdateWithoutLikesInput = {
 export type GroupPostCommentUncheckedUpdateWithoutLikesInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   content?: Prisma.StringFieldUpdateOperationsInput | string
+  mediaUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -639,6 +668,7 @@ export type GroupPostCommentUncheckedUpdateWithoutLikesInput = {
 
 export type GroupPostCommentCreateWithoutUserInput = {
   content: string
+  mediaUrl?: string | null
   isDeleted?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string | null
@@ -649,6 +679,7 @@ export type GroupPostCommentCreateWithoutUserInput = {
 export type GroupPostCommentUncheckedCreateWithoutUserInput = {
   id?: number
   content: string
+  mediaUrl?: string | null
   isDeleted?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string | null
@@ -684,6 +715,7 @@ export type GroupPostCommentUpdateManyWithWhereWithoutUserInput = {
 export type GroupPostCommentCreateManyGroupPostInput = {
   id?: number
   content: string
+  mediaUrl?: string | null
   isDeleted?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string | null
@@ -692,6 +724,7 @@ export type GroupPostCommentCreateManyGroupPostInput = {
 
 export type GroupPostCommentUpdateWithoutGroupPostInput = {
   content?: Prisma.StringFieldUpdateOperationsInput | string
+  mediaUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -702,6 +735,7 @@ export type GroupPostCommentUpdateWithoutGroupPostInput = {
 export type GroupPostCommentUncheckedUpdateWithoutGroupPostInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   content?: Prisma.StringFieldUpdateOperationsInput | string
+  mediaUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -712,6 +746,7 @@ export type GroupPostCommentUncheckedUpdateWithoutGroupPostInput = {
 export type GroupPostCommentUncheckedUpdateManyWithoutGroupPostInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   content?: Prisma.StringFieldUpdateOperationsInput | string
+  mediaUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -721,6 +756,7 @@ export type GroupPostCommentUncheckedUpdateManyWithoutGroupPostInput = {
 export type GroupPostCommentCreateManyUserInput = {
   id?: number
   content: string
+  mediaUrl?: string | null
   isDeleted?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string | null
@@ -729,6 +765,7 @@ export type GroupPostCommentCreateManyUserInput = {
 
 export type GroupPostCommentUpdateWithoutUserInput = {
   content?: Prisma.StringFieldUpdateOperationsInput | string
+  mediaUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -739,6 +776,7 @@ export type GroupPostCommentUpdateWithoutUserInput = {
 export type GroupPostCommentUncheckedUpdateWithoutUserInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   content?: Prisma.StringFieldUpdateOperationsInput | string
+  mediaUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -749,6 +787,7 @@ export type GroupPostCommentUncheckedUpdateWithoutUserInput = {
 export type GroupPostCommentUncheckedUpdateManyWithoutUserInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   content?: Prisma.StringFieldUpdateOperationsInput | string
+  mediaUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -789,6 +828,7 @@ export type GroupPostCommentCountOutputTypeCountLikesArgs<ExtArgs extends runtim
 export type GroupPostCommentSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   content?: boolean
+  mediaUrl?: boolean
   isDeleted?: boolean
   createdAt?: boolean
   updatedAt?: boolean
@@ -803,6 +843,7 @@ export type GroupPostCommentSelect<ExtArgs extends runtime.Types.Extensions.Inte
 export type GroupPostCommentSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   content?: boolean
+  mediaUrl?: boolean
   isDeleted?: boolean
   createdAt?: boolean
   updatedAt?: boolean
@@ -815,6 +856,7 @@ export type GroupPostCommentSelectCreateManyAndReturn<ExtArgs extends runtime.Ty
 export type GroupPostCommentSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   content?: boolean
+  mediaUrl?: boolean
   isDeleted?: boolean
   createdAt?: boolean
   updatedAt?: boolean
@@ -827,6 +869,7 @@ export type GroupPostCommentSelectUpdateManyAndReturn<ExtArgs extends runtime.Ty
 export type GroupPostCommentSelectScalar = {
   id?: boolean
   content?: boolean
+  mediaUrl?: boolean
   isDeleted?: boolean
   createdAt?: boolean
   updatedAt?: boolean
@@ -834,7 +877,7 @@ export type GroupPostCommentSelectScalar = {
   userId?: boolean
 }
 
-export type GroupPostCommentOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "content" | "isDeleted" | "createdAt" | "updatedAt" | "groupPostId" | "userId", ExtArgs["result"]["groupPostComment"]>
+export type GroupPostCommentOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "content" | "mediaUrl" | "isDeleted" | "createdAt" | "updatedAt" | "groupPostId" | "userId", ExtArgs["result"]["groupPostComment"]>
 export type GroupPostCommentInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   groupPost?: boolean | Prisma.GroupPostDefaultArgs<ExtArgs>
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
@@ -860,6 +903,7 @@ export type $GroupPostCommentPayload<ExtArgs extends runtime.Types.Extensions.In
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: number
     content: string
+    mediaUrl: string | null
     isDeleted: boolean
     createdAt: Date
     updatedAt: Date | null
@@ -1293,6 +1337,7 @@ export interface Prisma__GroupPostCommentClient<T, Null = never, ExtArgs extends
 export interface GroupPostCommentFieldRefs {
   readonly id: Prisma.FieldRef<"GroupPostComment", 'Int'>
   readonly content: Prisma.FieldRef<"GroupPostComment", 'String'>
+  readonly mediaUrl: Prisma.FieldRef<"GroupPostComment", 'String'>
   readonly isDeleted: Prisma.FieldRef<"GroupPostComment", 'Boolean'>
   readonly createdAt: Prisma.FieldRef<"GroupPostComment", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"GroupPostComment", 'DateTime'>

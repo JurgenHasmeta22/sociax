@@ -179,6 +179,16 @@ export default async function FeedPage() {
 
 	if (!currentUser) redirect("/login");
 
+	const ONLINE_THRESHOLD_MS = 5 * 60 * 1000;
+	const onlineThreshold = new Date(Date.now() - ONLINE_THRESHOLD_MS);
+	const onlineFriendRows = friendIds.length > 0
+		? await prisma.user.findMany({
+				where: { id: { in: friendIds }, lastActiveAt: { gt: onlineThreshold } },
+				select: { id: true },
+		  })
+		: [];
+	const onlineFriendIds = onlineFriendRows.map((u) => u.id);
+
 	const suggestedIds = suggestedUsers.map((u) => u.id);
 	const myFollowsOfSuggested = await prisma.userFollow.findMany({
 		where: { followerId: userId, followingId: { in: suggestedIds } },
@@ -272,6 +282,7 @@ export default async function FeedPage() {
 					suggestedUsers={suggestedUsers}
 					currentUserId={userId}
 					followStates={followStates}
+					onlineFriendIds={onlineFriendIds}
 				/>
 			</aside>
 		</div>
