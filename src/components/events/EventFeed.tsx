@@ -233,6 +233,10 @@ function EventPostCard({
 	const [showComments, setShowComments] = useState(false);
 	const [comments, setComments] = useState<EventPostComment[]>([]);
 	const [commentText, setCommentText] = useState("");
+	const [commentMedia, setCommentMedia] = useState<File | null>(null);
+	const [commentMediaPreview, setCommentMediaPreview] = useState<string | null>(null);
+	const [isUploadingComment, setIsUploadingComment] = useState(false);
+	const commentMediaRef = useRef<HTMLInputElement>(null);
 	const [isPending, startTransition] = useTransition();
 	const hoverTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
 	const [showPicker, setShowPicker] = useState(false);

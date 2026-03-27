@@ -28,9 +28,11 @@ import {
 	Moon,
 	Sun,
 	NotebookPen,
+	ShoppingBag,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { SearchModal } from "@/components/root/SearchModal";
+import { ChatNavButton } from "@/components/root/ChatNavButton";
 
 const NAV_LINKS = [
 	{ href: "/feed", icon: Home, label: "Home" },
@@ -38,6 +40,7 @@ const NAV_LINKS = [
 	{ href: "/groups", icon: UsersRound, label: "Groups" },
 	{ href: "/pages", icon: Flag, label: "Pages" },
 	{ href: "/events", icon: CalendarDays, label: "Events" },
+	{ href: "/marketplace", icon: ShoppingBag, label: "Marketplace" },
 ];
 
 export function Navbar() {
@@ -116,8 +119,7 @@ export function Navbar() {
 									onClick={() => setSearchOpen(true)}
 								>
 									<Search className="h-5 w-5" />
-								</Button>
-								<Link href="/notifications">
+								</Button>							<ChatNavButton />								<Link href="/notifications">
 									<Button
 										variant="ghost"
 										size="icon"

@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useTransition } from "react";
+import { useRouter } from "next/navigation";
 import {
 	Card,
 	CardContent,
@@ -21,17 +22,39 @@ import {
 	SelectTrigger,
 	SelectValue,
 } from "@/components/ui/select";
-import { User, Shield, Lock, Globe, Users, Eye, EyeOff } from "lucide-react";
+import { User, Shield, Lock, Globe, Users, Eye, EyeOff, UserX, AlertTriangle, Trash2 } from "lucide-react";
 import { toast } from "sonner";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import {
+	AlertDialog,
+	AlertDialogAction,
+	AlertDialogCancel,
+	AlertDialogContent,
+	AlertDialogDescription,
+	AlertDialogFooter,
+	AlertDialogHeader,
+	AlertDialogTitle,
+} from "@/components/ui/alert-dialog";
 import {
 	updateUserProfile,
 	updateProfilePrivacy,
 	changePassword,
+	unblockUser,
+	deactivateAccount,
+	deleteAccount,
 } from "@/actions/user.actions";
 import type {
 	ProfilePrivacy,
 	Gender,
 } from "../../../prisma/generated/prisma/enums";
+
+type BlockedUser = {
+	id: number;
+	userName: string;
+	firstName: string | null;
+	lastName: string | null;
+	avatar: { photoSrc: string } | null;
+};
 
 type SettingsUser = {
 	id: number;
@@ -53,6 +76,8 @@ const SECTIONS = [
 	{ id: "account", label: "Account", icon: User },
 	{ id: "privacy", label: "Privacy", icon: Shield },
 	{ id: "security", label: "Security", icon: Lock },
+	{ id: "blocked", label: "Blocked Users", icon: UserX },
+	{ id: "danger", label: "Account Actions", icon: AlertTriangle },
 ] as const;
 
 type Section = (typeof SECTIONS)[number]["id"];
@@ -467,7 +492,7 @@ function SecuritySection({ hasPassword }: { hasPassword: boolean }) {
 	);
 }
 
-export function SettingsContent({ user }: { user: SettingsUser }) {
+export function SettingsContent({ user, blockedUsers = [] }: { user: SettingsUser; blockedUsers?: BlockedUser[] }) {
 	const [activeSection, setActiveSection] = useState<Section>("account");
 
 	return (
@@ -506,8 +531,215 @@ export function SettingsContent({ user }: { user: SettingsUser }) {
 					{activeSection === "security" && (
 						<SecuritySection hasPassword={user.hasPassword} />
 					)}
+					{activeSection === "blocked" && (
+						<BlockedUsersSection initialBlocked={blockedUsers} />
+					)}
+					{activeSection === "danger" && (
+						<DangerSection hasPassword={user.hasPassword} />
+					)}
 				</div>
 			</div>
 		</div>
+	);
+}
+
+function BlockedUsersSection({ initialBlocked }: { initialBlocked: BlockedUser[] }) {
+	const [blocked, setBlocked] = useState<BlockedUser[]>(initialBlocked);
+	const [unblocking, setUnblocking] = useState<number | null>(null);
+
+	const handleUnblock = async (userId: number) => {
+		setUnblocking(userId);
+		try {
+			await unblockUser(userId);
+			setBlocked((prev) => prev.filter((u) => u.id !== userId));
+			toast.success("User unblocked.");
+		} catch {
+			toast.error("Failed to unblock user.");
+		} finally {
+			setUnblocking(null);
+		}
+	};
+
+	return (
+		<Card>
+			<CardHeader>
+				<CardTitle>Blocked Users</CardTitle>
+				<CardDescription>
+					Blocked users cannot see your profile, message you, or follow you.
+				</CardDescription>
+			</CardHeader>
+			<CardContent>
+				{blocked.length === 0 ? (
+					<p className="text-sm text-muted-foreground text-center py-8">You haven&apos;t blocked anyone.</p>
+				) : (
+					<div className="space-y-3">
+						{blocked.map((u) => {
+							const name = [u.firstName, u.lastName].filter(Boolean).join(" ") || u.userName;
+							return (
+								<div key={u.id} className="flex items-center gap-3">
+									<Avatar className="h-9 w-9 shrink-0">
+										<AvatarImage src={u.avatar?.photoSrc ?? undefined} />
+										<AvatarFallback className="bg-primary text-primary-foreground font-semibold text-sm">
+											{name[0]?.toUpperCase()}
+										</AvatarFallback>
+									</Avatar>
+									<div className="flex-1 min-w-0">
+										<p className="text-sm font-semibold truncate">{name}</p>
+										<p className="text-xs text-muted-foreground">@{u.userName}</p>
+									</div>
+									<Button
+										size="sm"
+										variant="outline"
+										onClick={() => handleUnblock(u.id)}
+										disabled={unblocking === u.id}
+									>
+										{unblocking === u.id ? "Unblocking..." : "Unblock"}
+									</Button>
+								</div>
+							);
+						})}
+					</div>
+				)}
+			</CardContent>
+		</Card>
+	);
+}
+
+function DangerSection({ hasPassword }: { hasPassword: boolean }) {
+	const router = useRouter();
+	const [deactivateOpen, setDeactivateOpen] = useState(false);
+	const [deleteOpen, setDeleteOpen] = useState(false);
+	const [password, setPassword] = useState("");
+	const [isPending, startTransition] = useTransition();
+
+	const handleDeactivate = () => {
+		startTransition(async () => {
+			try {
+				await deactivateAccount();
+				toast.success("Account deactivated. You will be signed out.");
+				router.push("/login");
+			} catch {
+				toast.error("Failed to deactivate account.");
+			} finally {
+				setDeactivateOpen(false);
+			}
+		});
+	};
+
+	const handleDelete = () => {
+		startTransition(async () => {
+			try {
+				await deleteAccount(password);
+				toast.success("Account deleted.");
+				router.push("/login");
+			} catch (e) {
+				toast.error(e instanceof Error ? e.message : "Failed to delete account.");
+			} finally {
+				setDeleteOpen(false);
+				setPassword("");
+			}
+		});
+	};
+
+	return (
+		<>
+			<div className="space-y-4">
+				<Card className="border-amber-200 dark:border-amber-800">
+					<CardHeader>
+						<CardTitle className="text-amber-600 dark:text-amber-400 flex items-center gap-2">
+							<AlertTriangle className="h-5 w-5" />
+							Deactivate Account
+						</CardTitle>
+						<CardDescription>
+							Temporarily hide your profile and content. You can reactivate by logging back in.
+						</CardDescription>
+					</CardHeader>
+					<CardContent>
+						<Button
+							variant="outline"
+							className="border-amber-500 text-amber-600 hover:bg-amber-50 dark:hover:bg-amber-950"
+							onClick={() => setDeactivateOpen(true)}
+						>
+							Deactivate my account
+						</Button>
+					</CardContent>
+				</Card>
+
+				<Card className="border-destructive/30">
+					<CardHeader>
+						<CardTitle className="text-destructive flex items-center gap-2">
+							<Trash2 className="h-5 w-5" />
+							Delete Account
+						</CardTitle>
+						<CardDescription>
+							Permanently delete your account and all data. This action cannot be undone.
+						</CardDescription>
+					</CardHeader>
+					<CardContent>
+						<Button
+							variant="destructive"
+							onClick={() => setDeleteOpen(true)}
+						>
+							Delete my account
+						</Button>
+					</CardContent>
+				</Card>
+			</div>
+
+			{/* Deactivate confirmation */}
+			<AlertDialog open={deactivateOpen} onOpenChange={setDeactivateOpen}>
+				<AlertDialogContent>
+					<AlertDialogHeader>
+						<AlertDialogTitle>Deactivate your account?</AlertDialogTitle>
+						<AlertDialogDescription>
+							Your profile and content will be hidden until you log back in. Your data will be preserved.
+						</AlertDialogDescription>
+					</AlertDialogHeader>
+					<AlertDialogFooter>
+						<AlertDialogCancel>Cancel</AlertDialogCancel>
+						<AlertDialogAction
+							onClick={handleDeactivate}
+							disabled={isPending}
+							className="bg-amber-500 hover:bg-amber-600 text-white"
+						>
+							{isPending ? "Deactivating..." : "Deactivate"}
+						</AlertDialogAction>
+					</AlertDialogFooter>
+				</AlertDialogContent>
+			</AlertDialog>
+
+			{/* Delete confirmation */}
+			<AlertDialog open={deleteOpen} onOpenChange={setDeleteOpen}>
+				<AlertDialogContent>
+					<AlertDialogHeader>
+						<AlertDialogTitle>Delete your account permanently?</AlertDialogTitle>
+						<AlertDialogDescription>
+							This is irreversible. All your posts, messages, and data will be deleted.
+							{hasPassword && " Enter your password to confirm."}
+						</AlertDialogDescription>
+					</AlertDialogHeader>
+					{hasPassword && (
+						<div className="px-1 py-2">
+							<Input
+								type="password"
+								placeholder="Enter your password"
+								value={password}
+								onChange={(e) => setPassword(e.target.value)}
+							/>
+						</div>
+					)}
+					<AlertDialogFooter>
+						<AlertDialogCancel onClick={() => setPassword("")}>Cancel</AlertDialogCancel>
+						<AlertDialogAction
+							onClick={handleDelete}
+							disabled={isPending || (hasPassword && !password)}
+							className="bg-destructive hover:bg-destructive/90"
+						>
+							{isPending ? "Deleting..." : "Delete permanently"}
+						</AlertDialogAction>
+					</AlertDialogFooter>
+				</AlertDialogContent>
+			</AlertDialog>
+		</>
 	);
 }

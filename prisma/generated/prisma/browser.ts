@@ -123,6 +123,31 @@ export type GroupPostComment = Prisma.GroupPostCommentModel
  */
 export type GroupPostCommentLike = Prisma.GroupPostCommentLikeModel
 /**
+ * Model MarketplaceListing
+ * 
+ */
+export type MarketplaceListing = Prisma.MarketplaceListingModel
+/**
+ * Model ListingImage
+ * 
+ */
+export type ListingImage = Prisma.ListingImageModel
+/**
+ * Model ListingSave
+ * 
+ */
+export type ListingSave = Prisma.ListingSaveModel
+/**
+ * Model ListingOffer
+ * 
+ */
+export type ListingOffer = Prisma.ListingOfferModel
+/**
+ * Model ListingMessage
+ * 
+ */
+export type ListingMessage = Prisma.ListingMessageModel
+/**
  * Model Memory
  * 
  */

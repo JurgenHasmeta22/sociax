@@ -34,7 +34,7 @@ export default async function PeoplePage({ searchParams }: PageProps) {
 			take: 20,
 			include: {
 				avatar: true,
-				_count: { select: { followers: true, posts: true } },
+				_count: { select: { following: true, posts: true } },
 			},
 		}),
 		prisma.user.count({ where }),

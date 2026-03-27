@@ -72,6 +72,11 @@ export const ModelName = {
   GroupPostLike: 'GroupPostLike',
   GroupPostComment: 'GroupPostComment',
   GroupPostCommentLike: 'GroupPostCommentLike',
+  MarketplaceListing: 'MarketplaceListing',
+  ListingImage: 'ListingImage',
+  ListingSave: 'ListingSave',
+  ListingOffer: 'ListingOffer',
+  ListingMessage: 'ListingMessage',
   Memory: 'Memory',
   Conversation: 'Conversation',
   ConversationParticipant: 'ConversationParticipant',
@@ -388,6 +393,72 @@ export const GroupPostCommentLikeScalarFieldEnum = {
 } as const
 
 export type GroupPostCommentLikeScalarFieldEnum = (typeof GroupPostCommentLikeScalarFieldEnum)[keyof typeof GroupPostCommentLikeScalarFieldEnum]
+
+
+export const MarketplaceListingScalarFieldEnum = {
+  id: 'id',
+  title: 'title',
+  description: 'description',
+  price: 'price',
+  isFree: 'isFree',
+  category: 'category',
+  condition: 'condition',
+  status: 'status',
+  location: 'location',
+  slug: 'slug',
+  viewCount: 'viewCount',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  sellerId: 'sellerId'
+} as const
+
+export type MarketplaceListingScalarFieldEnum = (typeof MarketplaceListingScalarFieldEnum)[keyof typeof MarketplaceListingScalarFieldEnum]
+
+
+export const ListingImageScalarFieldEnum = {
+  id: 'id',
+  url: 'url',
+  order: 'order',
+  createdAt: 'createdAt',
+  listingId: 'listingId'
+} as const
+
+export type ListingImageScalarFieldEnum = (typeof ListingImageScalarFieldEnum)[keyof typeof ListingImageScalarFieldEnum]
+
+
+export const ListingSaveScalarFieldEnum = {
+  id: 'id',
+  createdAt: 'createdAt',
+  userId: 'userId',
+  listingId: 'listingId'
+} as const
+
+export type ListingSaveScalarFieldEnum = (typeof ListingSaveScalarFieldEnum)[keyof typeof ListingSaveScalarFieldEnum]
+
+
+export const ListingOfferScalarFieldEnum = {
+  id: 'id',
+  amount: 'amount',
+  message: 'message',
+  status: 'status',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  buyerId: 'buyerId',
+  listingId: 'listingId'
+} as const
+
+export type ListingOfferScalarFieldEnum = (typeof ListingOfferScalarFieldEnum)[keyof typeof ListingOfferScalarFieldEnum]
+
+
+export const ListingMessageScalarFieldEnum = {
+  id: 'id',
+  content: 'content',
+  createdAt: 'createdAt',
+  senderId: 'senderId',
+  listingId: 'listingId'
+} as const
+
+export type ListingMessageScalarFieldEnum = (typeof ListingMessageScalarFieldEnum)[keyof typeof ListingMessageScalarFieldEnum]
 
 
 export const MemoryScalarFieldEnum = {

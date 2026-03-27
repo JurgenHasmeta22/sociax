@@ -12,26 +12,44 @@ export default async function SettingsPage() {
 
 	const userId = parseInt(session.user.id);
 
-	const user = await prisma.user.findUnique({
-		where: { id: userId },
-		select: {
-			id: true,
-			firstName: true,
-			lastName: true,
-			userName: true,
-			email: true,
-			bio: true,
-			location: true,
-			website: true,
-			phone: true,
-			birthday: true,
-			gender: true,
-			profilePrivacy: true,
-			password: true,
-		},
-	});
+	const [user, blockedEntries] = await Promise.all([
+		prisma.user.findUnique({
+			where: { id: userId },
+			select: {
+				id: true,
+				firstName: true,
+				lastName: true,
+				userName: true,
+				email: true,
+				bio: true,
+				location: true,
+				website: true,
+				phone: true,
+				birthday: true,
+				gender: true,
+				profilePrivacy: true,
+				password: true,
+			},
+		}),
+		prisma.userBlock.findMany({
+			where: { blockerId: userId },
+			select: {
+				blocked: {
+					select: {
+						id: true,
+						userName: true,
+						firstName: true,
+						lastName: true,
+						avatar: { select: { photoSrc: true } },
+					},
+				},
+			},
+		}),
+	]);
 
 	if (!user) redirect("/login");
+
+	const blockedUsers = blockedEntries.map((e) => e.blocked);
 
 	return (
 		<SettingsContent
@@ -39,6 +57,7 @@ export default async function SettingsPage() {
 				...user,
 				hasPassword: !!user.password,
 			}}
+			blockedUsers={blockedUsers}
 		/>
 	);
 }

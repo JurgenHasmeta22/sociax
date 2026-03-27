@@ -54,6 +54,55 @@ export const GroupMemberStatus = {
 export type GroupMemberStatus = (typeof GroupMemberStatus)[keyof typeof GroupMemberStatus]
 
 
+export const ListingStatus = {
+  Active: 'Active',
+  Sold: 'Sold',
+  Reserved: 'Reserved',
+  Removed: 'Removed'
+} as const
+
+export type ListingStatus = (typeof ListingStatus)[keyof typeof ListingStatus]
+
+
+export const ListingCondition = {
+  New: 'New',
+  LikeNew: 'LikeNew',
+  Good: 'Good',
+  Fair: 'Fair',
+  Poor: 'Poor'
+} as const
+
+export type ListingCondition = (typeof ListingCondition)[keyof typeof ListingCondition]
+
+
+export const ListingCategory = {
+  Electronics: 'Electronics',
+  Clothing: 'Clothing',
+  Furniture: 'Furniture',
+  Vehicles: 'Vehicles',
+  Books: 'Books',
+  HomeGarden: 'HomeGarden',
+  Sports: 'Sports',
+  Toys: 'Toys',
+  Art: 'Art',
+  Food: 'Food',
+  Services: 'Services',
+  Other: 'Other'
+} as const
+
+export type ListingCategory = (typeof ListingCategory)[keyof typeof ListingCategory]
+
+
+export const OfferStatus = {
+  Pending: 'Pending',
+  Accepted: 'Accepted',
+  Declined: 'Declined',
+  Withdrawn: 'Withdrawn'
+} as const
+
+export type OfferStatus = (typeof OfferStatus)[keyof typeof OfferStatus]
+
+
 export const MessageType = {
   Text: 'Text',
   Image: 'Image',

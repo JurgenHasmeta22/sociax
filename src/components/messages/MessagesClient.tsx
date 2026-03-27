@@ -20,6 +20,10 @@ import {
 	CheckCheck,
 	X,
 	MessageCircle,
+	MoreHorizontal,
+	Pencil,
+	Trash2,
+	Trash,
 } from "lucide-react";
 import { formatDistanceToNow, isToday, isYesterday, format } from "date-fns";
 import {
@@ -31,7 +35,17 @@ import {
 	markConversationRead,
 	searchChatUsers,
 	pingOnline,
+	editMessage,
+	deleteMessageForMe,
+	deleteMessageForAll,
 } from "@/actions/message.actions";
+import {
+	DropdownMenu,
+	DropdownMenuContent,
+	DropdownMenuItem,
+	DropdownMenuSeparator,
+	DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 import { cn } from "@/lib/utils";
 import { toast } from "sonner";
 
@@ -67,13 +81,26 @@ function MessageStatusIcon({ status, isMine }: { status: string; isMine: boolean
 	return <Check className="h-3.5 w-3.5 text-muted-foreground" />;
 }
 
-function MessageBubble({ msg, isMine }: { msg: Message; isMine: boolean }) {
+function MessageBubble({
+	msg,
+	isMine,
+	onEdit,
+	onDeleteMe,
+	onDeleteAll,
+}: {
+	msg: Message;
+	isMine: boolean;
+	onEdit?: (msg: Message) => void;
+	onDeleteMe?: (id: number) => void;
+	onDeleteAll?: (id: number) => void;
+}) {
 	const isImage = msg.type === "Image";
 	const isFile = msg.type === "File";
 	const hasText = msg.content && msg.content.trim().length > 0;
+	const isPdf = isFile && (msg.mediaUrl?.toLowerCase().endsWith(".pdf") || msg.mediaUrl?.includes("/pdf"));
 
 	return (
-		<div className={cn("flex gap-2 items-end", isMine ? "flex-row-reverse" : "flex-row")}>
+		<div className={cn("group flex gap-2 items-end", isMine ? "flex-row-reverse" : "flex-row")}>
 			{!isMine && (
 				<Avatar className="h-7 w-7 shrink-0 mb-1">
 					<AvatarImage src={msg.sender.avatar?.photoSrc ?? undefined} />
@@ -105,7 +132,11 @@ function MessageBubble({ msg, isMine }: { msg: Message; isMine: boolean }) {
 								: "bg-muted text-foreground border-border/60"
 						)}
 					>
-						<FileText className="h-4 w-4 shrink-0" />
+						{isPdf ? (
+							<span className="text-lg leading-none">📄</span>
+						) : (
+							<FileText className="h-4 w-4 shrink-0" />
+						)}
 						<span className="truncate max-w-[200px]">{msg.mediaUrl.split("/").pop()}</span>
 					</a>
 				)}
@@ -124,10 +155,49 @@ function MessageBubble({ msg, isMine }: { msg: Message; isMine: boolean }) {
 				<div className={cn("flex items-center gap-1 px-1", isMine ? "flex-row-reverse" : "flex-row")}>
 					<span className="text-[10px] text-muted-foreground">
 						{format(new Date(msg.createdAt), "HH:mm")}
+						{msg.isEdited && <span className="ml-1 opacity-60">(edited)</span>}
 					</span>
 					<MessageStatusIcon status={msg.status} isMine={isMine} />
 				</div>
 			</div>
+			{/* Context menu — visible on hover */}
+			{(isMine || onDeleteMe) && (
+				<div className={cn("self-center opacity-0 group-hover:opacity-100 transition-opacity", isMine ? "mr-1" : "ml-1")}>
+					<DropdownMenu>
+						<DropdownMenuTrigger asChild>
+							<button className="h-6 w-6 rounded-full bg-muted flex items-center justify-center hover:bg-muted/80">
+								<MoreHorizontal className="h-3.5 w-3.5 text-muted-foreground" />
+							</button>
+						</DropdownMenuTrigger>
+						<DropdownMenuContent align={isMine ? "end" : "start"} className="w-44">
+							{isMine && msg.type === "Text" && onEdit && (
+								<DropdownMenuItem onClick={() => onEdit(msg)} className="gap-2">
+									<Pencil className="h-3.5 w-3.5" /> Edit message
+								</DropdownMenuItem>
+							)}
+							{isMine && (
+								<DropdownMenuItem
+									onClick={() => onDeleteAll?.(msg.id)}
+									className="gap-2 text-destructive focus:text-destructive"
+								>
+									<Trash2 className="h-3.5 w-3.5" /> Delete for all
+								</DropdownMenuItem>
+							)}
+							{onDeleteMe && (
+								<>
+									{isMine && <DropdownMenuSeparator />}
+									<DropdownMenuItem
+										onClick={() => onDeleteMe(msg.id)}
+										className="gap-2 text-destructive focus:text-destructive"
+									>
+										<Trash className="h-3.5 w-3.5" /> Delete for me
+									</DropdownMenuItem>
+								</>
+							)}
+						</DropdownMenuContent>
+					</DropdownMenu>
+				</div>
+			)}
 		</div>
 	);
 }
@@ -155,6 +225,9 @@ export function MessagesClient({ initialConversations, currentUserId }: Messages
 	const [isUploading, setIsUploading] = useState(false);
 	const [uploadPreview, setUploadPreview] = useState<{ url: string; name: string; type: string } | null>(null);
 	const [showMobileList, setShowMobileList] = useState(true);
+	// Edit state
+	const [editingMsg, setEditingMsg] = useState<Message | null>(null);
+	const [editText, setEditText] = useState("");
 
 	const messagesEndRef = useRef<HTMLDivElement>(null);
 	const fileInputRef = useRef<HTMLInputElement>(null);
@@ -328,6 +401,43 @@ export function MessagesClient({ initialConversations, currentUserId }: Messages
 		} finally {
 			setIsUploading(false);
 			if (fileInputRef.current) fileInputRef.current.value = "";
+		}
+	}, []);
+
+	const handleEditStart = useCallback((msg: Message) => {
+		setEditingMsg(msg);
+		setEditText(msg.content ?? "");
+	}, []);
+
+	const handleEditSave = useCallback(async () => {
+		if (!editingMsg || !editText.trim()) return;
+		try {
+			const updated = await editMessage(editingMsg.id, editText.trim());
+			setMessages((prev) =>
+				prev.map((m) => (m.id === updated.id ? { ...m, content: updated.content, isEdited: true } : m))
+			);
+			setEditingMsg(null);
+			setEditText("");
+		} catch {
+			toast.error("Failed to edit message");
+		}
+	}, [editingMsg, editText]);
+
+	const handleDeleteMe = useCallback(async (messageId: number) => {
+		try {
+			await deleteMessageForMe(messageId);
+			setMessages((prev) => prev.filter((m) => m.id !== messageId));
+		} catch {
+			toast.error("Failed to delete message");
+		}
+	}, []);
+
+	const handleDeleteAll = useCallback(async (messageId: number) => {
+		try {
+			await deleteMessageForAll(messageId);
+			setMessages((prev) => prev.filter((m) => m.id !== messageId));
+		} catch {
+			toast.error("Failed to delete message");
 		}
 	}, []);
 
@@ -608,13 +718,29 @@ export function MessagesClient({ initialConversations, currentUserId }: Messages
 												<div className="flex-1 h-px bg-border/60" />
 											</div>
 										)}
-										<MessageBubble msg={msg} isMine={isMine} />
+										<MessageBubble
+											msg={msg}
+											isMine={isMine}
+											onEdit={handleEditStart}
+											onDeleteMe={handleDeleteMe}
+											onDeleteAll={handleDeleteAll}
+										/>
 									</div>
 								);
 							})}
 							<div ref={messagesEndRef} />
 						</div>
 
+						{/* Edit Bar */}
+						{editingMsg && (
+							<div className="px-4 py-2 border-t border-border/40 bg-muted/30 flex items-center gap-2">
+								<Pencil className="h-4 w-4 text-primary shrink-0" />
+								<span className="text-xs text-muted-foreground flex-1 truncate">Editing: {editingMsg.content}</span>
+								<button onClick={() => { setEditingMsg(null); setEditText(""); }} className="text-muted-foreground hover:text-foreground">
+									<X className="h-4 w-4" />
+								</button>
+							</div>
+						)}
 						{/* Upload Preview */}
 						{uploadPreview && (
 							<div className="px-4 py-2 border-t border-border/40 bg-muted/30">
@@ -698,18 +824,27 @@ export function MessagesClient({ initialConversations, currentUserId }: Messages
 									<Smile className="h-4.5 w-4.5" />
 								</Button>
 								<Textarea
-									value={messageText}
-									onChange={(e) => setMessageText(e.target.value)}
-									onKeyDown={handleKeyDown}
-									placeholder="Type a message..."
+									value={editingMsg ? editText : messageText}
+									onChange={(e) => editingMsg ? setEditText(e.target.value) : setMessageText(e.target.value)}
+									onKeyDown={(e) => {
+										if (e.key === "Enter" && !e.shiftKey) {
+											e.preventDefault();
+											editingMsg ? handleEditSave() : handleSend();
+										}
+										if (e.key === "Escape" && editingMsg) {
+											setEditingMsg(null);
+											setEditText("");
+										}
+									}}
+									placeholder={editingMsg ? "Edit message..." : "Type a message..."}
 									rows={1}
 									className="flex-1 resize-none min-h-[38px] max-h-28 py-2 text-sm leading-relaxed rounded-2xl border-border/60 focus-visible:ring-1 focus-visible:ring-primary"
 								/>
 								<Button
 									size="icon"
 									className="h-9 w-9 shrink-0 rounded-full"
-									onClick={handleSend}
-									disabled={isSending || (!messageText.trim() && !uploadPreview)}
+									onClick={editingMsg ? handleEditSave : handleSend}
+									disabled={isSending || (editingMsg ? !editText.trim() : (!messageText.trim() && !uploadPreview))}
 								>
 									<Send className="h-4 w-4" />
 								</Button>

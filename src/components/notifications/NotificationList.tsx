@@ -56,7 +56,7 @@ function NotificationItem({ n }: { n: Notification }) {
 		<div
 			className={cn(
 				"flex items-start gap-3 py-3 px-4 rounded-xl transition-colors",
-				!n.isRead && "bg-primary/5",
+				n.status === "unread" && "bg-primary/5",
 			)}
 		>
 			{actor ? (

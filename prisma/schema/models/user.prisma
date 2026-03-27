@@ -120,6 +120,12 @@ model User {
     moderationLogsCreated   ModerationLog[]   @relation("ModeratorUser")
     moderationLogsTargeted  ModerationLog[]   @relation("TargetUser")
 
+    // Marketplace Relations
+    listings         MarketplaceListing[] @relation("ListingSeller")
+    listingSaves     ListingSave[]        @relation("ListingSaver")
+    listingOffers    ListingOffer[]       @relation("ListingBuyer")
+    listingMessages  ListingMessage[]     @relation("ListingMessageSender")
+
     @@index([userName(sort: Asc)])
     @@index([email])
     @@index([createdAt])

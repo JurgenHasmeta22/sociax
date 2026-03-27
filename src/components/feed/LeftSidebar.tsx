@@ -17,9 +17,6 @@ Bookmark,
 Clock,
 Users,
 Settings,
-CreditCard,
-ShieldCheck,
-Code2,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useState } from "react";
@@ -49,7 +46,7 @@ const PRIMARY_LINKS = [
 { href: "/events", icon: CalendarDays, label: "Event", color: "bg-green-500" },
 { href: "/pages", icon: Flag, label: "Pages", color: "bg-rose-500" },
 { href: "/groups", icon: UsersRound, label: "Groups", color: "bg-amber-500" },
-{ href: "/market", icon: ShoppingBag, label: "Market", color: "bg-purple-500" },
+{ href: "/marketplace", icon: ShoppingBag, label: "Marketplace", color: "bg-purple-500" },
 { href: "/blog", icon: BookOpen, label: "Blog", color: "bg-sky-500" },
 ];
 
@@ -61,9 +58,6 @@ const MORE_LINKS = [
 
 const PAGE_LINKS = [
 { href: "/settings", icon: Settings, label: "Setting" },
-{ href: "/upgrade", icon: CreditCard, label: "Upgrade" },
-{ href: "/login", icon: ShieldCheck, label: "Authentication" },
-{ href: "/dev", icon: Code2, label: "Development" },
 ];
 
 interface NavLinkDef {
@@ -149,7 +143,7 @@ className="flex items-center gap-3 px-2 py-2 rounded-xl w-full text-left transit
 {shortcuts.length > 0 && (
 <>
 <p className="px-2 pt-4 pb-1 text-xs font-semibold text-muted-foreground uppercase tracking-wider">
-Shortcut
+Online Friends
 </p>
 {shortcuts.map((friend) => {
 const friendName =

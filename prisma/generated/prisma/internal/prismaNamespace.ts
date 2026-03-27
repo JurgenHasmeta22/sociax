@@ -405,6 +405,11 @@ export const ModelName = {
   GroupPostLike: 'GroupPostLike',
   GroupPostComment: 'GroupPostComment',
   GroupPostCommentLike: 'GroupPostCommentLike',
+  MarketplaceListing: 'MarketplaceListing',
+  ListingImage: 'ListingImage',
+  ListingSave: 'ListingSave',
+  ListingOffer: 'ListingOffer',
+  ListingMessage: 'ListingMessage',
   Memory: 'Memory',
   Conversation: 'Conversation',
   ConversationParticipant: 'ConversationParticipant',
@@ -450,7 +455,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "account" | "session" | "verificationToken" | "activateToken" | "resetPasswordToken" | "postComment" | "commentLike" | "commentReply" | "replyLike" | "event" | "eventAttendee" | "eventPost" | "eventPostLike" | "eventPostComment" | "eventPostCommentLike" | "group" | "groupMember" | "groupPost" | "groupPostLike" | "groupPostComment" | "groupPostCommentLike" | "memory" | "conversation" | "conversationParticipant" | "message" | "messageReaction" | "reportedContent" | "moderationLog" | "notification" | "page" | "pageFollower" | "pagePost" | "pagePostLike" | "pagePostComment" | "pagePostCommentLike" | "post" | "postMedia" | "postLike" | "postSave" | "postShare" | "postHistory" | "hashtag" | "postHashtag" | "story" | "storyView" | "storyReaction" | "user" | "avatar" | "coverPhoto" | "userFollow" | "userBlock"
+    modelProps: "account" | "session" | "verificationToken" | "activateToken" | "resetPasswordToken" | "postComment" | "commentLike" | "commentReply" | "replyLike" | "event" | "eventAttendee" | "eventPost" | "eventPostLike" | "eventPostComment" | "eventPostCommentLike" | "group" | "groupMember" | "groupPost" | "groupPostLike" | "groupPostComment" | "groupPostCommentLike" | "marketplaceListing" | "listingImage" | "listingSave" | "listingOffer" | "listingMessage" | "memory" | "conversation" | "conversationParticipant" | "message" | "messageReaction" | "reportedContent" | "moderationLog" | "notification" | "page" | "pageFollower" | "pagePost" | "pagePostLike" | "pagePostComment" | "pagePostCommentLike" | "post" | "postMedia" | "postLike" | "postSave" | "postShare" | "postHistory" | "hashtag" | "postHashtag" | "story" | "storyView" | "storyReaction" | "user" | "avatar" | "coverPhoto" | "userFollow" | "userBlock"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -2005,6 +2010,376 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         count: {
           args: Prisma.GroupPostCommentLikeCountArgs<ExtArgs>
           result: runtime.Types.Utils.Optional<Prisma.GroupPostCommentLikeCountAggregateOutputType> | number
+        }
+      }
+    }
+    MarketplaceListing: {
+      payload: Prisma.$MarketplaceListingPayload<ExtArgs>
+      fields: Prisma.MarketplaceListingFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.MarketplaceListingFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MarketplaceListingPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.MarketplaceListingFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MarketplaceListingPayload>
+        }
+        findFirst: {
+          args: Prisma.MarketplaceListingFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MarketplaceListingPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.MarketplaceListingFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MarketplaceListingPayload>
+        }
+        findMany: {
+          args: Prisma.MarketplaceListingFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MarketplaceListingPayload>[]
+        }
+        create: {
+          args: Prisma.MarketplaceListingCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MarketplaceListingPayload>
+        }
+        createMany: {
+          args: Prisma.MarketplaceListingCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.MarketplaceListingCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MarketplaceListingPayload>[]
+        }
+        delete: {
+          args: Prisma.MarketplaceListingDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MarketplaceListingPayload>
+        }
+        update: {
+          args: Prisma.MarketplaceListingUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MarketplaceListingPayload>
+        }
+        deleteMany: {
+          args: Prisma.MarketplaceListingDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.MarketplaceListingUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.MarketplaceListingUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MarketplaceListingPayload>[]
+        }
+        upsert: {
+          args: Prisma.MarketplaceListingUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MarketplaceListingPayload>
+        }
+        aggregate: {
+          args: Prisma.MarketplaceListingAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateMarketplaceListing>
+        }
+        groupBy: {
+          args: Prisma.MarketplaceListingGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.MarketplaceListingGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.MarketplaceListingCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.MarketplaceListingCountAggregateOutputType> | number
+        }
+      }
+    }
+    ListingImage: {
+      payload: Prisma.$ListingImagePayload<ExtArgs>
+      fields: Prisma.ListingImageFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.ListingImageFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ListingImagePayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.ListingImageFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ListingImagePayload>
+        }
+        findFirst: {
+          args: Prisma.ListingImageFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ListingImagePayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.ListingImageFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ListingImagePayload>
+        }
+        findMany: {
+          args: Prisma.ListingImageFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ListingImagePayload>[]
+        }
+        create: {
+          args: Prisma.ListingImageCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ListingImagePayload>
+        }
+        createMany: {
+          args: Prisma.ListingImageCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.ListingImageCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ListingImagePayload>[]
+        }
+        delete: {
+          args: Prisma.ListingImageDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ListingImagePayload>
+        }
+        update: {
+          args: Prisma.ListingImageUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ListingImagePayload>
+        }
+        deleteMany: {
+          args: Prisma.ListingImageDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.ListingImageUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.ListingImageUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ListingImagePayload>[]
+        }
+        upsert: {
+          args: Prisma.ListingImageUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ListingImagePayload>
+        }
+        aggregate: {
+          args: Prisma.ListingImageAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateListingImage>
+        }
+        groupBy: {
+          args: Prisma.ListingImageGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.ListingImageGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.ListingImageCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.ListingImageCountAggregateOutputType> | number
+        }
+      }
+    }
+    ListingSave: {
+      payload: Prisma.$ListingSavePayload<ExtArgs>
+      fields: Prisma.ListingSaveFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.ListingSaveFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ListingSavePayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.ListingSaveFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ListingSavePayload>
+        }
+        findFirst: {
+          args: Prisma.ListingSaveFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ListingSavePayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.ListingSaveFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ListingSavePayload>
+        }
+        findMany: {
+          args: Prisma.ListingSaveFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ListingSavePayload>[]
+        }
+        create: {
+          args: Prisma.ListingSaveCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ListingSavePayload>
+        }
+        createMany: {
+          args: Prisma.ListingSaveCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.ListingSaveCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ListingSavePayload>[]
+        }
+        delete: {
+          args: Prisma.ListingSaveDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ListingSavePayload>
+        }
+        update: {
+          args: Prisma.ListingSaveUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ListingSavePayload>
+        }
+        deleteMany: {
+          args: Prisma.ListingSaveDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.ListingSaveUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.ListingSaveUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ListingSavePayload>[]
+        }
+        upsert: {
+          args: Prisma.ListingSaveUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ListingSavePayload>
+        }
+        aggregate: {
+          args: Prisma.ListingSaveAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateListingSave>
+        }
+        groupBy: {
+          args: Prisma.ListingSaveGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.ListingSaveGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.ListingSaveCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.ListingSaveCountAggregateOutputType> | number
+        }
+      }
+    }
+    ListingOffer: {
+      payload: Prisma.$ListingOfferPayload<ExtArgs>
+      fields: Prisma.ListingOfferFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.ListingOfferFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ListingOfferPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.ListingOfferFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ListingOfferPayload>
+        }
+        findFirst: {
+          args: Prisma.ListingOfferFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ListingOfferPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.ListingOfferFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ListingOfferPayload>
+        }
+        findMany: {
+          args: Prisma.ListingOfferFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ListingOfferPayload>[]
+        }
+        create: {
+          args: Prisma.ListingOfferCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ListingOfferPayload>
+        }
+        createMany: {
+          args: Prisma.ListingOfferCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.ListingOfferCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ListingOfferPayload>[]
+        }
+        delete: {
+          args: Prisma.ListingOfferDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ListingOfferPayload>
+        }
+        update: {
+          args: Prisma.ListingOfferUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ListingOfferPayload>
+        }
+        deleteMany: {
+          args: Prisma.ListingOfferDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.ListingOfferUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.ListingOfferUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ListingOfferPayload>[]
+        }
+        upsert: {
+          args: Prisma.ListingOfferUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ListingOfferPayload>
+        }
+        aggregate: {
+          args: Prisma.ListingOfferAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateListingOffer>
+        }
+        groupBy: {
+          args: Prisma.ListingOfferGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.ListingOfferGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.ListingOfferCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.ListingOfferCountAggregateOutputType> | number
+        }
+      }
+    }
+    ListingMessage: {
+      payload: Prisma.$ListingMessagePayload<ExtArgs>
+      fields: Prisma.ListingMessageFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.ListingMessageFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ListingMessagePayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.ListingMessageFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ListingMessagePayload>
+        }
+        findFirst: {
+          args: Prisma.ListingMessageFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ListingMessagePayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.ListingMessageFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ListingMessagePayload>
+        }
+        findMany: {
+          args: Prisma.ListingMessageFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ListingMessagePayload>[]
+        }
+        create: {
+          args: Prisma.ListingMessageCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ListingMessagePayload>
+        }
+        createMany: {
+          args: Prisma.ListingMessageCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.ListingMessageCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ListingMessagePayload>[]
+        }
+        delete: {
+          args: Prisma.ListingMessageDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ListingMessagePayload>
+        }
+        update: {
+          args: Prisma.ListingMessageUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ListingMessagePayload>
+        }
+        deleteMany: {
+          args: Prisma.ListingMessageDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.ListingMessageUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.ListingMessageUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ListingMessagePayload>[]
+        }
+        upsert: {
+          args: Prisma.ListingMessageUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ListingMessagePayload>
+        }
+        aggregate: {
+          args: Prisma.ListingMessageAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateListingMessage>
+        }
+        groupBy: {
+          args: Prisma.ListingMessageGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.ListingMessageGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.ListingMessageCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.ListingMessageCountAggregateOutputType> | number
         }
       }
     }
@@ -4537,6 +4912,72 @@ export const GroupPostCommentLikeScalarFieldEnum = {
 export type GroupPostCommentLikeScalarFieldEnum = (typeof GroupPostCommentLikeScalarFieldEnum)[keyof typeof GroupPostCommentLikeScalarFieldEnum]
 
 
+export const MarketplaceListingScalarFieldEnum = {
+  id: 'id',
+  title: 'title',
+  description: 'description',
+  price: 'price',
+  isFree: 'isFree',
+  category: 'category',
+  condition: 'condition',
+  status: 'status',
+  location: 'location',
+  slug: 'slug',
+  viewCount: 'viewCount',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  sellerId: 'sellerId'
+} as const
+
+export type MarketplaceListingScalarFieldEnum = (typeof MarketplaceListingScalarFieldEnum)[keyof typeof MarketplaceListingScalarFieldEnum]
+
+
+export const ListingImageScalarFieldEnum = {
+  id: 'id',
+  url: 'url',
+  order: 'order',
+  createdAt: 'createdAt',
+  listingId: 'listingId'
+} as const
+
+export type ListingImageScalarFieldEnum = (typeof ListingImageScalarFieldEnum)[keyof typeof ListingImageScalarFieldEnum]
+
+
+export const ListingSaveScalarFieldEnum = {
+  id: 'id',
+  createdAt: 'createdAt',
+  userId: 'userId',
+  listingId: 'listingId'
+} as const
+
+export type ListingSaveScalarFieldEnum = (typeof ListingSaveScalarFieldEnum)[keyof typeof ListingSaveScalarFieldEnum]
+
+
+export const ListingOfferScalarFieldEnum = {
+  id: 'id',
+  amount: 'amount',
+  message: 'message',
+  status: 'status',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  buyerId: 'buyerId',
+  listingId: 'listingId'
+} as const
+
+export type ListingOfferScalarFieldEnum = (typeof ListingOfferScalarFieldEnum)[keyof typeof ListingOfferScalarFieldEnum]
+
+
+export const ListingMessageScalarFieldEnum = {
+  id: 'id',
+  content: 'content',
+  createdAt: 'createdAt',
+  senderId: 'senderId',
+  listingId: 'listingId'
+} as const
+
+export type ListingMessageScalarFieldEnum = (typeof ListingMessageScalarFieldEnum)[keyof typeof ListingMessageScalarFieldEnum]
+
+
 export const MemoryScalarFieldEnum = {
   id: 'id',
   note: 'note',
@@ -5005,6 +5446,41 @@ export type EnumGroupMemberStatusFieldRefInput<$PrismaModel> = FieldRefInputType
 
 
 /**
+ * Reference to a field of type 'Float'
+ */
+export type FloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float'>
+    
+
+
+/**
+ * Reference to a field of type 'ListingCategory'
+ */
+export type EnumListingCategoryFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ListingCategory'>
+    
+
+
+/**
+ * Reference to a field of type 'ListingCondition'
+ */
+export type EnumListingConditionFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ListingCondition'>
+    
+
+
+/**
+ * Reference to a field of type 'ListingStatus'
+ */
+export type EnumListingStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ListingStatus'>
+    
+
+
+/**
+ * Reference to a field of type 'OfferStatus'
+ */
+export type EnumOfferStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'OfferStatus'>
+    
+
+
+/**
  * Reference to a field of type 'MessageType'
  */
 export type EnumMessageTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'MessageType'>
@@ -5113,13 +5589,6 @@ export type EnumProfilePrivacyFieldRefInput<$PrismaModel> = FieldRefInputType<$P
  * Reference to a field of type 'FollowState'
  */
 export type EnumFollowStateFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'FollowState'>
-    
-
-
-/**
- * Reference to a field of type 'Float'
- */
-export type FloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float'>
     
 
 /**
@@ -5238,6 +5707,11 @@ export type GlobalOmitConfig = {
   groupPostLike?: Prisma.GroupPostLikeOmit
   groupPostComment?: Prisma.GroupPostCommentOmit
   groupPostCommentLike?: Prisma.GroupPostCommentLikeOmit
+  marketplaceListing?: Prisma.MarketplaceListingOmit
+  listingImage?: Prisma.ListingImageOmit
+  listingSave?: Prisma.ListingSaveOmit
+  listingOffer?: Prisma.ListingOfferOmit
+  listingMessage?: Prisma.ListingMessageOmit
   memory?: Prisma.MemoryOmit
   conversation?: Prisma.ConversationOmit
   conversationParticipant?: Prisma.ConversationParticipantOmit

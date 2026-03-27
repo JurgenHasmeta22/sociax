@@ -378,6 +378,10 @@ export type UserWhereInput = {
   reportedContentReceived?: Prisma.ReportedContentListRelationFilter
   moderationLogsCreated?: Prisma.ModerationLogListRelationFilter
   moderationLogsTargeted?: Prisma.ModerationLogListRelationFilter
+  listings?: Prisma.MarketplaceListingListRelationFilter
+  listingSaves?: Prisma.ListingSaveListRelationFilter
+  listingOffers?: Prisma.ListingOfferListRelationFilter
+  listingMessages?: Prisma.ListingMessageListRelationFilter
 }
 
 export type UserOrderByWithRelationInput = {
@@ -450,6 +454,10 @@ export type UserOrderByWithRelationInput = {
   reportedContentReceived?: Prisma.ReportedContentOrderByRelationAggregateInput
   moderationLogsCreated?: Prisma.ModerationLogOrderByRelationAggregateInput
   moderationLogsTargeted?: Prisma.ModerationLogOrderByRelationAggregateInput
+  listings?: Prisma.MarketplaceListingOrderByRelationAggregateInput
+  listingSaves?: Prisma.ListingSaveOrderByRelationAggregateInput
+  listingOffers?: Prisma.ListingOfferOrderByRelationAggregateInput
+  listingMessages?: Prisma.ListingMessageOrderByRelationAggregateInput
 }
 
 export type UserWhereUniqueInput = Prisma.AtLeast<{
@@ -525,6 +533,10 @@ export type UserWhereUniqueInput = Prisma.AtLeast<{
   reportedContentReceived?: Prisma.ReportedContentListRelationFilter
   moderationLogsCreated?: Prisma.ModerationLogListRelationFilter
   moderationLogsTargeted?: Prisma.ModerationLogListRelationFilter
+  listings?: Prisma.MarketplaceListingListRelationFilter
+  listingSaves?: Prisma.ListingSaveListRelationFilter
+  listingOffers?: Prisma.ListingOfferListRelationFilter
+  listingMessages?: Prisma.ListingMessageListRelationFilter
 }, "id" | "userName" | "email">
 
 export type UserOrderByWithAggregationInput = {
@@ -648,6 +660,10 @@ export type UserCreateInput = {
   reportedContentReceived?: Prisma.ReportedContentCreateNestedManyWithoutReportedUserInput
   moderationLogsCreated?: Prisma.ModerationLogCreateNestedManyWithoutModeratorUserInput
   moderationLogsTargeted?: Prisma.ModerationLogCreateNestedManyWithoutTargetUserInput
+  listings?: Prisma.MarketplaceListingCreateNestedManyWithoutSellerInput
+  listingSaves?: Prisma.ListingSaveCreateNestedManyWithoutUserInput
+  listingOffers?: Prisma.ListingOfferCreateNestedManyWithoutBuyerInput
+  listingMessages?: Prisma.ListingMessageCreateNestedManyWithoutSenderInput
 }
 
 export type UserUncheckedCreateInput = {
@@ -720,6 +736,10 @@ export type UserUncheckedCreateInput = {
   reportedContentReceived?: Prisma.ReportedContentUncheckedCreateNestedManyWithoutReportedUserInput
   moderationLogsCreated?: Prisma.ModerationLogUncheckedCreateNestedManyWithoutModeratorUserInput
   moderationLogsTargeted?: Prisma.ModerationLogUncheckedCreateNestedManyWithoutTargetUserInput
+  listings?: Prisma.MarketplaceListingUncheckedCreateNestedManyWithoutSellerInput
+  listingSaves?: Prisma.ListingSaveUncheckedCreateNestedManyWithoutUserInput
+  listingOffers?: Prisma.ListingOfferUncheckedCreateNestedManyWithoutBuyerInput
+  listingMessages?: Prisma.ListingMessageUncheckedCreateNestedManyWithoutSenderInput
 }
 
 export type UserUpdateInput = {
@@ -791,6 +811,10 @@ export type UserUpdateInput = {
   reportedContentReceived?: Prisma.ReportedContentUpdateManyWithoutReportedUserNestedInput
   moderationLogsCreated?: Prisma.ModerationLogUpdateManyWithoutModeratorUserNestedInput
   moderationLogsTargeted?: Prisma.ModerationLogUpdateManyWithoutTargetUserNestedInput
+  listings?: Prisma.MarketplaceListingUpdateManyWithoutSellerNestedInput
+  listingSaves?: Prisma.ListingSaveUpdateManyWithoutUserNestedInput
+  listingOffers?: Prisma.ListingOfferUpdateManyWithoutBuyerNestedInput
+  listingMessages?: Prisma.ListingMessageUpdateManyWithoutSenderNestedInput
 }
 
 export type UserUncheckedUpdateInput = {
@@ -863,6 +887,10 @@ export type UserUncheckedUpdateInput = {
   reportedContentReceived?: Prisma.ReportedContentUncheckedUpdateManyWithoutReportedUserNestedInput
   moderationLogsCreated?: Prisma.ModerationLogUncheckedUpdateManyWithoutModeratorUserNestedInput
   moderationLogsTargeted?: Prisma.ModerationLogUncheckedUpdateManyWithoutTargetUserNestedInput
+  listings?: Prisma.MarketplaceListingUncheckedUpdateManyWithoutSellerNestedInput
+  listingSaves?: Prisma.ListingSaveUncheckedUpdateManyWithoutUserNestedInput
+  listingOffers?: Prisma.ListingOfferUncheckedUpdateManyWithoutBuyerNestedInput
+  listingMessages?: Prisma.ListingMessageUncheckedUpdateManyWithoutSenderNestedInput
 }
 
 export type UserCreateManyInput = {
@@ -1292,6 +1320,62 @@ export type UserUpdateOneRequiredWithoutGroupPostCommentLikesNestedInput = {
   upsert?: Prisma.UserUpsertWithoutGroupPostCommentLikesInput
   connect?: Prisma.UserWhereUniqueInput
   update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutGroupPostCommentLikesInput, Prisma.UserUpdateWithoutGroupPostCommentLikesInput>, Prisma.UserUncheckedUpdateWithoutGroupPostCommentLikesInput>
+}
+
+export type UserCreateNestedOneWithoutListingsInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutListingsInput, Prisma.UserUncheckedCreateWithoutListingsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutListingsInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
+export type UserUpdateOneRequiredWithoutListingsNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutListingsInput, Prisma.UserUncheckedCreateWithoutListingsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutListingsInput
+  upsert?: Prisma.UserUpsertWithoutListingsInput
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutListingsInput, Prisma.UserUpdateWithoutListingsInput>, Prisma.UserUncheckedUpdateWithoutListingsInput>
+}
+
+export type UserCreateNestedOneWithoutListingSavesInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutListingSavesInput, Prisma.UserUncheckedCreateWithoutListingSavesInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutListingSavesInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
+export type UserUpdateOneRequiredWithoutListingSavesNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutListingSavesInput, Prisma.UserUncheckedCreateWithoutListingSavesInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutListingSavesInput
+  upsert?: Prisma.UserUpsertWithoutListingSavesInput
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutListingSavesInput, Prisma.UserUpdateWithoutListingSavesInput>, Prisma.UserUncheckedUpdateWithoutListingSavesInput>
+}
+
+export type UserCreateNestedOneWithoutListingOffersInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutListingOffersInput, Prisma.UserUncheckedCreateWithoutListingOffersInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutListingOffersInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
+export type UserUpdateOneRequiredWithoutListingOffersNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutListingOffersInput, Prisma.UserUncheckedCreateWithoutListingOffersInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutListingOffersInput
+  upsert?: Prisma.UserUpsertWithoutListingOffersInput
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutListingOffersInput, Prisma.UserUpdateWithoutListingOffersInput>, Prisma.UserUncheckedUpdateWithoutListingOffersInput>
+}
+
+export type UserCreateNestedOneWithoutListingMessagesInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutListingMessagesInput, Prisma.UserUncheckedCreateWithoutListingMessagesInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutListingMessagesInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
+export type UserUpdateOneRequiredWithoutListingMessagesNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutListingMessagesInput, Prisma.UserUncheckedCreateWithoutListingMessagesInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutListingMessagesInput
+  upsert?: Prisma.UserUpsertWithoutListingMessagesInput
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutListingMessagesInput, Prisma.UserUpdateWithoutListingMessagesInput>, Prisma.UserUncheckedUpdateWithoutListingMessagesInput>
 }
 
 export type UserCreateNestedOneWithoutMemoriesInput = {
@@ -1798,6 +1882,10 @@ export type UserCreateWithoutAccountsInput = {
   reportedContentReceived?: Prisma.ReportedContentCreateNestedManyWithoutReportedUserInput
   moderationLogsCreated?: Prisma.ModerationLogCreateNestedManyWithoutModeratorUserInput
   moderationLogsTargeted?: Prisma.ModerationLogCreateNestedManyWithoutTargetUserInput
+  listings?: Prisma.MarketplaceListingCreateNestedManyWithoutSellerInput
+  listingSaves?: Prisma.ListingSaveCreateNestedManyWithoutUserInput
+  listingOffers?: Prisma.ListingOfferCreateNestedManyWithoutBuyerInput
+  listingMessages?: Prisma.ListingMessageCreateNestedManyWithoutSenderInput
 }
 
 export type UserUncheckedCreateWithoutAccountsInput = {
@@ -1869,6 +1957,10 @@ export type UserUncheckedCreateWithoutAccountsInput = {
   reportedContentReceived?: Prisma.ReportedContentUncheckedCreateNestedManyWithoutReportedUserInput
   moderationLogsCreated?: Prisma.ModerationLogUncheckedCreateNestedManyWithoutModeratorUserInput
   moderationLogsTargeted?: Prisma.ModerationLogUncheckedCreateNestedManyWithoutTargetUserInput
+  listings?: Prisma.MarketplaceListingUncheckedCreateNestedManyWithoutSellerInput
+  listingSaves?: Prisma.ListingSaveUncheckedCreateNestedManyWithoutUserInput
+  listingOffers?: Prisma.ListingOfferUncheckedCreateNestedManyWithoutBuyerInput
+  listingMessages?: Prisma.ListingMessageUncheckedCreateNestedManyWithoutSenderInput
 }
 
 export type UserCreateOrConnectWithoutAccountsInput = {
@@ -1955,6 +2047,10 @@ export type UserUpdateWithoutAccountsInput = {
   reportedContentReceived?: Prisma.ReportedContentUpdateManyWithoutReportedUserNestedInput
   moderationLogsCreated?: Prisma.ModerationLogUpdateManyWithoutModeratorUserNestedInput
   moderationLogsTargeted?: Prisma.ModerationLogUpdateManyWithoutTargetUserNestedInput
+  listings?: Prisma.MarketplaceListingUpdateManyWithoutSellerNestedInput
+  listingSaves?: Prisma.ListingSaveUpdateManyWithoutUserNestedInput
+  listingOffers?: Prisma.ListingOfferUpdateManyWithoutBuyerNestedInput
+  listingMessages?: Prisma.ListingMessageUpdateManyWithoutSenderNestedInput
 }
 
 export type UserUncheckedUpdateWithoutAccountsInput = {
@@ -2026,6 +2122,10 @@ export type UserUncheckedUpdateWithoutAccountsInput = {
   reportedContentReceived?: Prisma.ReportedContentUncheckedUpdateManyWithoutReportedUserNestedInput
   moderationLogsCreated?: Prisma.ModerationLogUncheckedUpdateManyWithoutModeratorUserNestedInput
   moderationLogsTargeted?: Prisma.ModerationLogUncheckedUpdateManyWithoutTargetUserNestedInput
+  listings?: Prisma.MarketplaceListingUncheckedUpdateManyWithoutSellerNestedInput
+  listingSaves?: Prisma.ListingSaveUncheckedUpdateManyWithoutUserNestedInput
+  listingOffers?: Prisma.ListingOfferUncheckedUpdateManyWithoutBuyerNestedInput
+  listingMessages?: Prisma.ListingMessageUncheckedUpdateManyWithoutSenderNestedInput
 }
 
 export type UserCreateWithoutSessionsInput = {
@@ -2096,6 +2196,10 @@ export type UserCreateWithoutSessionsInput = {
   reportedContentReceived?: Prisma.ReportedContentCreateNestedManyWithoutReportedUserInput
   moderationLogsCreated?: Prisma.ModerationLogCreateNestedManyWithoutModeratorUserInput
   moderationLogsTargeted?: Prisma.ModerationLogCreateNestedManyWithoutTargetUserInput
+  listings?: Prisma.MarketplaceListingCreateNestedManyWithoutSellerInput
+  listingSaves?: Prisma.ListingSaveCreateNestedManyWithoutUserInput
+  listingOffers?: Prisma.ListingOfferCreateNestedManyWithoutBuyerInput
+  listingMessages?: Prisma.ListingMessageCreateNestedManyWithoutSenderInput
 }
 
 export type UserUncheckedCreateWithoutSessionsInput = {
@@ -2167,6 +2271,10 @@ export type UserUncheckedCreateWithoutSessionsInput = {
   reportedContentReceived?: Prisma.ReportedContentUncheckedCreateNestedManyWithoutReportedUserInput
   moderationLogsCreated?: Prisma.ModerationLogUncheckedCreateNestedManyWithoutModeratorUserInput
   moderationLogsTargeted?: Prisma.ModerationLogUncheckedCreateNestedManyWithoutTargetUserInput
+  listings?: Prisma.MarketplaceListingUncheckedCreateNestedManyWithoutSellerInput
+  listingSaves?: Prisma.ListingSaveUncheckedCreateNestedManyWithoutUserInput
+  listingOffers?: Prisma.ListingOfferUncheckedCreateNestedManyWithoutBuyerInput
+  listingMessages?: Prisma.ListingMessageUncheckedCreateNestedManyWithoutSenderInput
 }
 
 export type UserCreateOrConnectWithoutSessionsInput = {
@@ -2253,6 +2361,10 @@ export type UserUpdateWithoutSessionsInput = {
   reportedContentReceived?: Prisma.ReportedContentUpdateManyWithoutReportedUserNestedInput
   moderationLogsCreated?: Prisma.ModerationLogUpdateManyWithoutModeratorUserNestedInput
   moderationLogsTargeted?: Prisma.ModerationLogUpdateManyWithoutTargetUserNestedInput
+  listings?: Prisma.MarketplaceListingUpdateManyWithoutSellerNestedInput
+  listingSaves?: Prisma.ListingSaveUpdateManyWithoutUserNestedInput
+  listingOffers?: Prisma.ListingOfferUpdateManyWithoutBuyerNestedInput
+  listingMessages?: Prisma.ListingMessageUpdateManyWithoutSenderNestedInput
 }
 
 export type UserUncheckedUpdateWithoutSessionsInput = {
@@ -2324,6 +2436,10 @@ export type UserUncheckedUpdateWithoutSessionsInput = {
   reportedContentReceived?: Prisma.ReportedContentUncheckedUpdateManyWithoutReportedUserNestedInput
   moderationLogsCreated?: Prisma.ModerationLogUncheckedUpdateManyWithoutModeratorUserNestedInput
   moderationLogsTargeted?: Prisma.ModerationLogUncheckedUpdateManyWithoutTargetUserNestedInput
+  listings?: Prisma.MarketplaceListingUncheckedUpdateManyWithoutSellerNestedInput
+  listingSaves?: Prisma.ListingSaveUncheckedUpdateManyWithoutUserNestedInput
+  listingOffers?: Prisma.ListingOfferUncheckedUpdateManyWithoutBuyerNestedInput
+  listingMessages?: Prisma.ListingMessageUncheckedUpdateManyWithoutSenderNestedInput
 }
 
 export type UserCreateWithoutActivateTokensInput = {
@@ -2394,6 +2510,10 @@ export type UserCreateWithoutActivateTokensInput = {
   reportedContentReceived?: Prisma.ReportedContentCreateNestedManyWithoutReportedUserInput
   moderationLogsCreated?: Prisma.ModerationLogCreateNestedManyWithoutModeratorUserInput
   moderationLogsTargeted?: Prisma.ModerationLogCreateNestedManyWithoutTargetUserInput
+  listings?: Prisma.MarketplaceListingCreateNestedManyWithoutSellerInput
+  listingSaves?: Prisma.ListingSaveCreateNestedManyWithoutUserInput
+  listingOffers?: Prisma.ListingOfferCreateNestedManyWithoutBuyerInput
+  listingMessages?: Prisma.ListingMessageCreateNestedManyWithoutSenderInput
 }
 
 export type UserUncheckedCreateWithoutActivateTokensInput = {
@@ -2465,6 +2585,10 @@ export type UserUncheckedCreateWithoutActivateTokensInput = {
   reportedContentReceived?: Prisma.ReportedContentUncheckedCreateNestedManyWithoutReportedUserInput
   moderationLogsCreated?: Prisma.ModerationLogUncheckedCreateNestedManyWithoutModeratorUserInput
   moderationLogsTargeted?: Prisma.ModerationLogUncheckedCreateNestedManyWithoutTargetUserInput
+  listings?: Prisma.MarketplaceListingUncheckedCreateNestedManyWithoutSellerInput
+  listingSaves?: Prisma.ListingSaveUncheckedCreateNestedManyWithoutUserInput
+  listingOffers?: Prisma.ListingOfferUncheckedCreateNestedManyWithoutBuyerInput
+  listingMessages?: Prisma.ListingMessageUncheckedCreateNestedManyWithoutSenderInput
 }
 
 export type UserCreateOrConnectWithoutActivateTokensInput = {
@@ -2551,6 +2675,10 @@ export type UserUpdateWithoutActivateTokensInput = {
   reportedContentReceived?: Prisma.ReportedContentUpdateManyWithoutReportedUserNestedInput
   moderationLogsCreated?: Prisma.ModerationLogUpdateManyWithoutModeratorUserNestedInput
   moderationLogsTargeted?: Prisma.ModerationLogUpdateManyWithoutTargetUserNestedInput
+  listings?: Prisma.MarketplaceListingUpdateManyWithoutSellerNestedInput
+  listingSaves?: Prisma.ListingSaveUpdateManyWithoutUserNestedInput
+  listingOffers?: Prisma.ListingOfferUpdateManyWithoutBuyerNestedInput
+  listingMessages?: Prisma.ListingMessageUpdateManyWithoutSenderNestedInput
 }
 
 export type UserUncheckedUpdateWithoutActivateTokensInput = {
@@ -2622,6 +2750,10 @@ export type UserUncheckedUpdateWithoutActivateTokensInput = {
   reportedContentReceived?: Prisma.ReportedContentUncheckedUpdateManyWithoutReportedUserNestedInput
   moderationLogsCreated?: Prisma.ModerationLogUncheckedUpdateManyWithoutModeratorUserNestedInput
   moderationLogsTargeted?: Prisma.ModerationLogUncheckedUpdateManyWithoutTargetUserNestedInput
+  listings?: Prisma.MarketplaceListingUncheckedUpdateManyWithoutSellerNestedInput
+  listingSaves?: Prisma.ListingSaveUncheckedUpdateManyWithoutUserNestedInput
+  listingOffers?: Prisma.ListingOfferUncheckedUpdateManyWithoutBuyerNestedInput
+  listingMessages?: Prisma.ListingMessageUncheckedUpdateManyWithoutSenderNestedInput
 }
 
 export type UserCreateWithoutResetPasswordTokensInput = {
@@ -2692,6 +2824,10 @@ export type UserCreateWithoutResetPasswordTokensInput = {
   reportedContentReceived?: Prisma.ReportedContentCreateNestedManyWithoutReportedUserInput
   moderationLogsCreated?: Prisma.ModerationLogCreateNestedManyWithoutModeratorUserInput
   moderationLogsTargeted?: Prisma.ModerationLogCreateNestedManyWithoutTargetUserInput
+  listings?: Prisma.MarketplaceListingCreateNestedManyWithoutSellerInput
+  listingSaves?: Prisma.ListingSaveCreateNestedManyWithoutUserInput
+  listingOffers?: Prisma.ListingOfferCreateNestedManyWithoutBuyerInput
+  listingMessages?: Prisma.ListingMessageCreateNestedManyWithoutSenderInput
 }
 
 export type UserUncheckedCreateWithoutResetPasswordTokensInput = {
@@ -2763,6 +2899,10 @@ export type UserUncheckedCreateWithoutResetPasswordTokensInput = {
   reportedContentReceived?: Prisma.ReportedContentUncheckedCreateNestedManyWithoutReportedUserInput
   moderationLogsCreated?: Prisma.ModerationLogUncheckedCreateNestedManyWithoutModeratorUserInput
   moderationLogsTargeted?: Prisma.ModerationLogUncheckedCreateNestedManyWithoutTargetUserInput
+  listings?: Prisma.MarketplaceListingUncheckedCreateNestedManyWithoutSellerInput
+  listingSaves?: Prisma.ListingSaveUncheckedCreateNestedManyWithoutUserInput
+  listingOffers?: Prisma.ListingOfferUncheckedCreateNestedManyWithoutBuyerInput
+  listingMessages?: Prisma.ListingMessageUncheckedCreateNestedManyWithoutSenderInput
 }
 
 export type UserCreateOrConnectWithoutResetPasswordTokensInput = {
@@ -2849,6 +2989,10 @@ export type UserUpdateWithoutResetPasswordTokensInput = {
   reportedContentReceived?: Prisma.ReportedContentUpdateManyWithoutReportedUserNestedInput
   moderationLogsCreated?: Prisma.ModerationLogUpdateManyWithoutModeratorUserNestedInput
   moderationLogsTargeted?: Prisma.ModerationLogUpdateManyWithoutTargetUserNestedInput
+  listings?: Prisma.MarketplaceListingUpdateManyWithoutSellerNestedInput
+  listingSaves?: Prisma.ListingSaveUpdateManyWithoutUserNestedInput
+  listingOffers?: Prisma.ListingOfferUpdateManyWithoutBuyerNestedInput
+  listingMessages?: Prisma.ListingMessageUpdateManyWithoutSenderNestedInput
 }
 
 export type UserUncheckedUpdateWithoutResetPasswordTokensInput = {
@@ -2920,6 +3064,10 @@ export type UserUncheckedUpdateWithoutResetPasswordTokensInput = {
   reportedContentReceived?: Prisma.ReportedContentUncheckedUpdateManyWithoutReportedUserNestedInput
   moderationLogsCreated?: Prisma.ModerationLogUncheckedUpdateManyWithoutModeratorUserNestedInput
   moderationLogsTargeted?: Prisma.ModerationLogUncheckedUpdateManyWithoutTargetUserNestedInput
+  listings?: Prisma.MarketplaceListingUncheckedUpdateManyWithoutSellerNestedInput
+  listingSaves?: Prisma.ListingSaveUncheckedUpdateManyWithoutUserNestedInput
+  listingOffers?: Prisma.ListingOfferUncheckedUpdateManyWithoutBuyerNestedInput
+  listingMessages?: Prisma.ListingMessageUncheckedUpdateManyWithoutSenderNestedInput
 }
 
 export type UserCreateWithoutPostCommentsInput = {
@@ -2990,6 +3138,10 @@ export type UserCreateWithoutPostCommentsInput = {
   reportedContentReceived?: Prisma.ReportedContentCreateNestedManyWithoutReportedUserInput
   moderationLogsCreated?: Prisma.ModerationLogCreateNestedManyWithoutModeratorUserInput
   moderationLogsTargeted?: Prisma.ModerationLogCreateNestedManyWithoutTargetUserInput
+  listings?: Prisma.MarketplaceListingCreateNestedManyWithoutSellerInput
+  listingSaves?: Prisma.ListingSaveCreateNestedManyWithoutUserInput
+  listingOffers?: Prisma.ListingOfferCreateNestedManyWithoutBuyerInput
+  listingMessages?: Prisma.ListingMessageCreateNestedManyWithoutSenderInput
 }
 
 export type UserUncheckedCreateWithoutPostCommentsInput = {
@@ -3061,6 +3213,10 @@ export type UserUncheckedCreateWithoutPostCommentsInput = {
   reportedContentReceived?: Prisma.ReportedContentUncheckedCreateNestedManyWithoutReportedUserInput
   moderationLogsCreated?: Prisma.ModerationLogUncheckedCreateNestedManyWithoutModeratorUserInput
   moderationLogsTargeted?: Prisma.ModerationLogUncheckedCreateNestedManyWithoutTargetUserInput
+  listings?: Prisma.MarketplaceListingUncheckedCreateNestedManyWithoutSellerInput
+  listingSaves?: Prisma.ListingSaveUncheckedCreateNestedManyWithoutUserInput
+  listingOffers?: Prisma.ListingOfferUncheckedCreateNestedManyWithoutBuyerInput
+  listingMessages?: Prisma.ListingMessageUncheckedCreateNestedManyWithoutSenderInput
 }
 
 export type UserCreateOrConnectWithoutPostCommentsInput = {
@@ -3147,6 +3303,10 @@ export type UserUpdateWithoutPostCommentsInput = {
   reportedContentReceived?: Prisma.ReportedContentUpdateManyWithoutReportedUserNestedInput
   moderationLogsCreated?: Prisma.ModerationLogUpdateManyWithoutModeratorUserNestedInput
   moderationLogsTargeted?: Prisma.ModerationLogUpdateManyWithoutTargetUserNestedInput
+  listings?: Prisma.MarketplaceListingUpdateManyWithoutSellerNestedInput
+  listingSaves?: Prisma.ListingSaveUpdateManyWithoutUserNestedInput
+  listingOffers?: Prisma.ListingOfferUpdateManyWithoutBuyerNestedInput
+  listingMessages?: Prisma.ListingMessageUpdateManyWithoutSenderNestedInput
 }
 
 export type UserUncheckedUpdateWithoutPostCommentsInput = {
@@ -3218,6 +3378,10 @@ export type UserUncheckedUpdateWithoutPostCommentsInput = {
   reportedContentReceived?: Prisma.ReportedContentUncheckedUpdateManyWithoutReportedUserNestedInput
   moderationLogsCreated?: Prisma.ModerationLogUncheckedUpdateManyWithoutModeratorUserNestedInput
   moderationLogsTargeted?: Prisma.ModerationLogUncheckedUpdateManyWithoutTargetUserNestedInput
+  listings?: Prisma.MarketplaceListingUncheckedUpdateManyWithoutSellerNestedInput
+  listingSaves?: Prisma.ListingSaveUncheckedUpdateManyWithoutUserNestedInput
+  listingOffers?: Prisma.ListingOfferUncheckedUpdateManyWithoutBuyerNestedInput
+  listingMessages?: Prisma.ListingMessageUncheckedUpdateManyWithoutSenderNestedInput
 }
 
 export type UserCreateWithoutCommentLikesInput = {
@@ -3288,6 +3452,10 @@ export type UserCreateWithoutCommentLikesInput = {
   reportedContentReceived?: Prisma.ReportedContentCreateNestedManyWithoutReportedUserInput
   moderationLogsCreated?: Prisma.ModerationLogCreateNestedManyWithoutModeratorUserInput
   moderationLogsTargeted?: Prisma.ModerationLogCreateNestedManyWithoutTargetUserInput
+  listings?: Prisma.MarketplaceListingCreateNestedManyWithoutSellerInput
+  listingSaves?: Prisma.ListingSaveCreateNestedManyWithoutUserInput
+  listingOffers?: Prisma.ListingOfferCreateNestedManyWithoutBuyerInput
+  listingMessages?: Prisma.ListingMessageCreateNestedManyWithoutSenderInput
 }
 
 export type UserUncheckedCreateWithoutCommentLikesInput = {
@@ -3359,6 +3527,10 @@ export type UserUncheckedCreateWithoutCommentLikesInput = {
   reportedContentReceived?: Prisma.ReportedContentUncheckedCreateNestedManyWithoutReportedUserInput
   moderationLogsCreated?: Prisma.ModerationLogUncheckedCreateNestedManyWithoutModeratorUserInput
   moderationLogsTargeted?: Prisma.ModerationLogUncheckedCreateNestedManyWithoutTargetUserInput
+  listings?: Prisma.MarketplaceListingUncheckedCreateNestedManyWithoutSellerInput
+  listingSaves?: Prisma.ListingSaveUncheckedCreateNestedManyWithoutUserInput
+  listingOffers?: Prisma.ListingOfferUncheckedCreateNestedManyWithoutBuyerInput
+  listingMessages?: Prisma.ListingMessageUncheckedCreateNestedManyWithoutSenderInput
 }
 
 export type UserCreateOrConnectWithoutCommentLikesInput = {
@@ -3445,6 +3617,10 @@ export type UserUpdateWithoutCommentLikesInput = {
   reportedContentReceived?: Prisma.ReportedContentUpdateManyWithoutReportedUserNestedInput
   moderationLogsCreated?: Prisma.ModerationLogUpdateManyWithoutModeratorUserNestedInput
   moderationLogsTargeted?: Prisma.ModerationLogUpdateManyWithoutTargetUserNestedInput
+  listings?: Prisma.MarketplaceListingUpdateManyWithoutSellerNestedInput
+  listingSaves?: Prisma.ListingSaveUpdateManyWithoutUserNestedInput
+  listingOffers?: Prisma.ListingOfferUpdateManyWithoutBuyerNestedInput
+  listingMessages?: Prisma.ListingMessageUpdateManyWithoutSenderNestedInput
 }
 
 export type UserUncheckedUpdateWithoutCommentLikesInput = {
@@ -3516,6 +3692,10 @@ export type UserUncheckedUpdateWithoutCommentLikesInput = {
   reportedContentReceived?: Prisma.ReportedContentUncheckedUpdateManyWithoutReportedUserNestedInput
   moderationLogsCreated?: Prisma.ModerationLogUncheckedUpdateManyWithoutModeratorUserNestedInput
   moderationLogsTargeted?: Prisma.ModerationLogUncheckedUpdateManyWithoutTargetUserNestedInput
+  listings?: Prisma.MarketplaceListingUncheckedUpdateManyWithoutSellerNestedInput
+  listingSaves?: Prisma.ListingSaveUncheckedUpdateManyWithoutUserNestedInput
+  listingOffers?: Prisma.ListingOfferUncheckedUpdateManyWithoutBuyerNestedInput
+  listingMessages?: Prisma.ListingMessageUncheckedUpdateManyWithoutSenderNestedInput
 }
 
 export type UserCreateWithoutCommentRepliesInput = {
@@ -3586,6 +3766,10 @@ export type UserCreateWithoutCommentRepliesInput = {
   reportedContentReceived?: Prisma.ReportedContentCreateNestedManyWithoutReportedUserInput
   moderationLogsCreated?: Prisma.ModerationLogCreateNestedManyWithoutModeratorUserInput
   moderationLogsTargeted?: Prisma.ModerationLogCreateNestedManyWithoutTargetUserInput
+  listings?: Prisma.MarketplaceListingCreateNestedManyWithoutSellerInput
+  listingSaves?: Prisma.ListingSaveCreateNestedManyWithoutUserInput
+  listingOffers?: Prisma.ListingOfferCreateNestedManyWithoutBuyerInput
+  listingMessages?: Prisma.ListingMessageCreateNestedManyWithoutSenderInput
 }
 
 export type UserUncheckedCreateWithoutCommentRepliesInput = {
@@ -3657,6 +3841,10 @@ export type UserUncheckedCreateWithoutCommentRepliesInput = {
   reportedContentReceived?: Prisma.ReportedContentUncheckedCreateNestedManyWithoutReportedUserInput
   moderationLogsCreated?: Prisma.ModerationLogUncheckedCreateNestedManyWithoutModeratorUserInput
   moderationLogsTargeted?: Prisma.ModerationLogUncheckedCreateNestedManyWithoutTargetUserInput
+  listings?: Prisma.MarketplaceListingUncheckedCreateNestedManyWithoutSellerInput
+  listingSaves?: Prisma.ListingSaveUncheckedCreateNestedManyWithoutUserInput
+  listingOffers?: Prisma.ListingOfferUncheckedCreateNestedManyWithoutBuyerInput
+  listingMessages?: Prisma.ListingMessageUncheckedCreateNestedManyWithoutSenderInput
 }
 
 export type UserCreateOrConnectWithoutCommentRepliesInput = {
@@ -3743,6 +3931,10 @@ export type UserUpdateWithoutCommentRepliesInput = {
   reportedContentReceived?: Prisma.ReportedContentUpdateManyWithoutReportedUserNestedInput
   moderationLogsCreated?: Prisma.ModerationLogUpdateManyWithoutModeratorUserNestedInput
   moderationLogsTargeted?: Prisma.ModerationLogUpdateManyWithoutTargetUserNestedInput
+  listings?: Prisma.MarketplaceListingUpdateManyWithoutSellerNestedInput
+  listingSaves?: Prisma.ListingSaveUpdateManyWithoutUserNestedInput
+  listingOffers?: Prisma.ListingOfferUpdateManyWithoutBuyerNestedInput
+  listingMessages?: Prisma.ListingMessageUpdateManyWithoutSenderNestedInput
 }
 
 export type UserUncheckedUpdateWithoutCommentRepliesInput = {
@@ -3814,6 +4006,10 @@ export type UserUncheckedUpdateWithoutCommentRepliesInput = {
   reportedContentReceived?: Prisma.ReportedContentUncheckedUpdateManyWithoutReportedUserNestedInput
   moderationLogsCreated?: Prisma.ModerationLogUncheckedUpdateManyWithoutModeratorUserNestedInput
   moderationLogsTargeted?: Prisma.ModerationLogUncheckedUpdateManyWithoutTargetUserNestedInput
+  listings?: Prisma.MarketplaceListingUncheckedUpdateManyWithoutSellerNestedInput
+  listingSaves?: Prisma.ListingSaveUncheckedUpdateManyWithoutUserNestedInput
+  listingOffers?: Prisma.ListingOfferUncheckedUpdateManyWithoutBuyerNestedInput
+  listingMessages?: Prisma.ListingMessageUncheckedUpdateManyWithoutSenderNestedInput
 }
 
 export type UserCreateWithoutReplyLikesInput = {
@@ -3884,6 +4080,10 @@ export type UserCreateWithoutReplyLikesInput = {
   reportedContentReceived?: Prisma.ReportedContentCreateNestedManyWithoutReportedUserInput
   moderationLogsCreated?: Prisma.ModerationLogCreateNestedManyWithoutModeratorUserInput
   moderationLogsTargeted?: Prisma.ModerationLogCreateNestedManyWithoutTargetUserInput
+  listings?: Prisma.MarketplaceListingCreateNestedManyWithoutSellerInput
+  listingSaves?: Prisma.ListingSaveCreateNestedManyWithoutUserInput
+  listingOffers?: Prisma.ListingOfferCreateNestedManyWithoutBuyerInput
+  listingMessages?: Prisma.ListingMessageCreateNestedManyWithoutSenderInput
 }
 
 export type UserUncheckedCreateWithoutReplyLikesInput = {
@@ -3955,6 +4155,10 @@ export type UserUncheckedCreateWithoutReplyLikesInput = {
   reportedContentReceived?: Prisma.ReportedContentUncheckedCreateNestedManyWithoutReportedUserInput
   moderationLogsCreated?: Prisma.ModerationLogUncheckedCreateNestedManyWithoutModeratorUserInput
   moderationLogsTargeted?: Prisma.ModerationLogUncheckedCreateNestedManyWithoutTargetUserInput
+  listings?: Prisma.MarketplaceListingUncheckedCreateNestedManyWithoutSellerInput
+  listingSaves?: Prisma.ListingSaveUncheckedCreateNestedManyWithoutUserInput
+  listingOffers?: Prisma.ListingOfferUncheckedCreateNestedManyWithoutBuyerInput
+  listingMessages?: Prisma.ListingMessageUncheckedCreateNestedManyWithoutSenderInput
 }
 
 export type UserCreateOrConnectWithoutReplyLikesInput = {
@@ -4041,6 +4245,10 @@ export type UserUpdateWithoutReplyLikesInput = {
   reportedContentReceived?: Prisma.ReportedContentUpdateManyWithoutReportedUserNestedInput
   moderationLogsCreated?: Prisma.ModerationLogUpdateManyWithoutModeratorUserNestedInput
   moderationLogsTargeted?: Prisma.ModerationLogUpdateManyWithoutTargetUserNestedInput
+  listings?: Prisma.MarketplaceListingUpdateManyWithoutSellerNestedInput
+  listingSaves?: Prisma.ListingSaveUpdateManyWithoutUserNestedInput
+  listingOffers?: Prisma.ListingOfferUpdateManyWithoutBuyerNestedInput
+  listingMessages?: Prisma.ListingMessageUpdateManyWithoutSenderNestedInput
 }
 
 export type UserUncheckedUpdateWithoutReplyLikesInput = {
@@ -4112,6 +4320,10 @@ export type UserUncheckedUpdateWithoutReplyLikesInput = {
   reportedContentReceived?: Prisma.ReportedContentUncheckedUpdateManyWithoutReportedUserNestedInput
   moderationLogsCreated?: Prisma.ModerationLogUncheckedUpdateManyWithoutModeratorUserNestedInput
   moderationLogsTargeted?: Prisma.ModerationLogUncheckedUpdateManyWithoutTargetUserNestedInput
+  listings?: Prisma.MarketplaceListingUncheckedUpdateManyWithoutSellerNestedInput
+  listingSaves?: Prisma.ListingSaveUncheckedUpdateManyWithoutUserNestedInput
+  listingOffers?: Prisma.ListingOfferUncheckedUpdateManyWithoutBuyerNestedInput
+  listingMessages?: Prisma.ListingMessageUncheckedUpdateManyWithoutSenderNestedInput
 }
 
 export type UserCreateWithoutCreatedEventsInput = {
@@ -4182,6 +4394,10 @@ export type UserCreateWithoutCreatedEventsInput = {
   reportedContentReceived?: Prisma.ReportedContentCreateNestedManyWithoutReportedUserInput
   moderationLogsCreated?: Prisma.ModerationLogCreateNestedManyWithoutModeratorUserInput
   moderationLogsTargeted?: Prisma.ModerationLogCreateNestedManyWithoutTargetUserInput
+  listings?: Prisma.MarketplaceListingCreateNestedManyWithoutSellerInput
+  listingSaves?: Prisma.ListingSaveCreateNestedManyWithoutUserInput
+  listingOffers?: Prisma.ListingOfferCreateNestedManyWithoutBuyerInput
+  listingMessages?: Prisma.ListingMessageCreateNestedManyWithoutSenderInput
 }
 
 export type UserUncheckedCreateWithoutCreatedEventsInput = {
@@ -4253,6 +4469,10 @@ export type UserUncheckedCreateWithoutCreatedEventsInput = {
   reportedContentReceived?: Prisma.ReportedContentUncheckedCreateNestedManyWithoutReportedUserInput
   moderationLogsCreated?: Prisma.ModerationLogUncheckedCreateNestedManyWithoutModeratorUserInput
   moderationLogsTargeted?: Prisma.ModerationLogUncheckedCreateNestedManyWithoutTargetUserInput
+  listings?: Prisma.MarketplaceListingUncheckedCreateNestedManyWithoutSellerInput
+  listingSaves?: Prisma.ListingSaveUncheckedCreateNestedManyWithoutUserInput
+  listingOffers?: Prisma.ListingOfferUncheckedCreateNestedManyWithoutBuyerInput
+  listingMessages?: Prisma.ListingMessageUncheckedCreateNestedManyWithoutSenderInput
 }
 
 export type UserCreateOrConnectWithoutCreatedEventsInput = {
@@ -4339,6 +4559,10 @@ export type UserUpdateWithoutCreatedEventsInput = {
   reportedContentReceived?: Prisma.ReportedContentUpdateManyWithoutReportedUserNestedInput
   moderationLogsCreated?: Prisma.ModerationLogUpdateManyWithoutModeratorUserNestedInput
   moderationLogsTargeted?: Prisma.ModerationLogUpdateManyWithoutTargetUserNestedInput
+  listings?: Prisma.MarketplaceListingUpdateManyWithoutSellerNestedInput
+  listingSaves?: Prisma.ListingSaveUpdateManyWithoutUserNestedInput
+  listingOffers?: Prisma.ListingOfferUpdateManyWithoutBuyerNestedInput
+  listingMessages?: Prisma.ListingMessageUpdateManyWithoutSenderNestedInput
 }
 
 export type UserUncheckedUpdateWithoutCreatedEventsInput = {
@@ -4410,6 +4634,10 @@ export type UserUncheckedUpdateWithoutCreatedEventsInput = {
   reportedContentReceived?: Prisma.ReportedContentUncheckedUpdateManyWithoutReportedUserNestedInput
   moderationLogsCreated?: Prisma.ModerationLogUncheckedUpdateManyWithoutModeratorUserNestedInput
   moderationLogsTargeted?: Prisma.ModerationLogUncheckedUpdateManyWithoutTargetUserNestedInput
+  listings?: Prisma.MarketplaceListingUncheckedUpdateManyWithoutSellerNestedInput
+  listingSaves?: Prisma.ListingSaveUncheckedUpdateManyWithoutUserNestedInput
+  listingOffers?: Prisma.ListingOfferUncheckedUpdateManyWithoutBuyerNestedInput
+  listingMessages?: Prisma.ListingMessageUncheckedUpdateManyWithoutSenderNestedInput
 }
 
 export type UserCreateWithoutEventAttendancesInput = {
@@ -4480,6 +4708,10 @@ export type UserCreateWithoutEventAttendancesInput = {
   reportedContentReceived?: Prisma.ReportedContentCreateNestedManyWithoutReportedUserInput
   moderationLogsCreated?: Prisma.ModerationLogCreateNestedManyWithoutModeratorUserInput
   moderationLogsTargeted?: Prisma.ModerationLogCreateNestedManyWithoutTargetUserInput
+  listings?: Prisma.MarketplaceListingCreateNestedManyWithoutSellerInput
+  listingSaves?: Prisma.ListingSaveCreateNestedManyWithoutUserInput
+  listingOffers?: Prisma.ListingOfferCreateNestedManyWithoutBuyerInput
+  listingMessages?: Prisma.ListingMessageCreateNestedManyWithoutSenderInput
 }
 
 export type UserUncheckedCreateWithoutEventAttendancesInput = {
@@ -4551,6 +4783,10 @@ export type UserUncheckedCreateWithoutEventAttendancesInput = {
   reportedContentReceived?: Prisma.ReportedContentUncheckedCreateNestedManyWithoutReportedUserInput
   moderationLogsCreated?: Prisma.ModerationLogUncheckedCreateNestedManyWithoutModeratorUserInput
   moderationLogsTargeted?: Prisma.ModerationLogUncheckedCreateNestedManyWithoutTargetUserInput
+  listings?: Prisma.MarketplaceListingUncheckedCreateNestedManyWithoutSellerInput
+  listingSaves?: Prisma.ListingSaveUncheckedCreateNestedManyWithoutUserInput
+  listingOffers?: Prisma.ListingOfferUncheckedCreateNestedManyWithoutBuyerInput
+  listingMessages?: Prisma.ListingMessageUncheckedCreateNestedManyWithoutSenderInput
 }
 
 export type UserCreateOrConnectWithoutEventAttendancesInput = {
@@ -4637,6 +4873,10 @@ export type UserUpdateWithoutEventAttendancesInput = {
   reportedContentReceived?: Prisma.ReportedContentUpdateManyWithoutReportedUserNestedInput
   moderationLogsCreated?: Prisma.ModerationLogUpdateManyWithoutModeratorUserNestedInput
   moderationLogsTargeted?: Prisma.ModerationLogUpdateManyWithoutTargetUserNestedInput
+  listings?: Prisma.MarketplaceListingUpdateManyWithoutSellerNestedInput
+  listingSaves?: Prisma.ListingSaveUpdateManyWithoutUserNestedInput
+  listingOffers?: Prisma.ListingOfferUpdateManyWithoutBuyerNestedInput
+  listingMessages?: Prisma.ListingMessageUpdateManyWithoutSenderNestedInput
 }
 
 export type UserUncheckedUpdateWithoutEventAttendancesInput = {
@@ -4708,6 +4948,10 @@ export type UserUncheckedUpdateWithoutEventAttendancesInput = {
   reportedContentReceived?: Prisma.ReportedContentUncheckedUpdateManyWithoutReportedUserNestedInput
   moderationLogsCreated?: Prisma.ModerationLogUncheckedUpdateManyWithoutModeratorUserNestedInput
   moderationLogsTargeted?: Prisma.ModerationLogUncheckedUpdateManyWithoutTargetUserNestedInput
+  listings?: Prisma.MarketplaceListingUncheckedUpdateManyWithoutSellerNestedInput
+  listingSaves?: Prisma.ListingSaveUncheckedUpdateManyWithoutUserNestedInput
+  listingOffers?: Prisma.ListingOfferUncheckedUpdateManyWithoutBuyerNestedInput
+  listingMessages?: Prisma.ListingMessageUncheckedUpdateManyWithoutSenderNestedInput
 }
 
 export type UserCreateWithoutEventPostsInput = {
@@ -4778,6 +5022,10 @@ export type UserCreateWithoutEventPostsInput = {
   reportedContentReceived?: Prisma.ReportedContentCreateNestedManyWithoutReportedUserInput
   moderationLogsCreated?: Prisma.ModerationLogCreateNestedManyWithoutModeratorUserInput
   moderationLogsTargeted?: Prisma.ModerationLogCreateNestedManyWithoutTargetUserInput
+  listings?: Prisma.MarketplaceListingCreateNestedManyWithoutSellerInput
+  listingSaves?: Prisma.ListingSaveCreateNestedManyWithoutUserInput
+  listingOffers?: Prisma.ListingOfferCreateNestedManyWithoutBuyerInput
+  listingMessages?: Prisma.ListingMessageCreateNestedManyWithoutSenderInput
 }
 
 export type UserUncheckedCreateWithoutEventPostsInput = {
@@ -4849,6 +5097,10 @@ export type UserUncheckedCreateWithoutEventPostsInput = {
   reportedContentReceived?: Prisma.ReportedContentUncheckedCreateNestedManyWithoutReportedUserInput
   moderationLogsCreated?: Prisma.ModerationLogUncheckedCreateNestedManyWithoutModeratorUserInput
   moderationLogsTargeted?: Prisma.ModerationLogUncheckedCreateNestedManyWithoutTargetUserInput
+  listings?: Prisma.MarketplaceListingUncheckedCreateNestedManyWithoutSellerInput
+  listingSaves?: Prisma.ListingSaveUncheckedCreateNestedManyWithoutUserInput
+  listingOffers?: Prisma.ListingOfferUncheckedCreateNestedManyWithoutBuyerInput
+  listingMessages?: Prisma.ListingMessageUncheckedCreateNestedManyWithoutSenderInput
 }
 
 export type UserCreateOrConnectWithoutEventPostsInput = {
@@ -4935,6 +5187,10 @@ export type UserUpdateWithoutEventPostsInput = {
   reportedContentReceived?: Prisma.ReportedContentUpdateManyWithoutReportedUserNestedInput
   moderationLogsCreated?: Prisma.ModerationLogUpdateManyWithoutModeratorUserNestedInput
   moderationLogsTargeted?: Prisma.ModerationLogUpdateManyWithoutTargetUserNestedInput
+  listings?: Prisma.MarketplaceListingUpdateManyWithoutSellerNestedInput
+  listingSaves?: Prisma.ListingSaveUpdateManyWithoutUserNestedInput
+  listingOffers?: Prisma.ListingOfferUpdateManyWithoutBuyerNestedInput
+  listingMessages?: Prisma.ListingMessageUpdateManyWithoutSenderNestedInput
 }
 
 export type UserUncheckedUpdateWithoutEventPostsInput = {
@@ -5006,6 +5262,10 @@ export type UserUncheckedUpdateWithoutEventPostsInput = {
   reportedContentReceived?: Prisma.ReportedContentUncheckedUpdateManyWithoutReportedUserNestedInput
   moderationLogsCreated?: Prisma.ModerationLogUncheckedUpdateManyWithoutModeratorUserNestedInput
   moderationLogsTargeted?: Prisma.ModerationLogUncheckedUpdateManyWithoutTargetUserNestedInput
+  listings?: Prisma.MarketplaceListingUncheckedUpdateManyWithoutSellerNestedInput
+  listingSaves?: Prisma.ListingSaveUncheckedUpdateManyWithoutUserNestedInput
+  listingOffers?: Prisma.ListingOfferUncheckedUpdateManyWithoutBuyerNestedInput
+  listingMessages?: Prisma.ListingMessageUncheckedUpdateManyWithoutSenderNestedInput
 }
 
 export type UserCreateWithoutEventPostLikesInput = {
@@ -5076,6 +5336,10 @@ export type UserCreateWithoutEventPostLikesInput = {
   reportedContentReceived?: Prisma.ReportedContentCreateNestedManyWithoutReportedUserInput
   moderationLogsCreated?: Prisma.ModerationLogCreateNestedManyWithoutModeratorUserInput
   moderationLogsTargeted?: Prisma.ModerationLogCreateNestedManyWithoutTargetUserInput
+  listings?: Prisma.MarketplaceListingCreateNestedManyWithoutSellerInput
+  listingSaves?: Prisma.ListingSaveCreateNestedManyWithoutUserInput
+  listingOffers?: Prisma.ListingOfferCreateNestedManyWithoutBuyerInput
+  listingMessages?: Prisma.ListingMessageCreateNestedManyWithoutSenderInput
 }
 
 export type UserUncheckedCreateWithoutEventPostLikesInput = {
@@ -5147,6 +5411,10 @@ export type UserUncheckedCreateWithoutEventPostLikesInput = {
   reportedContentReceived?: Prisma.ReportedContentUncheckedCreateNestedManyWithoutReportedUserInput
   moderationLogsCreated?: Prisma.ModerationLogUncheckedCreateNestedManyWithoutModeratorUserInput
   moderationLogsTargeted?: Prisma.ModerationLogUncheckedCreateNestedManyWithoutTargetUserInput
+  listings?: Prisma.MarketplaceListingUncheckedCreateNestedManyWithoutSellerInput
+  listingSaves?: Prisma.ListingSaveUncheckedCreateNestedManyWithoutUserInput
+  listingOffers?: Prisma.ListingOfferUncheckedCreateNestedManyWithoutBuyerInput
+  listingMessages?: Prisma.ListingMessageUncheckedCreateNestedManyWithoutSenderInput
 }
 
 export type UserCreateOrConnectWithoutEventPostLikesInput = {
@@ -5233,6 +5501,10 @@ export type UserUpdateWithoutEventPostLikesInput = {
   reportedContentReceived?: Prisma.ReportedContentUpdateManyWithoutReportedUserNestedInput
   moderationLogsCreated?: Prisma.ModerationLogUpdateManyWithoutModeratorUserNestedInput
   moderationLogsTargeted?: Prisma.ModerationLogUpdateManyWithoutTargetUserNestedInput
+  listings?: Prisma.MarketplaceListingUpdateManyWithoutSellerNestedInput
+  listingSaves?: Prisma.ListingSaveUpdateManyWithoutUserNestedInput
+  listingOffers?: Prisma.ListingOfferUpdateManyWithoutBuyerNestedInput
+  listingMessages?: Prisma.ListingMessageUpdateManyWithoutSenderNestedInput
 }
 
 export type UserUncheckedUpdateWithoutEventPostLikesInput = {
@@ -5304,6 +5576,10 @@ export type UserUncheckedUpdateWithoutEventPostLikesInput = {
   reportedContentReceived?: Prisma.ReportedContentUncheckedUpdateManyWithoutReportedUserNestedInput
   moderationLogsCreated?: Prisma.ModerationLogUncheckedUpdateManyWithoutModeratorUserNestedInput
   moderationLogsTargeted?: Prisma.ModerationLogUncheckedUpdateManyWithoutTargetUserNestedInput
+  listings?: Prisma.MarketplaceListingUncheckedUpdateManyWithoutSellerNestedInput
+  listingSaves?: Prisma.ListingSaveUncheckedUpdateManyWithoutUserNestedInput
+  listingOffers?: Prisma.ListingOfferUncheckedUpdateManyWithoutBuyerNestedInput
+  listingMessages?: Prisma.ListingMessageUncheckedUpdateManyWithoutSenderNestedInput
 }
 
 export type UserCreateWithoutEventPostCommentsInput = {
@@ -5374,6 +5650,10 @@ export type UserCreateWithoutEventPostCommentsInput = {
   reportedContentReceived?: Prisma.ReportedContentCreateNestedManyWithoutReportedUserInput
   moderationLogsCreated?: Prisma.ModerationLogCreateNestedManyWithoutModeratorUserInput
   moderationLogsTargeted?: Prisma.ModerationLogCreateNestedManyWithoutTargetUserInput
+  listings?: Prisma.MarketplaceListingCreateNestedManyWithoutSellerInput
+  listingSaves?: Prisma.ListingSaveCreateNestedManyWithoutUserInput
+  listingOffers?: Prisma.ListingOfferCreateNestedManyWithoutBuyerInput
+  listingMessages?: Prisma.ListingMessageCreateNestedManyWithoutSenderInput
 }
 
 export type UserUncheckedCreateWithoutEventPostCommentsInput = {
@@ -5445,6 +5725,10 @@ export type UserUncheckedCreateWithoutEventPostCommentsInput = {
   reportedContentReceived?: Prisma.ReportedContentUncheckedCreateNestedManyWithoutReportedUserInput
   moderationLogsCreated?: Prisma.ModerationLogUncheckedCreateNestedManyWithoutModeratorUserInput
   moderationLogsTargeted?: Prisma.ModerationLogUncheckedCreateNestedManyWithoutTargetUserInput
+  listings?: Prisma.MarketplaceListingUncheckedCreateNestedManyWithoutSellerInput
+  listingSaves?: Prisma.ListingSaveUncheckedCreateNestedManyWithoutUserInput
+  listingOffers?: Prisma.ListingOfferUncheckedCreateNestedManyWithoutBuyerInput
+  listingMessages?: Prisma.ListingMessageUncheckedCreateNestedManyWithoutSenderInput
 }
 
 export type UserCreateOrConnectWithoutEventPostCommentsInput = {
@@ -5531,6 +5815,10 @@ export type UserUpdateWithoutEventPostCommentsInput = {
   reportedContentReceived?: Prisma.ReportedContentUpdateManyWithoutReportedUserNestedInput
   moderationLogsCreated?: Prisma.ModerationLogUpdateManyWithoutModeratorUserNestedInput
   moderationLogsTargeted?: Prisma.ModerationLogUpdateManyWithoutTargetUserNestedInput
+  listings?: Prisma.MarketplaceListingUpdateManyWithoutSellerNestedInput
+  listingSaves?: Prisma.ListingSaveUpdateManyWithoutUserNestedInput
+  listingOffers?: Prisma.ListingOfferUpdateManyWithoutBuyerNestedInput
+  listingMessages?: Prisma.ListingMessageUpdateManyWithoutSenderNestedInput
 }
 
 export type UserUncheckedUpdateWithoutEventPostCommentsInput = {
@@ -5602,6 +5890,10 @@ export type UserUncheckedUpdateWithoutEventPostCommentsInput = {
   reportedContentReceived?: Prisma.ReportedContentUncheckedUpdateManyWithoutReportedUserNestedInput
   moderationLogsCreated?: Prisma.ModerationLogUncheckedUpdateManyWithoutModeratorUserNestedInput
   moderationLogsTargeted?: Prisma.ModerationLogUncheckedUpdateManyWithoutTargetUserNestedInput
+  listings?: Prisma.MarketplaceListingUncheckedUpdateManyWithoutSellerNestedInput
+  listingSaves?: Prisma.ListingSaveUncheckedUpdateManyWithoutUserNestedInput
+  listingOffers?: Prisma.ListingOfferUncheckedUpdateManyWithoutBuyerNestedInput
+  listingMessages?: Prisma.ListingMessageUncheckedUpdateManyWithoutSenderNestedInput
 }
 
 export type UserCreateWithoutEventPostCommentLikesInput = {
@@ -5672,6 +5964,10 @@ export type UserCreateWithoutEventPostCommentLikesInput = {
   reportedContentReceived?: Prisma.ReportedContentCreateNestedManyWithoutReportedUserInput
   moderationLogsCreated?: Prisma.ModerationLogCreateNestedManyWithoutModeratorUserInput
   moderationLogsTargeted?: Prisma.ModerationLogCreateNestedManyWithoutTargetUserInput
+  listings?: Prisma.MarketplaceListingCreateNestedManyWithoutSellerInput
+  listingSaves?: Prisma.ListingSaveCreateNestedManyWithoutUserInput
+  listingOffers?: Prisma.ListingOfferCreateNestedManyWithoutBuyerInput
+  listingMessages?: Prisma.ListingMessageCreateNestedManyWithoutSenderInput
 }
 
 export type UserUncheckedCreateWithoutEventPostCommentLikesInput = {
@@ -5743,6 +6039,10 @@ export type UserUncheckedCreateWithoutEventPostCommentLikesInput = {
   reportedContentReceived?: Prisma.ReportedContentUncheckedCreateNestedManyWithoutReportedUserInput
   moderationLogsCreated?: Prisma.ModerationLogUncheckedCreateNestedManyWithoutModeratorUserInput
   moderationLogsTargeted?: Prisma.ModerationLogUncheckedCreateNestedManyWithoutTargetUserInput
+  listings?: Prisma.MarketplaceListingUncheckedCreateNestedManyWithoutSellerInput
+  listingSaves?: Prisma.ListingSaveUncheckedCreateNestedManyWithoutUserInput
+  listingOffers?: Prisma.ListingOfferUncheckedCreateNestedManyWithoutBuyerInput
+  listingMessages?: Prisma.ListingMessageUncheckedCreateNestedManyWithoutSenderInput
 }
 
 export type UserCreateOrConnectWithoutEventPostCommentLikesInput = {
@@ -5829,6 +6129,10 @@ export type UserUpdateWithoutEventPostCommentLikesInput = {
   reportedContentReceived?: Prisma.ReportedContentUpdateManyWithoutReportedUserNestedInput
   moderationLogsCreated?: Prisma.ModerationLogUpdateManyWithoutModeratorUserNestedInput
   moderationLogsTargeted?: Prisma.ModerationLogUpdateManyWithoutTargetUserNestedInput
+  listings?: Prisma.MarketplaceListingUpdateManyWithoutSellerNestedInput
+  listingSaves?: Prisma.ListingSaveUpdateManyWithoutUserNestedInput
+  listingOffers?: Prisma.ListingOfferUpdateManyWithoutBuyerNestedInput
+  listingMessages?: Prisma.ListingMessageUpdateManyWithoutSenderNestedInput
 }
 
 export type UserUncheckedUpdateWithoutEventPostCommentLikesInput = {
@@ -5900,6 +6204,10 @@ export type UserUncheckedUpdateWithoutEventPostCommentLikesInput = {
   reportedContentReceived?: Prisma.ReportedContentUncheckedUpdateManyWithoutReportedUserNestedInput
   moderationLogsCreated?: Prisma.ModerationLogUncheckedUpdateManyWithoutModeratorUserNestedInput
   moderationLogsTargeted?: Prisma.ModerationLogUncheckedUpdateManyWithoutTargetUserNestedInput
+  listings?: Prisma.MarketplaceListingUncheckedUpdateManyWithoutSellerNestedInput
+  listingSaves?: Prisma.ListingSaveUncheckedUpdateManyWithoutUserNestedInput
+  listingOffers?: Prisma.ListingOfferUncheckedUpdateManyWithoutBuyerNestedInput
+  listingMessages?: Prisma.ListingMessageUncheckedUpdateManyWithoutSenderNestedInput
 }
 
 export type UserCreateWithoutOwnedGroupsInput = {
@@ -5970,6 +6278,10 @@ export type UserCreateWithoutOwnedGroupsInput = {
   reportedContentReceived?: Prisma.ReportedContentCreateNestedManyWithoutReportedUserInput
   moderationLogsCreated?: Prisma.ModerationLogCreateNestedManyWithoutModeratorUserInput
   moderationLogsTargeted?: Prisma.ModerationLogCreateNestedManyWithoutTargetUserInput
+  listings?: Prisma.MarketplaceListingCreateNestedManyWithoutSellerInput
+  listingSaves?: Prisma.ListingSaveCreateNestedManyWithoutUserInput
+  listingOffers?: Prisma.ListingOfferCreateNestedManyWithoutBuyerInput
+  listingMessages?: Prisma.ListingMessageCreateNestedManyWithoutSenderInput
 }
 
 export type UserUncheckedCreateWithoutOwnedGroupsInput = {
@@ -6041,6 +6353,10 @@ export type UserUncheckedCreateWithoutOwnedGroupsInput = {
   reportedContentReceived?: Prisma.ReportedContentUncheckedCreateNestedManyWithoutReportedUserInput
   moderationLogsCreated?: Prisma.ModerationLogUncheckedCreateNestedManyWithoutModeratorUserInput
   moderationLogsTargeted?: Prisma.ModerationLogUncheckedCreateNestedManyWithoutTargetUserInput
+  listings?: Prisma.MarketplaceListingUncheckedCreateNestedManyWithoutSellerInput
+  listingSaves?: Prisma.ListingSaveUncheckedCreateNestedManyWithoutUserInput
+  listingOffers?: Prisma.ListingOfferUncheckedCreateNestedManyWithoutBuyerInput
+  listingMessages?: Prisma.ListingMessageUncheckedCreateNestedManyWithoutSenderInput
 }
 
 export type UserCreateOrConnectWithoutOwnedGroupsInput = {
@@ -6127,6 +6443,10 @@ export type UserUpdateWithoutOwnedGroupsInput = {
   reportedContentReceived?: Prisma.ReportedContentUpdateManyWithoutReportedUserNestedInput
   moderationLogsCreated?: Prisma.ModerationLogUpdateManyWithoutModeratorUserNestedInput
   moderationLogsTargeted?: Prisma.ModerationLogUpdateManyWithoutTargetUserNestedInput
+  listings?: Prisma.MarketplaceListingUpdateManyWithoutSellerNestedInput
+  listingSaves?: Prisma.ListingSaveUpdateManyWithoutUserNestedInput
+  listingOffers?: Prisma.ListingOfferUpdateManyWithoutBuyerNestedInput
+  listingMessages?: Prisma.ListingMessageUpdateManyWithoutSenderNestedInput
 }
 
 export type UserUncheckedUpdateWithoutOwnedGroupsInput = {
@@ -6198,6 +6518,10 @@ export type UserUncheckedUpdateWithoutOwnedGroupsInput = {
   reportedContentReceived?: Prisma.ReportedContentUncheckedUpdateManyWithoutReportedUserNestedInput
   moderationLogsCreated?: Prisma.ModerationLogUncheckedUpdateManyWithoutModeratorUserNestedInput
   moderationLogsTargeted?: Prisma.ModerationLogUncheckedUpdateManyWithoutTargetUserNestedInput
+  listings?: Prisma.MarketplaceListingUncheckedUpdateManyWithoutSellerNestedInput
+  listingSaves?: Prisma.ListingSaveUncheckedUpdateManyWithoutUserNestedInput
+  listingOffers?: Prisma.ListingOfferUncheckedUpdateManyWithoutBuyerNestedInput
+  listingMessages?: Prisma.ListingMessageUncheckedUpdateManyWithoutSenderNestedInput
 }
 
 export type UserCreateWithoutGroupMembershipsInput = {
@@ -6268,6 +6592,10 @@ export type UserCreateWithoutGroupMembershipsInput = {
   reportedContentReceived?: Prisma.ReportedContentCreateNestedManyWithoutReportedUserInput
   moderationLogsCreated?: Prisma.ModerationLogCreateNestedManyWithoutModeratorUserInput
   moderationLogsTargeted?: Prisma.ModerationLogCreateNestedManyWithoutTargetUserInput
+  listings?: Prisma.MarketplaceListingCreateNestedManyWithoutSellerInput
+  listingSaves?: Prisma.ListingSaveCreateNestedManyWithoutUserInput
+  listingOffers?: Prisma.ListingOfferCreateNestedManyWithoutBuyerInput
+  listingMessages?: Prisma.ListingMessageCreateNestedManyWithoutSenderInput
 }
 
 export type UserUncheckedCreateWithoutGroupMembershipsInput = {
@@ -6339,6 +6667,10 @@ export type UserUncheckedCreateWithoutGroupMembershipsInput = {
   reportedContentReceived?: Prisma.ReportedContentUncheckedCreateNestedManyWithoutReportedUserInput
   moderationLogsCreated?: Prisma.ModerationLogUncheckedCreateNestedManyWithoutModeratorUserInput
   moderationLogsTargeted?: Prisma.ModerationLogUncheckedCreateNestedManyWithoutTargetUserInput
+  listings?: Prisma.MarketplaceListingUncheckedCreateNestedManyWithoutSellerInput
+  listingSaves?: Prisma.ListingSaveUncheckedCreateNestedManyWithoutUserInput
+  listingOffers?: Prisma.ListingOfferUncheckedCreateNestedManyWithoutBuyerInput
+  listingMessages?: Prisma.ListingMessageUncheckedCreateNestedManyWithoutSenderInput
 }
 
 export type UserCreateOrConnectWithoutGroupMembershipsInput = {
@@ -6425,6 +6757,10 @@ export type UserUpdateWithoutGroupMembershipsInput = {
   reportedContentReceived?: Prisma.ReportedContentUpdateManyWithoutReportedUserNestedInput
   moderationLogsCreated?: Prisma.ModerationLogUpdateManyWithoutModeratorUserNestedInput
   moderationLogsTargeted?: Prisma.ModerationLogUpdateManyWithoutTargetUserNestedInput
+  listings?: Prisma.MarketplaceListingUpdateManyWithoutSellerNestedInput
+  listingSaves?: Prisma.ListingSaveUpdateManyWithoutUserNestedInput
+  listingOffers?: Prisma.ListingOfferUpdateManyWithoutBuyerNestedInput
+  listingMessages?: Prisma.ListingMessageUpdateManyWithoutSenderNestedInput
 }
 
 export type UserUncheckedUpdateWithoutGroupMembershipsInput = {
@@ -6496,6 +6832,10 @@ export type UserUncheckedUpdateWithoutGroupMembershipsInput = {
   reportedContentReceived?: Prisma.ReportedContentUncheckedUpdateManyWithoutReportedUserNestedInput
   moderationLogsCreated?: Prisma.ModerationLogUncheckedUpdateManyWithoutModeratorUserNestedInput
   moderationLogsTargeted?: Prisma.ModerationLogUncheckedUpdateManyWithoutTargetUserNestedInput
+  listings?: Prisma.MarketplaceListingUncheckedUpdateManyWithoutSellerNestedInput
+  listingSaves?: Prisma.ListingSaveUncheckedUpdateManyWithoutUserNestedInput
+  listingOffers?: Prisma.ListingOfferUncheckedUpdateManyWithoutBuyerNestedInput
+  listingMessages?: Prisma.ListingMessageUncheckedUpdateManyWithoutSenderNestedInput
 }
 
 export type UserCreateWithoutGroupPostsInput = {
@@ -6566,6 +6906,10 @@ export type UserCreateWithoutGroupPostsInput = {
   reportedContentReceived?: Prisma.ReportedContentCreateNestedManyWithoutReportedUserInput
   moderationLogsCreated?: Prisma.ModerationLogCreateNestedManyWithoutModeratorUserInput
   moderationLogsTargeted?: Prisma.ModerationLogCreateNestedManyWithoutTargetUserInput
+  listings?: Prisma.MarketplaceListingCreateNestedManyWithoutSellerInput
+  listingSaves?: Prisma.ListingSaveCreateNestedManyWithoutUserInput
+  listingOffers?: Prisma.ListingOfferCreateNestedManyWithoutBuyerInput
+  listingMessages?: Prisma.ListingMessageCreateNestedManyWithoutSenderInput
 }
 
 export type UserUncheckedCreateWithoutGroupPostsInput = {
@@ -6637,6 +6981,10 @@ export type UserUncheckedCreateWithoutGroupPostsInput = {
   reportedContentReceived?: Prisma.ReportedContentUncheckedCreateNestedManyWithoutReportedUserInput
   moderationLogsCreated?: Prisma.ModerationLogUncheckedCreateNestedManyWithoutModeratorUserInput
   moderationLogsTargeted?: Prisma.ModerationLogUncheckedCreateNestedManyWithoutTargetUserInput
+  listings?: Prisma.MarketplaceListingUncheckedCreateNestedManyWithoutSellerInput
+  listingSaves?: Prisma.ListingSaveUncheckedCreateNestedManyWithoutUserInput
+  listingOffers?: Prisma.ListingOfferUncheckedCreateNestedManyWithoutBuyerInput
+  listingMessages?: Prisma.ListingMessageUncheckedCreateNestedManyWithoutSenderInput
 }
 
 export type UserCreateOrConnectWithoutGroupPostsInput = {
@@ -6723,6 +7071,10 @@ export type UserUpdateWithoutGroupPostsInput = {
   reportedContentReceived?: Prisma.ReportedContentUpdateManyWithoutReportedUserNestedInput
   moderationLogsCreated?: Prisma.ModerationLogUpdateManyWithoutModeratorUserNestedInput
   moderationLogsTargeted?: Prisma.ModerationLogUpdateManyWithoutTargetUserNestedInput
+  listings?: Prisma.MarketplaceListingUpdateManyWithoutSellerNestedInput
+  listingSaves?: Prisma.ListingSaveUpdateManyWithoutUserNestedInput
+  listingOffers?: Prisma.ListingOfferUpdateManyWithoutBuyerNestedInput
+  listingMessages?: Prisma.ListingMessageUpdateManyWithoutSenderNestedInput
 }
 
 export type UserUncheckedUpdateWithoutGroupPostsInput = {
@@ -6794,6 +7146,10 @@ export type UserUncheckedUpdateWithoutGroupPostsInput = {
   reportedContentReceived?: Prisma.ReportedContentUncheckedUpdateManyWithoutReportedUserNestedInput
   moderationLogsCreated?: Prisma.ModerationLogUncheckedUpdateManyWithoutModeratorUserNestedInput
   moderationLogsTargeted?: Prisma.ModerationLogUncheckedUpdateManyWithoutTargetUserNestedInput
+  listings?: Prisma.MarketplaceListingUncheckedUpdateManyWithoutSellerNestedInput
+  listingSaves?: Prisma.ListingSaveUncheckedUpdateManyWithoutUserNestedInput
+  listingOffers?: Prisma.ListingOfferUncheckedUpdateManyWithoutBuyerNestedInput
+  listingMessages?: Prisma.ListingMessageUncheckedUpdateManyWithoutSenderNestedInput
 }
 
 export type UserCreateWithoutGroupPostLikesInput = {
@@ -6864,6 +7220,10 @@ export type UserCreateWithoutGroupPostLikesInput = {
   reportedContentReceived?: Prisma.ReportedContentCreateNestedManyWithoutReportedUserInput
   moderationLogsCreated?: Prisma.ModerationLogCreateNestedManyWithoutModeratorUserInput
   moderationLogsTargeted?: Prisma.ModerationLogCreateNestedManyWithoutTargetUserInput
+  listings?: Prisma.MarketplaceListingCreateNestedManyWithoutSellerInput
+  listingSaves?: Prisma.ListingSaveCreateNestedManyWithoutUserInput
+  listingOffers?: Prisma.ListingOfferCreateNestedManyWithoutBuyerInput
+  listingMessages?: Prisma.ListingMessageCreateNestedManyWithoutSenderInput
 }
 
 export type UserUncheckedCreateWithoutGroupPostLikesInput = {
@@ -6935,6 +7295,10 @@ export type UserUncheckedCreateWithoutGroupPostLikesInput = {
   reportedContentReceived?: Prisma.ReportedContentUncheckedCreateNestedManyWithoutReportedUserInput
   moderationLogsCreated?: Prisma.ModerationLogUncheckedCreateNestedManyWithoutModeratorUserInput
   moderationLogsTargeted?: Prisma.ModerationLogUncheckedCreateNestedManyWithoutTargetUserInput
+  listings?: Prisma.MarketplaceListingUncheckedCreateNestedManyWithoutSellerInput
+  listingSaves?: Prisma.ListingSaveUncheckedCreateNestedManyWithoutUserInput
+  listingOffers?: Prisma.ListingOfferUncheckedCreateNestedManyWithoutBuyerInput
+  listingMessages?: Prisma.ListingMessageUncheckedCreateNestedManyWithoutSenderInput
 }
 
 export type UserCreateOrConnectWithoutGroupPostLikesInput = {
@@ -7021,6 +7385,10 @@ export type UserUpdateWithoutGroupPostLikesInput = {
   reportedContentReceived?: Prisma.ReportedContentUpdateManyWithoutReportedUserNestedInput
   moderationLogsCreated?: Prisma.ModerationLogUpdateManyWithoutModeratorUserNestedInput
   moderationLogsTargeted?: Prisma.ModerationLogUpdateManyWithoutTargetUserNestedInput
+  listings?: Prisma.MarketplaceListingUpdateManyWithoutSellerNestedInput
+  listingSaves?: Prisma.ListingSaveUpdateManyWithoutUserNestedInput
+  listingOffers?: Prisma.ListingOfferUpdateManyWithoutBuyerNestedInput
+  listingMessages?: Prisma.ListingMessageUpdateManyWithoutSenderNestedInput
 }
 
 export type UserUncheckedUpdateWithoutGroupPostLikesInput = {
@@ -7092,6 +7460,10 @@ export type UserUncheckedUpdateWithoutGroupPostLikesInput = {
   reportedContentReceived?: Prisma.ReportedContentUncheckedUpdateManyWithoutReportedUserNestedInput
   moderationLogsCreated?: Prisma.ModerationLogUncheckedUpdateManyWithoutModeratorUserNestedInput
   moderationLogsTargeted?: Prisma.ModerationLogUncheckedUpdateManyWithoutTargetUserNestedInput
+  listings?: Prisma.MarketplaceListingUncheckedUpdateManyWithoutSellerNestedInput
+  listingSaves?: Prisma.ListingSaveUncheckedUpdateManyWithoutUserNestedInput
+  listingOffers?: Prisma.ListingOfferUncheckedUpdateManyWithoutBuyerNestedInput
+  listingMessages?: Prisma.ListingMessageUncheckedUpdateManyWithoutSenderNestedInput
 }
 
 export type UserCreateWithoutGroupPostCommentsInput = {
@@ -7162,6 +7534,10 @@ export type UserCreateWithoutGroupPostCommentsInput = {
   reportedContentReceived?: Prisma.ReportedContentCreateNestedManyWithoutReportedUserInput
   moderationLogsCreated?: Prisma.ModerationLogCreateNestedManyWithoutModeratorUserInput
   moderationLogsTargeted?: Prisma.ModerationLogCreateNestedManyWithoutTargetUserInput
+  listings?: Prisma.MarketplaceListingCreateNestedManyWithoutSellerInput
+  listingSaves?: Prisma.ListingSaveCreateNestedManyWithoutUserInput
+  listingOffers?: Prisma.ListingOfferCreateNestedManyWithoutBuyerInput
+  listingMessages?: Prisma.ListingMessageCreateNestedManyWithoutSenderInput
 }
 
 export type UserUncheckedCreateWithoutGroupPostCommentsInput = {
@@ -7233,6 +7609,10 @@ export type UserUncheckedCreateWithoutGroupPostCommentsInput = {
   reportedContentReceived?: Prisma.ReportedContentUncheckedCreateNestedManyWithoutReportedUserInput
   moderationLogsCreated?: Prisma.ModerationLogUncheckedCreateNestedManyWithoutModeratorUserInput
   moderationLogsTargeted?: Prisma.ModerationLogUncheckedCreateNestedManyWithoutTargetUserInput
+  listings?: Prisma.MarketplaceListingUncheckedCreateNestedManyWithoutSellerInput
+  listingSaves?: Prisma.ListingSaveUncheckedCreateNestedManyWithoutUserInput
+  listingOffers?: Prisma.ListingOfferUncheckedCreateNestedManyWithoutBuyerInput
+  listingMessages?: Prisma.ListingMessageUncheckedCreateNestedManyWithoutSenderInput
 }
 
 export type UserCreateOrConnectWithoutGroupPostCommentsInput = {
@@ -7319,6 +7699,10 @@ export type UserUpdateWithoutGroupPostCommentsInput = {
   reportedContentReceived?: Prisma.ReportedContentUpdateManyWithoutReportedUserNestedInput
   moderationLogsCreated?: Prisma.ModerationLogUpdateManyWithoutModeratorUserNestedInput
   moderationLogsTargeted?: Prisma.ModerationLogUpdateManyWithoutTargetUserNestedInput
+  listings?: Prisma.MarketplaceListingUpdateManyWithoutSellerNestedInput
+  listingSaves?: Prisma.ListingSaveUpdateManyWithoutUserNestedInput
+  listingOffers?: Prisma.ListingOfferUpdateManyWithoutBuyerNestedInput
+  listingMessages?: Prisma.ListingMessageUpdateManyWithoutSenderNestedInput
 }
 
 export type UserUncheckedUpdateWithoutGroupPostCommentsInput = {
@@ -7390,6 +7774,10 @@ export type UserUncheckedUpdateWithoutGroupPostCommentsInput = {
   reportedContentReceived?: Prisma.ReportedContentUncheckedUpdateManyWithoutReportedUserNestedInput
   moderationLogsCreated?: Prisma.ModerationLogUncheckedUpdateManyWithoutModeratorUserNestedInput
   moderationLogsTargeted?: Prisma.ModerationLogUncheckedUpdateManyWithoutTargetUserNestedInput
+  listings?: Prisma.MarketplaceListingUncheckedUpdateManyWithoutSellerNestedInput
+  listingSaves?: Prisma.ListingSaveUncheckedUpdateManyWithoutUserNestedInput
+  listingOffers?: Prisma.ListingOfferUncheckedUpdateManyWithoutBuyerNestedInput
+  listingMessages?: Prisma.ListingMessageUncheckedUpdateManyWithoutSenderNestedInput
 }
 
 export type UserCreateWithoutGroupPostCommentLikesInput = {
@@ -7460,6 +7848,10 @@ export type UserCreateWithoutGroupPostCommentLikesInput = {
   reportedContentReceived?: Prisma.ReportedContentCreateNestedManyWithoutReportedUserInput
   moderationLogsCreated?: Prisma.ModerationLogCreateNestedManyWithoutModeratorUserInput
   moderationLogsTargeted?: Prisma.ModerationLogCreateNestedManyWithoutTargetUserInput
+  listings?: Prisma.MarketplaceListingCreateNestedManyWithoutSellerInput
+  listingSaves?: Prisma.ListingSaveCreateNestedManyWithoutUserInput
+  listingOffers?: Prisma.ListingOfferCreateNestedManyWithoutBuyerInput
+  listingMessages?: Prisma.ListingMessageCreateNestedManyWithoutSenderInput
 }
 
 export type UserUncheckedCreateWithoutGroupPostCommentLikesInput = {
@@ -7531,6 +7923,10 @@ export type UserUncheckedCreateWithoutGroupPostCommentLikesInput = {
   reportedContentReceived?: Prisma.ReportedContentUncheckedCreateNestedManyWithoutReportedUserInput
   moderationLogsCreated?: Prisma.ModerationLogUncheckedCreateNestedManyWithoutModeratorUserInput
   moderationLogsTargeted?: Prisma.ModerationLogUncheckedCreateNestedManyWithoutTargetUserInput
+  listings?: Prisma.MarketplaceListingUncheckedCreateNestedManyWithoutSellerInput
+  listingSaves?: Prisma.ListingSaveUncheckedCreateNestedManyWithoutUserInput
+  listingOffers?: Prisma.ListingOfferUncheckedCreateNestedManyWithoutBuyerInput
+  listingMessages?: Prisma.ListingMessageUncheckedCreateNestedManyWithoutSenderInput
 }
 
 export type UserCreateOrConnectWithoutGroupPostCommentLikesInput = {
@@ -7617,6 +8013,10 @@ export type UserUpdateWithoutGroupPostCommentLikesInput = {
   reportedContentReceived?: Prisma.ReportedContentUpdateManyWithoutReportedUserNestedInput
   moderationLogsCreated?: Prisma.ModerationLogUpdateManyWithoutModeratorUserNestedInput
   moderationLogsTargeted?: Prisma.ModerationLogUpdateManyWithoutTargetUserNestedInput
+  listings?: Prisma.MarketplaceListingUpdateManyWithoutSellerNestedInput
+  listingSaves?: Prisma.ListingSaveUpdateManyWithoutUserNestedInput
+  listingOffers?: Prisma.ListingOfferUpdateManyWithoutBuyerNestedInput
+  listingMessages?: Prisma.ListingMessageUpdateManyWithoutSenderNestedInput
 }
 
 export type UserUncheckedUpdateWithoutGroupPostCommentLikesInput = {
@@ -7688,6 +8088,1266 @@ export type UserUncheckedUpdateWithoutGroupPostCommentLikesInput = {
   reportedContentReceived?: Prisma.ReportedContentUncheckedUpdateManyWithoutReportedUserNestedInput
   moderationLogsCreated?: Prisma.ModerationLogUncheckedUpdateManyWithoutModeratorUserNestedInput
   moderationLogsTargeted?: Prisma.ModerationLogUncheckedUpdateManyWithoutTargetUserNestedInput
+  listings?: Prisma.MarketplaceListingUncheckedUpdateManyWithoutSellerNestedInput
+  listingSaves?: Prisma.ListingSaveUncheckedUpdateManyWithoutUserNestedInput
+  listingOffers?: Prisma.ListingOfferUncheckedUpdateManyWithoutBuyerNestedInput
+  listingMessages?: Prisma.ListingMessageUncheckedUpdateManyWithoutSenderNestedInput
+}
+
+export type UserCreateWithoutListingsInput = {
+  userName: string
+  email: string
+  password?: string | null
+  role?: $Enums.UserRole
+  firstName?: string | null
+  lastName?: string | null
+  bio?: string | null
+  birthday?: Date | string | null
+  gender?: $Enums.Gender
+  phone?: string | null
+  website?: string | null
+  location?: string | null
+  profilePrivacy?: $Enums.ProfilePrivacy
+  active?: boolean
+  lastActiveAt?: Date | string | null
+  canResetPassword?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  resetPasswordTokens?: Prisma.ResetPasswordTokenCreateNestedManyWithoutUserInput
+  activateTokens?: Prisma.ActivateTokenCreateNestedManyWithoutUserInput
+  accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
+  sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
+  avatar?: Prisma.AvatarCreateNestedOneWithoutUserInput
+  coverPhoto?: Prisma.CoverPhotoCreateNestedOneWithoutUserInput
+  followers?: Prisma.UserFollowCreateNestedManyWithoutFollowingInput
+  following?: Prisma.UserFollowCreateNestedManyWithoutFollowerInput
+  blockedBy?: Prisma.UserBlockCreateNestedManyWithoutBlockedInput
+  blocking?: Prisma.UserBlockCreateNestedManyWithoutBlockerInput
+  posts?: Prisma.PostCreateNestedManyWithoutUserInput
+  postLikes?: Prisma.PostLikeCreateNestedManyWithoutUserInput
+  postSaves?: Prisma.PostSaveCreateNestedManyWithoutUserInput
+  postShares?: Prisma.PostShareCreateNestedManyWithoutUserInput
+  postComments?: Prisma.PostCommentCreateNestedManyWithoutUserInput
+  commentLikes?: Prisma.CommentLikeCreateNestedManyWithoutUserInput
+  commentReplies?: Prisma.CommentReplyCreateNestedManyWithoutUserInput
+  replyLikes?: Prisma.ReplyLikeCreateNestedManyWithoutUserInput
+  postsEdited?: Prisma.PostHistoryCreateNestedManyWithoutEditedByInput
+  stories?: Prisma.StoryCreateNestedManyWithoutUserInput
+  storyViews?: Prisma.StoryViewCreateNestedManyWithoutUserInput
+  storyReactions?: Prisma.StoryReactionCreateNestedManyWithoutUserInput
+  conversations?: Prisma.ConversationParticipantCreateNestedManyWithoutUserInput
+  messagesSent?: Prisma.MessageCreateNestedManyWithoutSenderInput
+  messageReactions?: Prisma.MessageReactionCreateNestedManyWithoutUserInput
+  ownedGroups?: Prisma.GroupCreateNestedManyWithoutOwnerInput
+  groupMemberships?: Prisma.GroupMemberCreateNestedManyWithoutUserInput
+  groupPosts?: Prisma.GroupPostCreateNestedManyWithoutUserInput
+  groupPostLikes?: Prisma.GroupPostLikeCreateNestedManyWithoutUserInput
+  groupPostComments?: Prisma.GroupPostCommentCreateNestedManyWithoutUserInput
+  ownedPages?: Prisma.PageCreateNestedManyWithoutOwnerInput
+  pageFollows?: Prisma.PageFollowerCreateNestedManyWithoutUserInput
+  pagePosts?: Prisma.PagePostCreateNestedManyWithoutUserInput
+  pagePostLikes?: Prisma.PagePostLikeCreateNestedManyWithoutUserInput
+  pagePostComments?: Prisma.PagePostCommentCreateNestedManyWithoutUserInput
+  createdEvents?: Prisma.EventCreateNestedManyWithoutCreatorInput
+  eventAttendances?: Prisma.EventAttendeeCreateNestedManyWithoutUserInput
+  eventPosts?: Prisma.EventPostCreateNestedManyWithoutUserInput
+  eventPostLikes?: Prisma.EventPostLikeCreateNestedManyWithoutUserInput
+  eventPostComments?: Prisma.EventPostCommentCreateNestedManyWithoutUserInput
+  eventPostCommentLikes?: Prisma.EventPostCommentLikeCreateNestedManyWithoutUserInput
+  memories?: Prisma.MemoryCreateNestedManyWithoutUserInput
+  pagePostCommentLikes?: Prisma.PagePostCommentLikeCreateNestedManyWithoutUserInput
+  groupPostCommentLikes?: Prisma.GroupPostCommentLikeCreateNestedManyWithoutUserInput
+  notificationsReceived?: Prisma.NotificationCreateNestedManyWithoutUserInput
+  notificationsSent?: Prisma.NotificationCreateNestedManyWithoutSenderInput
+  reportedContentCreated?: Prisma.ReportedContentCreateNestedManyWithoutReportingUserInput
+  reportedContentReceived?: Prisma.ReportedContentCreateNestedManyWithoutReportedUserInput
+  moderationLogsCreated?: Prisma.ModerationLogCreateNestedManyWithoutModeratorUserInput
+  moderationLogsTargeted?: Prisma.ModerationLogCreateNestedManyWithoutTargetUserInput
+  listingSaves?: Prisma.ListingSaveCreateNestedManyWithoutUserInput
+  listingOffers?: Prisma.ListingOfferCreateNestedManyWithoutBuyerInput
+  listingMessages?: Prisma.ListingMessageCreateNestedManyWithoutSenderInput
+}
+
+export type UserUncheckedCreateWithoutListingsInput = {
+  id?: number
+  userName: string
+  email: string
+  password?: string | null
+  role?: $Enums.UserRole
+  firstName?: string | null
+  lastName?: string | null
+  bio?: string | null
+  birthday?: Date | string | null
+  gender?: $Enums.Gender
+  phone?: string | null
+  website?: string | null
+  location?: string | null
+  profilePrivacy?: $Enums.ProfilePrivacy
+  active?: boolean
+  lastActiveAt?: Date | string | null
+  canResetPassword?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  resetPasswordTokens?: Prisma.ResetPasswordTokenUncheckedCreateNestedManyWithoutUserInput
+  activateTokens?: Prisma.ActivateTokenUncheckedCreateNestedManyWithoutUserInput
+  accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
+  sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
+  avatar?: Prisma.AvatarUncheckedCreateNestedOneWithoutUserInput
+  coverPhoto?: Prisma.CoverPhotoUncheckedCreateNestedOneWithoutUserInput
+  followers?: Prisma.UserFollowUncheckedCreateNestedManyWithoutFollowingInput
+  following?: Prisma.UserFollowUncheckedCreateNestedManyWithoutFollowerInput
+  blockedBy?: Prisma.UserBlockUncheckedCreateNestedManyWithoutBlockedInput
+  blocking?: Prisma.UserBlockUncheckedCreateNestedManyWithoutBlockerInput
+  posts?: Prisma.PostUncheckedCreateNestedManyWithoutUserInput
+  postLikes?: Prisma.PostLikeUncheckedCreateNestedManyWithoutUserInput
+  postSaves?: Prisma.PostSaveUncheckedCreateNestedManyWithoutUserInput
+  postShares?: Prisma.PostShareUncheckedCreateNestedManyWithoutUserInput
+  postComments?: Prisma.PostCommentUncheckedCreateNestedManyWithoutUserInput
+  commentLikes?: Prisma.CommentLikeUncheckedCreateNestedManyWithoutUserInput
+  commentReplies?: Prisma.CommentReplyUncheckedCreateNestedManyWithoutUserInput
+  replyLikes?: Prisma.ReplyLikeUncheckedCreateNestedManyWithoutUserInput
+  postsEdited?: Prisma.PostHistoryUncheckedCreateNestedManyWithoutEditedByInput
+  stories?: Prisma.StoryUncheckedCreateNestedManyWithoutUserInput
+  storyViews?: Prisma.StoryViewUncheckedCreateNestedManyWithoutUserInput
+  storyReactions?: Prisma.StoryReactionUncheckedCreateNestedManyWithoutUserInput
+  conversations?: Prisma.ConversationParticipantUncheckedCreateNestedManyWithoutUserInput
+  messagesSent?: Prisma.MessageUncheckedCreateNestedManyWithoutSenderInput
+  messageReactions?: Prisma.MessageReactionUncheckedCreateNestedManyWithoutUserInput
+  ownedGroups?: Prisma.GroupUncheckedCreateNestedManyWithoutOwnerInput
+  groupMemberships?: Prisma.GroupMemberUncheckedCreateNestedManyWithoutUserInput
+  groupPosts?: Prisma.GroupPostUncheckedCreateNestedManyWithoutUserInput
+  groupPostLikes?: Prisma.GroupPostLikeUncheckedCreateNestedManyWithoutUserInput
+  groupPostComments?: Prisma.GroupPostCommentUncheckedCreateNestedManyWithoutUserInput
+  ownedPages?: Prisma.PageUncheckedCreateNestedManyWithoutOwnerInput
+  pageFollows?: Prisma.PageFollowerUncheckedCreateNestedManyWithoutUserInput
+  pagePosts?: Prisma.PagePostUncheckedCreateNestedManyWithoutUserInput
+  pagePostLikes?: Prisma.PagePostLikeUncheckedCreateNestedManyWithoutUserInput
+  pagePostComments?: Prisma.PagePostCommentUncheckedCreateNestedManyWithoutUserInput
+  createdEvents?: Prisma.EventUncheckedCreateNestedManyWithoutCreatorInput
+  eventAttendances?: Prisma.EventAttendeeUncheckedCreateNestedManyWithoutUserInput
+  eventPosts?: Prisma.EventPostUncheckedCreateNestedManyWithoutUserInput
+  eventPostLikes?: Prisma.EventPostLikeUncheckedCreateNestedManyWithoutUserInput
+  eventPostComments?: Prisma.EventPostCommentUncheckedCreateNestedManyWithoutUserInput
+  eventPostCommentLikes?: Prisma.EventPostCommentLikeUncheckedCreateNestedManyWithoutUserInput
+  memories?: Prisma.MemoryUncheckedCreateNestedManyWithoutUserInput
+  pagePostCommentLikes?: Prisma.PagePostCommentLikeUncheckedCreateNestedManyWithoutUserInput
+  groupPostCommentLikes?: Prisma.GroupPostCommentLikeUncheckedCreateNestedManyWithoutUserInput
+  notificationsReceived?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
+  notificationsSent?: Prisma.NotificationUncheckedCreateNestedManyWithoutSenderInput
+  reportedContentCreated?: Prisma.ReportedContentUncheckedCreateNestedManyWithoutReportingUserInput
+  reportedContentReceived?: Prisma.ReportedContentUncheckedCreateNestedManyWithoutReportedUserInput
+  moderationLogsCreated?: Prisma.ModerationLogUncheckedCreateNestedManyWithoutModeratorUserInput
+  moderationLogsTargeted?: Prisma.ModerationLogUncheckedCreateNestedManyWithoutTargetUserInput
+  listingSaves?: Prisma.ListingSaveUncheckedCreateNestedManyWithoutUserInput
+  listingOffers?: Prisma.ListingOfferUncheckedCreateNestedManyWithoutBuyerInput
+  listingMessages?: Prisma.ListingMessageUncheckedCreateNestedManyWithoutSenderInput
+}
+
+export type UserCreateOrConnectWithoutListingsInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutListingsInput, Prisma.UserUncheckedCreateWithoutListingsInput>
+}
+
+export type UserUpsertWithoutListingsInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutListingsInput, Prisma.UserUncheckedUpdateWithoutListingsInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutListingsInput, Prisma.UserUncheckedCreateWithoutListingsInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutListingsInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutListingsInput, Prisma.UserUncheckedUpdateWithoutListingsInput>
+}
+
+export type UserUpdateWithoutListingsInput = {
+  userName?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  password?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+  firstName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  lastName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  birthday?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  gender?: Prisma.EnumGenderFieldUpdateOperationsInput | $Enums.Gender
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  website?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  location?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  profilePrivacy?: Prisma.EnumProfilePrivacyFieldUpdateOperationsInput | $Enums.ProfilePrivacy
+  active?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  lastActiveAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  canResetPassword?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  resetPasswordTokens?: Prisma.ResetPasswordTokenUpdateManyWithoutUserNestedInput
+  activateTokens?: Prisma.ActivateTokenUpdateManyWithoutUserNestedInput
+  accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
+  sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
+  avatar?: Prisma.AvatarUpdateOneWithoutUserNestedInput
+  coverPhoto?: Prisma.CoverPhotoUpdateOneWithoutUserNestedInput
+  followers?: Prisma.UserFollowUpdateManyWithoutFollowingNestedInput
+  following?: Prisma.UserFollowUpdateManyWithoutFollowerNestedInput
+  blockedBy?: Prisma.UserBlockUpdateManyWithoutBlockedNestedInput
+  blocking?: Prisma.UserBlockUpdateManyWithoutBlockerNestedInput
+  posts?: Prisma.PostUpdateManyWithoutUserNestedInput
+  postLikes?: Prisma.PostLikeUpdateManyWithoutUserNestedInput
+  postSaves?: Prisma.PostSaveUpdateManyWithoutUserNestedInput
+  postShares?: Prisma.PostShareUpdateManyWithoutUserNestedInput
+  postComments?: Prisma.PostCommentUpdateManyWithoutUserNestedInput
+  commentLikes?: Prisma.CommentLikeUpdateManyWithoutUserNestedInput
+  commentReplies?: Prisma.CommentReplyUpdateManyWithoutUserNestedInput
+  replyLikes?: Prisma.ReplyLikeUpdateManyWithoutUserNestedInput
+  postsEdited?: Prisma.PostHistoryUpdateManyWithoutEditedByNestedInput
+  stories?: Prisma.StoryUpdateManyWithoutUserNestedInput
+  storyViews?: Prisma.StoryViewUpdateManyWithoutUserNestedInput
+  storyReactions?: Prisma.StoryReactionUpdateManyWithoutUserNestedInput
+  conversations?: Prisma.ConversationParticipantUpdateManyWithoutUserNestedInput
+  messagesSent?: Prisma.MessageUpdateManyWithoutSenderNestedInput
+  messageReactions?: Prisma.MessageReactionUpdateManyWithoutUserNestedInput
+  ownedGroups?: Prisma.GroupUpdateManyWithoutOwnerNestedInput
+  groupMemberships?: Prisma.GroupMemberUpdateManyWithoutUserNestedInput
+  groupPosts?: Prisma.GroupPostUpdateManyWithoutUserNestedInput
+  groupPostLikes?: Prisma.GroupPostLikeUpdateManyWithoutUserNestedInput
+  groupPostComments?: Prisma.GroupPostCommentUpdateManyWithoutUserNestedInput
+  ownedPages?: Prisma.PageUpdateManyWithoutOwnerNestedInput
+  pageFollows?: Prisma.PageFollowerUpdateManyWithoutUserNestedInput
+  pagePosts?: Prisma.PagePostUpdateManyWithoutUserNestedInput
+  pagePostLikes?: Prisma.PagePostLikeUpdateManyWithoutUserNestedInput
+  pagePostComments?: Prisma.PagePostCommentUpdateManyWithoutUserNestedInput
+  createdEvents?: Prisma.EventUpdateManyWithoutCreatorNestedInput
+  eventAttendances?: Prisma.EventAttendeeUpdateManyWithoutUserNestedInput
+  eventPosts?: Prisma.EventPostUpdateManyWithoutUserNestedInput
+  eventPostLikes?: Prisma.EventPostLikeUpdateManyWithoutUserNestedInput
+  eventPostComments?: Prisma.EventPostCommentUpdateManyWithoutUserNestedInput
+  eventPostCommentLikes?: Prisma.EventPostCommentLikeUpdateManyWithoutUserNestedInput
+  memories?: Prisma.MemoryUpdateManyWithoutUserNestedInput
+  pagePostCommentLikes?: Prisma.PagePostCommentLikeUpdateManyWithoutUserNestedInput
+  groupPostCommentLikes?: Prisma.GroupPostCommentLikeUpdateManyWithoutUserNestedInput
+  notificationsReceived?: Prisma.NotificationUpdateManyWithoutUserNestedInput
+  notificationsSent?: Prisma.NotificationUpdateManyWithoutSenderNestedInput
+  reportedContentCreated?: Prisma.ReportedContentUpdateManyWithoutReportingUserNestedInput
+  reportedContentReceived?: Prisma.ReportedContentUpdateManyWithoutReportedUserNestedInput
+  moderationLogsCreated?: Prisma.ModerationLogUpdateManyWithoutModeratorUserNestedInput
+  moderationLogsTargeted?: Prisma.ModerationLogUpdateManyWithoutTargetUserNestedInput
+  listingSaves?: Prisma.ListingSaveUpdateManyWithoutUserNestedInput
+  listingOffers?: Prisma.ListingOfferUpdateManyWithoutBuyerNestedInput
+  listingMessages?: Prisma.ListingMessageUpdateManyWithoutSenderNestedInput
+}
+
+export type UserUncheckedUpdateWithoutListingsInput = {
+  id?: Prisma.IntFieldUpdateOperationsInput | number
+  userName?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  password?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+  firstName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  lastName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  birthday?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  gender?: Prisma.EnumGenderFieldUpdateOperationsInput | $Enums.Gender
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  website?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  location?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  profilePrivacy?: Prisma.EnumProfilePrivacyFieldUpdateOperationsInput | $Enums.ProfilePrivacy
+  active?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  lastActiveAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  canResetPassword?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  resetPasswordTokens?: Prisma.ResetPasswordTokenUncheckedUpdateManyWithoutUserNestedInput
+  activateTokens?: Prisma.ActivateTokenUncheckedUpdateManyWithoutUserNestedInput
+  accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
+  sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
+  avatar?: Prisma.AvatarUncheckedUpdateOneWithoutUserNestedInput
+  coverPhoto?: Prisma.CoverPhotoUncheckedUpdateOneWithoutUserNestedInput
+  followers?: Prisma.UserFollowUncheckedUpdateManyWithoutFollowingNestedInput
+  following?: Prisma.UserFollowUncheckedUpdateManyWithoutFollowerNestedInput
+  blockedBy?: Prisma.UserBlockUncheckedUpdateManyWithoutBlockedNestedInput
+  blocking?: Prisma.UserBlockUncheckedUpdateManyWithoutBlockerNestedInput
+  posts?: Prisma.PostUncheckedUpdateManyWithoutUserNestedInput
+  postLikes?: Prisma.PostLikeUncheckedUpdateManyWithoutUserNestedInput
+  postSaves?: Prisma.PostSaveUncheckedUpdateManyWithoutUserNestedInput
+  postShares?: Prisma.PostShareUncheckedUpdateManyWithoutUserNestedInput
+  postComments?: Prisma.PostCommentUncheckedUpdateManyWithoutUserNestedInput
+  commentLikes?: Prisma.CommentLikeUncheckedUpdateManyWithoutUserNestedInput
+  commentReplies?: Prisma.CommentReplyUncheckedUpdateManyWithoutUserNestedInput
+  replyLikes?: Prisma.ReplyLikeUncheckedUpdateManyWithoutUserNestedInput
+  postsEdited?: Prisma.PostHistoryUncheckedUpdateManyWithoutEditedByNestedInput
+  stories?: Prisma.StoryUncheckedUpdateManyWithoutUserNestedInput
+  storyViews?: Prisma.StoryViewUncheckedUpdateManyWithoutUserNestedInput
+  storyReactions?: Prisma.StoryReactionUncheckedUpdateManyWithoutUserNestedInput
+  conversations?: Prisma.ConversationParticipantUncheckedUpdateManyWithoutUserNestedInput
+  messagesSent?: Prisma.MessageUncheckedUpdateManyWithoutSenderNestedInput
+  messageReactions?: Prisma.MessageReactionUncheckedUpdateManyWithoutUserNestedInput
+  ownedGroups?: Prisma.GroupUncheckedUpdateManyWithoutOwnerNestedInput
+  groupMemberships?: Prisma.GroupMemberUncheckedUpdateManyWithoutUserNestedInput
+  groupPosts?: Prisma.GroupPostUncheckedUpdateManyWithoutUserNestedInput
+  groupPostLikes?: Prisma.GroupPostLikeUncheckedUpdateManyWithoutUserNestedInput
+  groupPostComments?: Prisma.GroupPostCommentUncheckedUpdateManyWithoutUserNestedInput
+  ownedPages?: Prisma.PageUncheckedUpdateManyWithoutOwnerNestedInput
+  pageFollows?: Prisma.PageFollowerUncheckedUpdateManyWithoutUserNestedInput
+  pagePosts?: Prisma.PagePostUncheckedUpdateManyWithoutUserNestedInput
+  pagePostLikes?: Prisma.PagePostLikeUncheckedUpdateManyWithoutUserNestedInput
+  pagePostComments?: Prisma.PagePostCommentUncheckedUpdateManyWithoutUserNestedInput
+  createdEvents?: Prisma.EventUncheckedUpdateManyWithoutCreatorNestedInput
+  eventAttendances?: Prisma.EventAttendeeUncheckedUpdateManyWithoutUserNestedInput
+  eventPosts?: Prisma.EventPostUncheckedUpdateManyWithoutUserNestedInput
+  eventPostLikes?: Prisma.EventPostLikeUncheckedUpdateManyWithoutUserNestedInput
+  eventPostComments?: Prisma.EventPostCommentUncheckedUpdateManyWithoutUserNestedInput
+  eventPostCommentLikes?: Prisma.EventPostCommentLikeUncheckedUpdateManyWithoutUserNestedInput
+  memories?: Prisma.MemoryUncheckedUpdateManyWithoutUserNestedInput
+  pagePostCommentLikes?: Prisma.PagePostCommentLikeUncheckedUpdateManyWithoutUserNestedInput
+  groupPostCommentLikes?: Prisma.GroupPostCommentLikeUncheckedUpdateManyWithoutUserNestedInput
+  notificationsReceived?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
+  notificationsSent?: Prisma.NotificationUncheckedUpdateManyWithoutSenderNestedInput
+  reportedContentCreated?: Prisma.ReportedContentUncheckedUpdateManyWithoutReportingUserNestedInput
+  reportedContentReceived?: Prisma.ReportedContentUncheckedUpdateManyWithoutReportedUserNestedInput
+  moderationLogsCreated?: Prisma.ModerationLogUncheckedUpdateManyWithoutModeratorUserNestedInput
+  moderationLogsTargeted?: Prisma.ModerationLogUncheckedUpdateManyWithoutTargetUserNestedInput
+  listingSaves?: Prisma.ListingSaveUncheckedUpdateManyWithoutUserNestedInput
+  listingOffers?: Prisma.ListingOfferUncheckedUpdateManyWithoutBuyerNestedInput
+  listingMessages?: Prisma.ListingMessageUncheckedUpdateManyWithoutSenderNestedInput
+}
+
+export type UserCreateWithoutListingSavesInput = {
+  userName: string
+  email: string
+  password?: string | null
+  role?: $Enums.UserRole
+  firstName?: string | null
+  lastName?: string | null
+  bio?: string | null
+  birthday?: Date | string | null
+  gender?: $Enums.Gender
+  phone?: string | null
+  website?: string | null
+  location?: string | null
+  profilePrivacy?: $Enums.ProfilePrivacy
+  active?: boolean
+  lastActiveAt?: Date | string | null
+  canResetPassword?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  resetPasswordTokens?: Prisma.ResetPasswordTokenCreateNestedManyWithoutUserInput
+  activateTokens?: Prisma.ActivateTokenCreateNestedManyWithoutUserInput
+  accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
+  sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
+  avatar?: Prisma.AvatarCreateNestedOneWithoutUserInput
+  coverPhoto?: Prisma.CoverPhotoCreateNestedOneWithoutUserInput
+  followers?: Prisma.UserFollowCreateNestedManyWithoutFollowingInput
+  following?: Prisma.UserFollowCreateNestedManyWithoutFollowerInput
+  blockedBy?: Prisma.UserBlockCreateNestedManyWithoutBlockedInput
+  blocking?: Prisma.UserBlockCreateNestedManyWithoutBlockerInput
+  posts?: Prisma.PostCreateNestedManyWithoutUserInput
+  postLikes?: Prisma.PostLikeCreateNestedManyWithoutUserInput
+  postSaves?: Prisma.PostSaveCreateNestedManyWithoutUserInput
+  postShares?: Prisma.PostShareCreateNestedManyWithoutUserInput
+  postComments?: Prisma.PostCommentCreateNestedManyWithoutUserInput
+  commentLikes?: Prisma.CommentLikeCreateNestedManyWithoutUserInput
+  commentReplies?: Prisma.CommentReplyCreateNestedManyWithoutUserInput
+  replyLikes?: Prisma.ReplyLikeCreateNestedManyWithoutUserInput
+  postsEdited?: Prisma.PostHistoryCreateNestedManyWithoutEditedByInput
+  stories?: Prisma.StoryCreateNestedManyWithoutUserInput
+  storyViews?: Prisma.StoryViewCreateNestedManyWithoutUserInput
+  storyReactions?: Prisma.StoryReactionCreateNestedManyWithoutUserInput
+  conversations?: Prisma.ConversationParticipantCreateNestedManyWithoutUserInput
+  messagesSent?: Prisma.MessageCreateNestedManyWithoutSenderInput
+  messageReactions?: Prisma.MessageReactionCreateNestedManyWithoutUserInput
+  ownedGroups?: Prisma.GroupCreateNestedManyWithoutOwnerInput
+  groupMemberships?: Prisma.GroupMemberCreateNestedManyWithoutUserInput
+  groupPosts?: Prisma.GroupPostCreateNestedManyWithoutUserInput
+  groupPostLikes?: Prisma.GroupPostLikeCreateNestedManyWithoutUserInput
+  groupPostComments?: Prisma.GroupPostCommentCreateNestedManyWithoutUserInput
+  ownedPages?: Prisma.PageCreateNestedManyWithoutOwnerInput
+  pageFollows?: Prisma.PageFollowerCreateNestedManyWithoutUserInput
+  pagePosts?: Prisma.PagePostCreateNestedManyWithoutUserInput
+  pagePostLikes?: Prisma.PagePostLikeCreateNestedManyWithoutUserInput
+  pagePostComments?: Prisma.PagePostCommentCreateNestedManyWithoutUserInput
+  createdEvents?: Prisma.EventCreateNestedManyWithoutCreatorInput
+  eventAttendances?: Prisma.EventAttendeeCreateNestedManyWithoutUserInput
+  eventPosts?: Prisma.EventPostCreateNestedManyWithoutUserInput
+  eventPostLikes?: Prisma.EventPostLikeCreateNestedManyWithoutUserInput
+  eventPostComments?: Prisma.EventPostCommentCreateNestedManyWithoutUserInput
+  eventPostCommentLikes?: Prisma.EventPostCommentLikeCreateNestedManyWithoutUserInput
+  memories?: Prisma.MemoryCreateNestedManyWithoutUserInput
+  pagePostCommentLikes?: Prisma.PagePostCommentLikeCreateNestedManyWithoutUserInput
+  groupPostCommentLikes?: Prisma.GroupPostCommentLikeCreateNestedManyWithoutUserInput
+  notificationsReceived?: Prisma.NotificationCreateNestedManyWithoutUserInput
+  notificationsSent?: Prisma.NotificationCreateNestedManyWithoutSenderInput
+  reportedContentCreated?: Prisma.ReportedContentCreateNestedManyWithoutReportingUserInput
+  reportedContentReceived?: Prisma.ReportedContentCreateNestedManyWithoutReportedUserInput
+  moderationLogsCreated?: Prisma.ModerationLogCreateNestedManyWithoutModeratorUserInput
+  moderationLogsTargeted?: Prisma.ModerationLogCreateNestedManyWithoutTargetUserInput
+  listings?: Prisma.MarketplaceListingCreateNestedManyWithoutSellerInput
+  listingOffers?: Prisma.ListingOfferCreateNestedManyWithoutBuyerInput
+  listingMessages?: Prisma.ListingMessageCreateNestedManyWithoutSenderInput
+}
+
+export type UserUncheckedCreateWithoutListingSavesInput = {
+  id?: number
+  userName: string
+  email: string
+  password?: string | null
+  role?: $Enums.UserRole
+  firstName?: string | null
+  lastName?: string | null
+  bio?: string | null
+  birthday?: Date | string | null
+  gender?: $Enums.Gender
+  phone?: string | null
+  website?: string | null
+  location?: string | null
+  profilePrivacy?: $Enums.ProfilePrivacy
+  active?: boolean
+  lastActiveAt?: Date | string | null
+  canResetPassword?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  resetPasswordTokens?: Prisma.ResetPasswordTokenUncheckedCreateNestedManyWithoutUserInput
+  activateTokens?: Prisma.ActivateTokenUncheckedCreateNestedManyWithoutUserInput
+  accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
+  sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
+  avatar?: Prisma.AvatarUncheckedCreateNestedOneWithoutUserInput
+  coverPhoto?: Prisma.CoverPhotoUncheckedCreateNestedOneWithoutUserInput
+  followers?: Prisma.UserFollowUncheckedCreateNestedManyWithoutFollowingInput
+  following?: Prisma.UserFollowUncheckedCreateNestedManyWithoutFollowerInput
+  blockedBy?: Prisma.UserBlockUncheckedCreateNestedManyWithoutBlockedInput
+  blocking?: Prisma.UserBlockUncheckedCreateNestedManyWithoutBlockerInput
+  posts?: Prisma.PostUncheckedCreateNestedManyWithoutUserInput
+  postLikes?: Prisma.PostLikeUncheckedCreateNestedManyWithoutUserInput
+  postSaves?: Prisma.PostSaveUncheckedCreateNestedManyWithoutUserInput
+  postShares?: Prisma.PostShareUncheckedCreateNestedManyWithoutUserInput
+  postComments?: Prisma.PostCommentUncheckedCreateNestedManyWithoutUserInput
+  commentLikes?: Prisma.CommentLikeUncheckedCreateNestedManyWithoutUserInput
+  commentReplies?: Prisma.CommentReplyUncheckedCreateNestedManyWithoutUserInput
+  replyLikes?: Prisma.ReplyLikeUncheckedCreateNestedManyWithoutUserInput
+  postsEdited?: Prisma.PostHistoryUncheckedCreateNestedManyWithoutEditedByInput
+  stories?: Prisma.StoryUncheckedCreateNestedManyWithoutUserInput
+  storyViews?: Prisma.StoryViewUncheckedCreateNestedManyWithoutUserInput
+  storyReactions?: Prisma.StoryReactionUncheckedCreateNestedManyWithoutUserInput
+  conversations?: Prisma.ConversationParticipantUncheckedCreateNestedManyWithoutUserInput
+  messagesSent?: Prisma.MessageUncheckedCreateNestedManyWithoutSenderInput
+  messageReactions?: Prisma.MessageReactionUncheckedCreateNestedManyWithoutUserInput
+  ownedGroups?: Prisma.GroupUncheckedCreateNestedManyWithoutOwnerInput
+  groupMemberships?: Prisma.GroupMemberUncheckedCreateNestedManyWithoutUserInput
+  groupPosts?: Prisma.GroupPostUncheckedCreateNestedManyWithoutUserInput
+  groupPostLikes?: Prisma.GroupPostLikeUncheckedCreateNestedManyWithoutUserInput
+  groupPostComments?: Prisma.GroupPostCommentUncheckedCreateNestedManyWithoutUserInput
+  ownedPages?: Prisma.PageUncheckedCreateNestedManyWithoutOwnerInput
+  pageFollows?: Prisma.PageFollowerUncheckedCreateNestedManyWithoutUserInput
+  pagePosts?: Prisma.PagePostUncheckedCreateNestedManyWithoutUserInput
+  pagePostLikes?: Prisma.PagePostLikeUncheckedCreateNestedManyWithoutUserInput
+  pagePostComments?: Prisma.PagePostCommentUncheckedCreateNestedManyWithoutUserInput
+  createdEvents?: Prisma.EventUncheckedCreateNestedManyWithoutCreatorInput
+  eventAttendances?: Prisma.EventAttendeeUncheckedCreateNestedManyWithoutUserInput
+  eventPosts?: Prisma.EventPostUncheckedCreateNestedManyWithoutUserInput
+  eventPostLikes?: Prisma.EventPostLikeUncheckedCreateNestedManyWithoutUserInput
+  eventPostComments?: Prisma.EventPostCommentUncheckedCreateNestedManyWithoutUserInput
+  eventPostCommentLikes?: Prisma.EventPostCommentLikeUncheckedCreateNestedManyWithoutUserInput
+  memories?: Prisma.MemoryUncheckedCreateNestedManyWithoutUserInput
+  pagePostCommentLikes?: Prisma.PagePostCommentLikeUncheckedCreateNestedManyWithoutUserInput
+  groupPostCommentLikes?: Prisma.GroupPostCommentLikeUncheckedCreateNestedManyWithoutUserInput
+  notificationsReceived?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
+  notificationsSent?: Prisma.NotificationUncheckedCreateNestedManyWithoutSenderInput
+  reportedContentCreated?: Prisma.ReportedContentUncheckedCreateNestedManyWithoutReportingUserInput
+  reportedContentReceived?: Prisma.ReportedContentUncheckedCreateNestedManyWithoutReportedUserInput
+  moderationLogsCreated?: Prisma.ModerationLogUncheckedCreateNestedManyWithoutModeratorUserInput
+  moderationLogsTargeted?: Prisma.ModerationLogUncheckedCreateNestedManyWithoutTargetUserInput
+  listings?: Prisma.MarketplaceListingUncheckedCreateNestedManyWithoutSellerInput
+  listingOffers?: Prisma.ListingOfferUncheckedCreateNestedManyWithoutBuyerInput
+  listingMessages?: Prisma.ListingMessageUncheckedCreateNestedManyWithoutSenderInput
+}
+
+export type UserCreateOrConnectWithoutListingSavesInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutListingSavesInput, Prisma.UserUncheckedCreateWithoutListingSavesInput>
+}
+
+export type UserUpsertWithoutListingSavesInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutListingSavesInput, Prisma.UserUncheckedUpdateWithoutListingSavesInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutListingSavesInput, Prisma.UserUncheckedCreateWithoutListingSavesInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutListingSavesInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutListingSavesInput, Prisma.UserUncheckedUpdateWithoutListingSavesInput>
+}
+
+export type UserUpdateWithoutListingSavesInput = {
+  userName?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  password?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+  firstName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  lastName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  birthday?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  gender?: Prisma.EnumGenderFieldUpdateOperationsInput | $Enums.Gender
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  website?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  location?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  profilePrivacy?: Prisma.EnumProfilePrivacyFieldUpdateOperationsInput | $Enums.ProfilePrivacy
+  active?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  lastActiveAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  canResetPassword?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  resetPasswordTokens?: Prisma.ResetPasswordTokenUpdateManyWithoutUserNestedInput
+  activateTokens?: Prisma.ActivateTokenUpdateManyWithoutUserNestedInput
+  accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
+  sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
+  avatar?: Prisma.AvatarUpdateOneWithoutUserNestedInput
+  coverPhoto?: Prisma.CoverPhotoUpdateOneWithoutUserNestedInput
+  followers?: Prisma.UserFollowUpdateManyWithoutFollowingNestedInput
+  following?: Prisma.UserFollowUpdateManyWithoutFollowerNestedInput
+  blockedBy?: Prisma.UserBlockUpdateManyWithoutBlockedNestedInput
+  blocking?: Prisma.UserBlockUpdateManyWithoutBlockerNestedInput
+  posts?: Prisma.PostUpdateManyWithoutUserNestedInput
+  postLikes?: Prisma.PostLikeUpdateManyWithoutUserNestedInput
+  postSaves?: Prisma.PostSaveUpdateManyWithoutUserNestedInput
+  postShares?: Prisma.PostShareUpdateManyWithoutUserNestedInput
+  postComments?: Prisma.PostCommentUpdateManyWithoutUserNestedInput
+  commentLikes?: Prisma.CommentLikeUpdateManyWithoutUserNestedInput
+  commentReplies?: Prisma.CommentReplyUpdateManyWithoutUserNestedInput
+  replyLikes?: Prisma.ReplyLikeUpdateManyWithoutUserNestedInput
+  postsEdited?: Prisma.PostHistoryUpdateManyWithoutEditedByNestedInput
+  stories?: Prisma.StoryUpdateManyWithoutUserNestedInput
+  storyViews?: Prisma.StoryViewUpdateManyWithoutUserNestedInput
+  storyReactions?: Prisma.StoryReactionUpdateManyWithoutUserNestedInput
+  conversations?: Prisma.ConversationParticipantUpdateManyWithoutUserNestedInput
+  messagesSent?: Prisma.MessageUpdateManyWithoutSenderNestedInput
+  messageReactions?: Prisma.MessageReactionUpdateManyWithoutUserNestedInput
+  ownedGroups?: Prisma.GroupUpdateManyWithoutOwnerNestedInput
+  groupMemberships?: Prisma.GroupMemberUpdateManyWithoutUserNestedInput
+  groupPosts?: Prisma.GroupPostUpdateManyWithoutUserNestedInput
+  groupPostLikes?: Prisma.GroupPostLikeUpdateManyWithoutUserNestedInput
+  groupPostComments?: Prisma.GroupPostCommentUpdateManyWithoutUserNestedInput
+  ownedPages?: Prisma.PageUpdateManyWithoutOwnerNestedInput
+  pageFollows?: Prisma.PageFollowerUpdateManyWithoutUserNestedInput
+  pagePosts?: Prisma.PagePostUpdateManyWithoutUserNestedInput
+  pagePostLikes?: Prisma.PagePostLikeUpdateManyWithoutUserNestedInput
+  pagePostComments?: Prisma.PagePostCommentUpdateManyWithoutUserNestedInput
+  createdEvents?: Prisma.EventUpdateManyWithoutCreatorNestedInput
+  eventAttendances?: Prisma.EventAttendeeUpdateManyWithoutUserNestedInput
+  eventPosts?: Prisma.EventPostUpdateManyWithoutUserNestedInput
+  eventPostLikes?: Prisma.EventPostLikeUpdateManyWithoutUserNestedInput
+  eventPostComments?: Prisma.EventPostCommentUpdateManyWithoutUserNestedInput
+  eventPostCommentLikes?: Prisma.EventPostCommentLikeUpdateManyWithoutUserNestedInput
+  memories?: Prisma.MemoryUpdateManyWithoutUserNestedInput
+  pagePostCommentLikes?: Prisma.PagePostCommentLikeUpdateManyWithoutUserNestedInput
+  groupPostCommentLikes?: Prisma.GroupPostCommentLikeUpdateManyWithoutUserNestedInput
+  notificationsReceived?: Prisma.NotificationUpdateManyWithoutUserNestedInput
+  notificationsSent?: Prisma.NotificationUpdateManyWithoutSenderNestedInput
+  reportedContentCreated?: Prisma.ReportedContentUpdateManyWithoutReportingUserNestedInput
+  reportedContentReceived?: Prisma.ReportedContentUpdateManyWithoutReportedUserNestedInput
+  moderationLogsCreated?: Prisma.ModerationLogUpdateManyWithoutModeratorUserNestedInput
+  moderationLogsTargeted?: Prisma.ModerationLogUpdateManyWithoutTargetUserNestedInput
+  listings?: Prisma.MarketplaceListingUpdateManyWithoutSellerNestedInput
+  listingOffers?: Prisma.ListingOfferUpdateManyWithoutBuyerNestedInput
+  listingMessages?: Prisma.ListingMessageUpdateManyWithoutSenderNestedInput
+}
+
+export type UserUncheckedUpdateWithoutListingSavesInput = {
+  id?: Prisma.IntFieldUpdateOperationsInput | number
+  userName?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  password?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+  firstName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  lastName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  birthday?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  gender?: Prisma.EnumGenderFieldUpdateOperationsInput | $Enums.Gender
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  website?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  location?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  profilePrivacy?: Prisma.EnumProfilePrivacyFieldUpdateOperationsInput | $Enums.ProfilePrivacy
+  active?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  lastActiveAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  canResetPassword?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  resetPasswordTokens?: Prisma.ResetPasswordTokenUncheckedUpdateManyWithoutUserNestedInput
+  activateTokens?: Prisma.ActivateTokenUncheckedUpdateManyWithoutUserNestedInput
+  accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
+  sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
+  avatar?: Prisma.AvatarUncheckedUpdateOneWithoutUserNestedInput
+  coverPhoto?: Prisma.CoverPhotoUncheckedUpdateOneWithoutUserNestedInput
+  followers?: Prisma.UserFollowUncheckedUpdateManyWithoutFollowingNestedInput
+  following?: Prisma.UserFollowUncheckedUpdateManyWithoutFollowerNestedInput
+  blockedBy?: Prisma.UserBlockUncheckedUpdateManyWithoutBlockedNestedInput
+  blocking?: Prisma.UserBlockUncheckedUpdateManyWithoutBlockerNestedInput
+  posts?: Prisma.PostUncheckedUpdateManyWithoutUserNestedInput
+  postLikes?: Prisma.PostLikeUncheckedUpdateManyWithoutUserNestedInput
+  postSaves?: Prisma.PostSaveUncheckedUpdateManyWithoutUserNestedInput
+  postShares?: Prisma.PostShareUncheckedUpdateManyWithoutUserNestedInput
+  postComments?: Prisma.PostCommentUncheckedUpdateManyWithoutUserNestedInput
+  commentLikes?: Prisma.CommentLikeUncheckedUpdateManyWithoutUserNestedInput
+  commentReplies?: Prisma.CommentReplyUncheckedUpdateManyWithoutUserNestedInput
+  replyLikes?: Prisma.ReplyLikeUncheckedUpdateManyWithoutUserNestedInput
+  postsEdited?: Prisma.PostHistoryUncheckedUpdateManyWithoutEditedByNestedInput
+  stories?: Prisma.StoryUncheckedUpdateManyWithoutUserNestedInput
+  storyViews?: Prisma.StoryViewUncheckedUpdateManyWithoutUserNestedInput
+  storyReactions?: Prisma.StoryReactionUncheckedUpdateManyWithoutUserNestedInput
+  conversations?: Prisma.ConversationParticipantUncheckedUpdateManyWithoutUserNestedInput
+  messagesSent?: Prisma.MessageUncheckedUpdateManyWithoutSenderNestedInput
+  messageReactions?: Prisma.MessageReactionUncheckedUpdateManyWithoutUserNestedInput
+  ownedGroups?: Prisma.GroupUncheckedUpdateManyWithoutOwnerNestedInput
+  groupMemberships?: Prisma.GroupMemberUncheckedUpdateManyWithoutUserNestedInput
+  groupPosts?: Prisma.GroupPostUncheckedUpdateManyWithoutUserNestedInput
+  groupPostLikes?: Prisma.GroupPostLikeUncheckedUpdateManyWithoutUserNestedInput
+  groupPostComments?: Prisma.GroupPostCommentUncheckedUpdateManyWithoutUserNestedInput
+  ownedPages?: Prisma.PageUncheckedUpdateManyWithoutOwnerNestedInput
+  pageFollows?: Prisma.PageFollowerUncheckedUpdateManyWithoutUserNestedInput
+  pagePosts?: Prisma.PagePostUncheckedUpdateManyWithoutUserNestedInput
+  pagePostLikes?: Prisma.PagePostLikeUncheckedUpdateManyWithoutUserNestedInput
+  pagePostComments?: Prisma.PagePostCommentUncheckedUpdateManyWithoutUserNestedInput
+  createdEvents?: Prisma.EventUncheckedUpdateManyWithoutCreatorNestedInput
+  eventAttendances?: Prisma.EventAttendeeUncheckedUpdateManyWithoutUserNestedInput
+  eventPosts?: Prisma.EventPostUncheckedUpdateManyWithoutUserNestedInput
+  eventPostLikes?: Prisma.EventPostLikeUncheckedUpdateManyWithoutUserNestedInput
+  eventPostComments?: Prisma.EventPostCommentUncheckedUpdateManyWithoutUserNestedInput
+  eventPostCommentLikes?: Prisma.EventPostCommentLikeUncheckedUpdateManyWithoutUserNestedInput
+  memories?: Prisma.MemoryUncheckedUpdateManyWithoutUserNestedInput
+  pagePostCommentLikes?: Prisma.PagePostCommentLikeUncheckedUpdateManyWithoutUserNestedInput
+  groupPostCommentLikes?: Prisma.GroupPostCommentLikeUncheckedUpdateManyWithoutUserNestedInput
+  notificationsReceived?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
+  notificationsSent?: Prisma.NotificationUncheckedUpdateManyWithoutSenderNestedInput
+  reportedContentCreated?: Prisma.ReportedContentUncheckedUpdateManyWithoutReportingUserNestedInput
+  reportedContentReceived?: Prisma.ReportedContentUncheckedUpdateManyWithoutReportedUserNestedInput
+  moderationLogsCreated?: Prisma.ModerationLogUncheckedUpdateManyWithoutModeratorUserNestedInput
+  moderationLogsTargeted?: Prisma.ModerationLogUncheckedUpdateManyWithoutTargetUserNestedInput
+  listings?: Prisma.MarketplaceListingUncheckedUpdateManyWithoutSellerNestedInput
+  listingOffers?: Prisma.ListingOfferUncheckedUpdateManyWithoutBuyerNestedInput
+  listingMessages?: Prisma.ListingMessageUncheckedUpdateManyWithoutSenderNestedInput
+}
+
+export type UserCreateWithoutListingOffersInput = {
+  userName: string
+  email: string
+  password?: string | null
+  role?: $Enums.UserRole
+  firstName?: string | null
+  lastName?: string | null
+  bio?: string | null
+  birthday?: Date | string | null
+  gender?: $Enums.Gender
+  phone?: string | null
+  website?: string | null
+  location?: string | null
+  profilePrivacy?: $Enums.ProfilePrivacy
+  active?: boolean
+  lastActiveAt?: Date | string | null
+  canResetPassword?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  resetPasswordTokens?: Prisma.ResetPasswordTokenCreateNestedManyWithoutUserInput
+  activateTokens?: Prisma.ActivateTokenCreateNestedManyWithoutUserInput
+  accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
+  sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
+  avatar?: Prisma.AvatarCreateNestedOneWithoutUserInput
+  coverPhoto?: Prisma.CoverPhotoCreateNestedOneWithoutUserInput
+  followers?: Prisma.UserFollowCreateNestedManyWithoutFollowingInput
+  following?: Prisma.UserFollowCreateNestedManyWithoutFollowerInput
+  blockedBy?: Prisma.UserBlockCreateNestedManyWithoutBlockedInput
+  blocking?: Prisma.UserBlockCreateNestedManyWithoutBlockerInput
+  posts?: Prisma.PostCreateNestedManyWithoutUserInput
+  postLikes?: Prisma.PostLikeCreateNestedManyWithoutUserInput
+  postSaves?: Prisma.PostSaveCreateNestedManyWithoutUserInput
+  postShares?: Prisma.PostShareCreateNestedManyWithoutUserInput
+  postComments?: Prisma.PostCommentCreateNestedManyWithoutUserInput
+  commentLikes?: Prisma.CommentLikeCreateNestedManyWithoutUserInput
+  commentReplies?: Prisma.CommentReplyCreateNestedManyWithoutUserInput
+  replyLikes?: Prisma.ReplyLikeCreateNestedManyWithoutUserInput
+  postsEdited?: Prisma.PostHistoryCreateNestedManyWithoutEditedByInput
+  stories?: Prisma.StoryCreateNestedManyWithoutUserInput
+  storyViews?: Prisma.StoryViewCreateNestedManyWithoutUserInput
+  storyReactions?: Prisma.StoryReactionCreateNestedManyWithoutUserInput
+  conversations?: Prisma.ConversationParticipantCreateNestedManyWithoutUserInput
+  messagesSent?: Prisma.MessageCreateNestedManyWithoutSenderInput
+  messageReactions?: Prisma.MessageReactionCreateNestedManyWithoutUserInput
+  ownedGroups?: Prisma.GroupCreateNestedManyWithoutOwnerInput
+  groupMemberships?: Prisma.GroupMemberCreateNestedManyWithoutUserInput
+  groupPosts?: Prisma.GroupPostCreateNestedManyWithoutUserInput
+  groupPostLikes?: Prisma.GroupPostLikeCreateNestedManyWithoutUserInput
+  groupPostComments?: Prisma.GroupPostCommentCreateNestedManyWithoutUserInput
+  ownedPages?: Prisma.PageCreateNestedManyWithoutOwnerInput
+  pageFollows?: Prisma.PageFollowerCreateNestedManyWithoutUserInput
+  pagePosts?: Prisma.PagePostCreateNestedManyWithoutUserInput
+  pagePostLikes?: Prisma.PagePostLikeCreateNestedManyWithoutUserInput
+  pagePostComments?: Prisma.PagePostCommentCreateNestedManyWithoutUserInput
+  createdEvents?: Prisma.EventCreateNestedManyWithoutCreatorInput
+  eventAttendances?: Prisma.EventAttendeeCreateNestedManyWithoutUserInput
+  eventPosts?: Prisma.EventPostCreateNestedManyWithoutUserInput
+  eventPostLikes?: Prisma.EventPostLikeCreateNestedManyWithoutUserInput
+  eventPostComments?: Prisma.EventPostCommentCreateNestedManyWithoutUserInput
+  eventPostCommentLikes?: Prisma.EventPostCommentLikeCreateNestedManyWithoutUserInput
+  memories?: Prisma.MemoryCreateNestedManyWithoutUserInput
+  pagePostCommentLikes?: Prisma.PagePostCommentLikeCreateNestedManyWithoutUserInput
+  groupPostCommentLikes?: Prisma.GroupPostCommentLikeCreateNestedManyWithoutUserInput
+  notificationsReceived?: Prisma.NotificationCreateNestedManyWithoutUserInput
+  notificationsSent?: Prisma.NotificationCreateNestedManyWithoutSenderInput
+  reportedContentCreated?: Prisma.ReportedContentCreateNestedManyWithoutReportingUserInput
+  reportedContentReceived?: Prisma.ReportedContentCreateNestedManyWithoutReportedUserInput
+  moderationLogsCreated?: Prisma.ModerationLogCreateNestedManyWithoutModeratorUserInput
+  moderationLogsTargeted?: Prisma.ModerationLogCreateNestedManyWithoutTargetUserInput
+  listings?: Prisma.MarketplaceListingCreateNestedManyWithoutSellerInput
+  listingSaves?: Prisma.ListingSaveCreateNestedManyWithoutUserInput
+  listingMessages?: Prisma.ListingMessageCreateNestedManyWithoutSenderInput
+}
+
+export type UserUncheckedCreateWithoutListingOffersInput = {
+  id?: number
+  userName: string
+  email: string
+  password?: string | null
+  role?: $Enums.UserRole
+  firstName?: string | null
+  lastName?: string | null
+  bio?: string | null
+  birthday?: Date | string | null
+  gender?: $Enums.Gender
+  phone?: string | null
+  website?: string | null
+  location?: string | null
+  profilePrivacy?: $Enums.ProfilePrivacy
+  active?: boolean
+  lastActiveAt?: Date | string | null
+  canResetPassword?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  resetPasswordTokens?: Prisma.ResetPasswordTokenUncheckedCreateNestedManyWithoutUserInput
+  activateTokens?: Prisma.ActivateTokenUncheckedCreateNestedManyWithoutUserInput
+  accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
+  sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
+  avatar?: Prisma.AvatarUncheckedCreateNestedOneWithoutUserInput
+  coverPhoto?: Prisma.CoverPhotoUncheckedCreateNestedOneWithoutUserInput
+  followers?: Prisma.UserFollowUncheckedCreateNestedManyWithoutFollowingInput
+  following?: Prisma.UserFollowUncheckedCreateNestedManyWithoutFollowerInput
+  blockedBy?: Prisma.UserBlockUncheckedCreateNestedManyWithoutBlockedInput
+  blocking?: Prisma.UserBlockUncheckedCreateNestedManyWithoutBlockerInput
+  posts?: Prisma.PostUncheckedCreateNestedManyWithoutUserInput
+  postLikes?: Prisma.PostLikeUncheckedCreateNestedManyWithoutUserInput
+  postSaves?: Prisma.PostSaveUncheckedCreateNestedManyWithoutUserInput
+  postShares?: Prisma.PostShareUncheckedCreateNestedManyWithoutUserInput
+  postComments?: Prisma.PostCommentUncheckedCreateNestedManyWithoutUserInput
+  commentLikes?: Prisma.CommentLikeUncheckedCreateNestedManyWithoutUserInput
+  commentReplies?: Prisma.CommentReplyUncheckedCreateNestedManyWithoutUserInput
+  replyLikes?: Prisma.ReplyLikeUncheckedCreateNestedManyWithoutUserInput
+  postsEdited?: Prisma.PostHistoryUncheckedCreateNestedManyWithoutEditedByInput
+  stories?: Prisma.StoryUncheckedCreateNestedManyWithoutUserInput
+  storyViews?: Prisma.StoryViewUncheckedCreateNestedManyWithoutUserInput
+  storyReactions?: Prisma.StoryReactionUncheckedCreateNestedManyWithoutUserInput
+  conversations?: Prisma.ConversationParticipantUncheckedCreateNestedManyWithoutUserInput
+  messagesSent?: Prisma.MessageUncheckedCreateNestedManyWithoutSenderInput
+  messageReactions?: Prisma.MessageReactionUncheckedCreateNestedManyWithoutUserInput
+  ownedGroups?: Prisma.GroupUncheckedCreateNestedManyWithoutOwnerInput
+  groupMemberships?: Prisma.GroupMemberUncheckedCreateNestedManyWithoutUserInput
+  groupPosts?: Prisma.GroupPostUncheckedCreateNestedManyWithoutUserInput
+  groupPostLikes?: Prisma.GroupPostLikeUncheckedCreateNestedManyWithoutUserInput
+  groupPostComments?: Prisma.GroupPostCommentUncheckedCreateNestedManyWithoutUserInput
+  ownedPages?: Prisma.PageUncheckedCreateNestedManyWithoutOwnerInput
+  pageFollows?: Prisma.PageFollowerUncheckedCreateNestedManyWithoutUserInput
+  pagePosts?: Prisma.PagePostUncheckedCreateNestedManyWithoutUserInput
+  pagePostLikes?: Prisma.PagePostLikeUncheckedCreateNestedManyWithoutUserInput
+  pagePostComments?: Prisma.PagePostCommentUncheckedCreateNestedManyWithoutUserInput
+  createdEvents?: Prisma.EventUncheckedCreateNestedManyWithoutCreatorInput
+  eventAttendances?: Prisma.EventAttendeeUncheckedCreateNestedManyWithoutUserInput
+  eventPosts?: Prisma.EventPostUncheckedCreateNestedManyWithoutUserInput
+  eventPostLikes?: Prisma.EventPostLikeUncheckedCreateNestedManyWithoutUserInput
+  eventPostComments?: Prisma.EventPostCommentUncheckedCreateNestedManyWithoutUserInput
+  eventPostCommentLikes?: Prisma.EventPostCommentLikeUncheckedCreateNestedManyWithoutUserInput
+  memories?: Prisma.MemoryUncheckedCreateNestedManyWithoutUserInput
+  pagePostCommentLikes?: Prisma.PagePostCommentLikeUncheckedCreateNestedManyWithoutUserInput
+  groupPostCommentLikes?: Prisma.GroupPostCommentLikeUncheckedCreateNestedManyWithoutUserInput
+  notificationsReceived?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
+  notificationsSent?: Prisma.NotificationUncheckedCreateNestedManyWithoutSenderInput
+  reportedContentCreated?: Prisma.ReportedContentUncheckedCreateNestedManyWithoutReportingUserInput
+  reportedContentReceived?: Prisma.ReportedContentUncheckedCreateNestedManyWithoutReportedUserInput
+  moderationLogsCreated?: Prisma.ModerationLogUncheckedCreateNestedManyWithoutModeratorUserInput
+  moderationLogsTargeted?: Prisma.ModerationLogUncheckedCreateNestedManyWithoutTargetUserInput
+  listings?: Prisma.MarketplaceListingUncheckedCreateNestedManyWithoutSellerInput
+  listingSaves?: Prisma.ListingSaveUncheckedCreateNestedManyWithoutUserInput
+  listingMessages?: Prisma.ListingMessageUncheckedCreateNestedManyWithoutSenderInput
+}
+
+export type UserCreateOrConnectWithoutListingOffersInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutListingOffersInput, Prisma.UserUncheckedCreateWithoutListingOffersInput>
+}
+
+export type UserUpsertWithoutListingOffersInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutListingOffersInput, Prisma.UserUncheckedUpdateWithoutListingOffersInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutListingOffersInput, Prisma.UserUncheckedCreateWithoutListingOffersInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutListingOffersInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutListingOffersInput, Prisma.UserUncheckedUpdateWithoutListingOffersInput>
+}
+
+export type UserUpdateWithoutListingOffersInput = {
+  userName?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  password?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+  firstName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  lastName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  birthday?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  gender?: Prisma.EnumGenderFieldUpdateOperationsInput | $Enums.Gender
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  website?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  location?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  profilePrivacy?: Prisma.EnumProfilePrivacyFieldUpdateOperationsInput | $Enums.ProfilePrivacy
+  active?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  lastActiveAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  canResetPassword?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  resetPasswordTokens?: Prisma.ResetPasswordTokenUpdateManyWithoutUserNestedInput
+  activateTokens?: Prisma.ActivateTokenUpdateManyWithoutUserNestedInput
+  accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
+  sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
+  avatar?: Prisma.AvatarUpdateOneWithoutUserNestedInput
+  coverPhoto?: Prisma.CoverPhotoUpdateOneWithoutUserNestedInput
+  followers?: Prisma.UserFollowUpdateManyWithoutFollowingNestedInput
+  following?: Prisma.UserFollowUpdateManyWithoutFollowerNestedInput
+  blockedBy?: Prisma.UserBlockUpdateManyWithoutBlockedNestedInput
+  blocking?: Prisma.UserBlockUpdateManyWithoutBlockerNestedInput
+  posts?: Prisma.PostUpdateManyWithoutUserNestedInput
+  postLikes?: Prisma.PostLikeUpdateManyWithoutUserNestedInput
+  postSaves?: Prisma.PostSaveUpdateManyWithoutUserNestedInput
+  postShares?: Prisma.PostShareUpdateManyWithoutUserNestedInput
+  postComments?: Prisma.PostCommentUpdateManyWithoutUserNestedInput
+  commentLikes?: Prisma.CommentLikeUpdateManyWithoutUserNestedInput
+  commentReplies?: Prisma.CommentReplyUpdateManyWithoutUserNestedInput
+  replyLikes?: Prisma.ReplyLikeUpdateManyWithoutUserNestedInput
+  postsEdited?: Prisma.PostHistoryUpdateManyWithoutEditedByNestedInput
+  stories?: Prisma.StoryUpdateManyWithoutUserNestedInput
+  storyViews?: Prisma.StoryViewUpdateManyWithoutUserNestedInput
+  storyReactions?: Prisma.StoryReactionUpdateManyWithoutUserNestedInput
+  conversations?: Prisma.ConversationParticipantUpdateManyWithoutUserNestedInput
+  messagesSent?: Prisma.MessageUpdateManyWithoutSenderNestedInput
+  messageReactions?: Prisma.MessageReactionUpdateManyWithoutUserNestedInput
+  ownedGroups?: Prisma.GroupUpdateManyWithoutOwnerNestedInput
+  groupMemberships?: Prisma.GroupMemberUpdateManyWithoutUserNestedInput
+  groupPosts?: Prisma.GroupPostUpdateManyWithoutUserNestedInput
+  groupPostLikes?: Prisma.GroupPostLikeUpdateManyWithoutUserNestedInput
+  groupPostComments?: Prisma.GroupPostCommentUpdateManyWithoutUserNestedInput
+  ownedPages?: Prisma.PageUpdateManyWithoutOwnerNestedInput
+  pageFollows?: Prisma.PageFollowerUpdateManyWithoutUserNestedInput
+  pagePosts?: Prisma.PagePostUpdateManyWithoutUserNestedInput
+  pagePostLikes?: Prisma.PagePostLikeUpdateManyWithoutUserNestedInput
+  pagePostComments?: Prisma.PagePostCommentUpdateManyWithoutUserNestedInput
+  createdEvents?: Prisma.EventUpdateManyWithoutCreatorNestedInput
+  eventAttendances?: Prisma.EventAttendeeUpdateManyWithoutUserNestedInput
+  eventPosts?: Prisma.EventPostUpdateManyWithoutUserNestedInput
+  eventPostLikes?: Prisma.EventPostLikeUpdateManyWithoutUserNestedInput
+  eventPostComments?: Prisma.EventPostCommentUpdateManyWithoutUserNestedInput
+  eventPostCommentLikes?: Prisma.EventPostCommentLikeUpdateManyWithoutUserNestedInput
+  memories?: Prisma.MemoryUpdateManyWithoutUserNestedInput
+  pagePostCommentLikes?: Prisma.PagePostCommentLikeUpdateManyWithoutUserNestedInput
+  groupPostCommentLikes?: Prisma.GroupPostCommentLikeUpdateManyWithoutUserNestedInput
+  notificationsReceived?: Prisma.NotificationUpdateManyWithoutUserNestedInput
+  notificationsSent?: Prisma.NotificationUpdateManyWithoutSenderNestedInput
+  reportedContentCreated?: Prisma.ReportedContentUpdateManyWithoutReportingUserNestedInput
+  reportedContentReceived?: Prisma.ReportedContentUpdateManyWithoutReportedUserNestedInput
+  moderationLogsCreated?: Prisma.ModerationLogUpdateManyWithoutModeratorUserNestedInput
+  moderationLogsTargeted?: Prisma.ModerationLogUpdateManyWithoutTargetUserNestedInput
+  listings?: Prisma.MarketplaceListingUpdateManyWithoutSellerNestedInput
+  listingSaves?: Prisma.ListingSaveUpdateManyWithoutUserNestedInput
+  listingMessages?: Prisma.ListingMessageUpdateManyWithoutSenderNestedInput
+}
+
+export type UserUncheckedUpdateWithoutListingOffersInput = {
+  id?: Prisma.IntFieldUpdateOperationsInput | number
+  userName?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  password?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+  firstName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  lastName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  birthday?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  gender?: Prisma.EnumGenderFieldUpdateOperationsInput | $Enums.Gender
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  website?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  location?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  profilePrivacy?: Prisma.EnumProfilePrivacyFieldUpdateOperationsInput | $Enums.ProfilePrivacy
+  active?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  lastActiveAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  canResetPassword?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  resetPasswordTokens?: Prisma.ResetPasswordTokenUncheckedUpdateManyWithoutUserNestedInput
+  activateTokens?: Prisma.ActivateTokenUncheckedUpdateManyWithoutUserNestedInput
+  accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
+  sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
+  avatar?: Prisma.AvatarUncheckedUpdateOneWithoutUserNestedInput
+  coverPhoto?: Prisma.CoverPhotoUncheckedUpdateOneWithoutUserNestedInput
+  followers?: Prisma.UserFollowUncheckedUpdateManyWithoutFollowingNestedInput
+  following?: Prisma.UserFollowUncheckedUpdateManyWithoutFollowerNestedInput
+  blockedBy?: Prisma.UserBlockUncheckedUpdateManyWithoutBlockedNestedInput
+  blocking?: Prisma.UserBlockUncheckedUpdateManyWithoutBlockerNestedInput
+  posts?: Prisma.PostUncheckedUpdateManyWithoutUserNestedInput
+  postLikes?: Prisma.PostLikeUncheckedUpdateManyWithoutUserNestedInput
+  postSaves?: Prisma.PostSaveUncheckedUpdateManyWithoutUserNestedInput
+  postShares?: Prisma.PostShareUncheckedUpdateManyWithoutUserNestedInput
+  postComments?: Prisma.PostCommentUncheckedUpdateManyWithoutUserNestedInput
+  commentLikes?: Prisma.CommentLikeUncheckedUpdateManyWithoutUserNestedInput
+  commentReplies?: Prisma.CommentReplyUncheckedUpdateManyWithoutUserNestedInput
+  replyLikes?: Prisma.ReplyLikeUncheckedUpdateManyWithoutUserNestedInput
+  postsEdited?: Prisma.PostHistoryUncheckedUpdateManyWithoutEditedByNestedInput
+  stories?: Prisma.StoryUncheckedUpdateManyWithoutUserNestedInput
+  storyViews?: Prisma.StoryViewUncheckedUpdateManyWithoutUserNestedInput
+  storyReactions?: Prisma.StoryReactionUncheckedUpdateManyWithoutUserNestedInput
+  conversations?: Prisma.ConversationParticipantUncheckedUpdateManyWithoutUserNestedInput
+  messagesSent?: Prisma.MessageUncheckedUpdateManyWithoutSenderNestedInput
+  messageReactions?: Prisma.MessageReactionUncheckedUpdateManyWithoutUserNestedInput
+  ownedGroups?: Prisma.GroupUncheckedUpdateManyWithoutOwnerNestedInput
+  groupMemberships?: Prisma.GroupMemberUncheckedUpdateManyWithoutUserNestedInput
+  groupPosts?: Prisma.GroupPostUncheckedUpdateManyWithoutUserNestedInput
+  groupPostLikes?: Prisma.GroupPostLikeUncheckedUpdateManyWithoutUserNestedInput
+  groupPostComments?: Prisma.GroupPostCommentUncheckedUpdateManyWithoutUserNestedInput
+  ownedPages?: Prisma.PageUncheckedUpdateManyWithoutOwnerNestedInput
+  pageFollows?: Prisma.PageFollowerUncheckedUpdateManyWithoutUserNestedInput
+  pagePosts?: Prisma.PagePostUncheckedUpdateManyWithoutUserNestedInput
+  pagePostLikes?: Prisma.PagePostLikeUncheckedUpdateManyWithoutUserNestedInput
+  pagePostComments?: Prisma.PagePostCommentUncheckedUpdateManyWithoutUserNestedInput
+  createdEvents?: Prisma.EventUncheckedUpdateManyWithoutCreatorNestedInput
+  eventAttendances?: Prisma.EventAttendeeUncheckedUpdateManyWithoutUserNestedInput
+  eventPosts?: Prisma.EventPostUncheckedUpdateManyWithoutUserNestedInput
+  eventPostLikes?: Prisma.EventPostLikeUncheckedUpdateManyWithoutUserNestedInput
+  eventPostComments?: Prisma.EventPostCommentUncheckedUpdateManyWithoutUserNestedInput
+  eventPostCommentLikes?: Prisma.EventPostCommentLikeUncheckedUpdateManyWithoutUserNestedInput
+  memories?: Prisma.MemoryUncheckedUpdateManyWithoutUserNestedInput
+  pagePostCommentLikes?: Prisma.PagePostCommentLikeUncheckedUpdateManyWithoutUserNestedInput
+  groupPostCommentLikes?: Prisma.GroupPostCommentLikeUncheckedUpdateManyWithoutUserNestedInput
+  notificationsReceived?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
+  notificationsSent?: Prisma.NotificationUncheckedUpdateManyWithoutSenderNestedInput
+  reportedContentCreated?: Prisma.ReportedContentUncheckedUpdateManyWithoutReportingUserNestedInput
+  reportedContentReceived?: Prisma.ReportedContentUncheckedUpdateManyWithoutReportedUserNestedInput
+  moderationLogsCreated?: Prisma.ModerationLogUncheckedUpdateManyWithoutModeratorUserNestedInput
+  moderationLogsTargeted?: Prisma.ModerationLogUncheckedUpdateManyWithoutTargetUserNestedInput
+  listings?: Prisma.MarketplaceListingUncheckedUpdateManyWithoutSellerNestedInput
+  listingSaves?: Prisma.ListingSaveUncheckedUpdateManyWithoutUserNestedInput
+  listingMessages?: Prisma.ListingMessageUncheckedUpdateManyWithoutSenderNestedInput
+}
+
+export type UserCreateWithoutListingMessagesInput = {
+  userName: string
+  email: string
+  password?: string | null
+  role?: $Enums.UserRole
+  firstName?: string | null
+  lastName?: string | null
+  bio?: string | null
+  birthday?: Date | string | null
+  gender?: $Enums.Gender
+  phone?: string | null
+  website?: string | null
+  location?: string | null
+  profilePrivacy?: $Enums.ProfilePrivacy
+  active?: boolean
+  lastActiveAt?: Date | string | null
+  canResetPassword?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  resetPasswordTokens?: Prisma.ResetPasswordTokenCreateNestedManyWithoutUserInput
+  activateTokens?: Prisma.ActivateTokenCreateNestedManyWithoutUserInput
+  accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
+  sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
+  avatar?: Prisma.AvatarCreateNestedOneWithoutUserInput
+  coverPhoto?: Prisma.CoverPhotoCreateNestedOneWithoutUserInput
+  followers?: Prisma.UserFollowCreateNestedManyWithoutFollowingInput
+  following?: Prisma.UserFollowCreateNestedManyWithoutFollowerInput
+  blockedBy?: Prisma.UserBlockCreateNestedManyWithoutBlockedInput
+  blocking?: Prisma.UserBlockCreateNestedManyWithoutBlockerInput
+  posts?: Prisma.PostCreateNestedManyWithoutUserInput
+  postLikes?: Prisma.PostLikeCreateNestedManyWithoutUserInput
+  postSaves?: Prisma.PostSaveCreateNestedManyWithoutUserInput
+  postShares?: Prisma.PostShareCreateNestedManyWithoutUserInput
+  postComments?: Prisma.PostCommentCreateNestedManyWithoutUserInput
+  commentLikes?: Prisma.CommentLikeCreateNestedManyWithoutUserInput
+  commentReplies?: Prisma.CommentReplyCreateNestedManyWithoutUserInput
+  replyLikes?: Prisma.ReplyLikeCreateNestedManyWithoutUserInput
+  postsEdited?: Prisma.PostHistoryCreateNestedManyWithoutEditedByInput
+  stories?: Prisma.StoryCreateNestedManyWithoutUserInput
+  storyViews?: Prisma.StoryViewCreateNestedManyWithoutUserInput
+  storyReactions?: Prisma.StoryReactionCreateNestedManyWithoutUserInput
+  conversations?: Prisma.ConversationParticipantCreateNestedManyWithoutUserInput
+  messagesSent?: Prisma.MessageCreateNestedManyWithoutSenderInput
+  messageReactions?: Prisma.MessageReactionCreateNestedManyWithoutUserInput
+  ownedGroups?: Prisma.GroupCreateNestedManyWithoutOwnerInput
+  groupMemberships?: Prisma.GroupMemberCreateNestedManyWithoutUserInput
+  groupPosts?: Prisma.GroupPostCreateNestedManyWithoutUserInput
+  groupPostLikes?: Prisma.GroupPostLikeCreateNestedManyWithoutUserInput
+  groupPostComments?: Prisma.GroupPostCommentCreateNestedManyWithoutUserInput
+  ownedPages?: Prisma.PageCreateNestedManyWithoutOwnerInput
+  pageFollows?: Prisma.PageFollowerCreateNestedManyWithoutUserInput
+  pagePosts?: Prisma.PagePostCreateNestedManyWithoutUserInput
+  pagePostLikes?: Prisma.PagePostLikeCreateNestedManyWithoutUserInput
+  pagePostComments?: Prisma.PagePostCommentCreateNestedManyWithoutUserInput
+  createdEvents?: Prisma.EventCreateNestedManyWithoutCreatorInput
+  eventAttendances?: Prisma.EventAttendeeCreateNestedManyWithoutUserInput
+  eventPosts?: Prisma.EventPostCreateNestedManyWithoutUserInput
+  eventPostLikes?: Prisma.EventPostLikeCreateNestedManyWithoutUserInput
+  eventPostComments?: Prisma.EventPostCommentCreateNestedManyWithoutUserInput
+  eventPostCommentLikes?: Prisma.EventPostCommentLikeCreateNestedManyWithoutUserInput
+  memories?: Prisma.MemoryCreateNestedManyWithoutUserInput
+  pagePostCommentLikes?: Prisma.PagePostCommentLikeCreateNestedManyWithoutUserInput
+  groupPostCommentLikes?: Prisma.GroupPostCommentLikeCreateNestedManyWithoutUserInput
+  notificationsReceived?: Prisma.NotificationCreateNestedManyWithoutUserInput
+  notificationsSent?: Prisma.NotificationCreateNestedManyWithoutSenderInput
+  reportedContentCreated?: Prisma.ReportedContentCreateNestedManyWithoutReportingUserInput
+  reportedContentReceived?: Prisma.ReportedContentCreateNestedManyWithoutReportedUserInput
+  moderationLogsCreated?: Prisma.ModerationLogCreateNestedManyWithoutModeratorUserInput
+  moderationLogsTargeted?: Prisma.ModerationLogCreateNestedManyWithoutTargetUserInput
+  listings?: Prisma.MarketplaceListingCreateNestedManyWithoutSellerInput
+  listingSaves?: Prisma.ListingSaveCreateNestedManyWithoutUserInput
+  listingOffers?: Prisma.ListingOfferCreateNestedManyWithoutBuyerInput
+}
+
+export type UserUncheckedCreateWithoutListingMessagesInput = {
+  id?: number
+  userName: string
+  email: string
+  password?: string | null
+  role?: $Enums.UserRole
+  firstName?: string | null
+  lastName?: string | null
+  bio?: string | null
+  birthday?: Date | string | null
+  gender?: $Enums.Gender
+  phone?: string | null
+  website?: string | null
+  location?: string | null
+  profilePrivacy?: $Enums.ProfilePrivacy
+  active?: boolean
+  lastActiveAt?: Date | string | null
+  canResetPassword?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  resetPasswordTokens?: Prisma.ResetPasswordTokenUncheckedCreateNestedManyWithoutUserInput
+  activateTokens?: Prisma.ActivateTokenUncheckedCreateNestedManyWithoutUserInput
+  accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
+  sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
+  avatar?: Prisma.AvatarUncheckedCreateNestedOneWithoutUserInput
+  coverPhoto?: Prisma.CoverPhotoUncheckedCreateNestedOneWithoutUserInput
+  followers?: Prisma.UserFollowUncheckedCreateNestedManyWithoutFollowingInput
+  following?: Prisma.UserFollowUncheckedCreateNestedManyWithoutFollowerInput
+  blockedBy?: Prisma.UserBlockUncheckedCreateNestedManyWithoutBlockedInput
+  blocking?: Prisma.UserBlockUncheckedCreateNestedManyWithoutBlockerInput
+  posts?: Prisma.PostUncheckedCreateNestedManyWithoutUserInput
+  postLikes?: Prisma.PostLikeUncheckedCreateNestedManyWithoutUserInput
+  postSaves?: Prisma.PostSaveUncheckedCreateNestedManyWithoutUserInput
+  postShares?: Prisma.PostShareUncheckedCreateNestedManyWithoutUserInput
+  postComments?: Prisma.PostCommentUncheckedCreateNestedManyWithoutUserInput
+  commentLikes?: Prisma.CommentLikeUncheckedCreateNestedManyWithoutUserInput
+  commentReplies?: Prisma.CommentReplyUncheckedCreateNestedManyWithoutUserInput
+  replyLikes?: Prisma.ReplyLikeUncheckedCreateNestedManyWithoutUserInput
+  postsEdited?: Prisma.PostHistoryUncheckedCreateNestedManyWithoutEditedByInput
+  stories?: Prisma.StoryUncheckedCreateNestedManyWithoutUserInput
+  storyViews?: Prisma.StoryViewUncheckedCreateNestedManyWithoutUserInput
+  storyReactions?: Prisma.StoryReactionUncheckedCreateNestedManyWithoutUserInput
+  conversations?: Prisma.ConversationParticipantUncheckedCreateNestedManyWithoutUserInput
+  messagesSent?: Prisma.MessageUncheckedCreateNestedManyWithoutSenderInput
+  messageReactions?: Prisma.MessageReactionUncheckedCreateNestedManyWithoutUserInput
+  ownedGroups?: Prisma.GroupUncheckedCreateNestedManyWithoutOwnerInput
+  groupMemberships?: Prisma.GroupMemberUncheckedCreateNestedManyWithoutUserInput
+  groupPosts?: Prisma.GroupPostUncheckedCreateNestedManyWithoutUserInput
+  groupPostLikes?: Prisma.GroupPostLikeUncheckedCreateNestedManyWithoutUserInput
+  groupPostComments?: Prisma.GroupPostCommentUncheckedCreateNestedManyWithoutUserInput
+  ownedPages?: Prisma.PageUncheckedCreateNestedManyWithoutOwnerInput
+  pageFollows?: Prisma.PageFollowerUncheckedCreateNestedManyWithoutUserInput
+  pagePosts?: Prisma.PagePostUncheckedCreateNestedManyWithoutUserInput
+  pagePostLikes?: Prisma.PagePostLikeUncheckedCreateNestedManyWithoutUserInput
+  pagePostComments?: Prisma.PagePostCommentUncheckedCreateNestedManyWithoutUserInput
+  createdEvents?: Prisma.EventUncheckedCreateNestedManyWithoutCreatorInput
+  eventAttendances?: Prisma.EventAttendeeUncheckedCreateNestedManyWithoutUserInput
+  eventPosts?: Prisma.EventPostUncheckedCreateNestedManyWithoutUserInput
+  eventPostLikes?: Prisma.EventPostLikeUncheckedCreateNestedManyWithoutUserInput
+  eventPostComments?: Prisma.EventPostCommentUncheckedCreateNestedManyWithoutUserInput
+  eventPostCommentLikes?: Prisma.EventPostCommentLikeUncheckedCreateNestedManyWithoutUserInput
+  memories?: Prisma.MemoryUncheckedCreateNestedManyWithoutUserInput
+  pagePostCommentLikes?: Prisma.PagePostCommentLikeUncheckedCreateNestedManyWithoutUserInput
+  groupPostCommentLikes?: Prisma.GroupPostCommentLikeUncheckedCreateNestedManyWithoutUserInput
+  notificationsReceived?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
+  notificationsSent?: Prisma.NotificationUncheckedCreateNestedManyWithoutSenderInput
+  reportedContentCreated?: Prisma.ReportedContentUncheckedCreateNestedManyWithoutReportingUserInput
+  reportedContentReceived?: Prisma.ReportedContentUncheckedCreateNestedManyWithoutReportedUserInput
+  moderationLogsCreated?: Prisma.ModerationLogUncheckedCreateNestedManyWithoutModeratorUserInput
+  moderationLogsTargeted?: Prisma.ModerationLogUncheckedCreateNestedManyWithoutTargetUserInput
+  listings?: Prisma.MarketplaceListingUncheckedCreateNestedManyWithoutSellerInput
+  listingSaves?: Prisma.ListingSaveUncheckedCreateNestedManyWithoutUserInput
+  listingOffers?: Prisma.ListingOfferUncheckedCreateNestedManyWithoutBuyerInput
+}
+
+export type UserCreateOrConnectWithoutListingMessagesInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutListingMessagesInput, Prisma.UserUncheckedCreateWithoutListingMessagesInput>
+}
+
+export type UserUpsertWithoutListingMessagesInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutListingMessagesInput, Prisma.UserUncheckedUpdateWithoutListingMessagesInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutListingMessagesInput, Prisma.UserUncheckedCreateWithoutListingMessagesInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutListingMessagesInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutListingMessagesInput, Prisma.UserUncheckedUpdateWithoutListingMessagesInput>
+}
+
+export type UserUpdateWithoutListingMessagesInput = {
+  userName?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  password?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+  firstName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  lastName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  birthday?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  gender?: Prisma.EnumGenderFieldUpdateOperationsInput | $Enums.Gender
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  website?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  location?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  profilePrivacy?: Prisma.EnumProfilePrivacyFieldUpdateOperationsInput | $Enums.ProfilePrivacy
+  active?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  lastActiveAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  canResetPassword?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  resetPasswordTokens?: Prisma.ResetPasswordTokenUpdateManyWithoutUserNestedInput
+  activateTokens?: Prisma.ActivateTokenUpdateManyWithoutUserNestedInput
+  accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
+  sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
+  avatar?: Prisma.AvatarUpdateOneWithoutUserNestedInput
+  coverPhoto?: Prisma.CoverPhotoUpdateOneWithoutUserNestedInput
+  followers?: Prisma.UserFollowUpdateManyWithoutFollowingNestedInput
+  following?: Prisma.UserFollowUpdateManyWithoutFollowerNestedInput
+  blockedBy?: Prisma.UserBlockUpdateManyWithoutBlockedNestedInput
+  blocking?: Prisma.UserBlockUpdateManyWithoutBlockerNestedInput
+  posts?: Prisma.PostUpdateManyWithoutUserNestedInput
+  postLikes?: Prisma.PostLikeUpdateManyWithoutUserNestedInput
+  postSaves?: Prisma.PostSaveUpdateManyWithoutUserNestedInput
+  postShares?: Prisma.PostShareUpdateManyWithoutUserNestedInput
+  postComments?: Prisma.PostCommentUpdateManyWithoutUserNestedInput
+  commentLikes?: Prisma.CommentLikeUpdateManyWithoutUserNestedInput
+  commentReplies?: Prisma.CommentReplyUpdateManyWithoutUserNestedInput
+  replyLikes?: Prisma.ReplyLikeUpdateManyWithoutUserNestedInput
+  postsEdited?: Prisma.PostHistoryUpdateManyWithoutEditedByNestedInput
+  stories?: Prisma.StoryUpdateManyWithoutUserNestedInput
+  storyViews?: Prisma.StoryViewUpdateManyWithoutUserNestedInput
+  storyReactions?: Prisma.StoryReactionUpdateManyWithoutUserNestedInput
+  conversations?: Prisma.ConversationParticipantUpdateManyWithoutUserNestedInput
+  messagesSent?: Prisma.MessageUpdateManyWithoutSenderNestedInput
+  messageReactions?: Prisma.MessageReactionUpdateManyWithoutUserNestedInput
+  ownedGroups?: Prisma.GroupUpdateManyWithoutOwnerNestedInput
+  groupMemberships?: Prisma.GroupMemberUpdateManyWithoutUserNestedInput
+  groupPosts?: Prisma.GroupPostUpdateManyWithoutUserNestedInput
+  groupPostLikes?: Prisma.GroupPostLikeUpdateManyWithoutUserNestedInput
+  groupPostComments?: Prisma.GroupPostCommentUpdateManyWithoutUserNestedInput
+  ownedPages?: Prisma.PageUpdateManyWithoutOwnerNestedInput
+  pageFollows?: Prisma.PageFollowerUpdateManyWithoutUserNestedInput
+  pagePosts?: Prisma.PagePostUpdateManyWithoutUserNestedInput
+  pagePostLikes?: Prisma.PagePostLikeUpdateManyWithoutUserNestedInput
+  pagePostComments?: Prisma.PagePostCommentUpdateManyWithoutUserNestedInput
+  createdEvents?: Prisma.EventUpdateManyWithoutCreatorNestedInput
+  eventAttendances?: Prisma.EventAttendeeUpdateManyWithoutUserNestedInput
+  eventPosts?: Prisma.EventPostUpdateManyWithoutUserNestedInput
+  eventPostLikes?: Prisma.EventPostLikeUpdateManyWithoutUserNestedInput
+  eventPostComments?: Prisma.EventPostCommentUpdateManyWithoutUserNestedInput
+  eventPostCommentLikes?: Prisma.EventPostCommentLikeUpdateManyWithoutUserNestedInput
+  memories?: Prisma.MemoryUpdateManyWithoutUserNestedInput
+  pagePostCommentLikes?: Prisma.PagePostCommentLikeUpdateManyWithoutUserNestedInput
+  groupPostCommentLikes?: Prisma.GroupPostCommentLikeUpdateManyWithoutUserNestedInput
+  notificationsReceived?: Prisma.NotificationUpdateManyWithoutUserNestedInput
+  notificationsSent?: Prisma.NotificationUpdateManyWithoutSenderNestedInput
+  reportedContentCreated?: Prisma.ReportedContentUpdateManyWithoutReportingUserNestedInput
+  reportedContentReceived?: Prisma.ReportedContentUpdateManyWithoutReportedUserNestedInput
+  moderationLogsCreated?: Prisma.ModerationLogUpdateManyWithoutModeratorUserNestedInput
+  moderationLogsTargeted?: Prisma.ModerationLogUpdateManyWithoutTargetUserNestedInput
+  listings?: Prisma.MarketplaceListingUpdateManyWithoutSellerNestedInput
+  listingSaves?: Prisma.ListingSaveUpdateManyWithoutUserNestedInput
+  listingOffers?: Prisma.ListingOfferUpdateManyWithoutBuyerNestedInput
+}
+
+export type UserUncheckedUpdateWithoutListingMessagesInput = {
+  id?: Prisma.IntFieldUpdateOperationsInput | number
+  userName?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  password?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+  firstName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  lastName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  birthday?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  gender?: Prisma.EnumGenderFieldUpdateOperationsInput | $Enums.Gender
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  website?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  location?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  profilePrivacy?: Prisma.EnumProfilePrivacyFieldUpdateOperationsInput | $Enums.ProfilePrivacy
+  active?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  lastActiveAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  canResetPassword?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  resetPasswordTokens?: Prisma.ResetPasswordTokenUncheckedUpdateManyWithoutUserNestedInput
+  activateTokens?: Prisma.ActivateTokenUncheckedUpdateManyWithoutUserNestedInput
+  accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
+  sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
+  avatar?: Prisma.AvatarUncheckedUpdateOneWithoutUserNestedInput
+  coverPhoto?: Prisma.CoverPhotoUncheckedUpdateOneWithoutUserNestedInput
+  followers?: Prisma.UserFollowUncheckedUpdateManyWithoutFollowingNestedInput
+  following?: Prisma.UserFollowUncheckedUpdateManyWithoutFollowerNestedInput
+  blockedBy?: Prisma.UserBlockUncheckedUpdateManyWithoutBlockedNestedInput
+  blocking?: Prisma.UserBlockUncheckedUpdateManyWithoutBlockerNestedInput
+  posts?: Prisma.PostUncheckedUpdateManyWithoutUserNestedInput
+  postLikes?: Prisma.PostLikeUncheckedUpdateManyWithoutUserNestedInput
+  postSaves?: Prisma.PostSaveUncheckedUpdateManyWithoutUserNestedInput
+  postShares?: Prisma.PostShareUncheckedUpdateManyWithoutUserNestedInput
+  postComments?: Prisma.PostCommentUncheckedUpdateManyWithoutUserNestedInput
+  commentLikes?: Prisma.CommentLikeUncheckedUpdateManyWithoutUserNestedInput
+  commentReplies?: Prisma.CommentReplyUncheckedUpdateManyWithoutUserNestedInput
+  replyLikes?: Prisma.ReplyLikeUncheckedUpdateManyWithoutUserNestedInput
+  postsEdited?: Prisma.PostHistoryUncheckedUpdateManyWithoutEditedByNestedInput
+  stories?: Prisma.StoryUncheckedUpdateManyWithoutUserNestedInput
+  storyViews?: Prisma.StoryViewUncheckedUpdateManyWithoutUserNestedInput
+  storyReactions?: Prisma.StoryReactionUncheckedUpdateManyWithoutUserNestedInput
+  conversations?: Prisma.ConversationParticipantUncheckedUpdateManyWithoutUserNestedInput
+  messagesSent?: Prisma.MessageUncheckedUpdateManyWithoutSenderNestedInput
+  messageReactions?: Prisma.MessageReactionUncheckedUpdateManyWithoutUserNestedInput
+  ownedGroups?: Prisma.GroupUncheckedUpdateManyWithoutOwnerNestedInput
+  groupMemberships?: Prisma.GroupMemberUncheckedUpdateManyWithoutUserNestedInput
+  groupPosts?: Prisma.GroupPostUncheckedUpdateManyWithoutUserNestedInput
+  groupPostLikes?: Prisma.GroupPostLikeUncheckedUpdateManyWithoutUserNestedInput
+  groupPostComments?: Prisma.GroupPostCommentUncheckedUpdateManyWithoutUserNestedInput
+  ownedPages?: Prisma.PageUncheckedUpdateManyWithoutOwnerNestedInput
+  pageFollows?: Prisma.PageFollowerUncheckedUpdateManyWithoutUserNestedInput
+  pagePosts?: Prisma.PagePostUncheckedUpdateManyWithoutUserNestedInput
+  pagePostLikes?: Prisma.PagePostLikeUncheckedUpdateManyWithoutUserNestedInput
+  pagePostComments?: Prisma.PagePostCommentUncheckedUpdateManyWithoutUserNestedInput
+  createdEvents?: Prisma.EventUncheckedUpdateManyWithoutCreatorNestedInput
+  eventAttendances?: Prisma.EventAttendeeUncheckedUpdateManyWithoutUserNestedInput
+  eventPosts?: Prisma.EventPostUncheckedUpdateManyWithoutUserNestedInput
+  eventPostLikes?: Prisma.EventPostLikeUncheckedUpdateManyWithoutUserNestedInput
+  eventPostComments?: Prisma.EventPostCommentUncheckedUpdateManyWithoutUserNestedInput
+  eventPostCommentLikes?: Prisma.EventPostCommentLikeUncheckedUpdateManyWithoutUserNestedInput
+  memories?: Prisma.MemoryUncheckedUpdateManyWithoutUserNestedInput
+  pagePostCommentLikes?: Prisma.PagePostCommentLikeUncheckedUpdateManyWithoutUserNestedInput
+  groupPostCommentLikes?: Prisma.GroupPostCommentLikeUncheckedUpdateManyWithoutUserNestedInput
+  notificationsReceived?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
+  notificationsSent?: Prisma.NotificationUncheckedUpdateManyWithoutSenderNestedInput
+  reportedContentCreated?: Prisma.ReportedContentUncheckedUpdateManyWithoutReportingUserNestedInput
+  reportedContentReceived?: Prisma.ReportedContentUncheckedUpdateManyWithoutReportedUserNestedInput
+  moderationLogsCreated?: Prisma.ModerationLogUncheckedUpdateManyWithoutModeratorUserNestedInput
+  moderationLogsTargeted?: Prisma.ModerationLogUncheckedUpdateManyWithoutTargetUserNestedInput
+  listings?: Prisma.MarketplaceListingUncheckedUpdateManyWithoutSellerNestedInput
+  listingSaves?: Prisma.ListingSaveUncheckedUpdateManyWithoutUserNestedInput
+  listingOffers?: Prisma.ListingOfferUncheckedUpdateManyWithoutBuyerNestedInput
 }
 
 export type UserCreateWithoutMemoriesInput = {
@@ -7758,6 +9418,10 @@ export type UserCreateWithoutMemoriesInput = {
   reportedContentReceived?: Prisma.ReportedContentCreateNestedManyWithoutReportedUserInput
   moderationLogsCreated?: Prisma.ModerationLogCreateNestedManyWithoutModeratorUserInput
   moderationLogsTargeted?: Prisma.ModerationLogCreateNestedManyWithoutTargetUserInput
+  listings?: Prisma.MarketplaceListingCreateNestedManyWithoutSellerInput
+  listingSaves?: Prisma.ListingSaveCreateNestedManyWithoutUserInput
+  listingOffers?: Prisma.ListingOfferCreateNestedManyWithoutBuyerInput
+  listingMessages?: Prisma.ListingMessageCreateNestedManyWithoutSenderInput
 }
 
 export type UserUncheckedCreateWithoutMemoriesInput = {
@@ -7829,6 +9493,10 @@ export type UserUncheckedCreateWithoutMemoriesInput = {
   reportedContentReceived?: Prisma.ReportedContentUncheckedCreateNestedManyWithoutReportedUserInput
   moderationLogsCreated?: Prisma.ModerationLogUncheckedCreateNestedManyWithoutModeratorUserInput
   moderationLogsTargeted?: Prisma.ModerationLogUncheckedCreateNestedManyWithoutTargetUserInput
+  listings?: Prisma.MarketplaceListingUncheckedCreateNestedManyWithoutSellerInput
+  listingSaves?: Prisma.ListingSaveUncheckedCreateNestedManyWithoutUserInput
+  listingOffers?: Prisma.ListingOfferUncheckedCreateNestedManyWithoutBuyerInput
+  listingMessages?: Prisma.ListingMessageUncheckedCreateNestedManyWithoutSenderInput
 }
 
 export type UserCreateOrConnectWithoutMemoriesInput = {
@@ -7915,6 +9583,10 @@ export type UserUpdateWithoutMemoriesInput = {
   reportedContentReceived?: Prisma.ReportedContentUpdateManyWithoutReportedUserNestedInput
   moderationLogsCreated?: Prisma.ModerationLogUpdateManyWithoutModeratorUserNestedInput
   moderationLogsTargeted?: Prisma.ModerationLogUpdateManyWithoutTargetUserNestedInput
+  listings?: Prisma.MarketplaceListingUpdateManyWithoutSellerNestedInput
+  listingSaves?: Prisma.ListingSaveUpdateManyWithoutUserNestedInput
+  listingOffers?: Prisma.ListingOfferUpdateManyWithoutBuyerNestedInput
+  listingMessages?: Prisma.ListingMessageUpdateManyWithoutSenderNestedInput
 }
 
 export type UserUncheckedUpdateWithoutMemoriesInput = {
@@ -7986,6 +9658,10 @@ export type UserUncheckedUpdateWithoutMemoriesInput = {
   reportedContentReceived?: Prisma.ReportedContentUncheckedUpdateManyWithoutReportedUserNestedInput
   moderationLogsCreated?: Prisma.ModerationLogUncheckedUpdateManyWithoutModeratorUserNestedInput
   moderationLogsTargeted?: Prisma.ModerationLogUncheckedUpdateManyWithoutTargetUserNestedInput
+  listings?: Prisma.MarketplaceListingUncheckedUpdateManyWithoutSellerNestedInput
+  listingSaves?: Prisma.ListingSaveUncheckedUpdateManyWithoutUserNestedInput
+  listingOffers?: Prisma.ListingOfferUncheckedUpdateManyWithoutBuyerNestedInput
+  listingMessages?: Prisma.ListingMessageUncheckedUpdateManyWithoutSenderNestedInput
 }
 
 export type UserCreateWithoutConversationsInput = {
@@ -8056,6 +9732,10 @@ export type UserCreateWithoutConversationsInput = {
   reportedContentReceived?: Prisma.ReportedContentCreateNestedManyWithoutReportedUserInput
   moderationLogsCreated?: Prisma.ModerationLogCreateNestedManyWithoutModeratorUserInput
   moderationLogsTargeted?: Prisma.ModerationLogCreateNestedManyWithoutTargetUserInput
+  listings?: Prisma.MarketplaceListingCreateNestedManyWithoutSellerInput
+  listingSaves?: Prisma.ListingSaveCreateNestedManyWithoutUserInput
+  listingOffers?: Prisma.ListingOfferCreateNestedManyWithoutBuyerInput
+  listingMessages?: Prisma.ListingMessageCreateNestedManyWithoutSenderInput
 }
 
 export type UserUncheckedCreateWithoutConversationsInput = {
@@ -8127,6 +9807,10 @@ export type UserUncheckedCreateWithoutConversationsInput = {
   reportedContentReceived?: Prisma.ReportedContentUncheckedCreateNestedManyWithoutReportedUserInput
   moderationLogsCreated?: Prisma.ModerationLogUncheckedCreateNestedManyWithoutModeratorUserInput
   moderationLogsTargeted?: Prisma.ModerationLogUncheckedCreateNestedManyWithoutTargetUserInput
+  listings?: Prisma.MarketplaceListingUncheckedCreateNestedManyWithoutSellerInput
+  listingSaves?: Prisma.ListingSaveUncheckedCreateNestedManyWithoutUserInput
+  listingOffers?: Prisma.ListingOfferUncheckedCreateNestedManyWithoutBuyerInput
+  listingMessages?: Prisma.ListingMessageUncheckedCreateNestedManyWithoutSenderInput
 }
 
 export type UserCreateOrConnectWithoutConversationsInput = {
@@ -8213,6 +9897,10 @@ export type UserUpdateWithoutConversationsInput = {
   reportedContentReceived?: Prisma.ReportedContentUpdateManyWithoutReportedUserNestedInput
   moderationLogsCreated?: Prisma.ModerationLogUpdateManyWithoutModeratorUserNestedInput
   moderationLogsTargeted?: Prisma.ModerationLogUpdateManyWithoutTargetUserNestedInput
+  listings?: Prisma.MarketplaceListingUpdateManyWithoutSellerNestedInput
+  listingSaves?: Prisma.ListingSaveUpdateManyWithoutUserNestedInput
+  listingOffers?: Prisma.ListingOfferUpdateManyWithoutBuyerNestedInput
+  listingMessages?: Prisma.ListingMessageUpdateManyWithoutSenderNestedInput
 }
 
 export type UserUncheckedUpdateWithoutConversationsInput = {
@@ -8284,6 +9972,10 @@ export type UserUncheckedUpdateWithoutConversationsInput = {
   reportedContentReceived?: Prisma.ReportedContentUncheckedUpdateManyWithoutReportedUserNestedInput
   moderationLogsCreated?: Prisma.ModerationLogUncheckedUpdateManyWithoutModeratorUserNestedInput
   moderationLogsTargeted?: Prisma.ModerationLogUncheckedUpdateManyWithoutTargetUserNestedInput
+  listings?: Prisma.MarketplaceListingUncheckedUpdateManyWithoutSellerNestedInput
+  listingSaves?: Prisma.ListingSaveUncheckedUpdateManyWithoutUserNestedInput
+  listingOffers?: Prisma.ListingOfferUncheckedUpdateManyWithoutBuyerNestedInput
+  listingMessages?: Prisma.ListingMessageUncheckedUpdateManyWithoutSenderNestedInput
 }
 
 export type UserCreateWithoutMessagesSentInput = {
@@ -8354,6 +10046,10 @@ export type UserCreateWithoutMessagesSentInput = {
   reportedContentReceived?: Prisma.ReportedContentCreateNestedManyWithoutReportedUserInput
   moderationLogsCreated?: Prisma.ModerationLogCreateNestedManyWithoutModeratorUserInput
   moderationLogsTargeted?: Prisma.ModerationLogCreateNestedManyWithoutTargetUserInput
+  listings?: Prisma.MarketplaceListingCreateNestedManyWithoutSellerInput
+  listingSaves?: Prisma.ListingSaveCreateNestedManyWithoutUserInput
+  listingOffers?: Prisma.ListingOfferCreateNestedManyWithoutBuyerInput
+  listingMessages?: Prisma.ListingMessageCreateNestedManyWithoutSenderInput
 }
 
 export type UserUncheckedCreateWithoutMessagesSentInput = {
@@ -8425,6 +10121,10 @@ export type UserUncheckedCreateWithoutMessagesSentInput = {
   reportedContentReceived?: Prisma.ReportedContentUncheckedCreateNestedManyWithoutReportedUserInput
   moderationLogsCreated?: Prisma.ModerationLogUncheckedCreateNestedManyWithoutModeratorUserInput
   moderationLogsTargeted?: Prisma.ModerationLogUncheckedCreateNestedManyWithoutTargetUserInput
+  listings?: Prisma.MarketplaceListingUncheckedCreateNestedManyWithoutSellerInput
+  listingSaves?: Prisma.ListingSaveUncheckedCreateNestedManyWithoutUserInput
+  listingOffers?: Prisma.ListingOfferUncheckedCreateNestedManyWithoutBuyerInput
+  listingMessages?: Prisma.ListingMessageUncheckedCreateNestedManyWithoutSenderInput
 }
 
 export type UserCreateOrConnectWithoutMessagesSentInput = {
@@ -8511,6 +10211,10 @@ export type UserUpdateWithoutMessagesSentInput = {
   reportedContentReceived?: Prisma.ReportedContentUpdateManyWithoutReportedUserNestedInput
   moderationLogsCreated?: Prisma.ModerationLogUpdateManyWithoutModeratorUserNestedInput
   moderationLogsTargeted?: Prisma.ModerationLogUpdateManyWithoutTargetUserNestedInput
+  listings?: Prisma.MarketplaceListingUpdateManyWithoutSellerNestedInput
+  listingSaves?: Prisma.ListingSaveUpdateManyWithoutUserNestedInput
+  listingOffers?: Prisma.ListingOfferUpdateManyWithoutBuyerNestedInput
+  listingMessages?: Prisma.ListingMessageUpdateManyWithoutSenderNestedInput
 }
 
 export type UserUncheckedUpdateWithoutMessagesSentInput = {
@@ -8582,6 +10286,10 @@ export type UserUncheckedUpdateWithoutMessagesSentInput = {
   reportedContentReceived?: Prisma.ReportedContentUncheckedUpdateManyWithoutReportedUserNestedInput
   moderationLogsCreated?: Prisma.ModerationLogUncheckedUpdateManyWithoutModeratorUserNestedInput
   moderationLogsTargeted?: Prisma.ModerationLogUncheckedUpdateManyWithoutTargetUserNestedInput
+  listings?: Prisma.MarketplaceListingUncheckedUpdateManyWithoutSellerNestedInput
+  listingSaves?: Prisma.ListingSaveUncheckedUpdateManyWithoutUserNestedInput
+  listingOffers?: Prisma.ListingOfferUncheckedUpdateManyWithoutBuyerNestedInput
+  listingMessages?: Prisma.ListingMessageUncheckedUpdateManyWithoutSenderNestedInput
 }
 
 export type UserCreateWithoutMessageReactionsInput = {
@@ -8652,6 +10360,10 @@ export type UserCreateWithoutMessageReactionsInput = {
   reportedContentReceived?: Prisma.ReportedContentCreateNestedManyWithoutReportedUserInput
   moderationLogsCreated?: Prisma.ModerationLogCreateNestedManyWithoutModeratorUserInput
   moderationLogsTargeted?: Prisma.ModerationLogCreateNestedManyWithoutTargetUserInput
+  listings?: Prisma.MarketplaceListingCreateNestedManyWithoutSellerInput
+  listingSaves?: Prisma.ListingSaveCreateNestedManyWithoutUserInput
+  listingOffers?: Prisma.ListingOfferCreateNestedManyWithoutBuyerInput
+  listingMessages?: Prisma.ListingMessageCreateNestedManyWithoutSenderInput
 }
 
 export type UserUncheckedCreateWithoutMessageReactionsInput = {
@@ -8723,6 +10435,10 @@ export type UserUncheckedCreateWithoutMessageReactionsInput = {
   reportedContentReceived?: Prisma.ReportedContentUncheckedCreateNestedManyWithoutReportedUserInput
   moderationLogsCreated?: Prisma.ModerationLogUncheckedCreateNestedManyWithoutModeratorUserInput
   moderationLogsTargeted?: Prisma.ModerationLogUncheckedCreateNestedManyWithoutTargetUserInput
+  listings?: Prisma.MarketplaceListingUncheckedCreateNestedManyWithoutSellerInput
+  listingSaves?: Prisma.ListingSaveUncheckedCreateNestedManyWithoutUserInput
+  listingOffers?: Prisma.ListingOfferUncheckedCreateNestedManyWithoutBuyerInput
+  listingMessages?: Prisma.ListingMessageUncheckedCreateNestedManyWithoutSenderInput
 }
 
 export type UserCreateOrConnectWithoutMessageReactionsInput = {
@@ -8809,6 +10525,10 @@ export type UserUpdateWithoutMessageReactionsInput = {
   reportedContentReceived?: Prisma.ReportedContentUpdateManyWithoutReportedUserNestedInput
   moderationLogsCreated?: Prisma.ModerationLogUpdateManyWithoutModeratorUserNestedInput
   moderationLogsTargeted?: Prisma.ModerationLogUpdateManyWithoutTargetUserNestedInput
+  listings?: Prisma.MarketplaceListingUpdateManyWithoutSellerNestedInput
+  listingSaves?: Prisma.ListingSaveUpdateManyWithoutUserNestedInput
+  listingOffers?: Prisma.ListingOfferUpdateManyWithoutBuyerNestedInput
+  listingMessages?: Prisma.ListingMessageUpdateManyWithoutSenderNestedInput
 }
 
 export type UserUncheckedUpdateWithoutMessageReactionsInput = {
@@ -8880,6 +10600,10 @@ export type UserUncheckedUpdateWithoutMessageReactionsInput = {
   reportedContentReceived?: Prisma.ReportedContentUncheckedUpdateManyWithoutReportedUserNestedInput
   moderationLogsCreated?: Prisma.ModerationLogUncheckedUpdateManyWithoutModeratorUserNestedInput
   moderationLogsTargeted?: Prisma.ModerationLogUncheckedUpdateManyWithoutTargetUserNestedInput
+  listings?: Prisma.MarketplaceListingUncheckedUpdateManyWithoutSellerNestedInput
+  listingSaves?: Prisma.ListingSaveUncheckedUpdateManyWithoutUserNestedInput
+  listingOffers?: Prisma.ListingOfferUncheckedUpdateManyWithoutBuyerNestedInput
+  listingMessages?: Prisma.ListingMessageUncheckedUpdateManyWithoutSenderNestedInput
 }
 
 export type UserCreateWithoutReportedContentCreatedInput = {
@@ -8950,6 +10674,10 @@ export type UserCreateWithoutReportedContentCreatedInput = {
   reportedContentReceived?: Prisma.ReportedContentCreateNestedManyWithoutReportedUserInput
   moderationLogsCreated?: Prisma.ModerationLogCreateNestedManyWithoutModeratorUserInput
   moderationLogsTargeted?: Prisma.ModerationLogCreateNestedManyWithoutTargetUserInput
+  listings?: Prisma.MarketplaceListingCreateNestedManyWithoutSellerInput
+  listingSaves?: Prisma.ListingSaveCreateNestedManyWithoutUserInput
+  listingOffers?: Prisma.ListingOfferCreateNestedManyWithoutBuyerInput
+  listingMessages?: Prisma.ListingMessageCreateNestedManyWithoutSenderInput
 }
 
 export type UserUncheckedCreateWithoutReportedContentCreatedInput = {
@@ -9021,6 +10749,10 @@ export type UserUncheckedCreateWithoutReportedContentCreatedInput = {
   reportedContentReceived?: Prisma.ReportedContentUncheckedCreateNestedManyWithoutReportedUserInput
   moderationLogsCreated?: Prisma.ModerationLogUncheckedCreateNestedManyWithoutModeratorUserInput
   moderationLogsTargeted?: Prisma.ModerationLogUncheckedCreateNestedManyWithoutTargetUserInput
+  listings?: Prisma.MarketplaceListingUncheckedCreateNestedManyWithoutSellerInput
+  listingSaves?: Prisma.ListingSaveUncheckedCreateNestedManyWithoutUserInput
+  listingOffers?: Prisma.ListingOfferUncheckedCreateNestedManyWithoutBuyerInput
+  listingMessages?: Prisma.ListingMessageUncheckedCreateNestedManyWithoutSenderInput
 }
 
 export type UserCreateOrConnectWithoutReportedContentCreatedInput = {
@@ -9096,6 +10828,10 @@ export type UserCreateWithoutReportedContentReceivedInput = {
   reportedContentCreated?: Prisma.ReportedContentCreateNestedManyWithoutReportingUserInput
   moderationLogsCreated?: Prisma.ModerationLogCreateNestedManyWithoutModeratorUserInput
   moderationLogsTargeted?: Prisma.ModerationLogCreateNestedManyWithoutTargetUserInput
+  listings?: Prisma.MarketplaceListingCreateNestedManyWithoutSellerInput
+  listingSaves?: Prisma.ListingSaveCreateNestedManyWithoutUserInput
+  listingOffers?: Prisma.ListingOfferCreateNestedManyWithoutBuyerInput
+  listingMessages?: Prisma.ListingMessageCreateNestedManyWithoutSenderInput
 }
 
 export type UserUncheckedCreateWithoutReportedContentReceivedInput = {
@@ -9167,6 +10903,10 @@ export type UserUncheckedCreateWithoutReportedContentReceivedInput = {
   reportedContentCreated?: Prisma.ReportedContentUncheckedCreateNestedManyWithoutReportingUserInput
   moderationLogsCreated?: Prisma.ModerationLogUncheckedCreateNestedManyWithoutModeratorUserInput
   moderationLogsTargeted?: Prisma.ModerationLogUncheckedCreateNestedManyWithoutTargetUserInput
+  listings?: Prisma.MarketplaceListingUncheckedCreateNestedManyWithoutSellerInput
+  listingSaves?: Prisma.ListingSaveUncheckedCreateNestedManyWithoutUserInput
+  listingOffers?: Prisma.ListingOfferUncheckedCreateNestedManyWithoutBuyerInput
+  listingMessages?: Prisma.ListingMessageUncheckedCreateNestedManyWithoutSenderInput
 }
 
 export type UserCreateOrConnectWithoutReportedContentReceivedInput = {
@@ -9253,6 +10993,10 @@ export type UserUpdateWithoutReportedContentCreatedInput = {
   reportedContentReceived?: Prisma.ReportedContentUpdateManyWithoutReportedUserNestedInput
   moderationLogsCreated?: Prisma.ModerationLogUpdateManyWithoutModeratorUserNestedInput
   moderationLogsTargeted?: Prisma.ModerationLogUpdateManyWithoutTargetUserNestedInput
+  listings?: Prisma.MarketplaceListingUpdateManyWithoutSellerNestedInput
+  listingSaves?: Prisma.ListingSaveUpdateManyWithoutUserNestedInput
+  listingOffers?: Prisma.ListingOfferUpdateManyWithoutBuyerNestedInput
+  listingMessages?: Prisma.ListingMessageUpdateManyWithoutSenderNestedInput
 }
 
 export type UserUncheckedUpdateWithoutReportedContentCreatedInput = {
@@ -9324,6 +11068,10 @@ export type UserUncheckedUpdateWithoutReportedContentCreatedInput = {
   reportedContentReceived?: Prisma.ReportedContentUncheckedUpdateManyWithoutReportedUserNestedInput
   moderationLogsCreated?: Prisma.ModerationLogUncheckedUpdateManyWithoutModeratorUserNestedInput
   moderationLogsTargeted?: Prisma.ModerationLogUncheckedUpdateManyWithoutTargetUserNestedInput
+  listings?: Prisma.MarketplaceListingUncheckedUpdateManyWithoutSellerNestedInput
+  listingSaves?: Prisma.ListingSaveUncheckedUpdateManyWithoutUserNestedInput
+  listingOffers?: Prisma.ListingOfferUncheckedUpdateManyWithoutBuyerNestedInput
+  listingMessages?: Prisma.ListingMessageUncheckedUpdateManyWithoutSenderNestedInput
 }
 
 export type UserUpsertWithoutReportedContentReceivedInput = {
@@ -9405,6 +11153,10 @@ export type UserUpdateWithoutReportedContentReceivedInput = {
   reportedContentCreated?: Prisma.ReportedContentUpdateManyWithoutReportingUserNestedInput
   moderationLogsCreated?: Prisma.ModerationLogUpdateManyWithoutModeratorUserNestedInput
   moderationLogsTargeted?: Prisma.ModerationLogUpdateManyWithoutTargetUserNestedInput
+  listings?: Prisma.MarketplaceListingUpdateManyWithoutSellerNestedInput
+  listingSaves?: Prisma.ListingSaveUpdateManyWithoutUserNestedInput
+  listingOffers?: Prisma.ListingOfferUpdateManyWithoutBuyerNestedInput
+  listingMessages?: Prisma.ListingMessageUpdateManyWithoutSenderNestedInput
 }
 
 export type UserUncheckedUpdateWithoutReportedContentReceivedInput = {
@@ -9476,6 +11228,10 @@ export type UserUncheckedUpdateWithoutReportedContentReceivedInput = {
   reportedContentCreated?: Prisma.ReportedContentUncheckedUpdateManyWithoutReportingUserNestedInput
   moderationLogsCreated?: Prisma.ModerationLogUncheckedUpdateManyWithoutModeratorUserNestedInput
   moderationLogsTargeted?: Prisma.ModerationLogUncheckedUpdateManyWithoutTargetUserNestedInput
+  listings?: Prisma.MarketplaceListingUncheckedUpdateManyWithoutSellerNestedInput
+  listingSaves?: Prisma.ListingSaveUncheckedUpdateManyWithoutUserNestedInput
+  listingOffers?: Prisma.ListingOfferUncheckedUpdateManyWithoutBuyerNestedInput
+  listingMessages?: Prisma.ListingMessageUncheckedUpdateManyWithoutSenderNestedInput
 }
 
 export type UserCreateWithoutModerationLogsCreatedInput = {
@@ -9546,6 +11302,10 @@ export type UserCreateWithoutModerationLogsCreatedInput = {
   reportedContentCreated?: Prisma.ReportedContentCreateNestedManyWithoutReportingUserInput
   reportedContentReceived?: Prisma.ReportedContentCreateNestedManyWithoutReportedUserInput
   moderationLogsTargeted?: Prisma.ModerationLogCreateNestedManyWithoutTargetUserInput
+  listings?: Prisma.MarketplaceListingCreateNestedManyWithoutSellerInput
+  listingSaves?: Prisma.ListingSaveCreateNestedManyWithoutUserInput
+  listingOffers?: Prisma.ListingOfferCreateNestedManyWithoutBuyerInput
+  listingMessages?: Prisma.ListingMessageCreateNestedManyWithoutSenderInput
 }
 
 export type UserUncheckedCreateWithoutModerationLogsCreatedInput = {
@@ -9617,6 +11377,10 @@ export type UserUncheckedCreateWithoutModerationLogsCreatedInput = {
   reportedContentCreated?: Prisma.ReportedContentUncheckedCreateNestedManyWithoutReportingUserInput
   reportedContentReceived?: Prisma.ReportedContentUncheckedCreateNestedManyWithoutReportedUserInput
   moderationLogsTargeted?: Prisma.ModerationLogUncheckedCreateNestedManyWithoutTargetUserInput
+  listings?: Prisma.MarketplaceListingUncheckedCreateNestedManyWithoutSellerInput
+  listingSaves?: Prisma.ListingSaveUncheckedCreateNestedManyWithoutUserInput
+  listingOffers?: Prisma.ListingOfferUncheckedCreateNestedManyWithoutBuyerInput
+  listingMessages?: Prisma.ListingMessageUncheckedCreateNestedManyWithoutSenderInput
 }
 
 export type UserCreateOrConnectWithoutModerationLogsCreatedInput = {
@@ -9692,6 +11456,10 @@ export type UserCreateWithoutModerationLogsTargetedInput = {
   reportedContentCreated?: Prisma.ReportedContentCreateNestedManyWithoutReportingUserInput
   reportedContentReceived?: Prisma.ReportedContentCreateNestedManyWithoutReportedUserInput
   moderationLogsCreated?: Prisma.ModerationLogCreateNestedManyWithoutModeratorUserInput
+  listings?: Prisma.MarketplaceListingCreateNestedManyWithoutSellerInput
+  listingSaves?: Prisma.ListingSaveCreateNestedManyWithoutUserInput
+  listingOffers?: Prisma.ListingOfferCreateNestedManyWithoutBuyerInput
+  listingMessages?: Prisma.ListingMessageCreateNestedManyWithoutSenderInput
 }
 
 export type UserUncheckedCreateWithoutModerationLogsTargetedInput = {
@@ -9763,6 +11531,10 @@ export type UserUncheckedCreateWithoutModerationLogsTargetedInput = {
   reportedContentCreated?: Prisma.ReportedContentUncheckedCreateNestedManyWithoutReportingUserInput
   reportedContentReceived?: Prisma.ReportedContentUncheckedCreateNestedManyWithoutReportedUserInput
   moderationLogsCreated?: Prisma.ModerationLogUncheckedCreateNestedManyWithoutModeratorUserInput
+  listings?: Prisma.MarketplaceListingUncheckedCreateNestedManyWithoutSellerInput
+  listingSaves?: Prisma.ListingSaveUncheckedCreateNestedManyWithoutUserInput
+  listingOffers?: Prisma.ListingOfferUncheckedCreateNestedManyWithoutBuyerInput
+  listingMessages?: Prisma.ListingMessageUncheckedCreateNestedManyWithoutSenderInput
 }
 
 export type UserCreateOrConnectWithoutModerationLogsTargetedInput = {
@@ -9849,6 +11621,10 @@ export type UserUpdateWithoutModerationLogsCreatedInput = {
   reportedContentCreated?: Prisma.ReportedContentUpdateManyWithoutReportingUserNestedInput
   reportedContentReceived?: Prisma.ReportedContentUpdateManyWithoutReportedUserNestedInput
   moderationLogsTargeted?: Prisma.ModerationLogUpdateManyWithoutTargetUserNestedInput
+  listings?: Prisma.MarketplaceListingUpdateManyWithoutSellerNestedInput
+  listingSaves?: Prisma.ListingSaveUpdateManyWithoutUserNestedInput
+  listingOffers?: Prisma.ListingOfferUpdateManyWithoutBuyerNestedInput
+  listingMessages?: Prisma.ListingMessageUpdateManyWithoutSenderNestedInput
 }
 
 export type UserUncheckedUpdateWithoutModerationLogsCreatedInput = {
@@ -9920,6 +11696,10 @@ export type UserUncheckedUpdateWithoutModerationLogsCreatedInput = {
   reportedContentCreated?: Prisma.ReportedContentUncheckedUpdateManyWithoutReportingUserNestedInput
   reportedContentReceived?: Prisma.ReportedContentUncheckedUpdateManyWithoutReportedUserNestedInput
   moderationLogsTargeted?: Prisma.ModerationLogUncheckedUpdateManyWithoutTargetUserNestedInput
+  listings?: Prisma.MarketplaceListingUncheckedUpdateManyWithoutSellerNestedInput
+  listingSaves?: Prisma.ListingSaveUncheckedUpdateManyWithoutUserNestedInput
+  listingOffers?: Prisma.ListingOfferUncheckedUpdateManyWithoutBuyerNestedInput
+  listingMessages?: Prisma.ListingMessageUncheckedUpdateManyWithoutSenderNestedInput
 }
 
 export type UserUpsertWithoutModerationLogsTargetedInput = {
@@ -10001,6 +11781,10 @@ export type UserUpdateWithoutModerationLogsTargetedInput = {
   reportedContentCreated?: Prisma.ReportedContentUpdateManyWithoutReportingUserNestedInput
   reportedContentReceived?: Prisma.ReportedContentUpdateManyWithoutReportedUserNestedInput
   moderationLogsCreated?: Prisma.ModerationLogUpdateManyWithoutModeratorUserNestedInput
+  listings?: Prisma.MarketplaceListingUpdateManyWithoutSellerNestedInput
+  listingSaves?: Prisma.ListingSaveUpdateManyWithoutUserNestedInput
+  listingOffers?: Prisma.ListingOfferUpdateManyWithoutBuyerNestedInput
+  listingMessages?: Prisma.ListingMessageUpdateManyWithoutSenderNestedInput
 }
 
 export type UserUncheckedUpdateWithoutModerationLogsTargetedInput = {
@@ -10072,6 +11856,10 @@ export type UserUncheckedUpdateWithoutModerationLogsTargetedInput = {
   reportedContentCreated?: Prisma.ReportedContentUncheckedUpdateManyWithoutReportingUserNestedInput
   reportedContentReceived?: Prisma.ReportedContentUncheckedUpdateManyWithoutReportedUserNestedInput
   moderationLogsCreated?: Prisma.ModerationLogUncheckedUpdateManyWithoutModeratorUserNestedInput
+  listings?: Prisma.MarketplaceListingUncheckedUpdateManyWithoutSellerNestedInput
+  listingSaves?: Prisma.ListingSaveUncheckedUpdateManyWithoutUserNestedInput
+  listingOffers?: Prisma.ListingOfferUncheckedUpdateManyWithoutBuyerNestedInput
+  listingMessages?: Prisma.ListingMessageUncheckedUpdateManyWithoutSenderNestedInput
 }
 
 export type UserCreateWithoutNotificationsReceivedInput = {
@@ -10142,6 +11930,10 @@ export type UserCreateWithoutNotificationsReceivedInput = {
   reportedContentReceived?: Prisma.ReportedContentCreateNestedManyWithoutReportedUserInput
   moderationLogsCreated?: Prisma.ModerationLogCreateNestedManyWithoutModeratorUserInput
   moderationLogsTargeted?: Prisma.ModerationLogCreateNestedManyWithoutTargetUserInput
+  listings?: Prisma.MarketplaceListingCreateNestedManyWithoutSellerInput
+  listingSaves?: Prisma.ListingSaveCreateNestedManyWithoutUserInput
+  listingOffers?: Prisma.ListingOfferCreateNestedManyWithoutBuyerInput
+  listingMessages?: Prisma.ListingMessageCreateNestedManyWithoutSenderInput
 }
 
 export type UserUncheckedCreateWithoutNotificationsReceivedInput = {
@@ -10213,6 +12005,10 @@ export type UserUncheckedCreateWithoutNotificationsReceivedInput = {
   reportedContentReceived?: Prisma.ReportedContentUncheckedCreateNestedManyWithoutReportedUserInput
   moderationLogsCreated?: Prisma.ModerationLogUncheckedCreateNestedManyWithoutModeratorUserInput
   moderationLogsTargeted?: Prisma.ModerationLogUncheckedCreateNestedManyWithoutTargetUserInput
+  listings?: Prisma.MarketplaceListingUncheckedCreateNestedManyWithoutSellerInput
+  listingSaves?: Prisma.ListingSaveUncheckedCreateNestedManyWithoutUserInput
+  listingOffers?: Prisma.ListingOfferUncheckedCreateNestedManyWithoutBuyerInput
+  listingMessages?: Prisma.ListingMessageUncheckedCreateNestedManyWithoutSenderInput
 }
 
 export type UserCreateOrConnectWithoutNotificationsReceivedInput = {
@@ -10288,6 +12084,10 @@ export type UserCreateWithoutNotificationsSentInput = {
   reportedContentReceived?: Prisma.ReportedContentCreateNestedManyWithoutReportedUserInput
   moderationLogsCreated?: Prisma.ModerationLogCreateNestedManyWithoutModeratorUserInput
   moderationLogsTargeted?: Prisma.ModerationLogCreateNestedManyWithoutTargetUserInput
+  listings?: Prisma.MarketplaceListingCreateNestedManyWithoutSellerInput
+  listingSaves?: Prisma.ListingSaveCreateNestedManyWithoutUserInput
+  listingOffers?: Prisma.ListingOfferCreateNestedManyWithoutBuyerInput
+  listingMessages?: Prisma.ListingMessageCreateNestedManyWithoutSenderInput
 }
 
 export type UserUncheckedCreateWithoutNotificationsSentInput = {
@@ -10359,6 +12159,10 @@ export type UserUncheckedCreateWithoutNotificationsSentInput = {
   reportedContentReceived?: Prisma.ReportedContentUncheckedCreateNestedManyWithoutReportedUserInput
   moderationLogsCreated?: Prisma.ModerationLogUncheckedCreateNestedManyWithoutModeratorUserInput
   moderationLogsTargeted?: Prisma.ModerationLogUncheckedCreateNestedManyWithoutTargetUserInput
+  listings?: Prisma.MarketplaceListingUncheckedCreateNestedManyWithoutSellerInput
+  listingSaves?: Prisma.ListingSaveUncheckedCreateNestedManyWithoutUserInput
+  listingOffers?: Prisma.ListingOfferUncheckedCreateNestedManyWithoutBuyerInput
+  listingMessages?: Prisma.ListingMessageUncheckedCreateNestedManyWithoutSenderInput
 }
 
 export type UserCreateOrConnectWithoutNotificationsSentInput = {
@@ -10445,6 +12249,10 @@ export type UserUpdateWithoutNotificationsReceivedInput = {
   reportedContentReceived?: Prisma.ReportedContentUpdateManyWithoutReportedUserNestedInput
   moderationLogsCreated?: Prisma.ModerationLogUpdateManyWithoutModeratorUserNestedInput
   moderationLogsTargeted?: Prisma.ModerationLogUpdateManyWithoutTargetUserNestedInput
+  listings?: Prisma.MarketplaceListingUpdateManyWithoutSellerNestedInput
+  listingSaves?: Prisma.ListingSaveUpdateManyWithoutUserNestedInput
+  listingOffers?: Prisma.ListingOfferUpdateManyWithoutBuyerNestedInput
+  listingMessages?: Prisma.ListingMessageUpdateManyWithoutSenderNestedInput
 }
 
 export type UserUncheckedUpdateWithoutNotificationsReceivedInput = {
@@ -10516,6 +12324,10 @@ export type UserUncheckedUpdateWithoutNotificationsReceivedInput = {
   reportedContentReceived?: Prisma.ReportedContentUncheckedUpdateManyWithoutReportedUserNestedInput
   moderationLogsCreated?: Prisma.ModerationLogUncheckedUpdateManyWithoutModeratorUserNestedInput
   moderationLogsTargeted?: Prisma.ModerationLogUncheckedUpdateManyWithoutTargetUserNestedInput
+  listings?: Prisma.MarketplaceListingUncheckedUpdateManyWithoutSellerNestedInput
+  listingSaves?: Prisma.ListingSaveUncheckedUpdateManyWithoutUserNestedInput
+  listingOffers?: Prisma.ListingOfferUncheckedUpdateManyWithoutBuyerNestedInput
+  listingMessages?: Prisma.ListingMessageUncheckedUpdateManyWithoutSenderNestedInput
 }
 
 export type UserUpsertWithoutNotificationsSentInput = {
@@ -10597,6 +12409,10 @@ export type UserUpdateWithoutNotificationsSentInput = {
   reportedContentReceived?: Prisma.ReportedContentUpdateManyWithoutReportedUserNestedInput
   moderationLogsCreated?: Prisma.ModerationLogUpdateManyWithoutModeratorUserNestedInput
   moderationLogsTargeted?: Prisma.ModerationLogUpdateManyWithoutTargetUserNestedInput
+  listings?: Prisma.MarketplaceListingUpdateManyWithoutSellerNestedInput
+  listingSaves?: Prisma.ListingSaveUpdateManyWithoutUserNestedInput
+  listingOffers?: Prisma.ListingOfferUpdateManyWithoutBuyerNestedInput
+  listingMessages?: Prisma.ListingMessageUpdateManyWithoutSenderNestedInput
 }
 
 export type UserUncheckedUpdateWithoutNotificationsSentInput = {
@@ -10668,6 +12484,10 @@ export type UserUncheckedUpdateWithoutNotificationsSentInput = {
   reportedContentReceived?: Prisma.ReportedContentUncheckedUpdateManyWithoutReportedUserNestedInput
   moderationLogsCreated?: Prisma.ModerationLogUncheckedUpdateManyWithoutModeratorUserNestedInput
   moderationLogsTargeted?: Prisma.ModerationLogUncheckedUpdateManyWithoutTargetUserNestedInput
+  listings?: Prisma.MarketplaceListingUncheckedUpdateManyWithoutSellerNestedInput
+  listingSaves?: Prisma.ListingSaveUncheckedUpdateManyWithoutUserNestedInput
+  listingOffers?: Prisma.ListingOfferUncheckedUpdateManyWithoutBuyerNestedInput
+  listingMessages?: Prisma.ListingMessageUncheckedUpdateManyWithoutSenderNestedInput
 }
 
 export type UserCreateWithoutOwnedPagesInput = {
@@ -10738,6 +12558,10 @@ export type UserCreateWithoutOwnedPagesInput = {
   reportedContentReceived?: Prisma.ReportedContentCreateNestedManyWithoutReportedUserInput
   moderationLogsCreated?: Prisma.ModerationLogCreateNestedManyWithoutModeratorUserInput
   moderationLogsTargeted?: Prisma.ModerationLogCreateNestedManyWithoutTargetUserInput
+  listings?: Prisma.MarketplaceListingCreateNestedManyWithoutSellerInput
+  listingSaves?: Prisma.ListingSaveCreateNestedManyWithoutUserInput
+  listingOffers?: Prisma.ListingOfferCreateNestedManyWithoutBuyerInput
+  listingMessages?: Prisma.ListingMessageCreateNestedManyWithoutSenderInput
 }
 
 export type UserUncheckedCreateWithoutOwnedPagesInput = {
@@ -10809,6 +12633,10 @@ export type UserUncheckedCreateWithoutOwnedPagesInput = {
   reportedContentReceived?: Prisma.ReportedContentUncheckedCreateNestedManyWithoutReportedUserInput
   moderationLogsCreated?: Prisma.ModerationLogUncheckedCreateNestedManyWithoutModeratorUserInput
   moderationLogsTargeted?: Prisma.ModerationLogUncheckedCreateNestedManyWithoutTargetUserInput
+  listings?: Prisma.MarketplaceListingUncheckedCreateNestedManyWithoutSellerInput
+  listingSaves?: Prisma.ListingSaveUncheckedCreateNestedManyWithoutUserInput
+  listingOffers?: Prisma.ListingOfferUncheckedCreateNestedManyWithoutBuyerInput
+  listingMessages?: Prisma.ListingMessageUncheckedCreateNestedManyWithoutSenderInput
 }
 
 export type UserCreateOrConnectWithoutOwnedPagesInput = {
@@ -10895,6 +12723,10 @@ export type UserUpdateWithoutOwnedPagesInput = {
   reportedContentReceived?: Prisma.ReportedContentUpdateManyWithoutReportedUserNestedInput
   moderationLogsCreated?: Prisma.ModerationLogUpdateManyWithoutModeratorUserNestedInput
   moderationLogsTargeted?: Prisma.ModerationLogUpdateManyWithoutTargetUserNestedInput
+  listings?: Prisma.MarketplaceListingUpdateManyWithoutSellerNestedInput
+  listingSaves?: Prisma.ListingSaveUpdateManyWithoutUserNestedInput
+  listingOffers?: Prisma.ListingOfferUpdateManyWithoutBuyerNestedInput
+  listingMessages?: Prisma.ListingMessageUpdateManyWithoutSenderNestedInput
 }
 
 export type UserUncheckedUpdateWithoutOwnedPagesInput = {
@@ -10966,6 +12798,10 @@ export type UserUncheckedUpdateWithoutOwnedPagesInput = {
   reportedContentReceived?: Prisma.ReportedContentUncheckedUpdateManyWithoutReportedUserNestedInput
   moderationLogsCreated?: Prisma.ModerationLogUncheckedUpdateManyWithoutModeratorUserNestedInput
   moderationLogsTargeted?: Prisma.ModerationLogUncheckedUpdateManyWithoutTargetUserNestedInput
+  listings?: Prisma.MarketplaceListingUncheckedUpdateManyWithoutSellerNestedInput
+  listingSaves?: Prisma.ListingSaveUncheckedUpdateManyWithoutUserNestedInput
+  listingOffers?: Prisma.ListingOfferUncheckedUpdateManyWithoutBuyerNestedInput
+  listingMessages?: Prisma.ListingMessageUncheckedUpdateManyWithoutSenderNestedInput
 }
 
 export type UserCreateWithoutPageFollowsInput = {
@@ -11036,6 +12872,10 @@ export type UserCreateWithoutPageFollowsInput = {
   reportedContentReceived?: Prisma.ReportedContentCreateNestedManyWithoutReportedUserInput
   moderationLogsCreated?: Prisma.ModerationLogCreateNestedManyWithoutModeratorUserInput
   moderationLogsTargeted?: Prisma.ModerationLogCreateNestedManyWithoutTargetUserInput
+  listings?: Prisma.MarketplaceListingCreateNestedManyWithoutSellerInput
+  listingSaves?: Prisma.ListingSaveCreateNestedManyWithoutUserInput
+  listingOffers?: Prisma.ListingOfferCreateNestedManyWithoutBuyerInput
+  listingMessages?: Prisma.ListingMessageCreateNestedManyWithoutSenderInput
 }
 
 export type UserUncheckedCreateWithoutPageFollowsInput = {
@@ -11107,6 +12947,10 @@ export type UserUncheckedCreateWithoutPageFollowsInput = {
   reportedContentReceived?: Prisma.ReportedContentUncheckedCreateNestedManyWithoutReportedUserInput
   moderationLogsCreated?: Prisma.ModerationLogUncheckedCreateNestedManyWithoutModeratorUserInput
   moderationLogsTargeted?: Prisma.ModerationLogUncheckedCreateNestedManyWithoutTargetUserInput
+  listings?: Prisma.MarketplaceListingUncheckedCreateNestedManyWithoutSellerInput
+  listingSaves?: Prisma.ListingSaveUncheckedCreateNestedManyWithoutUserInput
+  listingOffers?: Prisma.ListingOfferUncheckedCreateNestedManyWithoutBuyerInput
+  listingMessages?: Prisma.ListingMessageUncheckedCreateNestedManyWithoutSenderInput
 }
 
 export type UserCreateOrConnectWithoutPageFollowsInput = {
@@ -11193,6 +13037,10 @@ export type UserUpdateWithoutPageFollowsInput = {
   reportedContentReceived?: Prisma.ReportedContentUpdateManyWithoutReportedUserNestedInput
   moderationLogsCreated?: Prisma.ModerationLogUpdateManyWithoutModeratorUserNestedInput
   moderationLogsTargeted?: Prisma.ModerationLogUpdateManyWithoutTargetUserNestedInput
+  listings?: Prisma.MarketplaceListingUpdateManyWithoutSellerNestedInput
+  listingSaves?: Prisma.ListingSaveUpdateManyWithoutUserNestedInput
+  listingOffers?: Prisma.ListingOfferUpdateManyWithoutBuyerNestedInput
+  listingMessages?: Prisma.ListingMessageUpdateManyWithoutSenderNestedInput
 }
 
 export type UserUncheckedUpdateWithoutPageFollowsInput = {
@@ -11264,6 +13112,10 @@ export type UserUncheckedUpdateWithoutPageFollowsInput = {
   reportedContentReceived?: Prisma.ReportedContentUncheckedUpdateManyWithoutReportedUserNestedInput
   moderationLogsCreated?: Prisma.ModerationLogUncheckedUpdateManyWithoutModeratorUserNestedInput
   moderationLogsTargeted?: Prisma.ModerationLogUncheckedUpdateManyWithoutTargetUserNestedInput
+  listings?: Prisma.MarketplaceListingUncheckedUpdateManyWithoutSellerNestedInput
+  listingSaves?: Prisma.ListingSaveUncheckedUpdateManyWithoutUserNestedInput
+  listingOffers?: Prisma.ListingOfferUncheckedUpdateManyWithoutBuyerNestedInput
+  listingMessages?: Prisma.ListingMessageUncheckedUpdateManyWithoutSenderNestedInput
 }
 
 export type UserCreateWithoutPagePostsInput = {
@@ -11334,6 +13186,10 @@ export type UserCreateWithoutPagePostsInput = {
   reportedContentReceived?: Prisma.ReportedContentCreateNestedManyWithoutReportedUserInput
   moderationLogsCreated?: Prisma.ModerationLogCreateNestedManyWithoutModeratorUserInput
   moderationLogsTargeted?: Prisma.ModerationLogCreateNestedManyWithoutTargetUserInput
+  listings?: Prisma.MarketplaceListingCreateNestedManyWithoutSellerInput
+  listingSaves?: Prisma.ListingSaveCreateNestedManyWithoutUserInput
+  listingOffers?: Prisma.ListingOfferCreateNestedManyWithoutBuyerInput
+  listingMessages?: Prisma.ListingMessageCreateNestedManyWithoutSenderInput
 }
 
 export type UserUncheckedCreateWithoutPagePostsInput = {
@@ -11405,6 +13261,10 @@ export type UserUncheckedCreateWithoutPagePostsInput = {
   reportedContentReceived?: Prisma.ReportedContentUncheckedCreateNestedManyWithoutReportedUserInput
   moderationLogsCreated?: Prisma.ModerationLogUncheckedCreateNestedManyWithoutModeratorUserInput
   moderationLogsTargeted?: Prisma.ModerationLogUncheckedCreateNestedManyWithoutTargetUserInput
+  listings?: Prisma.MarketplaceListingUncheckedCreateNestedManyWithoutSellerInput
+  listingSaves?: Prisma.ListingSaveUncheckedCreateNestedManyWithoutUserInput
+  listingOffers?: Prisma.ListingOfferUncheckedCreateNestedManyWithoutBuyerInput
+  listingMessages?: Prisma.ListingMessageUncheckedCreateNestedManyWithoutSenderInput
 }
 
 export type UserCreateOrConnectWithoutPagePostsInput = {
@@ -11491,6 +13351,10 @@ export type UserUpdateWithoutPagePostsInput = {
   reportedContentReceived?: Prisma.ReportedContentUpdateManyWithoutReportedUserNestedInput
   moderationLogsCreated?: Prisma.ModerationLogUpdateManyWithoutModeratorUserNestedInput
   moderationLogsTargeted?: Prisma.ModerationLogUpdateManyWithoutTargetUserNestedInput
+  listings?: Prisma.MarketplaceListingUpdateManyWithoutSellerNestedInput
+  listingSaves?: Prisma.ListingSaveUpdateManyWithoutUserNestedInput
+  listingOffers?: Prisma.ListingOfferUpdateManyWithoutBuyerNestedInput
+  listingMessages?: Prisma.ListingMessageUpdateManyWithoutSenderNestedInput
 }
 
 export type UserUncheckedUpdateWithoutPagePostsInput = {
@@ -11562,6 +13426,10 @@ export type UserUncheckedUpdateWithoutPagePostsInput = {
   reportedContentReceived?: Prisma.ReportedContentUncheckedUpdateManyWithoutReportedUserNestedInput
   moderationLogsCreated?: Prisma.ModerationLogUncheckedUpdateManyWithoutModeratorUserNestedInput
   moderationLogsTargeted?: Prisma.ModerationLogUncheckedUpdateManyWithoutTargetUserNestedInput
+  listings?: Prisma.MarketplaceListingUncheckedUpdateManyWithoutSellerNestedInput
+  listingSaves?: Prisma.ListingSaveUncheckedUpdateManyWithoutUserNestedInput
+  listingOffers?: Prisma.ListingOfferUncheckedUpdateManyWithoutBuyerNestedInput
+  listingMessages?: Prisma.ListingMessageUncheckedUpdateManyWithoutSenderNestedInput
 }
 
 export type UserCreateWithoutPagePostLikesInput = {
@@ -11632,6 +13500,10 @@ export type UserCreateWithoutPagePostLikesInput = {
   reportedContentReceived?: Prisma.ReportedContentCreateNestedManyWithoutReportedUserInput
   moderationLogsCreated?: Prisma.ModerationLogCreateNestedManyWithoutModeratorUserInput
   moderationLogsTargeted?: Prisma.ModerationLogCreateNestedManyWithoutTargetUserInput
+  listings?: Prisma.MarketplaceListingCreateNestedManyWithoutSellerInput
+  listingSaves?: Prisma.ListingSaveCreateNestedManyWithoutUserInput
+  listingOffers?: Prisma.ListingOfferCreateNestedManyWithoutBuyerInput
+  listingMessages?: Prisma.ListingMessageCreateNestedManyWithoutSenderInput
 }
 
 export type UserUncheckedCreateWithoutPagePostLikesInput = {
@@ -11703,6 +13575,10 @@ export type UserUncheckedCreateWithoutPagePostLikesInput = {
   reportedContentReceived?: Prisma.ReportedContentUncheckedCreateNestedManyWithoutReportedUserInput
   moderationLogsCreated?: Prisma.ModerationLogUncheckedCreateNestedManyWithoutModeratorUserInput
   moderationLogsTargeted?: Prisma.ModerationLogUncheckedCreateNestedManyWithoutTargetUserInput
+  listings?: Prisma.MarketplaceListingUncheckedCreateNestedManyWithoutSellerInput
+  listingSaves?: Prisma.ListingSaveUncheckedCreateNestedManyWithoutUserInput
+  listingOffers?: Prisma.ListingOfferUncheckedCreateNestedManyWithoutBuyerInput
+  listingMessages?: Prisma.ListingMessageUncheckedCreateNestedManyWithoutSenderInput
 }
 
 export type UserCreateOrConnectWithoutPagePostLikesInput = {
@@ -11789,6 +13665,10 @@ export type UserUpdateWithoutPagePostLikesInput = {
   reportedContentReceived?: Prisma.ReportedContentUpdateManyWithoutReportedUserNestedInput
   moderationLogsCreated?: Prisma.ModerationLogUpdateManyWithoutModeratorUserNestedInput
   moderationLogsTargeted?: Prisma.ModerationLogUpdateManyWithoutTargetUserNestedInput
+  listings?: Prisma.MarketplaceListingUpdateManyWithoutSellerNestedInput
+  listingSaves?: Prisma.ListingSaveUpdateManyWithoutUserNestedInput
+  listingOffers?: Prisma.ListingOfferUpdateManyWithoutBuyerNestedInput
+  listingMessages?: Prisma.ListingMessageUpdateManyWithoutSenderNestedInput
 }
 
 export type UserUncheckedUpdateWithoutPagePostLikesInput = {
@@ -11860,6 +13740,10 @@ export type UserUncheckedUpdateWithoutPagePostLikesInput = {
   reportedContentReceived?: Prisma.ReportedContentUncheckedUpdateManyWithoutReportedUserNestedInput
   moderationLogsCreated?: Prisma.ModerationLogUncheckedUpdateManyWithoutModeratorUserNestedInput
   moderationLogsTargeted?: Prisma.ModerationLogUncheckedUpdateManyWithoutTargetUserNestedInput
+  listings?: Prisma.MarketplaceListingUncheckedUpdateManyWithoutSellerNestedInput
+  listingSaves?: Prisma.ListingSaveUncheckedUpdateManyWithoutUserNestedInput
+  listingOffers?: Prisma.ListingOfferUncheckedUpdateManyWithoutBuyerNestedInput
+  listingMessages?: Prisma.ListingMessageUncheckedUpdateManyWithoutSenderNestedInput
 }
 
 export type UserCreateWithoutPagePostCommentsInput = {
@@ -11930,6 +13814,10 @@ export type UserCreateWithoutPagePostCommentsInput = {
   reportedContentReceived?: Prisma.ReportedContentCreateNestedManyWithoutReportedUserInput
   moderationLogsCreated?: Prisma.ModerationLogCreateNestedManyWithoutModeratorUserInput
   moderationLogsTargeted?: Prisma.ModerationLogCreateNestedManyWithoutTargetUserInput
+  listings?: Prisma.MarketplaceListingCreateNestedManyWithoutSellerInput
+  listingSaves?: Prisma.ListingSaveCreateNestedManyWithoutUserInput
+  listingOffers?: Prisma.ListingOfferCreateNestedManyWithoutBuyerInput
+  listingMessages?: Prisma.ListingMessageCreateNestedManyWithoutSenderInput
 }
 
 export type UserUncheckedCreateWithoutPagePostCommentsInput = {
@@ -12001,6 +13889,10 @@ export type UserUncheckedCreateWithoutPagePostCommentsInput = {
   reportedContentReceived?: Prisma.ReportedContentUncheckedCreateNestedManyWithoutReportedUserInput
   moderationLogsCreated?: Prisma.ModerationLogUncheckedCreateNestedManyWithoutModeratorUserInput
   moderationLogsTargeted?: Prisma.ModerationLogUncheckedCreateNestedManyWithoutTargetUserInput
+  listings?: Prisma.MarketplaceListingUncheckedCreateNestedManyWithoutSellerInput
+  listingSaves?: Prisma.ListingSaveUncheckedCreateNestedManyWithoutUserInput
+  listingOffers?: Prisma.ListingOfferUncheckedCreateNestedManyWithoutBuyerInput
+  listingMessages?: Prisma.ListingMessageUncheckedCreateNestedManyWithoutSenderInput
 }
 
 export type UserCreateOrConnectWithoutPagePostCommentsInput = {
@@ -12087,6 +13979,10 @@ export type UserUpdateWithoutPagePostCommentsInput = {
   reportedContentReceived?: Prisma.ReportedContentUpdateManyWithoutReportedUserNestedInput
   moderationLogsCreated?: Prisma.ModerationLogUpdateManyWithoutModeratorUserNestedInput
   moderationLogsTargeted?: Prisma.ModerationLogUpdateManyWithoutTargetUserNestedInput
+  listings?: Prisma.MarketplaceListingUpdateManyWithoutSellerNestedInput
+  listingSaves?: Prisma.ListingSaveUpdateManyWithoutUserNestedInput
+  listingOffers?: Prisma.ListingOfferUpdateManyWithoutBuyerNestedInput
+  listingMessages?: Prisma.ListingMessageUpdateManyWithoutSenderNestedInput
 }
 
 export type UserUncheckedUpdateWithoutPagePostCommentsInput = {
@@ -12158,6 +14054,10 @@ export type UserUncheckedUpdateWithoutPagePostCommentsInput = {
   reportedContentReceived?: Prisma.ReportedContentUncheckedUpdateManyWithoutReportedUserNestedInput
   moderationLogsCreated?: Prisma.ModerationLogUncheckedUpdateManyWithoutModeratorUserNestedInput
   moderationLogsTargeted?: Prisma.ModerationLogUncheckedUpdateManyWithoutTargetUserNestedInput
+  listings?: Prisma.MarketplaceListingUncheckedUpdateManyWithoutSellerNestedInput
+  listingSaves?: Prisma.ListingSaveUncheckedUpdateManyWithoutUserNestedInput
+  listingOffers?: Prisma.ListingOfferUncheckedUpdateManyWithoutBuyerNestedInput
+  listingMessages?: Prisma.ListingMessageUncheckedUpdateManyWithoutSenderNestedInput
 }
 
 export type UserCreateWithoutPagePostCommentLikesInput = {
@@ -12228,6 +14128,10 @@ export type UserCreateWithoutPagePostCommentLikesInput = {
   reportedContentReceived?: Prisma.ReportedContentCreateNestedManyWithoutReportedUserInput
   moderationLogsCreated?: Prisma.ModerationLogCreateNestedManyWithoutModeratorUserInput
   moderationLogsTargeted?: Prisma.ModerationLogCreateNestedManyWithoutTargetUserInput
+  listings?: Prisma.MarketplaceListingCreateNestedManyWithoutSellerInput
+  listingSaves?: Prisma.ListingSaveCreateNestedManyWithoutUserInput
+  listingOffers?: Prisma.ListingOfferCreateNestedManyWithoutBuyerInput
+  listingMessages?: Prisma.ListingMessageCreateNestedManyWithoutSenderInput
 }
 
 export type UserUncheckedCreateWithoutPagePostCommentLikesInput = {
@@ -12299,6 +14203,10 @@ export type UserUncheckedCreateWithoutPagePostCommentLikesInput = {
   reportedContentReceived?: Prisma.ReportedContentUncheckedCreateNestedManyWithoutReportedUserInput
   moderationLogsCreated?: Prisma.ModerationLogUncheckedCreateNestedManyWithoutModeratorUserInput
   moderationLogsTargeted?: Prisma.ModerationLogUncheckedCreateNestedManyWithoutTargetUserInput
+  listings?: Prisma.MarketplaceListingUncheckedCreateNestedManyWithoutSellerInput
+  listingSaves?: Prisma.ListingSaveUncheckedCreateNestedManyWithoutUserInput
+  listingOffers?: Prisma.ListingOfferUncheckedCreateNestedManyWithoutBuyerInput
+  listingMessages?: Prisma.ListingMessageUncheckedCreateNestedManyWithoutSenderInput
 }
 
 export type UserCreateOrConnectWithoutPagePostCommentLikesInput = {
@@ -12385,6 +14293,10 @@ export type UserUpdateWithoutPagePostCommentLikesInput = {
   reportedContentReceived?: Prisma.ReportedContentUpdateManyWithoutReportedUserNestedInput
   moderationLogsCreated?: Prisma.ModerationLogUpdateManyWithoutModeratorUserNestedInput
   moderationLogsTargeted?: Prisma.ModerationLogUpdateManyWithoutTargetUserNestedInput
+  listings?: Prisma.MarketplaceListingUpdateManyWithoutSellerNestedInput
+  listingSaves?: Prisma.ListingSaveUpdateManyWithoutUserNestedInput
+  listingOffers?: Prisma.ListingOfferUpdateManyWithoutBuyerNestedInput
+  listingMessages?: Prisma.ListingMessageUpdateManyWithoutSenderNestedInput
 }
 
 export type UserUncheckedUpdateWithoutPagePostCommentLikesInput = {
@@ -12456,6 +14368,10 @@ export type UserUncheckedUpdateWithoutPagePostCommentLikesInput = {
   reportedContentReceived?: Prisma.ReportedContentUncheckedUpdateManyWithoutReportedUserNestedInput
   moderationLogsCreated?: Prisma.ModerationLogUncheckedUpdateManyWithoutModeratorUserNestedInput
   moderationLogsTargeted?: Prisma.ModerationLogUncheckedUpdateManyWithoutTargetUserNestedInput
+  listings?: Prisma.MarketplaceListingUncheckedUpdateManyWithoutSellerNestedInput
+  listingSaves?: Prisma.ListingSaveUncheckedUpdateManyWithoutUserNestedInput
+  listingOffers?: Prisma.ListingOfferUncheckedUpdateManyWithoutBuyerNestedInput
+  listingMessages?: Prisma.ListingMessageUncheckedUpdateManyWithoutSenderNestedInput
 }
 
 export type UserCreateWithoutPostsInput = {
@@ -12526,6 +14442,10 @@ export type UserCreateWithoutPostsInput = {
   reportedContentReceived?: Prisma.ReportedContentCreateNestedManyWithoutReportedUserInput
   moderationLogsCreated?: Prisma.ModerationLogCreateNestedManyWithoutModeratorUserInput
   moderationLogsTargeted?: Prisma.ModerationLogCreateNestedManyWithoutTargetUserInput
+  listings?: Prisma.MarketplaceListingCreateNestedManyWithoutSellerInput
+  listingSaves?: Prisma.ListingSaveCreateNestedManyWithoutUserInput
+  listingOffers?: Prisma.ListingOfferCreateNestedManyWithoutBuyerInput
+  listingMessages?: Prisma.ListingMessageCreateNestedManyWithoutSenderInput
 }
 
 export type UserUncheckedCreateWithoutPostsInput = {
@@ -12597,6 +14517,10 @@ export type UserUncheckedCreateWithoutPostsInput = {
   reportedContentReceived?: Prisma.ReportedContentUncheckedCreateNestedManyWithoutReportedUserInput
   moderationLogsCreated?: Prisma.ModerationLogUncheckedCreateNestedManyWithoutModeratorUserInput
   moderationLogsTargeted?: Prisma.ModerationLogUncheckedCreateNestedManyWithoutTargetUserInput
+  listings?: Prisma.MarketplaceListingUncheckedCreateNestedManyWithoutSellerInput
+  listingSaves?: Prisma.ListingSaveUncheckedCreateNestedManyWithoutUserInput
+  listingOffers?: Prisma.ListingOfferUncheckedCreateNestedManyWithoutBuyerInput
+  listingMessages?: Prisma.ListingMessageUncheckedCreateNestedManyWithoutSenderInput
 }
 
 export type UserCreateOrConnectWithoutPostsInput = {
@@ -12683,6 +14607,10 @@ export type UserUpdateWithoutPostsInput = {
   reportedContentReceived?: Prisma.ReportedContentUpdateManyWithoutReportedUserNestedInput
   moderationLogsCreated?: Prisma.ModerationLogUpdateManyWithoutModeratorUserNestedInput
   moderationLogsTargeted?: Prisma.ModerationLogUpdateManyWithoutTargetUserNestedInput
+  listings?: Prisma.MarketplaceListingUpdateManyWithoutSellerNestedInput
+  listingSaves?: Prisma.ListingSaveUpdateManyWithoutUserNestedInput
+  listingOffers?: Prisma.ListingOfferUpdateManyWithoutBuyerNestedInput
+  listingMessages?: Prisma.ListingMessageUpdateManyWithoutSenderNestedInput
 }
 
 export type UserUncheckedUpdateWithoutPostsInput = {
@@ -12754,6 +14682,10 @@ export type UserUncheckedUpdateWithoutPostsInput = {
   reportedContentReceived?: Prisma.ReportedContentUncheckedUpdateManyWithoutReportedUserNestedInput
   moderationLogsCreated?: Prisma.ModerationLogUncheckedUpdateManyWithoutModeratorUserNestedInput
   moderationLogsTargeted?: Prisma.ModerationLogUncheckedUpdateManyWithoutTargetUserNestedInput
+  listings?: Prisma.MarketplaceListingUncheckedUpdateManyWithoutSellerNestedInput
+  listingSaves?: Prisma.ListingSaveUncheckedUpdateManyWithoutUserNestedInput
+  listingOffers?: Prisma.ListingOfferUncheckedUpdateManyWithoutBuyerNestedInput
+  listingMessages?: Prisma.ListingMessageUncheckedUpdateManyWithoutSenderNestedInput
 }
 
 export type UserCreateWithoutPostLikesInput = {
@@ -12824,6 +14756,10 @@ export type UserCreateWithoutPostLikesInput = {
   reportedContentReceived?: Prisma.ReportedContentCreateNestedManyWithoutReportedUserInput
   moderationLogsCreated?: Prisma.ModerationLogCreateNestedManyWithoutModeratorUserInput
   moderationLogsTargeted?: Prisma.ModerationLogCreateNestedManyWithoutTargetUserInput
+  listings?: Prisma.MarketplaceListingCreateNestedManyWithoutSellerInput
+  listingSaves?: Prisma.ListingSaveCreateNestedManyWithoutUserInput
+  listingOffers?: Prisma.ListingOfferCreateNestedManyWithoutBuyerInput
+  listingMessages?: Prisma.ListingMessageCreateNestedManyWithoutSenderInput
 }
 
 export type UserUncheckedCreateWithoutPostLikesInput = {
@@ -12895,6 +14831,10 @@ export type UserUncheckedCreateWithoutPostLikesInput = {
   reportedContentReceived?: Prisma.ReportedContentUncheckedCreateNestedManyWithoutReportedUserInput
   moderationLogsCreated?: Prisma.ModerationLogUncheckedCreateNestedManyWithoutModeratorUserInput
   moderationLogsTargeted?: Prisma.ModerationLogUncheckedCreateNestedManyWithoutTargetUserInput
+  listings?: Prisma.MarketplaceListingUncheckedCreateNestedManyWithoutSellerInput
+  listingSaves?: Prisma.ListingSaveUncheckedCreateNestedManyWithoutUserInput
+  listingOffers?: Prisma.ListingOfferUncheckedCreateNestedManyWithoutBuyerInput
+  listingMessages?: Prisma.ListingMessageUncheckedCreateNestedManyWithoutSenderInput
 }
 
 export type UserCreateOrConnectWithoutPostLikesInput = {
@@ -12981,6 +14921,10 @@ export type UserUpdateWithoutPostLikesInput = {
   reportedContentReceived?: Prisma.ReportedContentUpdateManyWithoutReportedUserNestedInput
   moderationLogsCreated?: Prisma.ModerationLogUpdateManyWithoutModeratorUserNestedInput
   moderationLogsTargeted?: Prisma.ModerationLogUpdateManyWithoutTargetUserNestedInput
+  listings?: Prisma.MarketplaceListingUpdateManyWithoutSellerNestedInput
+  listingSaves?: Prisma.ListingSaveUpdateManyWithoutUserNestedInput
+  listingOffers?: Prisma.ListingOfferUpdateManyWithoutBuyerNestedInput
+  listingMessages?: Prisma.ListingMessageUpdateManyWithoutSenderNestedInput
 }
 
 export type UserUncheckedUpdateWithoutPostLikesInput = {
@@ -13052,6 +14996,10 @@ export type UserUncheckedUpdateWithoutPostLikesInput = {
   reportedContentReceived?: Prisma.ReportedContentUncheckedUpdateManyWithoutReportedUserNestedInput
   moderationLogsCreated?: Prisma.ModerationLogUncheckedUpdateManyWithoutModeratorUserNestedInput
   moderationLogsTargeted?: Prisma.ModerationLogUncheckedUpdateManyWithoutTargetUserNestedInput
+  listings?: Prisma.MarketplaceListingUncheckedUpdateManyWithoutSellerNestedInput
+  listingSaves?: Prisma.ListingSaveUncheckedUpdateManyWithoutUserNestedInput
+  listingOffers?: Prisma.ListingOfferUncheckedUpdateManyWithoutBuyerNestedInput
+  listingMessages?: Prisma.ListingMessageUncheckedUpdateManyWithoutSenderNestedInput
 }
 
 export type UserCreateWithoutPostSavesInput = {
@@ -13122,6 +15070,10 @@ export type UserCreateWithoutPostSavesInput = {
   reportedContentReceived?: Prisma.ReportedContentCreateNestedManyWithoutReportedUserInput
   moderationLogsCreated?: Prisma.ModerationLogCreateNestedManyWithoutModeratorUserInput
   moderationLogsTargeted?: Prisma.ModerationLogCreateNestedManyWithoutTargetUserInput
+  listings?: Prisma.MarketplaceListingCreateNestedManyWithoutSellerInput
+  listingSaves?: Prisma.ListingSaveCreateNestedManyWithoutUserInput
+  listingOffers?: Prisma.ListingOfferCreateNestedManyWithoutBuyerInput
+  listingMessages?: Prisma.ListingMessageCreateNestedManyWithoutSenderInput
 }
 
 export type UserUncheckedCreateWithoutPostSavesInput = {
@@ -13193,6 +15145,10 @@ export type UserUncheckedCreateWithoutPostSavesInput = {
   reportedContentReceived?: Prisma.ReportedContentUncheckedCreateNestedManyWithoutReportedUserInput
   moderationLogsCreated?: Prisma.ModerationLogUncheckedCreateNestedManyWithoutModeratorUserInput
   moderationLogsTargeted?: Prisma.ModerationLogUncheckedCreateNestedManyWithoutTargetUserInput
+  listings?: Prisma.MarketplaceListingUncheckedCreateNestedManyWithoutSellerInput
+  listingSaves?: Prisma.ListingSaveUncheckedCreateNestedManyWithoutUserInput
+  listingOffers?: Prisma.ListingOfferUncheckedCreateNestedManyWithoutBuyerInput
+  listingMessages?: Prisma.ListingMessageUncheckedCreateNestedManyWithoutSenderInput
 }
 
 export type UserCreateOrConnectWithoutPostSavesInput = {
@@ -13279,6 +15235,10 @@ export type UserUpdateWithoutPostSavesInput = {
   reportedContentReceived?: Prisma.ReportedContentUpdateManyWithoutReportedUserNestedInput
   moderationLogsCreated?: Prisma.ModerationLogUpdateManyWithoutModeratorUserNestedInput
   moderationLogsTargeted?: Prisma.ModerationLogUpdateManyWithoutTargetUserNestedInput
+  listings?: Prisma.MarketplaceListingUpdateManyWithoutSellerNestedInput
+  listingSaves?: Prisma.ListingSaveUpdateManyWithoutUserNestedInput
+  listingOffers?: Prisma.ListingOfferUpdateManyWithoutBuyerNestedInput
+  listingMessages?: Prisma.ListingMessageUpdateManyWithoutSenderNestedInput
 }
 
 export type UserUncheckedUpdateWithoutPostSavesInput = {
@@ -13350,6 +15310,10 @@ export type UserUncheckedUpdateWithoutPostSavesInput = {
   reportedContentReceived?: Prisma.ReportedContentUncheckedUpdateManyWithoutReportedUserNestedInput
   moderationLogsCreated?: Prisma.ModerationLogUncheckedUpdateManyWithoutModeratorUserNestedInput
   moderationLogsTargeted?: Prisma.ModerationLogUncheckedUpdateManyWithoutTargetUserNestedInput
+  listings?: Prisma.MarketplaceListingUncheckedUpdateManyWithoutSellerNestedInput
+  listingSaves?: Prisma.ListingSaveUncheckedUpdateManyWithoutUserNestedInput
+  listingOffers?: Prisma.ListingOfferUncheckedUpdateManyWithoutBuyerNestedInput
+  listingMessages?: Prisma.ListingMessageUncheckedUpdateManyWithoutSenderNestedInput
 }
 
 export type UserCreateWithoutPostSharesInput = {
@@ -13420,6 +15384,10 @@ export type UserCreateWithoutPostSharesInput = {
   reportedContentReceived?: Prisma.ReportedContentCreateNestedManyWithoutReportedUserInput
   moderationLogsCreated?: Prisma.ModerationLogCreateNestedManyWithoutModeratorUserInput
   moderationLogsTargeted?: Prisma.ModerationLogCreateNestedManyWithoutTargetUserInput
+  listings?: Prisma.MarketplaceListingCreateNestedManyWithoutSellerInput
+  listingSaves?: Prisma.ListingSaveCreateNestedManyWithoutUserInput
+  listingOffers?: Prisma.ListingOfferCreateNestedManyWithoutBuyerInput
+  listingMessages?: Prisma.ListingMessageCreateNestedManyWithoutSenderInput
 }
 
 export type UserUncheckedCreateWithoutPostSharesInput = {
@@ -13491,6 +15459,10 @@ export type UserUncheckedCreateWithoutPostSharesInput = {
   reportedContentReceived?: Prisma.ReportedContentUncheckedCreateNestedManyWithoutReportedUserInput
   moderationLogsCreated?: Prisma.ModerationLogUncheckedCreateNestedManyWithoutModeratorUserInput
   moderationLogsTargeted?: Prisma.ModerationLogUncheckedCreateNestedManyWithoutTargetUserInput
+  listings?: Prisma.MarketplaceListingUncheckedCreateNestedManyWithoutSellerInput
+  listingSaves?: Prisma.ListingSaveUncheckedCreateNestedManyWithoutUserInput
+  listingOffers?: Prisma.ListingOfferUncheckedCreateNestedManyWithoutBuyerInput
+  listingMessages?: Prisma.ListingMessageUncheckedCreateNestedManyWithoutSenderInput
 }
 
 export type UserCreateOrConnectWithoutPostSharesInput = {
@@ -13577,6 +15549,10 @@ export type UserUpdateWithoutPostSharesInput = {
   reportedContentReceived?: Prisma.ReportedContentUpdateManyWithoutReportedUserNestedInput
   moderationLogsCreated?: Prisma.ModerationLogUpdateManyWithoutModeratorUserNestedInput
   moderationLogsTargeted?: Prisma.ModerationLogUpdateManyWithoutTargetUserNestedInput
+  listings?: Prisma.MarketplaceListingUpdateManyWithoutSellerNestedInput
+  listingSaves?: Prisma.ListingSaveUpdateManyWithoutUserNestedInput
+  listingOffers?: Prisma.ListingOfferUpdateManyWithoutBuyerNestedInput
+  listingMessages?: Prisma.ListingMessageUpdateManyWithoutSenderNestedInput
 }
 
 export type UserUncheckedUpdateWithoutPostSharesInput = {
@@ -13648,6 +15624,10 @@ export type UserUncheckedUpdateWithoutPostSharesInput = {
   reportedContentReceived?: Prisma.ReportedContentUncheckedUpdateManyWithoutReportedUserNestedInput
   moderationLogsCreated?: Prisma.ModerationLogUncheckedUpdateManyWithoutModeratorUserNestedInput
   moderationLogsTargeted?: Prisma.ModerationLogUncheckedUpdateManyWithoutTargetUserNestedInput
+  listings?: Prisma.MarketplaceListingUncheckedUpdateManyWithoutSellerNestedInput
+  listingSaves?: Prisma.ListingSaveUncheckedUpdateManyWithoutUserNestedInput
+  listingOffers?: Prisma.ListingOfferUncheckedUpdateManyWithoutBuyerNestedInput
+  listingMessages?: Prisma.ListingMessageUncheckedUpdateManyWithoutSenderNestedInput
 }
 
 export type UserCreateWithoutPostsEditedInput = {
@@ -13718,6 +15698,10 @@ export type UserCreateWithoutPostsEditedInput = {
   reportedContentReceived?: Prisma.ReportedContentCreateNestedManyWithoutReportedUserInput
   moderationLogsCreated?: Prisma.ModerationLogCreateNestedManyWithoutModeratorUserInput
   moderationLogsTargeted?: Prisma.ModerationLogCreateNestedManyWithoutTargetUserInput
+  listings?: Prisma.MarketplaceListingCreateNestedManyWithoutSellerInput
+  listingSaves?: Prisma.ListingSaveCreateNestedManyWithoutUserInput
+  listingOffers?: Prisma.ListingOfferCreateNestedManyWithoutBuyerInput
+  listingMessages?: Prisma.ListingMessageCreateNestedManyWithoutSenderInput
 }
 
 export type UserUncheckedCreateWithoutPostsEditedInput = {
@@ -13789,6 +15773,10 @@ export type UserUncheckedCreateWithoutPostsEditedInput = {
   reportedContentReceived?: Prisma.ReportedContentUncheckedCreateNestedManyWithoutReportedUserInput
   moderationLogsCreated?: Prisma.ModerationLogUncheckedCreateNestedManyWithoutModeratorUserInput
   moderationLogsTargeted?: Prisma.ModerationLogUncheckedCreateNestedManyWithoutTargetUserInput
+  listings?: Prisma.MarketplaceListingUncheckedCreateNestedManyWithoutSellerInput
+  listingSaves?: Prisma.ListingSaveUncheckedCreateNestedManyWithoutUserInput
+  listingOffers?: Prisma.ListingOfferUncheckedCreateNestedManyWithoutBuyerInput
+  listingMessages?: Prisma.ListingMessageUncheckedCreateNestedManyWithoutSenderInput
 }
 
 export type UserCreateOrConnectWithoutPostsEditedInput = {
@@ -13875,6 +15863,10 @@ export type UserUpdateWithoutPostsEditedInput = {
   reportedContentReceived?: Prisma.ReportedContentUpdateManyWithoutReportedUserNestedInput
   moderationLogsCreated?: Prisma.ModerationLogUpdateManyWithoutModeratorUserNestedInput
   moderationLogsTargeted?: Prisma.ModerationLogUpdateManyWithoutTargetUserNestedInput
+  listings?: Prisma.MarketplaceListingUpdateManyWithoutSellerNestedInput
+  listingSaves?: Prisma.ListingSaveUpdateManyWithoutUserNestedInput
+  listingOffers?: Prisma.ListingOfferUpdateManyWithoutBuyerNestedInput
+  listingMessages?: Prisma.ListingMessageUpdateManyWithoutSenderNestedInput
 }
 
 export type UserUncheckedUpdateWithoutPostsEditedInput = {
@@ -13946,6 +15938,10 @@ export type UserUncheckedUpdateWithoutPostsEditedInput = {
   reportedContentReceived?: Prisma.ReportedContentUncheckedUpdateManyWithoutReportedUserNestedInput
   moderationLogsCreated?: Prisma.ModerationLogUncheckedUpdateManyWithoutModeratorUserNestedInput
   moderationLogsTargeted?: Prisma.ModerationLogUncheckedUpdateManyWithoutTargetUserNestedInput
+  listings?: Prisma.MarketplaceListingUncheckedUpdateManyWithoutSellerNestedInput
+  listingSaves?: Prisma.ListingSaveUncheckedUpdateManyWithoutUserNestedInput
+  listingOffers?: Prisma.ListingOfferUncheckedUpdateManyWithoutBuyerNestedInput
+  listingMessages?: Prisma.ListingMessageUncheckedUpdateManyWithoutSenderNestedInput
 }
 
 export type UserCreateWithoutStoriesInput = {
@@ -14016,6 +16012,10 @@ export type UserCreateWithoutStoriesInput = {
   reportedContentReceived?: Prisma.ReportedContentCreateNestedManyWithoutReportedUserInput
   moderationLogsCreated?: Prisma.ModerationLogCreateNestedManyWithoutModeratorUserInput
   moderationLogsTargeted?: Prisma.ModerationLogCreateNestedManyWithoutTargetUserInput
+  listings?: Prisma.MarketplaceListingCreateNestedManyWithoutSellerInput
+  listingSaves?: Prisma.ListingSaveCreateNestedManyWithoutUserInput
+  listingOffers?: Prisma.ListingOfferCreateNestedManyWithoutBuyerInput
+  listingMessages?: Prisma.ListingMessageCreateNestedManyWithoutSenderInput
 }
 
 export type UserUncheckedCreateWithoutStoriesInput = {
@@ -14087,6 +16087,10 @@ export type UserUncheckedCreateWithoutStoriesInput = {
   reportedContentReceived?: Prisma.ReportedContentUncheckedCreateNestedManyWithoutReportedUserInput
   moderationLogsCreated?: Prisma.ModerationLogUncheckedCreateNestedManyWithoutModeratorUserInput
   moderationLogsTargeted?: Prisma.ModerationLogUncheckedCreateNestedManyWithoutTargetUserInput
+  listings?: Prisma.MarketplaceListingUncheckedCreateNestedManyWithoutSellerInput
+  listingSaves?: Prisma.ListingSaveUncheckedCreateNestedManyWithoutUserInput
+  listingOffers?: Prisma.ListingOfferUncheckedCreateNestedManyWithoutBuyerInput
+  listingMessages?: Prisma.ListingMessageUncheckedCreateNestedManyWithoutSenderInput
 }
 
 export type UserCreateOrConnectWithoutStoriesInput = {
@@ -14173,6 +16177,10 @@ export type UserUpdateWithoutStoriesInput = {
   reportedContentReceived?: Prisma.ReportedContentUpdateManyWithoutReportedUserNestedInput
   moderationLogsCreated?: Prisma.ModerationLogUpdateManyWithoutModeratorUserNestedInput
   moderationLogsTargeted?: Prisma.ModerationLogUpdateManyWithoutTargetUserNestedInput
+  listings?: Prisma.MarketplaceListingUpdateManyWithoutSellerNestedInput
+  listingSaves?: Prisma.ListingSaveUpdateManyWithoutUserNestedInput
+  listingOffers?: Prisma.ListingOfferUpdateManyWithoutBuyerNestedInput
+  listingMessages?: Prisma.ListingMessageUpdateManyWithoutSenderNestedInput
 }
 
 export type UserUncheckedUpdateWithoutStoriesInput = {
@@ -14244,6 +16252,10 @@ export type UserUncheckedUpdateWithoutStoriesInput = {
   reportedContentReceived?: Prisma.ReportedContentUncheckedUpdateManyWithoutReportedUserNestedInput
   moderationLogsCreated?: Prisma.ModerationLogUncheckedUpdateManyWithoutModeratorUserNestedInput
   moderationLogsTargeted?: Prisma.ModerationLogUncheckedUpdateManyWithoutTargetUserNestedInput
+  listings?: Prisma.MarketplaceListingUncheckedUpdateManyWithoutSellerNestedInput
+  listingSaves?: Prisma.ListingSaveUncheckedUpdateManyWithoutUserNestedInput
+  listingOffers?: Prisma.ListingOfferUncheckedUpdateManyWithoutBuyerNestedInput
+  listingMessages?: Prisma.ListingMessageUncheckedUpdateManyWithoutSenderNestedInput
 }
 
 export type UserCreateWithoutStoryViewsInput = {
@@ -14314,6 +16326,10 @@ export type UserCreateWithoutStoryViewsInput = {
   reportedContentReceived?: Prisma.ReportedContentCreateNestedManyWithoutReportedUserInput
   moderationLogsCreated?: Prisma.ModerationLogCreateNestedManyWithoutModeratorUserInput
   moderationLogsTargeted?: Prisma.ModerationLogCreateNestedManyWithoutTargetUserInput
+  listings?: Prisma.MarketplaceListingCreateNestedManyWithoutSellerInput
+  listingSaves?: Prisma.ListingSaveCreateNestedManyWithoutUserInput
+  listingOffers?: Prisma.ListingOfferCreateNestedManyWithoutBuyerInput
+  listingMessages?: Prisma.ListingMessageCreateNestedManyWithoutSenderInput
 }
 
 export type UserUncheckedCreateWithoutStoryViewsInput = {
@@ -14385,6 +16401,10 @@ export type UserUncheckedCreateWithoutStoryViewsInput = {
   reportedContentReceived?: Prisma.ReportedContentUncheckedCreateNestedManyWithoutReportedUserInput
   moderationLogsCreated?: Prisma.ModerationLogUncheckedCreateNestedManyWithoutModeratorUserInput
   moderationLogsTargeted?: Prisma.ModerationLogUncheckedCreateNestedManyWithoutTargetUserInput
+  listings?: Prisma.MarketplaceListingUncheckedCreateNestedManyWithoutSellerInput
+  listingSaves?: Prisma.ListingSaveUncheckedCreateNestedManyWithoutUserInput
+  listingOffers?: Prisma.ListingOfferUncheckedCreateNestedManyWithoutBuyerInput
+  listingMessages?: Prisma.ListingMessageUncheckedCreateNestedManyWithoutSenderInput
 }
 
 export type UserCreateOrConnectWithoutStoryViewsInput = {
@@ -14471,6 +16491,10 @@ export type UserUpdateWithoutStoryViewsInput = {
   reportedContentReceived?: Prisma.ReportedContentUpdateManyWithoutReportedUserNestedInput
   moderationLogsCreated?: Prisma.ModerationLogUpdateManyWithoutModeratorUserNestedInput
   moderationLogsTargeted?: Prisma.ModerationLogUpdateManyWithoutTargetUserNestedInput
+  listings?: Prisma.MarketplaceListingUpdateManyWithoutSellerNestedInput
+  listingSaves?: Prisma.ListingSaveUpdateManyWithoutUserNestedInput
+  listingOffers?: Prisma.ListingOfferUpdateManyWithoutBuyerNestedInput
+  listingMessages?: Prisma.ListingMessageUpdateManyWithoutSenderNestedInput
 }
 
 export type UserUncheckedUpdateWithoutStoryViewsInput = {
@@ -14542,6 +16566,10 @@ export type UserUncheckedUpdateWithoutStoryViewsInput = {
   reportedContentReceived?: Prisma.ReportedContentUncheckedUpdateManyWithoutReportedUserNestedInput
   moderationLogsCreated?: Prisma.ModerationLogUncheckedUpdateManyWithoutModeratorUserNestedInput
   moderationLogsTargeted?: Prisma.ModerationLogUncheckedUpdateManyWithoutTargetUserNestedInput
+  listings?: Prisma.MarketplaceListingUncheckedUpdateManyWithoutSellerNestedInput
+  listingSaves?: Prisma.ListingSaveUncheckedUpdateManyWithoutUserNestedInput
+  listingOffers?: Prisma.ListingOfferUncheckedUpdateManyWithoutBuyerNestedInput
+  listingMessages?: Prisma.ListingMessageUncheckedUpdateManyWithoutSenderNestedInput
 }
 
 export type UserCreateWithoutStoryReactionsInput = {
@@ -14612,6 +16640,10 @@ export type UserCreateWithoutStoryReactionsInput = {
   reportedContentReceived?: Prisma.ReportedContentCreateNestedManyWithoutReportedUserInput
   moderationLogsCreated?: Prisma.ModerationLogCreateNestedManyWithoutModeratorUserInput
   moderationLogsTargeted?: Prisma.ModerationLogCreateNestedManyWithoutTargetUserInput
+  listings?: Prisma.MarketplaceListingCreateNestedManyWithoutSellerInput
+  listingSaves?: Prisma.ListingSaveCreateNestedManyWithoutUserInput
+  listingOffers?: Prisma.ListingOfferCreateNestedManyWithoutBuyerInput
+  listingMessages?: Prisma.ListingMessageCreateNestedManyWithoutSenderInput
 }
 
 export type UserUncheckedCreateWithoutStoryReactionsInput = {
@@ -14683,6 +16715,10 @@ export type UserUncheckedCreateWithoutStoryReactionsInput = {
   reportedContentReceived?: Prisma.ReportedContentUncheckedCreateNestedManyWithoutReportedUserInput
   moderationLogsCreated?: Prisma.ModerationLogUncheckedCreateNestedManyWithoutModeratorUserInput
   moderationLogsTargeted?: Prisma.ModerationLogUncheckedCreateNestedManyWithoutTargetUserInput
+  listings?: Prisma.MarketplaceListingUncheckedCreateNestedManyWithoutSellerInput
+  listingSaves?: Prisma.ListingSaveUncheckedCreateNestedManyWithoutUserInput
+  listingOffers?: Prisma.ListingOfferUncheckedCreateNestedManyWithoutBuyerInput
+  listingMessages?: Prisma.ListingMessageUncheckedCreateNestedManyWithoutSenderInput
 }
 
 export type UserCreateOrConnectWithoutStoryReactionsInput = {
@@ -14769,6 +16805,10 @@ export type UserUpdateWithoutStoryReactionsInput = {
   reportedContentReceived?: Prisma.ReportedContentUpdateManyWithoutReportedUserNestedInput
   moderationLogsCreated?: Prisma.ModerationLogUpdateManyWithoutModeratorUserNestedInput
   moderationLogsTargeted?: Prisma.ModerationLogUpdateManyWithoutTargetUserNestedInput
+  listings?: Prisma.MarketplaceListingUpdateManyWithoutSellerNestedInput
+  listingSaves?: Prisma.ListingSaveUpdateManyWithoutUserNestedInput
+  listingOffers?: Prisma.ListingOfferUpdateManyWithoutBuyerNestedInput
+  listingMessages?: Prisma.ListingMessageUpdateManyWithoutSenderNestedInput
 }
 
 export type UserUncheckedUpdateWithoutStoryReactionsInput = {
@@ -14840,6 +16880,10 @@ export type UserUncheckedUpdateWithoutStoryReactionsInput = {
   reportedContentReceived?: Prisma.ReportedContentUncheckedUpdateManyWithoutReportedUserNestedInput
   moderationLogsCreated?: Prisma.ModerationLogUncheckedUpdateManyWithoutModeratorUserNestedInput
   moderationLogsTargeted?: Prisma.ModerationLogUncheckedUpdateManyWithoutTargetUserNestedInput
+  listings?: Prisma.MarketplaceListingUncheckedUpdateManyWithoutSellerNestedInput
+  listingSaves?: Prisma.ListingSaveUncheckedUpdateManyWithoutUserNestedInput
+  listingOffers?: Prisma.ListingOfferUncheckedUpdateManyWithoutBuyerNestedInput
+  listingMessages?: Prisma.ListingMessageUncheckedUpdateManyWithoutSenderNestedInput
 }
 
 export type UserCreateWithoutAvatarInput = {
@@ -14910,6 +16954,10 @@ export type UserCreateWithoutAvatarInput = {
   reportedContentReceived?: Prisma.ReportedContentCreateNestedManyWithoutReportedUserInput
   moderationLogsCreated?: Prisma.ModerationLogCreateNestedManyWithoutModeratorUserInput
   moderationLogsTargeted?: Prisma.ModerationLogCreateNestedManyWithoutTargetUserInput
+  listings?: Prisma.MarketplaceListingCreateNestedManyWithoutSellerInput
+  listingSaves?: Prisma.ListingSaveCreateNestedManyWithoutUserInput
+  listingOffers?: Prisma.ListingOfferCreateNestedManyWithoutBuyerInput
+  listingMessages?: Prisma.ListingMessageCreateNestedManyWithoutSenderInput
 }
 
 export type UserUncheckedCreateWithoutAvatarInput = {
@@ -14981,6 +17029,10 @@ export type UserUncheckedCreateWithoutAvatarInput = {
   reportedContentReceived?: Prisma.ReportedContentUncheckedCreateNestedManyWithoutReportedUserInput
   moderationLogsCreated?: Prisma.ModerationLogUncheckedCreateNestedManyWithoutModeratorUserInput
   moderationLogsTargeted?: Prisma.ModerationLogUncheckedCreateNestedManyWithoutTargetUserInput
+  listings?: Prisma.MarketplaceListingUncheckedCreateNestedManyWithoutSellerInput
+  listingSaves?: Prisma.ListingSaveUncheckedCreateNestedManyWithoutUserInput
+  listingOffers?: Prisma.ListingOfferUncheckedCreateNestedManyWithoutBuyerInput
+  listingMessages?: Prisma.ListingMessageUncheckedCreateNestedManyWithoutSenderInput
 }
 
 export type UserCreateOrConnectWithoutAvatarInput = {
@@ -15067,6 +17119,10 @@ export type UserUpdateWithoutAvatarInput = {
   reportedContentReceived?: Prisma.ReportedContentUpdateManyWithoutReportedUserNestedInput
   moderationLogsCreated?: Prisma.ModerationLogUpdateManyWithoutModeratorUserNestedInput
   moderationLogsTargeted?: Prisma.ModerationLogUpdateManyWithoutTargetUserNestedInput
+  listings?: Prisma.MarketplaceListingUpdateManyWithoutSellerNestedInput
+  listingSaves?: Prisma.ListingSaveUpdateManyWithoutUserNestedInput
+  listingOffers?: Prisma.ListingOfferUpdateManyWithoutBuyerNestedInput
+  listingMessages?: Prisma.ListingMessageUpdateManyWithoutSenderNestedInput
 }
 
 export type UserUncheckedUpdateWithoutAvatarInput = {
@@ -15138,6 +17194,10 @@ export type UserUncheckedUpdateWithoutAvatarInput = {
   reportedContentReceived?: Prisma.ReportedContentUncheckedUpdateManyWithoutReportedUserNestedInput
   moderationLogsCreated?: Prisma.ModerationLogUncheckedUpdateManyWithoutModeratorUserNestedInput
   moderationLogsTargeted?: Prisma.ModerationLogUncheckedUpdateManyWithoutTargetUserNestedInput
+  listings?: Prisma.MarketplaceListingUncheckedUpdateManyWithoutSellerNestedInput
+  listingSaves?: Prisma.ListingSaveUncheckedUpdateManyWithoutUserNestedInput
+  listingOffers?: Prisma.ListingOfferUncheckedUpdateManyWithoutBuyerNestedInput
+  listingMessages?: Prisma.ListingMessageUncheckedUpdateManyWithoutSenderNestedInput
 }
 
 export type UserCreateWithoutCoverPhotoInput = {
@@ -15208,6 +17268,10 @@ export type UserCreateWithoutCoverPhotoInput = {
   reportedContentReceived?: Prisma.ReportedContentCreateNestedManyWithoutReportedUserInput
   moderationLogsCreated?: Prisma.ModerationLogCreateNestedManyWithoutModeratorUserInput
   moderationLogsTargeted?: Prisma.ModerationLogCreateNestedManyWithoutTargetUserInput
+  listings?: Prisma.MarketplaceListingCreateNestedManyWithoutSellerInput
+  listingSaves?: Prisma.ListingSaveCreateNestedManyWithoutUserInput
+  listingOffers?: Prisma.ListingOfferCreateNestedManyWithoutBuyerInput
+  listingMessages?: Prisma.ListingMessageCreateNestedManyWithoutSenderInput
 }
 
 export type UserUncheckedCreateWithoutCoverPhotoInput = {
@@ -15279,6 +17343,10 @@ export type UserUncheckedCreateWithoutCoverPhotoInput = {
   reportedContentReceived?: Prisma.ReportedContentUncheckedCreateNestedManyWithoutReportedUserInput
   moderationLogsCreated?: Prisma.ModerationLogUncheckedCreateNestedManyWithoutModeratorUserInput
   moderationLogsTargeted?: Prisma.ModerationLogUncheckedCreateNestedManyWithoutTargetUserInput
+  listings?: Prisma.MarketplaceListingUncheckedCreateNestedManyWithoutSellerInput
+  listingSaves?: Prisma.ListingSaveUncheckedCreateNestedManyWithoutUserInput
+  listingOffers?: Prisma.ListingOfferUncheckedCreateNestedManyWithoutBuyerInput
+  listingMessages?: Prisma.ListingMessageUncheckedCreateNestedManyWithoutSenderInput
 }
 
 export type UserCreateOrConnectWithoutCoverPhotoInput = {
@@ -15365,6 +17433,10 @@ export type UserUpdateWithoutCoverPhotoInput = {
   reportedContentReceived?: Prisma.ReportedContentUpdateManyWithoutReportedUserNestedInput
   moderationLogsCreated?: Prisma.ModerationLogUpdateManyWithoutModeratorUserNestedInput
   moderationLogsTargeted?: Prisma.ModerationLogUpdateManyWithoutTargetUserNestedInput
+  listings?: Prisma.MarketplaceListingUpdateManyWithoutSellerNestedInput
+  listingSaves?: Prisma.ListingSaveUpdateManyWithoutUserNestedInput
+  listingOffers?: Prisma.ListingOfferUpdateManyWithoutBuyerNestedInput
+  listingMessages?: Prisma.ListingMessageUpdateManyWithoutSenderNestedInput
 }
 
 export type UserUncheckedUpdateWithoutCoverPhotoInput = {
@@ -15436,6 +17508,10 @@ export type UserUncheckedUpdateWithoutCoverPhotoInput = {
   reportedContentReceived?: Prisma.ReportedContentUncheckedUpdateManyWithoutReportedUserNestedInput
   moderationLogsCreated?: Prisma.ModerationLogUncheckedUpdateManyWithoutModeratorUserNestedInput
   moderationLogsTargeted?: Prisma.ModerationLogUncheckedUpdateManyWithoutTargetUserNestedInput
+  listings?: Prisma.MarketplaceListingUncheckedUpdateManyWithoutSellerNestedInput
+  listingSaves?: Prisma.ListingSaveUncheckedUpdateManyWithoutUserNestedInput
+  listingOffers?: Prisma.ListingOfferUncheckedUpdateManyWithoutBuyerNestedInput
+  listingMessages?: Prisma.ListingMessageUncheckedUpdateManyWithoutSenderNestedInput
 }
 
 export type UserCreateWithoutFollowingInput = {
@@ -15506,6 +17582,10 @@ export type UserCreateWithoutFollowingInput = {
   reportedContentReceived?: Prisma.ReportedContentCreateNestedManyWithoutReportedUserInput
   moderationLogsCreated?: Prisma.ModerationLogCreateNestedManyWithoutModeratorUserInput
   moderationLogsTargeted?: Prisma.ModerationLogCreateNestedManyWithoutTargetUserInput
+  listings?: Prisma.MarketplaceListingCreateNestedManyWithoutSellerInput
+  listingSaves?: Prisma.ListingSaveCreateNestedManyWithoutUserInput
+  listingOffers?: Prisma.ListingOfferCreateNestedManyWithoutBuyerInput
+  listingMessages?: Prisma.ListingMessageCreateNestedManyWithoutSenderInput
 }
 
 export type UserUncheckedCreateWithoutFollowingInput = {
@@ -15577,6 +17657,10 @@ export type UserUncheckedCreateWithoutFollowingInput = {
   reportedContentReceived?: Prisma.ReportedContentUncheckedCreateNestedManyWithoutReportedUserInput
   moderationLogsCreated?: Prisma.ModerationLogUncheckedCreateNestedManyWithoutModeratorUserInput
   moderationLogsTargeted?: Prisma.ModerationLogUncheckedCreateNestedManyWithoutTargetUserInput
+  listings?: Prisma.MarketplaceListingUncheckedCreateNestedManyWithoutSellerInput
+  listingSaves?: Prisma.ListingSaveUncheckedCreateNestedManyWithoutUserInput
+  listingOffers?: Prisma.ListingOfferUncheckedCreateNestedManyWithoutBuyerInput
+  listingMessages?: Prisma.ListingMessageUncheckedCreateNestedManyWithoutSenderInput
 }
 
 export type UserCreateOrConnectWithoutFollowingInput = {
@@ -15652,6 +17736,10 @@ export type UserCreateWithoutFollowersInput = {
   reportedContentReceived?: Prisma.ReportedContentCreateNestedManyWithoutReportedUserInput
   moderationLogsCreated?: Prisma.ModerationLogCreateNestedManyWithoutModeratorUserInput
   moderationLogsTargeted?: Prisma.ModerationLogCreateNestedManyWithoutTargetUserInput
+  listings?: Prisma.MarketplaceListingCreateNestedManyWithoutSellerInput
+  listingSaves?: Prisma.ListingSaveCreateNestedManyWithoutUserInput
+  listingOffers?: Prisma.ListingOfferCreateNestedManyWithoutBuyerInput
+  listingMessages?: Prisma.ListingMessageCreateNestedManyWithoutSenderInput
 }
 
 export type UserUncheckedCreateWithoutFollowersInput = {
@@ -15723,6 +17811,10 @@ export type UserUncheckedCreateWithoutFollowersInput = {
   reportedContentReceived?: Prisma.ReportedContentUncheckedCreateNestedManyWithoutReportedUserInput
   moderationLogsCreated?: Prisma.ModerationLogUncheckedCreateNestedManyWithoutModeratorUserInput
   moderationLogsTargeted?: Prisma.ModerationLogUncheckedCreateNestedManyWithoutTargetUserInput
+  listings?: Prisma.MarketplaceListingUncheckedCreateNestedManyWithoutSellerInput
+  listingSaves?: Prisma.ListingSaveUncheckedCreateNestedManyWithoutUserInput
+  listingOffers?: Prisma.ListingOfferUncheckedCreateNestedManyWithoutBuyerInput
+  listingMessages?: Prisma.ListingMessageUncheckedCreateNestedManyWithoutSenderInput
 }
 
 export type UserCreateOrConnectWithoutFollowersInput = {
@@ -15809,6 +17901,10 @@ export type UserUpdateWithoutFollowingInput = {
   reportedContentReceived?: Prisma.ReportedContentUpdateManyWithoutReportedUserNestedInput
   moderationLogsCreated?: Prisma.ModerationLogUpdateManyWithoutModeratorUserNestedInput
   moderationLogsTargeted?: Prisma.ModerationLogUpdateManyWithoutTargetUserNestedInput
+  listings?: Prisma.MarketplaceListingUpdateManyWithoutSellerNestedInput
+  listingSaves?: Prisma.ListingSaveUpdateManyWithoutUserNestedInput
+  listingOffers?: Prisma.ListingOfferUpdateManyWithoutBuyerNestedInput
+  listingMessages?: Prisma.ListingMessageUpdateManyWithoutSenderNestedInput
 }
 
 export type UserUncheckedUpdateWithoutFollowingInput = {
@@ -15880,6 +17976,10 @@ export type UserUncheckedUpdateWithoutFollowingInput = {
   reportedContentReceived?: Prisma.ReportedContentUncheckedUpdateManyWithoutReportedUserNestedInput
   moderationLogsCreated?: Prisma.ModerationLogUncheckedUpdateManyWithoutModeratorUserNestedInput
   moderationLogsTargeted?: Prisma.ModerationLogUncheckedUpdateManyWithoutTargetUserNestedInput
+  listings?: Prisma.MarketplaceListingUncheckedUpdateManyWithoutSellerNestedInput
+  listingSaves?: Prisma.ListingSaveUncheckedUpdateManyWithoutUserNestedInput
+  listingOffers?: Prisma.ListingOfferUncheckedUpdateManyWithoutBuyerNestedInput
+  listingMessages?: Prisma.ListingMessageUncheckedUpdateManyWithoutSenderNestedInput
 }
 
 export type UserUpsertWithoutFollowersInput = {
@@ -15961,6 +18061,10 @@ export type UserUpdateWithoutFollowersInput = {
   reportedContentReceived?: Prisma.ReportedContentUpdateManyWithoutReportedUserNestedInput
   moderationLogsCreated?: Prisma.ModerationLogUpdateManyWithoutModeratorUserNestedInput
   moderationLogsTargeted?: Prisma.ModerationLogUpdateManyWithoutTargetUserNestedInput
+  listings?: Prisma.MarketplaceListingUpdateManyWithoutSellerNestedInput
+  listingSaves?: Prisma.ListingSaveUpdateManyWithoutUserNestedInput
+  listingOffers?: Prisma.ListingOfferUpdateManyWithoutBuyerNestedInput
+  listingMessages?: Prisma.ListingMessageUpdateManyWithoutSenderNestedInput
 }
 
 export type UserUncheckedUpdateWithoutFollowersInput = {
@@ -16032,6 +18136,10 @@ export type UserUncheckedUpdateWithoutFollowersInput = {
   reportedContentReceived?: Prisma.ReportedContentUncheckedUpdateManyWithoutReportedUserNestedInput
   moderationLogsCreated?: Prisma.ModerationLogUncheckedUpdateManyWithoutModeratorUserNestedInput
   moderationLogsTargeted?: Prisma.ModerationLogUncheckedUpdateManyWithoutTargetUserNestedInput
+  listings?: Prisma.MarketplaceListingUncheckedUpdateManyWithoutSellerNestedInput
+  listingSaves?: Prisma.ListingSaveUncheckedUpdateManyWithoutUserNestedInput
+  listingOffers?: Prisma.ListingOfferUncheckedUpdateManyWithoutBuyerNestedInput
+  listingMessages?: Prisma.ListingMessageUncheckedUpdateManyWithoutSenderNestedInput
 }
 
 export type UserCreateWithoutBlockingInput = {
@@ -16102,6 +18210,10 @@ export type UserCreateWithoutBlockingInput = {
   reportedContentReceived?: Prisma.ReportedContentCreateNestedManyWithoutReportedUserInput
   moderationLogsCreated?: Prisma.ModerationLogCreateNestedManyWithoutModeratorUserInput
   moderationLogsTargeted?: Prisma.ModerationLogCreateNestedManyWithoutTargetUserInput
+  listings?: Prisma.MarketplaceListingCreateNestedManyWithoutSellerInput
+  listingSaves?: Prisma.ListingSaveCreateNestedManyWithoutUserInput
+  listingOffers?: Prisma.ListingOfferCreateNestedManyWithoutBuyerInput
+  listingMessages?: Prisma.ListingMessageCreateNestedManyWithoutSenderInput
 }
 
 export type UserUncheckedCreateWithoutBlockingInput = {
@@ -16173,6 +18285,10 @@ export type UserUncheckedCreateWithoutBlockingInput = {
   reportedContentReceived?: Prisma.ReportedContentUncheckedCreateNestedManyWithoutReportedUserInput
   moderationLogsCreated?: Prisma.ModerationLogUncheckedCreateNestedManyWithoutModeratorUserInput
   moderationLogsTargeted?: Prisma.ModerationLogUncheckedCreateNestedManyWithoutTargetUserInput
+  listings?: Prisma.MarketplaceListingUncheckedCreateNestedManyWithoutSellerInput
+  listingSaves?: Prisma.ListingSaveUncheckedCreateNestedManyWithoutUserInput
+  listingOffers?: Prisma.ListingOfferUncheckedCreateNestedManyWithoutBuyerInput
+  listingMessages?: Prisma.ListingMessageUncheckedCreateNestedManyWithoutSenderInput
 }
 
 export type UserCreateOrConnectWithoutBlockingInput = {
@@ -16248,6 +18364,10 @@ export type UserCreateWithoutBlockedByInput = {
   reportedContentReceived?: Prisma.ReportedContentCreateNestedManyWithoutReportedUserInput
   moderationLogsCreated?: Prisma.ModerationLogCreateNestedManyWithoutModeratorUserInput
   moderationLogsTargeted?: Prisma.ModerationLogCreateNestedManyWithoutTargetUserInput
+  listings?: Prisma.MarketplaceListingCreateNestedManyWithoutSellerInput
+  listingSaves?: Prisma.ListingSaveCreateNestedManyWithoutUserInput
+  listingOffers?: Prisma.ListingOfferCreateNestedManyWithoutBuyerInput
+  listingMessages?: Prisma.ListingMessageCreateNestedManyWithoutSenderInput
 }
 
 export type UserUncheckedCreateWithoutBlockedByInput = {
@@ -16319,6 +18439,10 @@ export type UserUncheckedCreateWithoutBlockedByInput = {
   reportedContentReceived?: Prisma.ReportedContentUncheckedCreateNestedManyWithoutReportedUserInput
   moderationLogsCreated?: Prisma.ModerationLogUncheckedCreateNestedManyWithoutModeratorUserInput
   moderationLogsTargeted?: Prisma.ModerationLogUncheckedCreateNestedManyWithoutTargetUserInput
+  listings?: Prisma.MarketplaceListingUncheckedCreateNestedManyWithoutSellerInput
+  listingSaves?: Prisma.ListingSaveUncheckedCreateNestedManyWithoutUserInput
+  listingOffers?: Prisma.ListingOfferUncheckedCreateNestedManyWithoutBuyerInput
+  listingMessages?: Prisma.ListingMessageUncheckedCreateNestedManyWithoutSenderInput
 }
 
 export type UserCreateOrConnectWithoutBlockedByInput = {
@@ -16405,6 +18529,10 @@ export type UserUpdateWithoutBlockingInput = {
   reportedContentReceived?: Prisma.ReportedContentUpdateManyWithoutReportedUserNestedInput
   moderationLogsCreated?: Prisma.ModerationLogUpdateManyWithoutModeratorUserNestedInput
   moderationLogsTargeted?: Prisma.ModerationLogUpdateManyWithoutTargetUserNestedInput
+  listings?: Prisma.MarketplaceListingUpdateManyWithoutSellerNestedInput
+  listingSaves?: Prisma.ListingSaveUpdateManyWithoutUserNestedInput
+  listingOffers?: Prisma.ListingOfferUpdateManyWithoutBuyerNestedInput
+  listingMessages?: Prisma.ListingMessageUpdateManyWithoutSenderNestedInput
 }
 
 export type UserUncheckedUpdateWithoutBlockingInput = {
@@ -16476,6 +18604,10 @@ export type UserUncheckedUpdateWithoutBlockingInput = {
   reportedContentReceived?: Prisma.ReportedContentUncheckedUpdateManyWithoutReportedUserNestedInput
   moderationLogsCreated?: Prisma.ModerationLogUncheckedUpdateManyWithoutModeratorUserNestedInput
   moderationLogsTargeted?: Prisma.ModerationLogUncheckedUpdateManyWithoutTargetUserNestedInput
+  listings?: Prisma.MarketplaceListingUncheckedUpdateManyWithoutSellerNestedInput
+  listingSaves?: Prisma.ListingSaveUncheckedUpdateManyWithoutUserNestedInput
+  listingOffers?: Prisma.ListingOfferUncheckedUpdateManyWithoutBuyerNestedInput
+  listingMessages?: Prisma.ListingMessageUncheckedUpdateManyWithoutSenderNestedInput
 }
 
 export type UserUpsertWithoutBlockedByInput = {
@@ -16557,6 +18689,10 @@ export type UserUpdateWithoutBlockedByInput = {
   reportedContentReceived?: Prisma.ReportedContentUpdateManyWithoutReportedUserNestedInput
   moderationLogsCreated?: Prisma.ModerationLogUpdateManyWithoutModeratorUserNestedInput
   moderationLogsTargeted?: Prisma.ModerationLogUpdateManyWithoutTargetUserNestedInput
+  listings?: Prisma.MarketplaceListingUpdateManyWithoutSellerNestedInput
+  listingSaves?: Prisma.ListingSaveUpdateManyWithoutUserNestedInput
+  listingOffers?: Prisma.ListingOfferUpdateManyWithoutBuyerNestedInput
+  listingMessages?: Prisma.ListingMessageUpdateManyWithoutSenderNestedInput
 }
 
 export type UserUncheckedUpdateWithoutBlockedByInput = {
@@ -16628,6 +18764,10 @@ export type UserUncheckedUpdateWithoutBlockedByInput = {
   reportedContentReceived?: Prisma.ReportedContentUncheckedUpdateManyWithoutReportedUserNestedInput
   moderationLogsCreated?: Prisma.ModerationLogUncheckedUpdateManyWithoutModeratorUserNestedInput
   moderationLogsTargeted?: Prisma.ModerationLogUncheckedUpdateManyWithoutTargetUserNestedInput
+  listings?: Prisma.MarketplaceListingUncheckedUpdateManyWithoutSellerNestedInput
+  listingSaves?: Prisma.ListingSaveUncheckedUpdateManyWithoutUserNestedInput
+  listingOffers?: Prisma.ListingOfferUncheckedUpdateManyWithoutBuyerNestedInput
+  listingMessages?: Prisma.ListingMessageUncheckedUpdateManyWithoutSenderNestedInput
 }
 
 
@@ -16684,6 +18824,10 @@ export type UserCountOutputType = {
   reportedContentReceived: number
   moderationLogsCreated: number
   moderationLogsTargeted: number
+  listings: number
+  listingSaves: number
+  listingOffers: number
+  listingMessages: number
 }
 
 export type UserCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -16735,6 +18879,10 @@ export type UserCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.I
   reportedContentReceived?: boolean | UserCountOutputTypeCountReportedContentReceivedArgs
   moderationLogsCreated?: boolean | UserCountOutputTypeCountModerationLogsCreatedArgs
   moderationLogsTargeted?: boolean | UserCountOutputTypeCountModerationLogsTargetedArgs
+  listings?: boolean | UserCountOutputTypeCountListingsArgs
+  listingSaves?: boolean | UserCountOutputTypeCountListingSavesArgs
+  listingOffers?: boolean | UserCountOutputTypeCountListingOffersArgs
+  listingMessages?: boolean | UserCountOutputTypeCountListingMessagesArgs
 }
 
 /**
@@ -17083,6 +19231,34 @@ export type UserCountOutputTypeCountModerationLogsTargetedArgs<ExtArgs extends r
   where?: Prisma.ModerationLogWhereInput
 }
 
+/**
+ * UserCountOutputType without action
+ */
+export type UserCountOutputTypeCountListingsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.MarketplaceListingWhereInput
+}
+
+/**
+ * UserCountOutputType without action
+ */
+export type UserCountOutputTypeCountListingSavesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.ListingSaveWhereInput
+}
+
+/**
+ * UserCountOutputType without action
+ */
+export type UserCountOutputTypeCountListingOffersArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.ListingOfferWhereInput
+}
+
+/**
+ * UserCountOutputType without action
+ */
+export type UserCountOutputTypeCountListingMessagesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.ListingMessageWhereInput
+}
+
 
 export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -17154,6 +19330,10 @@ export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   reportedContentReceived?: boolean | Prisma.User$reportedContentReceivedArgs<ExtArgs>
   moderationLogsCreated?: boolean | Prisma.User$moderationLogsCreatedArgs<ExtArgs>
   moderationLogsTargeted?: boolean | Prisma.User$moderationLogsTargetedArgs<ExtArgs>
+  listings?: boolean | Prisma.User$listingsArgs<ExtArgs>
+  listingSaves?: boolean | Prisma.User$listingSavesArgs<ExtArgs>
+  listingOffers?: boolean | Prisma.User$listingOffersArgs<ExtArgs>
+  listingMessages?: boolean | Prisma.User$listingMessagesArgs<ExtArgs>
   _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["user"]>
 
@@ -17275,6 +19455,10 @@ export type UserInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = 
   reportedContentReceived?: boolean | Prisma.User$reportedContentReceivedArgs<ExtArgs>
   moderationLogsCreated?: boolean | Prisma.User$moderationLogsCreatedArgs<ExtArgs>
   moderationLogsTargeted?: boolean | Prisma.User$moderationLogsTargetedArgs<ExtArgs>
+  listings?: boolean | Prisma.User$listingsArgs<ExtArgs>
+  listingSaves?: boolean | Prisma.User$listingSavesArgs<ExtArgs>
+  listingOffers?: boolean | Prisma.User$listingOffersArgs<ExtArgs>
+  listingMessages?: boolean | Prisma.User$listingMessagesArgs<ExtArgs>
   _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type UserIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
@@ -17333,6 +19517,10 @@ export type $UserPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     reportedContentReceived: Prisma.$ReportedContentPayload<ExtArgs>[]
     moderationLogsCreated: Prisma.$ModerationLogPayload<ExtArgs>[]
     moderationLogsTargeted: Prisma.$ModerationLogPayload<ExtArgs>[]
+    listings: Prisma.$MarketplaceListingPayload<ExtArgs>[]
+    listingSaves: Prisma.$ListingSavePayload<ExtArgs>[]
+    listingOffers: Prisma.$ListingOfferPayload<ExtArgs>[]
+    listingMessages: Prisma.$ListingMessagePayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: number
@@ -17798,6 +19986,10 @@ export interface Prisma__UserClient<T, Null = never, ExtArgs extends runtime.Typ
   reportedContentReceived<T extends Prisma.User$reportedContentReceivedArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$reportedContentReceivedArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ReportedContentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   moderationLogsCreated<T extends Prisma.User$moderationLogsCreatedArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$moderationLogsCreatedArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ModerationLogPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   moderationLogsTargeted<T extends Prisma.User$moderationLogsTargetedArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$moderationLogsTargetedArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ModerationLogPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  listings<T extends Prisma.User$listingsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$listingsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$MarketplaceListingPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  listingSaves<T extends Prisma.User$listingSavesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$listingSavesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ListingSavePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  listingOffers<T extends Prisma.User$listingOffersArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$listingOffersArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ListingOfferPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  listingMessages<T extends Prisma.User$listingMessagesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$listingMessagesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ListingMessagePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -19424,6 +21616,102 @@ export type User$moderationLogsTargetedArgs<ExtArgs extends runtime.Types.Extens
   take?: number
   skip?: number
   distinct?: Prisma.ModerationLogScalarFieldEnum | Prisma.ModerationLogScalarFieldEnum[]
+}
+
+/**
+ * User.listings
+ */
+export type User$listingsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the MarketplaceListing
+   */
+  select?: Prisma.MarketplaceListingSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the MarketplaceListing
+   */
+  omit?: Prisma.MarketplaceListingOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.MarketplaceListingInclude<ExtArgs> | null
+  where?: Prisma.MarketplaceListingWhereInput
+  orderBy?: Prisma.MarketplaceListingOrderByWithRelationInput | Prisma.MarketplaceListingOrderByWithRelationInput[]
+  cursor?: Prisma.MarketplaceListingWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.MarketplaceListingScalarFieldEnum | Prisma.MarketplaceListingScalarFieldEnum[]
+}
+
+/**
+ * User.listingSaves
+ */
+export type User$listingSavesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the ListingSave
+   */
+  select?: Prisma.ListingSaveSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the ListingSave
+   */
+  omit?: Prisma.ListingSaveOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ListingSaveInclude<ExtArgs> | null
+  where?: Prisma.ListingSaveWhereInput
+  orderBy?: Prisma.ListingSaveOrderByWithRelationInput | Prisma.ListingSaveOrderByWithRelationInput[]
+  cursor?: Prisma.ListingSaveWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.ListingSaveScalarFieldEnum | Prisma.ListingSaveScalarFieldEnum[]
+}
+
+/**
+ * User.listingOffers
+ */
+export type User$listingOffersArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the ListingOffer
+   */
+  select?: Prisma.ListingOfferSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the ListingOffer
+   */
+  omit?: Prisma.ListingOfferOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ListingOfferInclude<ExtArgs> | null
+  where?: Prisma.ListingOfferWhereInput
+  orderBy?: Prisma.ListingOfferOrderByWithRelationInput | Prisma.ListingOfferOrderByWithRelationInput[]
+  cursor?: Prisma.ListingOfferWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.ListingOfferScalarFieldEnum | Prisma.ListingOfferScalarFieldEnum[]
+}
+
+/**
+ * User.listingMessages
+ */
+export type User$listingMessagesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the ListingMessage
+   */
+  select?: Prisma.ListingMessageSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the ListingMessage
+   */
+  omit?: Prisma.ListingMessageOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ListingMessageInclude<ExtArgs> | null
+  where?: Prisma.ListingMessageWhereInput
+  orderBy?: Prisma.ListingMessageOrderByWithRelationInput | Prisma.ListingMessageOrderByWithRelationInput[]
+  cursor?: Prisma.ListingMessageWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.ListingMessageScalarFieldEnum | Prisma.ListingMessageScalarFieldEnum[]
 }
 
 /**

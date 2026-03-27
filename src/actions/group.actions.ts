@@ -413,3 +413,15 @@ export async function getGroupMembers(groupId: number, skip: number) {
 		hasMore: skip + MEMBERS_LIMIT < total,
 	};
 }
+
+export async function deleteGroup(groupId: number) {
+	const userId = await getSessionUserId();
+
+	const group = await prisma.group.findUnique({ where: { id: groupId }, select: { ownerId: true } });
+	if (!group) throw new Error("Group not found");
+	if (group.ownerId !== userId) throw new Error("Not authorized");
+
+	await prisma.group.delete({ where: { id: groupId } });
+
+	revalidatePath("/groups");
+}

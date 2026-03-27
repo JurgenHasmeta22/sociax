@@ -32,14 +32,46 @@ Heart,
 Radio,
 Search,
 Pencil,
+ShieldAlert,
+OctagonX,
+Trash2,
 } from "lucide-react";
 import { format } from "date-fns";
 import { sendFollowRequest, cancelFollowRequest, unfollowUser } from "@/actions/follow.actions";
-import { updateAvatar, updateCoverPhoto } from "@/actions/user.actions";
+import { updateAvatar, updateCoverPhoto, blockUser, unblockUser, reportUser } from "@/actions/user.actions";
 import { getOrCreateConversation } from "@/actions/message.actions";
+import { deletePage } from "@/actions/page.actions";
+import { deleteGroup } from "@/actions/group.actions";
+import { deleteEvent } from "@/actions/event.actions";
 import { PostCard } from "@/components/feed/PostCard";
 import { PostComposer } from "@/components/feed/PostComposer";
 import { toast } from "sonner";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogFooter,
+  DialogDescription,
+} from "@/components/ui/dialog";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from "@/components/ui/alert-dialog";
+import { Textarea } from "@/components/ui/textarea";
 
 type FriendUser = {
 id: number;
@@ -321,6 +353,7 @@ followedPages,
 ownedPages,
 createdEvents,
 attendingEvents,
+initialIsBlocked = false,
 }: {
 user: ProfileUser;
 isOwnProfile: boolean;
@@ -334,6 +367,7 @@ followedPages: PageItem[];
 ownedPages: PageItem[];
 createdEvents: EventItem[];
 attendingEvents: EventItem[];
+initialIsBlocked?: boolean;
 }) {
 const router = useRouter();
 const [activeTab, setActiveTab] = useState<Tab>("Timeline");
@@ -346,6 +380,81 @@ const [posts, setPosts] = useState<Post[]>(user.posts);
 const avatarInputRef = useRef<HTMLInputElement>(null);
 const coverInputRef = useRef<HTMLInputElement>(null);
 const name = displayName(user);
+const [isBlocked, setIsBlocked] = useState(initialIsBlocked);
+const [blockPending, setBlockPending] = useState(false);
+const [confirmBlockOpen, setConfirmBlockOpen] = useState(false);
+const [reportOpen, setReportOpen] = useState(false);
+const [reportReason, setReportReason] = useState("");
+const [reportPending, setReportPending] = useState(false);
+const [ownedPagesList, setOwnedPagesList] = useState<PageItem[]>(ownedPages);
+const [ownedGroupsList, setOwnedGroupsList] = useState<GroupItem[]>(ownedGroups);
+const [createdEventsList, setCreatedEventsList] = useState<EventItem[]>(createdEvents);
+const [deleteConfirm, setDeleteConfirm] = useState<{ type: "page" | "group" | "event"; id: number; name: string } | null>(null);
+const [deletingId, setDeletingId] = useState<number | null>(null);
+
+const handleBlock = async () => {
+  setBlockPending(true);
+  try {
+    if (isBlocked) {
+      await unblockUser(user.id);
+      setIsBlocked(false);
+      toast.success(`Unblocked ${name}`);
+    } else {
+      await blockUser(user.id);
+      setIsBlocked(true);
+      setFollowState("none");
+      toast.success(`Blocked ${name}`);
+    }
+  } catch {
+    toast.error("Action failed. Try again.");
+  } finally {
+    setBlockPending(false);
+    setConfirmBlockOpen(false);
+  }
+};
+
+const handleReport = async () => {
+  if (!reportReason.trim()) {
+    toast.warning("Please enter a reason.");
+    return;
+  }
+  setReportPending(true);
+  try {
+    await reportUser(user.id, reportReason.trim());
+    toast.success("Report submitted. We'll review it shortly.");
+    setReportOpen(false);
+    setReportReason("");
+  } catch {
+    toast.error("Failed to submit report.");
+  } finally {
+    setReportPending(false);
+  }
+};
+
+const handleDeleteOwned = async () => {
+  if (!deleteConfirm) return;
+  setDeletingId(deleteConfirm.id);
+  try {
+    if (deleteConfirm.type === "page") {
+      await deletePage(deleteConfirm.id);
+      setOwnedPagesList((prev) => prev.filter((p) => p.id !== deleteConfirm.id));
+      toast.success("Page deleted.");
+    } else if (deleteConfirm.type === "group") {
+      await deleteGroup(deleteConfirm.id);
+      setOwnedGroupsList((prev) => prev.filter((g) => g.id !== deleteConfirm.id));
+      toast.success("Group deleted.");
+    } else if (deleteConfirm.type === "event") {
+      await deleteEvent(deleteConfirm.id);
+      setCreatedEventsList((prev) => prev.filter((e) => e.id !== deleteConfirm.id));
+      toast.success("Event deleted.");
+    }
+  } catch {
+    toast.error("Failed to delete. Try again.");
+  } finally {
+    setDeletingId(null);
+    setDeleteConfirm(null);
+  }
+};
 
 const handleMessage = useCallback(async () => {
 	if (!currentUserId) return;
@@ -413,12 +522,12 @@ toast.error("Failed to update cover photo");
 };
 
 const allGroups = [
-...ownedGroups.map((g) => ({ ...g, isOwned: true })),
-...groups.filter((g) => !ownedGroups.find((og) => og.id === g.id)).map((g) => ({ ...g, isOwned: false })),
+...ownedGroupsList.map((g) => ({ ...g, isOwned: true })),
+...groups.filter((g) => !ownedGroupsList.find((og) => og.id === g.id)).map((g) => ({ ...g, isOwned: false })),
 ];
 const allPages = [
-...ownedPages.map((p) => ({ ...p, isOwned: true })),
-...followedPages.filter((p) => !ownedPages.find((op) => op.id === p.id)).map((p) => ({ ...p, isOwned: false })),
+...ownedPagesList.map((p) => ({ ...p, isOwned: true })),
+...followedPages.filter((p) => !ownedPagesList.find((op) => op.id === p.id)).map((p) => ({ ...p, isOwned: false })),
 ];
 
 return (
@@ -539,9 +648,31 @@ variant={followState === "accepted" ? "secondary" : "default"}
 <MessageCircle className="h-4 w-4" />
 {isMessaging ? "Opening..." : "Message"}
 </Button>
-<Button variant="secondary" size="icon">
-<MoreHorizontal className="h-4 w-4" />
-</Button>
+<DropdownMenu>
+  <DropdownMenuTrigger asChild>
+    <Button variant="secondary" size="icon">
+      <MoreHorizontal className="h-4 w-4" />
+    </Button>
+  </DropdownMenuTrigger>
+  <DropdownMenuContent align="end">
+    <DropdownMenuItem
+      onClick={() => setConfirmBlockOpen(true)}
+      disabled={blockPending || !currentUserId}
+      className={isBlocked ? "text-green-600" : "text-destructive"}
+    >
+      <OctagonX className="h-4 w-4 mr-2" />
+      {isBlocked ? `Unblock ${name}` : `Block ${name}`}
+    </DropdownMenuItem>
+    <DropdownMenuSeparator />
+    <DropdownMenuItem
+      onClick={() => setReportOpen(true)}
+      disabled={!currentUserId}
+    >
+      <ShieldAlert className="h-4 w-4 mr-2" />
+      Report
+    </DropdownMenuItem>
+  </DropdownMenuContent>
+</DropdownMenu>
 </>
 )}
 </div>
@@ -698,14 +829,12 @@ return (
 <div className="space-y-4">
 {isOwnProfile && currentUserId && (
 <PostComposer
-currentUser={{
-id: user.id,
+user={{
 userName: user.userName,
 firstName: user.firstName,
 lastName: user.lastName,
 avatar: user.avatar,
 }}
-onPost={(post) => setPosts((p) => [post as Post, ...p])}
 />
 )}
 {!canViewContent ? (
@@ -806,16 +935,150 @@ emptyLabel="Not a member of any groups"
 {allPages.length > 0 && (
 <section>
 <h2 className="font-semibold text-base mb-3">Pages</h2>
-<PageGrid pages={allPages} emptyLabel="No pages" />
+{isOwnProfile ? (
+  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+    {allPages.map((p) => (
+      <div key={p.id} className="relative group">
+        <Link href={`/pages/${p.slug}`} className="block">
+          <Card className="overflow-hidden hover:shadow-md transition-shadow duration-200">
+            <div className="relative h-24 bg-muted">
+              {p.coverUrl ? (
+                <Image src={p.coverUrl} alt={p.name} fill className="object-cover" sizes="400px" />
+              ) : (
+                <div className="w-full h-full bg-gradient-to-br from-primary/20 to-primary/5 flex items-center justify-center">
+                  <Flag className="h-8 w-8 text-primary/30" />
+                </div>
+              )}
+              {p.isOwned && (
+                <Badge className="absolute top-2 right-2 text-[10px] bg-primary text-primary-foreground">Admin</Badge>
+              )}
+            </div>
+            <CardContent className="p-3">
+              <div className="flex items-center gap-1.5">
+                <p className="font-semibold text-sm truncate flex-1">{p.name}</p>
+                {p.isVerified && <CheckCircle2 className="h-3.5 w-3.5 text-primary shrink-0" />}
+              </div>
+              <div className="flex items-center justify-between mt-0.5">
+                <p className="text-xs text-muted-foreground">{p.category}</p>
+                <p className="text-xs text-muted-foreground">{p._count.followers.toLocaleString()} followers</p>
+              </div>
+            </CardContent>
+          </Card>
+        </Link>
+        {p.isOwned && (
+          <button
+            onClick={() => setDeleteConfirm({ type: "page", id: p.id, name: p.name })}
+            className="absolute top-2 left-2 opacity-0 group-hover:opacity-100 transition-opacity bg-background/80 backdrop-blur rounded-full p-1 hover:bg-destructive hover:text-white"
+            title="Delete page"
+          >
+            <Trash2 className="h-3.5 w-3.5" />
+          </button>
+        )}
+      </div>
+    ))}
+  </div>
+) : (
+  <PageGrid pages={allPages} emptyLabel="No pages" />
+)}
 </section>
 )}
-{(createdEvents.length > 0 || attendingEvents.length > 0) && (
+{allGroups.length > 0 && (
+<section>
+<h2 className="font-semibold text-base mb-3">Groups</h2>
+{isOwnProfile ? (
+  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+    {allGroups.map((g) => (
+      <div key={g.id} className="relative group">
+        <Link href={`/groups/${g.slug}`} className="block">
+          <Card className="overflow-hidden hover:shadow-md transition-shadow duration-200">
+            <div className="relative h-28 bg-muted">
+              {g.coverUrl ? (
+                <Image src={g.coverUrl} alt={g.name} fill className="object-cover" sizes="400px" />
+              ) : (
+                <div className="w-full h-full bg-gradient-to-br from-primary/20 to-primary/5 flex items-center justify-center">
+                  <Users className="h-10 w-10 text-primary/30" />
+                </div>
+              )}
+              <div className="absolute top-2 right-2 flex gap-1">
+                {g.isOwned && <Badge className="text-[10px] bg-primary text-primary-foreground">Admin</Badge>}
+                <Badge variant="secondary" className="text-[10px] bg-background/90 backdrop-blur">
+                  {g.privacy === "Public" ? <Globe className="h-3 w-3" /> : <Lock className="h-3 w-3" />}
+                  {g.privacy}
+                </Badge>
+              </div>
+            </div>
+            <CardContent className="p-3">
+              <p className="font-semibold text-sm truncate">{g.name}</p>
+              <p className="text-xs text-muted-foreground mt-0.5">{g._count.members.toLocaleString()} members</p>
+            </CardContent>
+          </Card>
+        </Link>
+        {g.isOwned && (
+          <button
+            onClick={() => setDeleteConfirm({ type: "group", id: g.id, name: g.name })}
+            className="absolute top-2 left-2 opacity-0 group-hover:opacity-100 transition-opacity bg-background/80 backdrop-blur rounded-full p-1 hover:bg-destructive hover:text-white"
+            title="Delete group"
+          >
+            <Trash2 className="h-3.5 w-3.5" />
+          </button>
+        )}
+      </div>
+    ))}
+  </div>
+) : (
+  <GroupGrid groups={allGroups} emptyLabel="No groups" />
+)}
+</section>
+)}
+{(createdEventsList.length > 0 || attendingEvents.length > 0) && (
 <section>
 <h2 className="font-semibold text-base mb-3">Events</h2>
-<EventGrid
-events={[...createdEvents, ...attendingEvents]}
-emptyLabel="No events"
-/>
+{isOwnProfile ? (
+  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+    {[...createdEventsList.map(e => ({ ...e, isOwned: true })), ...attendingEvents.map(e => ({ ...e, isOwned: false }))].map((e) => (
+      <div key={e.id} className="relative group">
+        <Link href={`/events/${e.slug}`} className="block">
+          <Card className="overflow-hidden hover:shadow-md transition-shadow duration-200">
+            <div className="relative h-28 bg-muted">
+              {e.coverUrl ? (
+                <Image src={e.coverUrl} alt={e.title} fill className="object-cover" sizes="500px" />
+              ) : (
+                <div className="w-full h-full bg-gradient-to-br from-primary/20 to-primary/5 flex items-center justify-center">
+                  <CalendarCheck className="h-10 w-10 text-primary/30" />
+                </div>
+              )}
+              {e.isOwned && (
+                <Badge className="absolute top-2 right-2 text-[10px] bg-primary text-primary-foreground">Organizer</Badge>
+              )}
+            </div>
+            <CardContent className="p-3">
+              <p className="font-semibold text-sm truncate">{e.title}</p>
+              <p className="text-xs text-muted-foreground mt-0.5">
+                {format(new Date(e.startDate), "MMM d, yyyy")}
+                {e.isOnline ? " · Online" : e.location ? ` · ${e.location}` : ""}
+              </p>
+              <p className="text-xs text-muted-foreground">{e._count.attendees} attending</p>
+            </CardContent>
+          </Card>
+        </Link>
+        {e.isOwned && (
+          <button
+            onClick={() => setDeleteConfirm({ type: "event", id: e.id, name: e.title })}
+            className="absolute top-2 left-2 opacity-0 group-hover:opacity-100 transition-opacity bg-background/80 backdrop-blur rounded-full p-1 hover:bg-destructive hover:text-white"
+            title="Delete event"
+          >
+            <Trash2 className="h-3.5 w-3.5" />
+          </button>
+        )}
+      </div>
+    ))}
+  </div>
+) : (
+  <EventGrid
+    events={[...createdEventsList, ...attendingEvents]}
+    emptyLabel="No events"
+  />
+)}
 </section>
 )}
 </>
@@ -823,6 +1086,80 @@ emptyLabel="No events"
 </div>
 )}
 </div>
+
+{/* Block confirmation dialog */}
+<AlertDialog open={confirmBlockOpen} onOpenChange={setConfirmBlockOpen}>
+  <AlertDialogContent>
+    <AlertDialogHeader>
+      <AlertDialogTitle>{isBlocked ? `Unblock ${name}?` : `Block ${name}?`}</AlertDialogTitle>
+      <AlertDialogDescription>
+        {isBlocked
+          ? `${name} will be able to see your profile and contact you again.`
+          : `${name} won't be able to see your profile, send you messages, or follow you.`}
+      </AlertDialogDescription>
+    </AlertDialogHeader>
+    <AlertDialogFooter>
+      <AlertDialogCancel>Cancel</AlertDialogCancel>
+      <AlertDialogAction
+        onClick={handleBlock}
+        className={isBlocked ? "" : "bg-destructive hover:bg-destructive/90"}
+        disabled={blockPending}
+      >
+        {blockPending ? "Processing..." : isBlocked ? "Unblock" : "Block"}
+      </AlertDialogAction>
+    </AlertDialogFooter>
+  </AlertDialogContent>
+</AlertDialog>
+
+{/* Report dialog */}
+<Dialog open={reportOpen} onOpenChange={setReportOpen}>
+  <DialogContent className="sm:max-w-md">
+    <DialogHeader>
+      <DialogTitle>Report {name}</DialogTitle>
+      <DialogDescription>
+        Tell us why you think this account violates our community guidelines.
+      </DialogDescription>
+    </DialogHeader>
+    <div className="space-y-2">
+      <Textarea
+        placeholder="Describe the issue..."
+        value={reportReason}
+        onChange={(e) => setReportReason(e.target.value)}
+        className="resize-none min-h-[100px]"
+        maxLength={500}
+      />
+      <p className="text-xs text-muted-foreground text-right">{reportReason.length}/500</p>
+    </div>
+    <DialogFooter>
+      <Button variant="outline" onClick={() => setReportOpen(false)} disabled={reportPending}>Cancel</Button>
+      <Button onClick={handleReport} disabled={reportPending || !reportReason.trim()}>
+        {reportPending ? "Submitting..." : "Submit Report"}
+      </Button>
+    </DialogFooter>
+  </DialogContent>
+</Dialog>
+
+{/* Delete page/group/event confirmation */}
+<AlertDialog open={!!deleteConfirm} onOpenChange={(o) => { if (!o) setDeleteConfirm(null); }}>
+  <AlertDialogContent>
+    <AlertDialogHeader>
+      <AlertDialogTitle>Delete &quot;{deleteConfirm?.name}&quot;?</AlertDialogTitle>
+      <AlertDialogDescription>
+        This action cannot be undone. The {deleteConfirm?.type} will be permanently deleted.
+      </AlertDialogDescription>
+    </AlertDialogHeader>
+    <AlertDialogFooter>
+      <AlertDialogCancel>Cancel</AlertDialogCancel>
+      <AlertDialogAction
+        onClick={handleDeleteOwned}
+        disabled={deletingId !== null}
+        className="bg-destructive hover:bg-destructive/90"
+      >
+        {deletingId !== null ? "Deleting..." : "Delete"}
+      </AlertDialogAction>
+    </AlertDialogFooter>
+  </AlertDialogContent>
+</AlertDialog>
 </div>
 );
 }

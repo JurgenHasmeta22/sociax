@@ -1,0 +1,136 @@
+enum ListingStatus {
+    Active
+    Sold
+    Reserved
+    Removed
+}
+
+enum ListingCondition {
+    New
+    LikeNew
+    Good
+    Fair
+    Poor
+}
+
+enum ListingCategory {
+    Electronics
+    Clothing
+    Furniture
+    Vehicles
+    Books
+    HomeGarden
+    Sports
+    Toys
+    Art
+    Food
+    Services
+    Other
+}
+
+enum OfferStatus {
+    Pending
+    Accepted
+    Declined
+    Withdrawn
+}
+
+model MarketplaceListing {
+    id          Int              @id @default(autoincrement())
+    title       String
+    description String
+    price       Float
+    isFree      Boolean          @default(false)
+    category    ListingCategory  @default(Other)
+    condition   ListingCondition @default(Good)
+    status      ListingStatus    @default(Active)
+    location    String?
+    slug        String           @unique
+    viewCount   Int              @default(0)
+    createdAt   DateTime         @default(now())
+    updatedAt   DateTime         @updatedAt
+
+    // FK Keys
+    sellerId Int
+
+    // Relations
+    seller   User                   @relation("ListingSeller", fields: [sellerId], references: [id], onDelete: Cascade)
+    images   ListingImage[]
+    saves    ListingSave[]
+    offers   ListingOffer[]
+    messages ListingMessage[]
+
+    @@index([sellerId])
+    @@index([category])
+    @@index([status])
+    @@index([createdAt])
+}
+
+model ListingImage {
+    id        Int      @id @default(autoincrement())
+    url       String
+    order     Int      @default(0)
+    createdAt DateTime @default(now())
+
+    // FK Keys
+    listingId Int
+
+    // Relations
+    listing MarketplaceListing @relation(fields: [listingId], references: [id], onDelete: Cascade)
+
+    @@index([listingId])
+}
+
+model ListingSave {
+    id        Int      @id @default(autoincrement())
+    createdAt DateTime @default(now())
+
+    // FK Keys
+    userId    Int
+    listingId Int
+
+    // Relations
+    user    User               @relation("ListingSaver", fields: [userId], references: [id], onDelete: Cascade)
+    listing MarketplaceListing @relation(fields: [listingId], references: [id], onDelete: Cascade)
+
+    @@unique([userId, listingId])
+    @@index([userId])
+    @@index([listingId])
+}
+
+model ListingOffer {
+    id        Int         @id @default(autoincrement())
+    amount    Float
+    message   String?
+    status    OfferStatus @default(Pending)
+    createdAt DateTime    @default(now())
+    updatedAt DateTime    @updatedAt
+
+    // FK Keys
+    buyerId   Int
+    listingId Int
+
+    // Relations
+    buyer   User               @relation("ListingBuyer", fields: [buyerId], references: [id], onDelete: Cascade)
+    listing MarketplaceListing @relation(fields: [listingId], references: [id], onDelete: Cascade)
+
+    @@index([buyerId])
+    @@index([listingId])
+}
+
+model ListingMessage {
+    id        Int      @id @default(autoincrement())
+    content   String
+    createdAt DateTime @default(now())
+
+    // FK Keys
+    senderId  Int
+    listingId Int
+
+    // Relations
+    sender  User               @relation("ListingMessageSender", fields: [senderId], references: [id], onDelete: Cascade)
+    listing MarketplaceListing @relation(fields: [listingId], references: [id], onDelete: Cascade)
+
+    @@index([senderId])
+    @@index([listingId])
+}

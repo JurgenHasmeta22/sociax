@@ -4,7 +4,6 @@ import { AuthProvider } from "@/providers/AuthProvider";
 import { ThemeProvider } from "@/providers/ThemeProvider";
 import ToastProvider from "@/providers/ToastProvider";
 import { Navbar } from "@/components/root/Navbar";
-import { ChatNotificationPoller } from "@/components/root/ChatNotificationPoller";
 import "../globals.css";
 
 const inter = Inter({
@@ -41,7 +40,6 @@ export default function RootLayout({
 					<ThemeProvider>
 						<ToastProvider />
 						<Navbar />
-						<ChatNotificationPoller />
 						{children}
 					</ThemeProvider>
 				</AuthProvider>

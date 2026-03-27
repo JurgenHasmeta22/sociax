@@ -107,3 +107,103 @@ export async function updateCoverPhoto(photoUrl: string) {
 	revalidatePath("/feed");
 }
 
+// ── Block / Unblock ─────────────────────────────────────────────────────────
+
+export async function blockUser(targetUserId: number) {
+	const userId = await getSessionUserId();
+	if (userId === targetUserId) throw new Error("Cannot block yourself");
+
+	await prisma.userBlock.upsert({
+		where: { blockerId_blockedId: { blockerId: userId, blockedId: targetUserId } },
+		create: { blockerId: userId, blockedId: targetUserId },
+		update: {},
+	});
+
+	// Also remove any follow relationship
+	await prisma.userFollow.deleteMany({
+		where: {
+			OR: [
+				{ followerId: userId, followingId: targetUserId },
+				{ followerId: targetUserId, followingId: userId },
+			],
+		},
+	});
+
+	revalidatePath("/people");
+}
+
+export async function unblockUser(targetUserId: number) {
+	const userId = await getSessionUserId();
+
+	await prisma.userBlock.deleteMany({
+		where: { blockerId: userId, blockedId: targetUserId },
+	});
+
+	revalidatePath("/settings");
+}
+
+export async function getBlockedUsers() {
+	const userId = await getSessionUserId();
+
+	return prisma.userBlock.findMany({
+		where: { blockerId: userId },
+		orderBy: { createdAt: "desc" },
+		include: {
+			blocked: {
+				select: {
+					id: true,
+					userName: true,
+					firstName: true,
+					lastName: true,
+					avatar: { select: { photoSrc: true } },
+				},
+			},
+		},
+	});
+}
+
+// ── Report ───────────────────────────────────────────────────────────────────
+
+export async function reportUser(targetUserId: number, reason: string) {
+	const userId = await getSessionUserId();
+	if (userId === targetUserId) throw new Error("Cannot report yourself");
+
+	await prisma.reportedContent.create({
+		data: {
+			reportType: "User",
+			reason: reason.trim() || null,
+			reportingUserId: userId,
+			reportedUserId: targetUserId,
+			contentId: targetUserId,
+		},
+	});
+}
+
+// ── Account management ────────────────────────────────────────────────────────
+
+export async function deactivateAccount() {
+	const userId = await getSessionUserId();
+
+	await prisma.user.update({
+		where: { id: userId },
+		data: { active: false },
+	});
+}
+
+export async function deleteAccount(password: string) {
+	const userId = await getSessionUserId();
+
+	const user = await prisma.user.findUnique({
+		where: { id: userId },
+		select: { password: true },
+	});
+
+	// If user has a password, verify it before deleting
+	if (user?.password) {
+		const valid = await compare(password, user.password);
+		if (!valid) throw new Error("Incorrect password");
+	}
+
+	await prisma.user.delete({ where: { id: userId } });
+}
+

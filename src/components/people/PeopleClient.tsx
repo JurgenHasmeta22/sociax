@@ -20,7 +20,7 @@ type Person = {
 	lastName: string | null;
 	location: string | null;
 	avatar: { photoSrc: string } | null;
-	_count: { followers: number; posts: number };
+	_count: { following: number; posts: number };
 };
 
 export function PeopleClient({

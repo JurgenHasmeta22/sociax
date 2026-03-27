@@ -259,6 +259,19 @@ export default async function ProfilePage({ params }: PageProps) {
 			: Promise.resolve([]),
 	]);
 
+	const isBlocked =
+		currentUserId && !isOwnProfile
+			? !!(await prisma.userBlock.findUnique({
+					where: {
+						blockerId_blockedId: {
+							blockerId: currentUserId,
+							blockedId: user.id,
+						},
+					},
+					select: { id: true },
+				}))
+			: false;
+
 	return (
 		<ProfileContent
 			user={{ ...user, posts: posts as never[] }}
@@ -266,6 +279,7 @@ export default async function ProfilePage({ params }: PageProps) {
 			currentUserId={currentUserId}
 			followState={followState}
 			canViewContent={canViewContent}
+			initialIsBlocked={isBlocked}
 			friends={friends.map(
 				(f) => (f as { following: unknown }).following as never,
 			)}
