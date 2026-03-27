@@ -195,15 +195,15 @@ export default async function GroupDetailPage({
 
 				<aside className="space-y-5">
 					<div className="border rounded-xl p-4">
-					<div className="flex items-center justify-between mb-3">
-						<h3 className="font-semibold text-sm">Members</h3>
-						<GroupMembersModal
-							groupId={group.id}
-							memberCount={group._count.members}
-							currentUserId={userId}
-							initialFollowStates={followStates}
-						/>
-					</div>
+						<div className="flex items-center justify-between mb-3">
+							<h3 className="font-semibold text-sm">Members</h3>
+							<GroupMembersModal
+								groupId={group.id}
+								memberCount={group._count.members}
+								currentUserId={userId}
+								initialFollowStates={followStates}
+							/>
+						</div>
 						<div className="grid grid-cols-3 gap-2">
 							{members.map(({ user }) => {
 								const n =
@@ -234,7 +234,6 @@ export default async function GroupDetailPage({
 								);
 							})}
 						</div>
-
 					</div>
 				</aside>
 			</div>

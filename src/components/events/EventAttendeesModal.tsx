@@ -103,9 +103,21 @@ export function EventAttendeesModal({
 	};
 
 	const tabs: { key: Tab; label: string; count: number }[] = [
-		{ key: "going", label: "Going", count: data ? data.going.length : goingCount },
-		{ key: "interested", label: "Interested", count: data ? data.interested.length : interestedCount },
-		{ key: "notGoing", label: "Not going", count: data ? data.notGoing.length : notGoingCount },
+		{
+			key: "going",
+			label: "Going",
+			count: data ? data.going.length : goingCount,
+		},
+		{
+			key: "interested",
+			label: "Interested",
+			count: data ? data.interested.length : interestedCount,
+		},
+		{
+			key: "notGoing",
+			label: "Not going",
+			count: data ? data.notGoing.length : notGoingCount,
+		},
 	];
 
 	return (

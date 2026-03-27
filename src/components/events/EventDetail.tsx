@@ -100,9 +100,15 @@ export function EventDetail({
 	const isOwner = currentUserId === event.creator.id;
 	const creatorName = displayName(event.creator);
 
-	const initialGoingCount = event.attendees.filter((a) => a.status === "Going").length;
-	const initialInterestedCount = event.attendees.filter((a) => a.status === "Interested").length;
-	const initialNotGoingCount = event.attendees.filter((a) => a.status === "NotGoing").length;
+	const initialGoingCount = event.attendees.filter(
+		(a) => a.status === "Going",
+	).length;
+	const initialInterestedCount = event.attendees.filter(
+		(a) => a.status === "Interested",
+	).length;
+	const initialNotGoingCount = event.attendees.filter(
+		(a) => a.status === "NotGoing",
+	).length;
 
 	const [counts, setCounts] = useState({
 		going: initialGoingCount,
@@ -119,9 +125,12 @@ export function EventDetail({
 		setAttendance(isSame ? null : status);
 		setCounts((prev) => {
 			const next = { ...prev };
-			if (prevAttendance === "Going") next.going = Math.max(0, next.going - 1);
-			else if (prevAttendance === "Interested") next.interested = Math.max(0, next.interested - 1);
-			else if (prevAttendance === "NotGoing") next.notGoing = Math.max(0, next.notGoing - 1);
+			if (prevAttendance === "Going")
+				next.going = Math.max(0, next.going - 1);
+			else if (prevAttendance === "Interested")
+				next.interested = Math.max(0, next.interested - 1);
+			else if (prevAttendance === "NotGoing")
+				next.notGoing = Math.max(0, next.notGoing - 1);
 			if (!isSame) {
 				if (status === "Going") next.going += 1;
 				else if (status === "Interested") next.interested += 1;
@@ -135,7 +144,11 @@ export function EventDetail({
 			} catch {
 				toast.error("Failed to update RSVP.");
 				setAttendance(prevAttendance);
-				setCounts({ going: initialGoingCount, interested: initialInterestedCount, notGoing: initialNotGoingCount });
+				setCounts({
+					going: initialGoingCount,
+					interested: initialInterestedCount,
+					notGoing: initialNotGoingCount,
+				});
 			}
 		});
 	};

@@ -4,7 +4,10 @@ import { revalidatePath } from "next/cache";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 import { prisma } from "@/lib/prisma";
-import type { PageCategory, ReactionType } from "../../prisma/generated/prisma/enums";
+import type {
+	PageCategory,
+	ReactionType,
+} from "../../prisma/generated/prisma/enums";
 
 async function getSessionUserId() {
 	const session = await getServerSession(authOptions);
@@ -210,7 +213,10 @@ export async function deletePagePostComment(commentId: number) {
 	});
 }
 
-export async function getPagePostComments(postId: number, currentUserId?: number) {
+export async function getPagePostComments(
+	postId: number,
+	currentUserId?: number,
+) {
 	const comments = await prisma.pagePostComment.findMany({
 		where: { pagePostId: postId, isDeleted: false },
 		orderBy: { createdAt: "asc" },
@@ -226,7 +232,10 @@ export async function getPagePostComments(postId: number, currentUserId?: number
 			},
 			_count: { select: { likes: true } },
 			likes: currentUserId
-				? { where: { userId: currentUserId }, select: { id: true } }
+				? {
+						where: { userId: currentUserId },
+						select: { id: true, reactionType: true },
+					}
 				: false,
 		},
 	});
@@ -234,28 +243,71 @@ export async function getPagePostComments(postId: number, currentUserId?: number
 	return comments.map((c) => ({
 		...c,
 		likeCount: c._count.likes,
-		isLikedByMe: currentUserId ? c.likes.length > 0 : false,
+		myReactionType: currentUserId
+			? ((c.likes as Array<{ reactionType: string }> | undefined)?.[0]
+					?.reactionType ?? null)
+			: null,
 		likes: undefined,
 		_count: undefined,
 	}));
 }
 
-export async function togglePagePostCommentLike(commentId: number) {
+export async function togglePagePostCommentLike(
+	commentId: number,
+	reactionType: ReactionType,
+) {
 	const userId = await getSessionUserId();
 
 	const existing = await prisma.pagePostCommentLike.findUnique({
-		where: { userId_pagePostCommentId: { userId, pagePostCommentId: commentId } },
+		where: {
+			userId_pagePostCommentId: { userId, pagePostCommentId: commentId },
+		},
 	});
 
 	if (existing) {
-		await prisma.pagePostCommentLike.delete({
-			where: { userId_pagePostCommentId: { userId, pagePostCommentId: commentId } },
-		});
+		if (existing.reactionType === reactionType) {
+			await prisma.pagePostCommentLike.delete({
+				where: {
+					userId_pagePostCommentId: {
+						userId,
+						pagePostCommentId: commentId,
+					},
+				},
+			});
+		} else {
+			await prisma.pagePostCommentLike.update({
+				where: {
+					userId_pagePostCommentId: {
+						userId,
+						pagePostCommentId: commentId,
+					},
+				},
+				data: { reactionType },
+			});
+		}
 	} else {
 		await prisma.pagePostCommentLike.create({
-			data: { userId, pagePostCommentId: commentId },
+			data: { userId, pagePostCommentId: commentId, reactionType },
 		});
 	}
+}
+
+export async function getPagePostCommentReactions(commentId: number) {
+	return prisma.pagePostCommentLike.findMany({
+		where: { pagePostCommentId: commentId },
+		orderBy: { createdAt: "desc" },
+		include: {
+			user: {
+				select: {
+					id: true,
+					userName: true,
+					firstName: true,
+					lastName: true,
+					avatar: { select: { photoSrc: true } },
+				},
+			},
+		},
+	});
 }
 
 const FOLLOWERS_LIMIT = 20;

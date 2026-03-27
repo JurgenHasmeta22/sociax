@@ -12,7 +12,10 @@ import {
 } from "@/components/ui/dialog";
 import { Loader2, UserPlus, Users } from "lucide-react";
 import { getGroupMembers } from "@/actions/group.actions";
-import { sendFollowRequest, cancelFollowRequest } from "@/actions/follow.actions";
+import {
+	sendFollowRequest,
+	cancelFollowRequest,
+} from "@/actions/follow.actions";
 
 type Member = {
 	id: number;
@@ -83,7 +86,9 @@ function MemberRow({
 			</Link>
 			{currentUserId && !isMe && followState !== "accepted" && (
 				<Button
-					variant={followState === "pending" ? "outline" : "secondary"}
+					variant={
+						followState === "pending" ? "outline" : "secondary"
+					}
 					size="sm"
 					className="shrink-0 h-8 text-xs gap-1.5"
 					disabled={isPending}

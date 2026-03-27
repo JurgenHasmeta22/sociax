@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useState, useRef, useTransition, useEffect } from "react";
 import Image from "next/image";
@@ -121,18 +121,29 @@ function ReactionsModal({
 	const tabs = ["All", ...Object.keys(grouped)];
 
 	return (
-		<Dialog open={open} onOpenChange={(o) => { if (!o) onClose(); }}>
+		<Dialog
+			open={open}
+			onOpenChange={(o) => {
+				if (!o) onClose();
+			}}
+		>
 			<DialogContent className="max-w-sm">
 				<DialogHeader>
 					<DialogTitle>Reactions</DialogTitle>
 				</DialogHeader>
 				{!data ? (
-					<p className="text-sm text-muted-foreground py-4 text-center">Loading…</p>
+					<p className="text-sm text-muted-foreground py-4 text-center">
+						Loading…
+					</p>
 				) : (
 					<Tabs defaultValue="All">
 						<TabsList className="w-full flex-wrap h-auto gap-1 mb-2">
 							{tabs.map((tab) => (
-								<TabsTrigger key={tab} value={tab} className="text-xs px-2 py-1">
+								<TabsTrigger
+									key={tab}
+									value={tab}
+									className="text-xs px-2 py-1"
+								>
 									{tab === "All"
 										? `All ${data.length}`
 										: `${REACTIONS[tab]?.emoji} ${grouped[tab]?.length}`}
@@ -163,7 +174,9 @@ function ReactionList({ items }: { items: ReactionUser[] }) {
 					<div key={r.id} className="flex items-center gap-3">
 						<div className="relative">
 							<Avatar className="h-9 w-9">
-								<AvatarImage src={r.user.avatar?.photoSrc ?? undefined} />
+								<AvatarImage
+									src={r.user.avatar?.photoSrc ?? undefined}
+								/>
 								<AvatarFallback className="bg-primary text-primary-foreground text-sm font-semibold">
 									{n[0]?.toUpperCase()}
 								</AvatarFallback>
@@ -173,10 +186,15 @@ function ReactionList({ items }: { items: ReactionUser[] }) {
 							</span>
 						</div>
 						<div>
-							<Link href={`/profile/${r.user.userName}`} className="text-sm font-semibold hover:underline">
+							<Link
+								href={`/profile/${r.user.userName}`}
+								className="text-sm font-semibold hover:underline"
+							>
 								{n}
 							</Link>
-							<p className="text-xs text-muted-foreground">@{r.user.userName}</p>
+							<p className="text-xs text-muted-foreground">
+								@{r.user.userName}
+							</p>
 						</div>
 					</div>
 				);
@@ -236,8 +254,16 @@ function PagePostCard({
 		setShowComments(true);
 		if (comments.length === 0) {
 			startTransition(async () => {
-				const fetched = await getPagePostComments(post.id, currentUserId);
-				setComments(fetched);
+				const fetched = await getPagePostComments(
+					post.id,
+					currentUserId,
+				);
+				setComments(
+					fetched.map((c) => ({
+						...c,
+						isLikedByMe: c.myReactionType !== null,
+					})),
+				);
 			});
 		}
 	};
@@ -272,12 +298,16 @@ function PagePostCard({
 					? {
 							...c,
 							isLikedByMe: !c.isLikedByMe,
-							likeCount: c.isLikedByMe ? c.likeCount - 1 : c.likeCount + 1,
+							likeCount: c.isLikedByMe
+								? c.likeCount - 1
+								: c.likeCount + 1,
 						}
 					: c,
 			),
 		);
-		startTransition(() => togglePagePostCommentLike(commentId));
+		startTransition(() =>
+			togglePagePostCommentLike(commentId, "Like" as ReactionType),
+		);
 	};
 
 	const handleDeleteComment = (commentId: number) => {
@@ -380,9 +410,12 @@ function PagePostCard({
 				<CardContent className="pt-2 pb-2">
 					{likeCount > 0 && (
 						<>
-							<p className="text-sm text-muted-foreground mb-2">
+							<button
+								onClick={() => setShowReactionsModal(true)}
+								className="text-sm text-muted-foreground mb-2 hover:underline cursor-pointer"
+							>
 								{likeCount} reaction{likeCount !== 1 ? "s" : ""}
-							</p>
+							</button>
 							<Separator className="mb-1" />
 						</>
 					)}
@@ -492,10 +525,17 @@ function PagePostCard({
 										</div>
 										<div className="flex items-center gap-3 px-1 mt-1">
 											<button
-												onClick={() => handleCommentLike(c.id)}
+												onClick={() =>
+													handleCommentLike(c.id)
+												}
+												disabled={c.isPending}
 												className={cn(
 													"text-xs font-semibold hover:underline",
-													c.isLikedByMe ? "text-primary" : "text-muted-foreground",
+													c.isLikedByMe
+														? "text-primary"
+														: "text-muted-foreground",
+													c.isPending &&
+														"opacity-50 cursor-not-allowed",
 												)}
 											>
 												Like
@@ -623,7 +663,10 @@ export function PageFeed({
 				if (selectedFile) {
 					const fd = new FormData();
 					fd.append("file", selectedFile);
-					const res = await fetch("/api/upload", { method: "POST", body: fd });
+					const res = await fetch("/api/upload", {
+						method: "POST",
+						body: fd,
+					});
 					if (!res.ok) throw new Error("Upload failed");
 					const json = await res.json();
 					mediaUrl = json.url;
@@ -666,7 +709,9 @@ export function PageFeed({
 								/>
 								{previewUrl && selectedFile && (
 									<div className="relative rounded-lg overflow-hidden bg-muted">
-										{selectedFile.type.startsWith("video/") ? (
+										{selectedFile.type.startsWith(
+											"video/",
+										) ? (
 											<video
 												src={previewUrl}
 												className="w-full max-h-48 object-contain"
@@ -697,7 +742,9 @@ export function PageFeed({
 											onChange={handleFileChange}
 										/>
 										<button
-											onClick={() => fileInputRef.current?.click()}
+											onClick={() =>
+												fileInputRef.current?.click()
+											}
 											className="flex items-center gap-1.5 text-xs text-muted-foreground hover:text-foreground px-2 py-1.5 rounded hover:bg-muted transition-colors"
 											title="Add photo or video"
 										>
@@ -708,7 +755,10 @@ export function PageFeed({
 									<Button
 										size="sm"
 										onClick={handlePost}
-										disabled={isPending || (!content.trim() && !selectedFile)}
+										disabled={
+											isPending ||
+											(!content.trim() && !selectedFile)
+										}
 										className="gap-1.5"
 									>
 										{isPending ? (

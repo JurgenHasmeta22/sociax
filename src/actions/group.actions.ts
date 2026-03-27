@@ -39,7 +39,11 @@ export async function leaveGroup(groupId: number) {
 	if (group) revalidatePath(`/groups/${group.slug}`);
 }
 
-export async function createGroupPost(groupId: number, content: string, mediaUrl?: string) {
+export async function createGroupPost(
+	groupId: number,
+	content: string,
+	mediaUrl?: string,
+) {
 	const userId = await getSessionUserId();
 	if (!content.trim() && !mediaUrl?.trim()) return;
 
@@ -52,7 +56,12 @@ export async function createGroupPost(groupId: number, content: string, mediaUrl
 	const group = await prisma.group.findUnique({ where: { id: groupId } });
 
 	const post = await prisma.groupPost.create({
-		data: { groupId, userId, content: content.trim() || null, mediaUrl: mediaUrl?.trim() || null },
+		data: {
+			groupId,
+			userId,
+			content: content.trim() || null,
+			mediaUrl: mediaUrl?.trim() || null,
+		},
 		include: {
 			user: { include: { avatar: true } },
 			likes: { select: { id: true, userId: true, reactionType: true } },
@@ -171,7 +180,10 @@ export async function deleteGroupPostComment(commentId: number) {
 	});
 }
 
-export async function getGroupPostComments(groupPostId: number, currentUserId?: number) {
+export async function getGroupPostComments(
+	groupPostId: number,
+	currentUserId?: number,
+) {
 	const comments = await prisma.groupPostComment.findMany({
 		where: { groupPostId, isDeleted: false },
 		orderBy: { createdAt: "asc" },
@@ -205,12 +217,22 @@ export async function toggleGroupPostCommentLike(commentId: number) {
 	const userId = await getSessionUserId();
 
 	const existing = await prisma.groupPostCommentLike.findUnique({
-		where: { userId_groupPostCommentId: { userId, groupPostCommentId: commentId } },
+		where: {
+			userId_groupPostCommentId: {
+				userId,
+				groupPostCommentId: commentId,
+			},
+		},
 	});
 
 	if (existing) {
 		await prisma.groupPostCommentLike.delete({
-			where: { userId_groupPostCommentId: { userId, groupPostCommentId: commentId } },
+			where: {
+				userId_groupPostCommentId: {
+					userId,
+					groupPostCommentId: commentId,
+				},
+			},
 		});
 	} else {
 		await prisma.groupPostCommentLike.create({

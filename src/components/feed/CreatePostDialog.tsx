@@ -96,12 +96,19 @@ export function CreatePostDialog({
 				if (selectedFile) {
 					const form = new FormData();
 					form.append("file", selectedFile);
-					const res = await fetch("/api/upload", { method: "POST", body: form });
+					const res = await fetch("/api/upload", {
+						method: "POST",
+						body: form,
+					});
 					if (!res.ok) throw new Error("Upload failed");
-					const json = await res.json() as { url: string };
+					const json = (await res.json()) as { url: string };
 					uploadedUrl = json.url;
 				}
-				await createPost(content, privacy, uploadedUrl ? [uploadedUrl] : []);
+				await createPost(
+					content,
+					privacy,
+					uploadedUrl ? [uploadedUrl] : [],
+				);
 				toast.success("Post shared!");
 				handleClose();
 			} catch {
@@ -166,9 +173,17 @@ export function CreatePostDialog({
 				{previewUrl && (
 					<div className="relative rounded-lg overflow-hidden border">
 						{selectedFile?.type.startsWith("video/") ? (
-							<video src={previewUrl} controls className="w-full max-h-60 object-contain bg-black" />
+							<video
+								src={previewUrl}
+								controls
+								className="w-full max-h-60 object-contain bg-black"
+							/>
 						) : (
-							<img src={previewUrl} alt="preview" className="w-full max-h-60 object-contain" />
+							<img
+								src={previewUrl}
+								alt="preview"
+								className="w-full max-h-60 object-contain"
+							/>
 						)}
 						<button
 							onClick={clearFile}
@@ -200,9 +215,7 @@ export function CreatePostDialog({
 
 				<Button
 					onClick={handleSubmit}
-					disabled={
-						isPending || (!content.trim() && !selectedFile)
-					}
+					disabled={isPending || (!content.trim() && !selectedFile)}
 					className="w-full font-semibold"
 				>
 					{isPending && (

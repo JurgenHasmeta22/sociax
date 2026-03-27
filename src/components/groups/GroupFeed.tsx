@@ -131,18 +131,29 @@ function GroupReactionsModal({
 	const tabs = ["All", ...Object.keys(grouped)];
 
 	return (
-		<Dialog open={open} onOpenChange={(o) => { if (!o) onClose(); }}>
+		<Dialog
+			open={open}
+			onOpenChange={(o) => {
+				if (!o) onClose();
+			}}
+		>
 			<DialogContent className="max-w-sm">
 				<DialogHeader>
 					<DialogTitle>Reactions</DialogTitle>
 				</DialogHeader>
 				{!data ? (
-					<p className="text-sm text-muted-foreground py-4 text-center">Loading…</p>
+					<p className="text-sm text-muted-foreground py-4 text-center">
+						Loading…
+					</p>
 				) : (
 					<Tabs defaultValue="All">
 						<TabsList className="w-full flex-wrap h-auto gap-1 mb-2">
 							{tabs.map((tab) => (
-								<TabsTrigger key={tab} value={tab} className="text-xs px-2 py-1">
+								<TabsTrigger
+									key={tab}
+									value={tab}
+									className="text-xs px-2 py-1"
+								>
 									{tab === "All"
 										? `All ${data.length}`
 										: `${REACTIONS[tab]?.emoji} ${grouped[tab]?.length}`}
@@ -173,7 +184,9 @@ function GroupReactionList({ items }: { items: GroupReactionUser[] }) {
 					<div key={r.id} className="flex items-center gap-3">
 						<div className="relative">
 							<Avatar className="h-9 w-9">
-								<AvatarImage src={r.user.avatar?.photoSrc ?? undefined} />
+								<AvatarImage
+									src={r.user.avatar?.photoSrc ?? undefined}
+								/>
 								<AvatarFallback className="bg-primary text-primary-foreground text-sm font-semibold">
 									{n[0]?.toUpperCase()}
 								</AvatarFallback>
@@ -183,10 +196,15 @@ function GroupReactionList({ items }: { items: GroupReactionUser[] }) {
 							</span>
 						</div>
 						<div>
-							<Link href={`/profile/${r.user.userName}`} className="text-sm font-semibold hover:underline">
+							<Link
+								href={`/profile/${r.user.userName}`}
+								className="text-sm font-semibold hover:underline"
+							>
 								{n}
 							</Link>
-							<p className="text-xs text-muted-foreground">@{r.user.userName}</p>
+							<p className="text-xs text-muted-foreground">
+								@{r.user.userName}
+							</p>
 						</div>
 					</div>
 				);
@@ -247,7 +265,10 @@ function GroupPostCard({
 		setShowComments(true);
 		if (comments.length === 0) {
 			startTransition(async () => {
-				const fetched = await getGroupPostComments(post.id, currentUserId ?? undefined);
+				const fetched = await getGroupPostComments(
+					post.id,
+					currentUserId ?? undefined,
+				);
 				setComments(fetched);
 			});
 		}
@@ -284,7 +305,9 @@ function GroupPostCard({
 					? {
 							...c,
 							isLikedByMe: !c.isLikedByMe,
-							likeCount: c.isLikedByMe ? c.likeCount - 1 : c.likeCount + 1,
+							likeCount: c.isLikedByMe
+								? c.likeCount - 1
+								: c.likeCount + 1,
 						}
 					: c,
 			),
@@ -492,11 +515,16 @@ function GroupPostCard({
 										</div>
 										<div className="flex items-center gap-3 px-1 mt-1">
 											<button
-												onClick={() => handleCommentLike(c.id)}
-													disabled={c.isPending}
-													className={`text-xs font-semibold transition-colors disabled:opacity-40 disabled:cursor-default ${c.isLikedByMe ? "text-primary" : "text-muted-foreground hover:text-foreground"}`}
+												onClick={() =>
+													handleCommentLike(c.id)
+												}
+												disabled={c.isPending}
+												className={`text-xs font-semibold transition-colors disabled:opacity-40 disabled:cursor-default ${c.isLikedByMe ? "text-primary" : "text-muted-foreground hover:text-foreground"}`}
 											>
-												Like{c.likeCount > 0 ? ` · ${c.likeCount}` : ""}
+												Like
+												{c.likeCount > 0
+													? ` · ${c.likeCount}`
+													: ""}
 											</button>
 										</div>
 									</div>
@@ -615,12 +643,19 @@ function GroupPostComposer({
 				if (selectedFile) {
 					const fd = new FormData();
 					fd.append("file", selectedFile);
-					const res = await fetch("/api/upload", { method: "POST", body: fd });
+					const res = await fetch("/api/upload", {
+						method: "POST",
+						body: fd,
+					});
 					if (!res.ok) throw new Error("Upload failed");
 					const json = await res.json();
 					mediaUrl = json.url;
 				}
-				const newPost = await createGroupPost(groupId, content, mediaUrl);
+				const newPost = await createGroupPost(
+					groupId,
+					content,
+					mediaUrl,
+				);
 				if (newPost) onPost(newPost as unknown as GroupPostData);
 				setContent("");
 				clearFile();
@@ -682,7 +717,9 @@ function GroupPostComposer({
 					</div>
 					<Button
 						size="sm"
-						disabled={(!content.trim() && !selectedFile) || isPending}
+						disabled={
+							(!content.trim() && !selectedFile) || isPending
+						}
 						onClick={handleSubmit}
 						className="font-semibold"
 					>

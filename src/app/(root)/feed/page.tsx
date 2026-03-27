@@ -37,130 +37,137 @@ export default async function FeedPage() {
 	const followedPageIds = followedPageRows.map((r) => r.pageId);
 	const joinedGroupIds = joinedGroupRows.map((r) => r.groupId);
 
-	const [currentUser, posts, pagePosts, groupPosts, stories, suggestedUsers, events] =
-		await Promise.all([
-			prisma.user.findUnique({
-				where: { id: userId },
-				include: {
-					avatar: true,
-					_count: { select: { followers: true, posts: true } },
+	const [
+		currentUser,
+		posts,
+		pagePosts,
+		groupPosts,
+		stories,
+		suggestedUsers,
+		events,
+	] = await Promise.all([
+		prisma.user.findUnique({
+			where: { id: userId },
+			include: {
+				avatar: true,
+				_count: { select: { followers: true, posts: true } },
+			},
+		}),
+		prisma.post.findMany({
+			where: {
+				isDeleted: false,
+				userId: { in: allowedIds },
+				OR: [
+					{ userId },
+					{ privacy: { in: ["Public", "FriendsOnly"] } },
+				],
+			},
+			orderBy: { createdAt: "desc" },
+			take: 20,
+			include: {
+				user: { include: { avatar: true } },
+				media: true,
+				likes: {
+					select: { id: true, reactionType: true, userId: true },
 				},
-			}),
-			prisma.post.findMany({
-				where: {
-					isDeleted: false,
-					userId: { in: allowedIds },
-					OR: [
-						{ userId },
-						{ privacy: { in: ["Public", "FriendsOnly"] } },
-					],
-				},
-				orderBy: { createdAt: "desc" },
-				take: 20,
-				include: {
-					user: { include: { avatar: true } },
-					media: true,
-					likes: {
-						select: { id: true, reactionType: true, userId: true },
+				saves: { where: { userId }, select: { id: true } },
+				_count: { select: { comments: true, shares: true } },
+				hashtags: { include: { hashtag: true } },
+			},
+		}),
+		followedPageIds.length > 0
+			? prisma.pagePost.findMany({
+					where: {
+						pageId: { in: followedPageIds },
+						isDeleted: false,
 					},
-					saves: { where: { userId }, select: { id: true } },
-					_count: { select: { comments: true, shares: true } },
-					hashtags: { include: { hashtag: true } },
-				},
-			}),
-			followedPageIds.length > 0
-				? prisma.pagePost.findMany({
-						where: {
-							pageId: { in: followedPageIds },
-							isDeleted: false,
+					orderBy: { createdAt: "desc" },
+					take: 20,
+					include: {
+						page: {
+							select: {
+								id: true,
+								name: true,
+								slug: true,
+								avatarUrl: true,
+							},
 						},
-						orderBy: { createdAt: "desc" },
-						take: 20,
-						include: {
-							page: {
-								select: {
-									id: true,
-									name: true,
-									slug: true,
-									avatarUrl: true,
-								},
+						user: {
+							select: {
+								id: true,
+								userName: true,
+								firstName: true,
+								lastName: true,
+								avatar: { select: { photoSrc: true } },
 							},
-							user: {
-								select: {
-									id: true,
-									userName: true,
-									firstName: true,
-									lastName: true,
-									avatar: { select: { photoSrc: true } },
-								},
-							},
-							likes: {
-								select: { userId: true, reactionType: true },
-							},
-							_count: { select: { comments: true } },
 						},
-					})
-				: Promise.resolve([]),
-			joinedGroupIds.length > 0
-				? prisma.groupPost.findMany({
-						where: {
-							groupId: { in: joinedGroupIds },
-							isDeleted: false,
+						likes: {
+							select: { userId: true, reactionType: true },
 						},
-						orderBy: { createdAt: "desc" },
-						take: 20,
-						include: {
-							group: {
-								select: {
-									id: true,
-									name: true,
-									slug: true,
-									avatarUrl: true,
-								},
+						_count: { select: { comments: true } },
+					},
+				})
+			: Promise.resolve([]),
+		joinedGroupIds.length > 0
+			? prisma.groupPost.findMany({
+					where: {
+						groupId: { in: joinedGroupIds },
+						isDeleted: false,
+					},
+					orderBy: { createdAt: "desc" },
+					take: 20,
+					include: {
+						group: {
+							select: {
+								id: true,
+								name: true,
+								slug: true,
+								avatarUrl: true,
 							},
-							user: {
-								include: { avatar: true },
-							},
-							likes: {
-								select: {
-									id: true,
-									userId: true,
-									reactionType: true,
-								},
-							},
-							_count: { select: { comments: true } },
 						},
-					})
-				: Promise.resolve([]),
-			prisma.story.findMany({
-				where: {
-					userId: { in: allowedIds },
-					expiresAt: { gt: new Date() },
-				},
-				take: 15,
-				orderBy: { createdAt: "desc" },
-				include: {
-					user: { include: { avatar: true } },
-					views: { where: { userId }, select: { id: true } },
-					_count: { select: { views: true } },
-				},
-			}),
-			prisma.user.findMany({
-				where: { id: { not: userId }, active: true },
-				take: 5,
-				orderBy: { createdAt: "desc" },
-				include: {
-					avatar: true,
-					_count: { select: { followers: true } },
-				},
-			}),
-			prisma.event.findMany({
-				where: { startDate: { gt: new Date() } },
-				take: 3,
-				orderBy: { startDate: "asc" },
-				include: { _count: { select: { attendees: true } } },
-			}),
-		]);
+						user: {
+							include: { avatar: true },
+						},
+						likes: {
+							select: {
+								id: true,
+								userId: true,
+								reactionType: true,
+							},
+						},
+						_count: { select: { comments: true } },
+					},
+				})
+			: Promise.resolve([]),
+		prisma.story.findMany({
+			where: {
+				userId: { in: allowedIds },
+				expiresAt: { gt: new Date() },
+			},
+			take: 15,
+			orderBy: { createdAt: "desc" },
+			include: {
+				user: { include: { avatar: true } },
+				views: { where: { userId }, select: { id: true } },
+				_count: { select: { views: true } },
+			},
+		}),
+		prisma.user.findMany({
+			where: { id: { not: userId }, active: true },
+			take: 5,
+			orderBy: { createdAt: "desc" },
+			include: {
+				avatar: true,
+				_count: { select: { followers: true } },
+			},
+		}),
+		prisma.event.findMany({
+			where: { startDate: { gt: new Date() } },
+			take: 3,
+			orderBy: { startDate: "asc" },
+			include: { _count: { select: { attendees: true } } },
+		}),
+	]);
 
 	if (!currentUser) redirect("/login");
 

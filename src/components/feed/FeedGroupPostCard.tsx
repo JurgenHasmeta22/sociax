@@ -299,8 +299,7 @@ export function FeedGroupPostCard({
 								<Avatar className="h-7 w-7 shrink-0">
 									<AvatarImage
 										src={
-											c.user.avatar?.photoSrc ??
-											undefined
+											c.user.avatar?.photoSrc ?? undefined
 										}
 									/>
 									<AvatarFallback className="bg-primary text-primary-foreground text-xs font-semibold">
