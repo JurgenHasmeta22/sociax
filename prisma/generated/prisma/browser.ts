@@ -98,6 +98,16 @@ export type GroupPostLike = Prisma.GroupPostLikeModel
  */
 export type GroupPostComment = Prisma.GroupPostCommentModel
 /**
+ * Model GroupPostCommentLike
+ * 
+ */
+export type GroupPostCommentLike = Prisma.GroupPostCommentLikeModel
+/**
+ * Model Memory
+ * 
+ */
+export type Memory = Prisma.MemoryModel
+/**
  * Model Conversation
  * 
  */
@@ -157,6 +167,11 @@ export type PagePostLike = Prisma.PagePostLikeModel
  * 
  */
 export type PagePostComment = Prisma.PagePostCommentModel
+/**
+ * Model PagePostCommentLike
+ * 
+ */
+export type PagePostCommentLike = Prisma.PagePostCommentLikeModel
 /**
  * Model Post
  * 

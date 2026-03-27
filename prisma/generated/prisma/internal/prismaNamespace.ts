@@ -400,6 +400,8 @@ export const ModelName = {
   GroupPost: 'GroupPost',
   GroupPostLike: 'GroupPostLike',
   GroupPostComment: 'GroupPostComment',
+  GroupPostCommentLike: 'GroupPostCommentLike',
+  Memory: 'Memory',
   Conversation: 'Conversation',
   ConversationParticipant: 'ConversationParticipant',
   Message: 'Message',
@@ -412,6 +414,7 @@ export const ModelName = {
   PagePost: 'PagePost',
   PagePostLike: 'PagePostLike',
   PagePostComment: 'PagePostComment',
+  PagePostCommentLike: 'PagePostCommentLike',
   Post: 'Post',
   PostMedia: 'PostMedia',
   PostLike: 'PostLike',
@@ -443,7 +446,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "account" | "session" | "verificationToken" | "activateToken" | "resetPasswordToken" | "postComment" | "commentLike" | "commentReply" | "replyLike" | "event" | "eventAttendee" | "group" | "groupMember" | "groupPost" | "groupPostLike" | "groupPostComment" | "conversation" | "conversationParticipant" | "message" | "messageReaction" | "reportedContent" | "moderationLog" | "notification" | "page" | "pageFollower" | "pagePost" | "pagePostLike" | "pagePostComment" | "post" | "postMedia" | "postLike" | "postSave" | "postShare" | "postHistory" | "hashtag" | "postHashtag" | "story" | "storyView" | "storyReaction" | "user" | "avatar" | "coverPhoto" | "userFollow" | "userBlock"
+    modelProps: "account" | "session" | "verificationToken" | "activateToken" | "resetPasswordToken" | "postComment" | "commentLike" | "commentReply" | "replyLike" | "event" | "eventAttendee" | "group" | "groupMember" | "groupPost" | "groupPostLike" | "groupPostComment" | "groupPostCommentLike" | "memory" | "conversation" | "conversationParticipant" | "message" | "messageReaction" | "reportedContent" | "moderationLog" | "notification" | "page" | "pageFollower" | "pagePost" | "pagePostLike" | "pagePostComment" | "pagePostCommentLike" | "post" | "postMedia" | "postLike" | "postSave" | "postShare" | "postHistory" | "hashtag" | "postHashtag" | "story" | "storyView" | "storyReaction" | "user" | "avatar" | "coverPhoto" | "userFollow" | "userBlock"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -1631,6 +1634,154 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
+    GroupPostCommentLike: {
+      payload: Prisma.$GroupPostCommentLikePayload<ExtArgs>
+      fields: Prisma.GroupPostCommentLikeFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.GroupPostCommentLikeFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$GroupPostCommentLikePayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.GroupPostCommentLikeFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$GroupPostCommentLikePayload>
+        }
+        findFirst: {
+          args: Prisma.GroupPostCommentLikeFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$GroupPostCommentLikePayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.GroupPostCommentLikeFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$GroupPostCommentLikePayload>
+        }
+        findMany: {
+          args: Prisma.GroupPostCommentLikeFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$GroupPostCommentLikePayload>[]
+        }
+        create: {
+          args: Prisma.GroupPostCommentLikeCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$GroupPostCommentLikePayload>
+        }
+        createMany: {
+          args: Prisma.GroupPostCommentLikeCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.GroupPostCommentLikeCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$GroupPostCommentLikePayload>[]
+        }
+        delete: {
+          args: Prisma.GroupPostCommentLikeDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$GroupPostCommentLikePayload>
+        }
+        update: {
+          args: Prisma.GroupPostCommentLikeUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$GroupPostCommentLikePayload>
+        }
+        deleteMany: {
+          args: Prisma.GroupPostCommentLikeDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.GroupPostCommentLikeUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.GroupPostCommentLikeUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$GroupPostCommentLikePayload>[]
+        }
+        upsert: {
+          args: Prisma.GroupPostCommentLikeUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$GroupPostCommentLikePayload>
+        }
+        aggregate: {
+          args: Prisma.GroupPostCommentLikeAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateGroupPostCommentLike>
+        }
+        groupBy: {
+          args: Prisma.GroupPostCommentLikeGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.GroupPostCommentLikeGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.GroupPostCommentLikeCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.GroupPostCommentLikeCountAggregateOutputType> | number
+        }
+      }
+    }
+    Memory: {
+      payload: Prisma.$MemoryPayload<ExtArgs>
+      fields: Prisma.MemoryFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.MemoryFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MemoryPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.MemoryFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MemoryPayload>
+        }
+        findFirst: {
+          args: Prisma.MemoryFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MemoryPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.MemoryFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MemoryPayload>
+        }
+        findMany: {
+          args: Prisma.MemoryFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MemoryPayload>[]
+        }
+        create: {
+          args: Prisma.MemoryCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MemoryPayload>
+        }
+        createMany: {
+          args: Prisma.MemoryCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.MemoryCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MemoryPayload>[]
+        }
+        delete: {
+          args: Prisma.MemoryDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MemoryPayload>
+        }
+        update: {
+          args: Prisma.MemoryUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MemoryPayload>
+        }
+        deleteMany: {
+          args: Prisma.MemoryDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.MemoryUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.MemoryUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MemoryPayload>[]
+        }
+        upsert: {
+          args: Prisma.MemoryUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MemoryPayload>
+        }
+        aggregate: {
+          args: Prisma.MemoryAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateMemory>
+        }
+        groupBy: {
+          args: Prisma.MemoryGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.MemoryGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.MemoryCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.MemoryCountAggregateOutputType> | number
+        }
+      }
+    }
     Conversation: {
       payload: Prisma.$ConversationPayload<ExtArgs>
       fields: Prisma.ConversationFieldRefs
@@ -2516,6 +2667,80 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         count: {
           args: Prisma.PagePostCommentCountArgs<ExtArgs>
           result: runtime.Types.Utils.Optional<Prisma.PagePostCommentCountAggregateOutputType> | number
+        }
+      }
+    }
+    PagePostCommentLike: {
+      payload: Prisma.$PagePostCommentLikePayload<ExtArgs>
+      fields: Prisma.PagePostCommentLikeFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.PagePostCommentLikeFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PagePostCommentLikePayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.PagePostCommentLikeFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PagePostCommentLikePayload>
+        }
+        findFirst: {
+          args: Prisma.PagePostCommentLikeFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PagePostCommentLikePayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.PagePostCommentLikeFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PagePostCommentLikePayload>
+        }
+        findMany: {
+          args: Prisma.PagePostCommentLikeFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PagePostCommentLikePayload>[]
+        }
+        create: {
+          args: Prisma.PagePostCommentLikeCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PagePostCommentLikePayload>
+        }
+        createMany: {
+          args: Prisma.PagePostCommentLikeCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.PagePostCommentLikeCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PagePostCommentLikePayload>[]
+        }
+        delete: {
+          args: Prisma.PagePostCommentLikeDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PagePostCommentLikePayload>
+        }
+        update: {
+          args: Prisma.PagePostCommentLikeUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PagePostCommentLikePayload>
+        }
+        deleteMany: {
+          args: Prisma.PagePostCommentLikeDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.PagePostCommentLikeUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.PagePostCommentLikeUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PagePostCommentLikePayload>[]
+        }
+        upsert: {
+          args: Prisma.PagePostCommentLikeUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PagePostCommentLikePayload>
+        }
+        aggregate: {
+          args: Prisma.PagePostCommentLikeAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregatePagePostCommentLike>
+        }
+        groupBy: {
+          args: Prisma.PagePostCommentLikeGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.PagePostCommentLikeGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.PagePostCommentLikeCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.PagePostCommentLikeCountAggregateOutputType> | number
         }
       }
     }
@@ -3950,6 +4175,29 @@ export const GroupPostCommentScalarFieldEnum = {
 export type GroupPostCommentScalarFieldEnum = (typeof GroupPostCommentScalarFieldEnum)[keyof typeof GroupPostCommentScalarFieldEnum]
 
 
+export const GroupPostCommentLikeScalarFieldEnum = {
+  id: 'id',
+  reactionType: 'reactionType',
+  createdAt: 'createdAt',
+  userId: 'userId',
+  groupPostCommentId: 'groupPostCommentId'
+} as const
+
+export type GroupPostCommentLikeScalarFieldEnum = (typeof GroupPostCommentLikeScalarFieldEnum)[keyof typeof GroupPostCommentLikeScalarFieldEnum]
+
+
+export const MemoryScalarFieldEnum = {
+  id: 'id',
+  note: 'note',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  userId: 'userId',
+  postId: 'postId'
+} as const
+
+export type MemoryScalarFieldEnum = (typeof MemoryScalarFieldEnum)[keyof typeof MemoryScalarFieldEnum]
+
+
 export const ConversationScalarFieldEnum = {
   id: 'id',
   isGroup: 'isGroup',
@@ -4109,6 +4357,17 @@ export const PagePostCommentScalarFieldEnum = {
 } as const
 
 export type PagePostCommentScalarFieldEnum = (typeof PagePostCommentScalarFieldEnum)[keyof typeof PagePostCommentScalarFieldEnum]
+
+
+export const PagePostCommentLikeScalarFieldEnum = {
+  id: 'id',
+  reactionType: 'reactionType',
+  createdAt: 'createdAt',
+  userId: 'userId',
+  pagePostCommentId: 'pagePostCommentId'
+} as const
+
+export type PagePostCommentLikeScalarFieldEnum = (typeof PagePostCommentLikeScalarFieldEnum)[keyof typeof PagePostCommentLikeScalarFieldEnum]
 
 
 export const PostScalarFieldEnum = {
@@ -4621,6 +4880,8 @@ export type GlobalOmitConfig = {
   groupPost?: Prisma.GroupPostOmit
   groupPostLike?: Prisma.GroupPostLikeOmit
   groupPostComment?: Prisma.GroupPostCommentOmit
+  groupPostCommentLike?: Prisma.GroupPostCommentLikeOmit
+  memory?: Prisma.MemoryOmit
   conversation?: Prisma.ConversationOmit
   conversationParticipant?: Prisma.ConversationParticipantOmit
   message?: Prisma.MessageOmit
@@ -4633,6 +4894,7 @@ export type GlobalOmitConfig = {
   pagePost?: Prisma.PagePostOmit
   pagePostLike?: Prisma.PagePostLikeOmit
   pagePostComment?: Prisma.PagePostCommentOmit
+  pagePostCommentLike?: Prisma.PagePostCommentLikeOmit
   post?: Prisma.PostOmit
   postMedia?: Prisma.PostMediaOmit
   postLike?: Prisma.PostLikeOmit

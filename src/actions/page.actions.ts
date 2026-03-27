@@ -169,6 +169,24 @@ export async function togglePagePostLike(
 	}
 }
 
+export async function getPagePostReactions(postId: number) {
+	return prisma.pagePostLike.findMany({
+		where: { pagePostId: postId },
+		orderBy: { createdAt: "desc" },
+		include: {
+			user: {
+				select: {
+					id: true,
+					userName: true,
+					firstName: true,
+					lastName: true,
+					avatar: { select: { photoSrc: true } },
+				},
+			},
+		},
+	});
+}
+
 export async function createPagePostComment(postId: number, content: string) {
 	const userId = await getSessionUserId();
 	if (!content.trim()) return;

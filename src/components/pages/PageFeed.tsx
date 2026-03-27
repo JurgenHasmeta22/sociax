@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useRef, useTransition } from "react";
+import { useState, useRef, useTransition, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
@@ -8,6 +8,13 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Textarea } from "@/components/ui/textarea";
 import { Separator } from "@/components/ui/separator";
+import {
+	Dialog,
+	DialogContent,
+	DialogHeader,
+	DialogTitle,
+} from "@/components/ui/dialog";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import {
 	DropdownMenu,
 	DropdownMenuContent,
@@ -33,6 +40,7 @@ import {
 	deletePagePostComment,
 	getPagePostComments,
 	togglePagePostCommentLike,
+	getPagePostReactions,
 } from "@/actions/page.actions";
 import { toast } from "sonner";
 import { cn } from "@/lib/utils";
@@ -63,6 +71,7 @@ type PageComment = {
 	user: PagePostUser;
 	likeCount: number;
 	isLikedByMe: boolean;
+	isPending?: boolean;
 };
 
 type PagePostItem = {
@@ -77,6 +86,104 @@ type PagePostItem = {
 
 const displayName = (u: PagePostUser) =>
 	[u.firstName, u.lastName].filter(Boolean).join(" ") || u.userName;
+
+type ReactionUser = {
+	id: number;
+	reactionType: string;
+	user: PagePostUser;
+};
+
+function ReactionsModal({
+	postId,
+	open,
+	onClose,
+}: {
+	postId: number;
+	open: boolean;
+	onClose: () => void;
+}) {
+	const [data, setData] = useState<ReactionUser[] | null>(null);
+
+	useEffect(() => {
+		if (open && data === null) {
+			getPagePostReactions(postId).then(setData);
+		}
+		if (!open) setData(null);
+	}, [open, postId]);
+
+	const grouped = (data ?? []).reduce<Record<string, ReactionUser[]>>(
+		(acc, r) => {
+			(acc[r.reactionType] ??= []).push(r);
+			return acc;
+		},
+		{},
+	);
+	const tabs = ["All", ...Object.keys(grouped)];
+
+	return (
+		<Dialog open={open} onOpenChange={(o) => { if (!o) onClose(); }}>
+			<DialogContent className="max-w-sm">
+				<DialogHeader>
+					<DialogTitle>Reactions</DialogTitle>
+				</DialogHeader>
+				{!data ? (
+					<p className="text-sm text-muted-foreground py-4 text-center">Loading…</p>
+				) : (
+					<Tabs defaultValue="All">
+						<TabsList className="w-full flex-wrap h-auto gap-1 mb-2">
+							{tabs.map((tab) => (
+								<TabsTrigger key={tab} value={tab} className="text-xs px-2 py-1">
+									{tab === "All"
+										? `All ${data.length}`
+										: `${REACTIONS[tab]?.emoji} ${grouped[tab]?.length}`}
+								</TabsTrigger>
+							))}
+						</TabsList>
+						<TabsContent value="All">
+							<ReactionList items={data} />
+						</TabsContent>
+						{Object.entries(grouped).map(([type, items]) => (
+							<TabsContent key={type} value={type}>
+								<ReactionList items={items} />
+							</TabsContent>
+						))}
+					</Tabs>
+				)}
+			</DialogContent>
+		</Dialog>
+	);
+}
+
+function ReactionList({ items }: { items: ReactionUser[] }) {
+	return (
+		<div className="space-y-3 max-h-72 overflow-y-auto pr-1">
+			{items.map((r) => {
+				const n = displayName(r.user);
+				return (
+					<div key={r.id} className="flex items-center gap-3">
+						<div className="relative">
+							<Avatar className="h-9 w-9">
+								<AvatarImage src={r.user.avatar?.photoSrc ?? undefined} />
+								<AvatarFallback className="bg-primary text-primary-foreground text-sm font-semibold">
+									{n[0]?.toUpperCase()}
+								</AvatarFallback>
+							</Avatar>
+							<span className="absolute -bottom-0.5 -right-0.5 text-sm leading-none">
+								{REACTIONS[r.reactionType]?.emoji}
+							</span>
+						</div>
+						<div>
+							<Link href={`/profile/${r.user.userName}`} className="text-sm font-semibold hover:underline">
+								{n}
+							</Link>
+							<p className="text-xs text-muted-foreground">@{r.user.userName}</p>
+						</div>
+					</div>
+				);
+			})}
+		</div>
+	);
+}
 
 function PagePostCard({
 	post,
@@ -103,6 +210,7 @@ function PagePostCard({
 	const [comments, setComments] = useState<PageComment[]>([]);
 	const [commentText, setCommentText] = useState("");
 	const [commentToDelete, setCommentToDelete] = useState<number | null>(null);
+	const [showReactionsModal, setShowReactionsModal] = useState(false);
 
 	if (deleted) return null;
 
@@ -144,6 +252,7 @@ function PagePostCard({
 			createdAt: new Date(),
 			likeCount: 0,
 			isLikedByMe: false,
+			isPending: true,
 			user: {
 				id: currentUserId,
 				userName: "",
@@ -456,6 +565,11 @@ function PagePostCard({
 				title="Delete comment?"
 				description="This comment will be permanently removed."
 				isPending={isPending}
+			/>
+			<ReactionsModal
+				postId={post.id}
+				open={showReactionsModal}
+				onClose={() => setShowReactionsModal(false)}
 			/>
 		</>
 	);

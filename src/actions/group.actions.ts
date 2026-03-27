@@ -119,6 +119,24 @@ export async function toggleGroupPostLike(
 	if (group) revalidatePath(`/groups/${group.slug}`);
 }
 
+export async function getGroupPostReactions(groupPostId: number) {
+	return prisma.groupPostLike.findMany({
+		where: { groupPostId },
+		orderBy: { createdAt: "desc" },
+		include: {
+			user: {
+				select: {
+					id: true,
+					userName: true,
+					firstName: true,
+					lastName: true,
+					avatar: { select: { photoSrc: true } },
+				},
+			},
+		},
+	});
+}
+
 export async function createGroupPostComment(
 	groupPostId: number,
 	content: string,

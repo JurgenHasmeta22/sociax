@@ -242,6 +242,7 @@ export type PagePostCommentWhereInput = {
   userId?: Prisma.IntFilter<"PagePostComment"> | number
   pagePost?: Prisma.XOR<Prisma.PagePostScalarRelationFilter, Prisma.PagePostWhereInput>
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
+  likes?: Prisma.PagePostCommentLikeListRelationFilter
 }
 
 export type PagePostCommentOrderByWithRelationInput = {
@@ -254,6 +255,7 @@ export type PagePostCommentOrderByWithRelationInput = {
   userId?: Prisma.SortOrder
   pagePost?: Prisma.PagePostOrderByWithRelationInput
   user?: Prisma.UserOrderByWithRelationInput
+  likes?: Prisma.PagePostCommentLikeOrderByRelationAggregateInput
 }
 
 export type PagePostCommentWhereUniqueInput = Prisma.AtLeast<{
@@ -269,6 +271,7 @@ export type PagePostCommentWhereUniqueInput = Prisma.AtLeast<{
   userId?: Prisma.IntFilter<"PagePostComment"> | number
   pagePost?: Prisma.XOR<Prisma.PagePostScalarRelationFilter, Prisma.PagePostWhereInput>
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
+  likes?: Prisma.PagePostCommentLikeListRelationFilter
 }, "id">
 
 export type PagePostCommentOrderByWithAggregationInput = {
@@ -306,6 +309,7 @@ export type PagePostCommentCreateInput = {
   updatedAt?: Date | string | null
   pagePost: Prisma.PagePostCreateNestedOneWithoutCommentsInput
   user: Prisma.UserCreateNestedOneWithoutPagePostCommentsInput
+  likes?: Prisma.PagePostCommentLikeCreateNestedManyWithoutCommentInput
 }
 
 export type PagePostCommentUncheckedCreateInput = {
@@ -316,6 +320,7 @@ export type PagePostCommentUncheckedCreateInput = {
   updatedAt?: Date | string | null
   pagePostId: number
   userId: number
+  likes?: Prisma.PagePostCommentLikeUncheckedCreateNestedManyWithoutCommentInput
 }
 
 export type PagePostCommentUpdateInput = {
@@ -325,6 +330,7 @@ export type PagePostCommentUpdateInput = {
   updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   pagePost?: Prisma.PagePostUpdateOneRequiredWithoutCommentsNestedInput
   user?: Prisma.UserUpdateOneRequiredWithoutPagePostCommentsNestedInput
+  likes?: Prisma.PagePostCommentLikeUpdateManyWithoutCommentNestedInput
 }
 
 export type PagePostCommentUncheckedUpdateInput = {
@@ -335,6 +341,7 @@ export type PagePostCommentUncheckedUpdateInput = {
   updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   pagePostId?: Prisma.IntFieldUpdateOperationsInput | number
   userId?: Prisma.IntFieldUpdateOperationsInput | number
+  likes?: Prisma.PagePostCommentLikeUncheckedUpdateManyWithoutCommentNestedInput
 }
 
 export type PagePostCommentCreateManyInput = {
@@ -416,6 +423,11 @@ export type PagePostCommentSumOrderByAggregateInput = {
   userId?: Prisma.SortOrder
 }
 
+export type PagePostCommentScalarRelationFilter = {
+  is?: Prisma.PagePostCommentWhereInput
+  isNot?: Prisma.PagePostCommentWhereInput
+}
+
 export type PagePostCommentCreateNestedManyWithoutPagePostInput = {
   create?: Prisma.XOR<Prisma.PagePostCommentCreateWithoutPagePostInput, Prisma.PagePostCommentUncheckedCreateWithoutPagePostInput> | Prisma.PagePostCommentCreateWithoutPagePostInput[] | Prisma.PagePostCommentUncheckedCreateWithoutPagePostInput[]
   connectOrCreate?: Prisma.PagePostCommentCreateOrConnectWithoutPagePostInput | Prisma.PagePostCommentCreateOrConnectWithoutPagePostInput[]
@@ -456,6 +468,20 @@ export type PagePostCommentUncheckedUpdateManyWithoutPagePostNestedInput = {
   update?: Prisma.PagePostCommentUpdateWithWhereUniqueWithoutPagePostInput | Prisma.PagePostCommentUpdateWithWhereUniqueWithoutPagePostInput[]
   updateMany?: Prisma.PagePostCommentUpdateManyWithWhereWithoutPagePostInput | Prisma.PagePostCommentUpdateManyWithWhereWithoutPagePostInput[]
   deleteMany?: Prisma.PagePostCommentScalarWhereInput | Prisma.PagePostCommentScalarWhereInput[]
+}
+
+export type PagePostCommentCreateNestedOneWithoutLikesInput = {
+  create?: Prisma.XOR<Prisma.PagePostCommentCreateWithoutLikesInput, Prisma.PagePostCommentUncheckedCreateWithoutLikesInput>
+  connectOrCreate?: Prisma.PagePostCommentCreateOrConnectWithoutLikesInput
+  connect?: Prisma.PagePostCommentWhereUniqueInput
+}
+
+export type PagePostCommentUpdateOneRequiredWithoutLikesNestedInput = {
+  create?: Prisma.XOR<Prisma.PagePostCommentCreateWithoutLikesInput, Prisma.PagePostCommentUncheckedCreateWithoutLikesInput>
+  connectOrCreate?: Prisma.PagePostCommentCreateOrConnectWithoutLikesInput
+  upsert?: Prisma.PagePostCommentUpsertWithoutLikesInput
+  connect?: Prisma.PagePostCommentWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.PagePostCommentUpdateToOneWithWhereWithoutLikesInput, Prisma.PagePostCommentUpdateWithoutLikesInput>, Prisma.PagePostCommentUncheckedUpdateWithoutLikesInput>
 }
 
 export type PagePostCommentCreateNestedManyWithoutUserInput = {
@@ -506,6 +532,7 @@ export type PagePostCommentCreateWithoutPagePostInput = {
   createdAt?: Date | string
   updatedAt?: Date | string | null
   user: Prisma.UserCreateNestedOneWithoutPagePostCommentsInput
+  likes?: Prisma.PagePostCommentLikeCreateNestedManyWithoutCommentInput
 }
 
 export type PagePostCommentUncheckedCreateWithoutPagePostInput = {
@@ -515,6 +542,7 @@ export type PagePostCommentUncheckedCreateWithoutPagePostInput = {
   createdAt?: Date | string
   updatedAt?: Date | string | null
   userId: number
+  likes?: Prisma.PagePostCommentLikeUncheckedCreateNestedManyWithoutCommentInput
 }
 
 export type PagePostCommentCreateOrConnectWithoutPagePostInput = {
@@ -555,12 +583,67 @@ export type PagePostCommentScalarWhereInput = {
   userId?: Prisma.IntFilter<"PagePostComment"> | number
 }
 
+export type PagePostCommentCreateWithoutLikesInput = {
+  content: string
+  isDeleted?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string | null
+  pagePost: Prisma.PagePostCreateNestedOneWithoutCommentsInput
+  user: Prisma.UserCreateNestedOneWithoutPagePostCommentsInput
+}
+
+export type PagePostCommentUncheckedCreateWithoutLikesInput = {
+  id?: number
+  content: string
+  isDeleted?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string | null
+  pagePostId: number
+  userId: number
+}
+
+export type PagePostCommentCreateOrConnectWithoutLikesInput = {
+  where: Prisma.PagePostCommentWhereUniqueInput
+  create: Prisma.XOR<Prisma.PagePostCommentCreateWithoutLikesInput, Prisma.PagePostCommentUncheckedCreateWithoutLikesInput>
+}
+
+export type PagePostCommentUpsertWithoutLikesInput = {
+  update: Prisma.XOR<Prisma.PagePostCommentUpdateWithoutLikesInput, Prisma.PagePostCommentUncheckedUpdateWithoutLikesInput>
+  create: Prisma.XOR<Prisma.PagePostCommentCreateWithoutLikesInput, Prisma.PagePostCommentUncheckedCreateWithoutLikesInput>
+  where?: Prisma.PagePostCommentWhereInput
+}
+
+export type PagePostCommentUpdateToOneWithWhereWithoutLikesInput = {
+  where?: Prisma.PagePostCommentWhereInput
+  data: Prisma.XOR<Prisma.PagePostCommentUpdateWithoutLikesInput, Prisma.PagePostCommentUncheckedUpdateWithoutLikesInput>
+}
+
+export type PagePostCommentUpdateWithoutLikesInput = {
+  content?: Prisma.StringFieldUpdateOperationsInput | string
+  isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  pagePost?: Prisma.PagePostUpdateOneRequiredWithoutCommentsNestedInput
+  user?: Prisma.UserUpdateOneRequiredWithoutPagePostCommentsNestedInput
+}
+
+export type PagePostCommentUncheckedUpdateWithoutLikesInput = {
+  id?: Prisma.IntFieldUpdateOperationsInput | number
+  content?: Prisma.StringFieldUpdateOperationsInput | string
+  isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  pagePostId?: Prisma.IntFieldUpdateOperationsInput | number
+  userId?: Prisma.IntFieldUpdateOperationsInput | number
+}
+
 export type PagePostCommentCreateWithoutUserInput = {
   content: string
   isDeleted?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string | null
   pagePost: Prisma.PagePostCreateNestedOneWithoutCommentsInput
+  likes?: Prisma.PagePostCommentLikeCreateNestedManyWithoutCommentInput
 }
 
 export type PagePostCommentUncheckedCreateWithoutUserInput = {
@@ -570,6 +653,7 @@ export type PagePostCommentUncheckedCreateWithoutUserInput = {
   createdAt?: Date | string
   updatedAt?: Date | string | null
   pagePostId: number
+  likes?: Prisma.PagePostCommentLikeUncheckedCreateNestedManyWithoutCommentInput
 }
 
 export type PagePostCommentCreateOrConnectWithoutUserInput = {
@@ -612,6 +696,7 @@ export type PagePostCommentUpdateWithoutPagePostInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   user?: Prisma.UserUpdateOneRequiredWithoutPagePostCommentsNestedInput
+  likes?: Prisma.PagePostCommentLikeUpdateManyWithoutCommentNestedInput
 }
 
 export type PagePostCommentUncheckedUpdateWithoutPagePostInput = {
@@ -621,6 +706,7 @@ export type PagePostCommentUncheckedUpdateWithoutPagePostInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   userId?: Prisma.IntFieldUpdateOperationsInput | number
+  likes?: Prisma.PagePostCommentLikeUncheckedUpdateManyWithoutCommentNestedInput
 }
 
 export type PagePostCommentUncheckedUpdateManyWithoutPagePostInput = {
@@ -647,6 +733,7 @@ export type PagePostCommentUpdateWithoutUserInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   pagePost?: Prisma.PagePostUpdateOneRequiredWithoutCommentsNestedInput
+  likes?: Prisma.PagePostCommentLikeUpdateManyWithoutCommentNestedInput
 }
 
 export type PagePostCommentUncheckedUpdateWithoutUserInput = {
@@ -656,6 +743,7 @@ export type PagePostCommentUncheckedUpdateWithoutUserInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   pagePostId?: Prisma.IntFieldUpdateOperationsInput | number
+  likes?: Prisma.PagePostCommentLikeUncheckedUpdateManyWithoutCommentNestedInput
 }
 
 export type PagePostCommentUncheckedUpdateManyWithoutUserInput = {
@@ -668,6 +756,35 @@ export type PagePostCommentUncheckedUpdateManyWithoutUserInput = {
 }
 
 
+/**
+ * Count Type PagePostCommentCountOutputType
+ */
+
+export type PagePostCommentCountOutputType = {
+  likes: number
+}
+
+export type PagePostCommentCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  likes?: boolean | PagePostCommentCountOutputTypeCountLikesArgs
+}
+
+/**
+ * PagePostCommentCountOutputType without action
+ */
+export type PagePostCommentCountOutputTypeDefaultArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the PagePostCommentCountOutputType
+   */
+  select?: Prisma.PagePostCommentCountOutputTypeSelect<ExtArgs> | null
+}
+
+/**
+ * PagePostCommentCountOutputType without action
+ */
+export type PagePostCommentCountOutputTypeCountLikesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.PagePostCommentLikeWhereInput
+}
+
 
 export type PagePostCommentSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -679,6 +796,8 @@ export type PagePostCommentSelect<ExtArgs extends runtime.Types.Extensions.Inter
   userId?: boolean
   pagePost?: boolean | Prisma.PagePostDefaultArgs<ExtArgs>
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
+  likes?: boolean | Prisma.PagePostComment$likesArgs<ExtArgs>
+  _count?: boolean | Prisma.PagePostCommentCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["pagePostComment"]>
 
 export type PagePostCommentSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -719,6 +838,8 @@ export type PagePostCommentOmit<ExtArgs extends runtime.Types.Extensions.Interna
 export type PagePostCommentInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   pagePost?: boolean | Prisma.PagePostDefaultArgs<ExtArgs>
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
+  likes?: boolean | Prisma.PagePostComment$likesArgs<ExtArgs>
+  _count?: boolean | Prisma.PagePostCommentCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type PagePostCommentIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   pagePost?: boolean | Prisma.PagePostDefaultArgs<ExtArgs>
@@ -734,6 +855,7 @@ export type $PagePostCommentPayload<ExtArgs extends runtime.Types.Extensions.Int
   objects: {
     pagePost: Prisma.$PagePostPayload<ExtArgs>
     user: Prisma.$UserPayload<ExtArgs>
+    likes: Prisma.$PagePostCommentLikePayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: number
@@ -1139,6 +1261,7 @@ export interface Prisma__PagePostCommentClient<T, Null = never, ExtArgs extends 
   readonly [Symbol.toStringTag]: "PrismaPromise"
   pagePost<T extends Prisma.PagePostDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.PagePostDefaultArgs<ExtArgs>>): Prisma.Prisma__PagePostClient<runtime.Types.Result.GetResult<Prisma.$PagePostPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   user<T extends Prisma.UserDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.UserDefaultArgs<ExtArgs>>): Prisma.Prisma__UserClient<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+  likes<T extends Prisma.PagePostComment$likesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.PagePostComment$likesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$PagePostCommentLikePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1571,6 +1694,30 @@ export type PagePostCommentDeleteManyArgs<ExtArgs extends runtime.Types.Extensio
    * Limit how many PagePostComments to delete.
    */
   limit?: number
+}
+
+/**
+ * PagePostComment.likes
+ */
+export type PagePostComment$likesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the PagePostCommentLike
+   */
+  select?: Prisma.PagePostCommentLikeSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the PagePostCommentLike
+   */
+  omit?: Prisma.PagePostCommentLikeOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.PagePostCommentLikeInclude<ExtArgs> | null
+  where?: Prisma.PagePostCommentLikeWhereInput
+  orderBy?: Prisma.PagePostCommentLikeOrderByWithRelationInput | Prisma.PagePostCommentLikeOrderByWithRelationInput[]
+  cursor?: Prisma.PagePostCommentLikeWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.PagePostCommentLikeScalarFieldEnum | Prisma.PagePostCommentLikeScalarFieldEnum[]
 }
 
 /**

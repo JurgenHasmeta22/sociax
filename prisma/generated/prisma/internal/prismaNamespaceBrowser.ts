@@ -67,6 +67,8 @@ export const ModelName = {
   GroupPost: 'GroupPost',
   GroupPostLike: 'GroupPostLike',
   GroupPostComment: 'GroupPostComment',
+  GroupPostCommentLike: 'GroupPostCommentLike',
+  Memory: 'Memory',
   Conversation: 'Conversation',
   ConversationParticipant: 'ConversationParticipant',
   Message: 'Message',
@@ -79,6 +81,7 @@ export const ModelName = {
   PagePost: 'PagePost',
   PagePostLike: 'PagePostLike',
   PagePostComment: 'PagePostComment',
+  PagePostCommentLike: 'PagePostCommentLike',
   Post: 'Post',
   PostMedia: 'PostMedia',
   PostLike: 'PostLike',
@@ -321,6 +324,29 @@ export const GroupPostCommentScalarFieldEnum = {
 export type GroupPostCommentScalarFieldEnum = (typeof GroupPostCommentScalarFieldEnum)[keyof typeof GroupPostCommentScalarFieldEnum]
 
 
+export const GroupPostCommentLikeScalarFieldEnum = {
+  id: 'id',
+  reactionType: 'reactionType',
+  createdAt: 'createdAt',
+  userId: 'userId',
+  groupPostCommentId: 'groupPostCommentId'
+} as const
+
+export type GroupPostCommentLikeScalarFieldEnum = (typeof GroupPostCommentLikeScalarFieldEnum)[keyof typeof GroupPostCommentLikeScalarFieldEnum]
+
+
+export const MemoryScalarFieldEnum = {
+  id: 'id',
+  note: 'note',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  userId: 'userId',
+  postId: 'postId'
+} as const
+
+export type MemoryScalarFieldEnum = (typeof MemoryScalarFieldEnum)[keyof typeof MemoryScalarFieldEnum]
+
+
 export const ConversationScalarFieldEnum = {
   id: 'id',
   isGroup: 'isGroup',
@@ -480,6 +506,17 @@ export const PagePostCommentScalarFieldEnum = {
 } as const
 
 export type PagePostCommentScalarFieldEnum = (typeof PagePostCommentScalarFieldEnum)[keyof typeof PagePostCommentScalarFieldEnum]
+
+
+export const PagePostCommentLikeScalarFieldEnum = {
+  id: 'id',
+  reactionType: 'reactionType',
+  createdAt: 'createdAt',
+  userId: 'userId',
+  pagePostCommentId: 'pagePostCommentId'
+} as const
+
+export type PagePostCommentLikeScalarFieldEnum = (typeof PagePostCommentLikeScalarFieldEnum)[keyof typeof PagePostCommentLikeScalarFieldEnum]
 
 
 export const PostScalarFieldEnum = {

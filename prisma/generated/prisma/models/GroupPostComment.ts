@@ -242,6 +242,7 @@ export type GroupPostCommentWhereInput = {
   userId?: Prisma.IntFilter<"GroupPostComment"> | number
   groupPost?: Prisma.XOR<Prisma.GroupPostScalarRelationFilter, Prisma.GroupPostWhereInput>
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
+  likes?: Prisma.GroupPostCommentLikeListRelationFilter
 }
 
 export type GroupPostCommentOrderByWithRelationInput = {
@@ -254,6 +255,7 @@ export type GroupPostCommentOrderByWithRelationInput = {
   userId?: Prisma.SortOrder
   groupPost?: Prisma.GroupPostOrderByWithRelationInput
   user?: Prisma.UserOrderByWithRelationInput
+  likes?: Prisma.GroupPostCommentLikeOrderByRelationAggregateInput
 }
 
 export type GroupPostCommentWhereUniqueInput = Prisma.AtLeast<{
@@ -269,6 +271,7 @@ export type GroupPostCommentWhereUniqueInput = Prisma.AtLeast<{
   userId?: Prisma.IntFilter<"GroupPostComment"> | number
   groupPost?: Prisma.XOR<Prisma.GroupPostScalarRelationFilter, Prisma.GroupPostWhereInput>
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
+  likes?: Prisma.GroupPostCommentLikeListRelationFilter
 }, "id">
 
 export type GroupPostCommentOrderByWithAggregationInput = {
@@ -306,6 +309,7 @@ export type GroupPostCommentCreateInput = {
   updatedAt?: Date | string | null
   groupPost: Prisma.GroupPostCreateNestedOneWithoutCommentsInput
   user: Prisma.UserCreateNestedOneWithoutGroupPostCommentsInput
+  likes?: Prisma.GroupPostCommentLikeCreateNestedManyWithoutCommentInput
 }
 
 export type GroupPostCommentUncheckedCreateInput = {
@@ -316,6 +320,7 @@ export type GroupPostCommentUncheckedCreateInput = {
   updatedAt?: Date | string | null
   groupPostId: number
   userId: number
+  likes?: Prisma.GroupPostCommentLikeUncheckedCreateNestedManyWithoutCommentInput
 }
 
 export type GroupPostCommentUpdateInput = {
@@ -325,6 +330,7 @@ export type GroupPostCommentUpdateInput = {
   updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   groupPost?: Prisma.GroupPostUpdateOneRequiredWithoutCommentsNestedInput
   user?: Prisma.UserUpdateOneRequiredWithoutGroupPostCommentsNestedInput
+  likes?: Prisma.GroupPostCommentLikeUpdateManyWithoutCommentNestedInput
 }
 
 export type GroupPostCommentUncheckedUpdateInput = {
@@ -335,6 +341,7 @@ export type GroupPostCommentUncheckedUpdateInput = {
   updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   groupPostId?: Prisma.IntFieldUpdateOperationsInput | number
   userId?: Prisma.IntFieldUpdateOperationsInput | number
+  likes?: Prisma.GroupPostCommentLikeUncheckedUpdateManyWithoutCommentNestedInput
 }
 
 export type GroupPostCommentCreateManyInput = {
@@ -416,6 +423,11 @@ export type GroupPostCommentSumOrderByAggregateInput = {
   userId?: Prisma.SortOrder
 }
 
+export type GroupPostCommentScalarRelationFilter = {
+  is?: Prisma.GroupPostCommentWhereInput
+  isNot?: Prisma.GroupPostCommentWhereInput
+}
+
 export type GroupPostCommentCreateNestedManyWithoutGroupPostInput = {
   create?: Prisma.XOR<Prisma.GroupPostCommentCreateWithoutGroupPostInput, Prisma.GroupPostCommentUncheckedCreateWithoutGroupPostInput> | Prisma.GroupPostCommentCreateWithoutGroupPostInput[] | Prisma.GroupPostCommentUncheckedCreateWithoutGroupPostInput[]
   connectOrCreate?: Prisma.GroupPostCommentCreateOrConnectWithoutGroupPostInput | Prisma.GroupPostCommentCreateOrConnectWithoutGroupPostInput[]
@@ -456,6 +468,20 @@ export type GroupPostCommentUncheckedUpdateManyWithoutGroupPostNestedInput = {
   update?: Prisma.GroupPostCommentUpdateWithWhereUniqueWithoutGroupPostInput | Prisma.GroupPostCommentUpdateWithWhereUniqueWithoutGroupPostInput[]
   updateMany?: Prisma.GroupPostCommentUpdateManyWithWhereWithoutGroupPostInput | Prisma.GroupPostCommentUpdateManyWithWhereWithoutGroupPostInput[]
   deleteMany?: Prisma.GroupPostCommentScalarWhereInput | Prisma.GroupPostCommentScalarWhereInput[]
+}
+
+export type GroupPostCommentCreateNestedOneWithoutLikesInput = {
+  create?: Prisma.XOR<Prisma.GroupPostCommentCreateWithoutLikesInput, Prisma.GroupPostCommentUncheckedCreateWithoutLikesInput>
+  connectOrCreate?: Prisma.GroupPostCommentCreateOrConnectWithoutLikesInput
+  connect?: Prisma.GroupPostCommentWhereUniqueInput
+}
+
+export type GroupPostCommentUpdateOneRequiredWithoutLikesNestedInput = {
+  create?: Prisma.XOR<Prisma.GroupPostCommentCreateWithoutLikesInput, Prisma.GroupPostCommentUncheckedCreateWithoutLikesInput>
+  connectOrCreate?: Prisma.GroupPostCommentCreateOrConnectWithoutLikesInput
+  upsert?: Prisma.GroupPostCommentUpsertWithoutLikesInput
+  connect?: Prisma.GroupPostCommentWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.GroupPostCommentUpdateToOneWithWhereWithoutLikesInput, Prisma.GroupPostCommentUpdateWithoutLikesInput>, Prisma.GroupPostCommentUncheckedUpdateWithoutLikesInput>
 }
 
 export type GroupPostCommentCreateNestedManyWithoutUserInput = {
@@ -506,6 +532,7 @@ export type GroupPostCommentCreateWithoutGroupPostInput = {
   createdAt?: Date | string
   updatedAt?: Date | string | null
   user: Prisma.UserCreateNestedOneWithoutGroupPostCommentsInput
+  likes?: Prisma.GroupPostCommentLikeCreateNestedManyWithoutCommentInput
 }
 
 export type GroupPostCommentUncheckedCreateWithoutGroupPostInput = {
@@ -515,6 +542,7 @@ export type GroupPostCommentUncheckedCreateWithoutGroupPostInput = {
   createdAt?: Date | string
   updatedAt?: Date | string | null
   userId: number
+  likes?: Prisma.GroupPostCommentLikeUncheckedCreateNestedManyWithoutCommentInput
 }
 
 export type GroupPostCommentCreateOrConnectWithoutGroupPostInput = {
@@ -555,12 +583,67 @@ export type GroupPostCommentScalarWhereInput = {
   userId?: Prisma.IntFilter<"GroupPostComment"> | number
 }
 
+export type GroupPostCommentCreateWithoutLikesInput = {
+  content: string
+  isDeleted?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string | null
+  groupPost: Prisma.GroupPostCreateNestedOneWithoutCommentsInput
+  user: Prisma.UserCreateNestedOneWithoutGroupPostCommentsInput
+}
+
+export type GroupPostCommentUncheckedCreateWithoutLikesInput = {
+  id?: number
+  content: string
+  isDeleted?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string | null
+  groupPostId: number
+  userId: number
+}
+
+export type GroupPostCommentCreateOrConnectWithoutLikesInput = {
+  where: Prisma.GroupPostCommentWhereUniqueInput
+  create: Prisma.XOR<Prisma.GroupPostCommentCreateWithoutLikesInput, Prisma.GroupPostCommentUncheckedCreateWithoutLikesInput>
+}
+
+export type GroupPostCommentUpsertWithoutLikesInput = {
+  update: Prisma.XOR<Prisma.GroupPostCommentUpdateWithoutLikesInput, Prisma.GroupPostCommentUncheckedUpdateWithoutLikesInput>
+  create: Prisma.XOR<Prisma.GroupPostCommentCreateWithoutLikesInput, Prisma.GroupPostCommentUncheckedCreateWithoutLikesInput>
+  where?: Prisma.GroupPostCommentWhereInput
+}
+
+export type GroupPostCommentUpdateToOneWithWhereWithoutLikesInput = {
+  where?: Prisma.GroupPostCommentWhereInput
+  data: Prisma.XOR<Prisma.GroupPostCommentUpdateWithoutLikesInput, Prisma.GroupPostCommentUncheckedUpdateWithoutLikesInput>
+}
+
+export type GroupPostCommentUpdateWithoutLikesInput = {
+  content?: Prisma.StringFieldUpdateOperationsInput | string
+  isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  groupPost?: Prisma.GroupPostUpdateOneRequiredWithoutCommentsNestedInput
+  user?: Prisma.UserUpdateOneRequiredWithoutGroupPostCommentsNestedInput
+}
+
+export type GroupPostCommentUncheckedUpdateWithoutLikesInput = {
+  id?: Prisma.IntFieldUpdateOperationsInput | number
+  content?: Prisma.StringFieldUpdateOperationsInput | string
+  isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  groupPostId?: Prisma.IntFieldUpdateOperationsInput | number
+  userId?: Prisma.IntFieldUpdateOperationsInput | number
+}
+
 export type GroupPostCommentCreateWithoutUserInput = {
   content: string
   isDeleted?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string | null
   groupPost: Prisma.GroupPostCreateNestedOneWithoutCommentsInput
+  likes?: Prisma.GroupPostCommentLikeCreateNestedManyWithoutCommentInput
 }
 
 export type GroupPostCommentUncheckedCreateWithoutUserInput = {
@@ -570,6 +653,7 @@ export type GroupPostCommentUncheckedCreateWithoutUserInput = {
   createdAt?: Date | string
   updatedAt?: Date | string | null
   groupPostId: number
+  likes?: Prisma.GroupPostCommentLikeUncheckedCreateNestedManyWithoutCommentInput
 }
 
 export type GroupPostCommentCreateOrConnectWithoutUserInput = {
@@ -612,6 +696,7 @@ export type GroupPostCommentUpdateWithoutGroupPostInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   user?: Prisma.UserUpdateOneRequiredWithoutGroupPostCommentsNestedInput
+  likes?: Prisma.GroupPostCommentLikeUpdateManyWithoutCommentNestedInput
 }
 
 export type GroupPostCommentUncheckedUpdateWithoutGroupPostInput = {
@@ -621,6 +706,7 @@ export type GroupPostCommentUncheckedUpdateWithoutGroupPostInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   userId?: Prisma.IntFieldUpdateOperationsInput | number
+  likes?: Prisma.GroupPostCommentLikeUncheckedUpdateManyWithoutCommentNestedInput
 }
 
 export type GroupPostCommentUncheckedUpdateManyWithoutGroupPostInput = {
@@ -647,6 +733,7 @@ export type GroupPostCommentUpdateWithoutUserInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   groupPost?: Prisma.GroupPostUpdateOneRequiredWithoutCommentsNestedInput
+  likes?: Prisma.GroupPostCommentLikeUpdateManyWithoutCommentNestedInput
 }
 
 export type GroupPostCommentUncheckedUpdateWithoutUserInput = {
@@ -656,6 +743,7 @@ export type GroupPostCommentUncheckedUpdateWithoutUserInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   groupPostId?: Prisma.IntFieldUpdateOperationsInput | number
+  likes?: Prisma.GroupPostCommentLikeUncheckedUpdateManyWithoutCommentNestedInput
 }
 
 export type GroupPostCommentUncheckedUpdateManyWithoutUserInput = {
@@ -668,6 +756,35 @@ export type GroupPostCommentUncheckedUpdateManyWithoutUserInput = {
 }
 
 
+/**
+ * Count Type GroupPostCommentCountOutputType
+ */
+
+export type GroupPostCommentCountOutputType = {
+  likes: number
+}
+
+export type GroupPostCommentCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  likes?: boolean | GroupPostCommentCountOutputTypeCountLikesArgs
+}
+
+/**
+ * GroupPostCommentCountOutputType without action
+ */
+export type GroupPostCommentCountOutputTypeDefaultArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the GroupPostCommentCountOutputType
+   */
+  select?: Prisma.GroupPostCommentCountOutputTypeSelect<ExtArgs> | null
+}
+
+/**
+ * GroupPostCommentCountOutputType without action
+ */
+export type GroupPostCommentCountOutputTypeCountLikesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.GroupPostCommentLikeWhereInput
+}
+
 
 export type GroupPostCommentSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -679,6 +796,8 @@ export type GroupPostCommentSelect<ExtArgs extends runtime.Types.Extensions.Inte
   userId?: boolean
   groupPost?: boolean | Prisma.GroupPostDefaultArgs<ExtArgs>
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
+  likes?: boolean | Prisma.GroupPostComment$likesArgs<ExtArgs>
+  _count?: boolean | Prisma.GroupPostCommentCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["groupPostComment"]>
 
 export type GroupPostCommentSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -719,6 +838,8 @@ export type GroupPostCommentOmit<ExtArgs extends runtime.Types.Extensions.Intern
 export type GroupPostCommentInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   groupPost?: boolean | Prisma.GroupPostDefaultArgs<ExtArgs>
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
+  likes?: boolean | Prisma.GroupPostComment$likesArgs<ExtArgs>
+  _count?: boolean | Prisma.GroupPostCommentCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type GroupPostCommentIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   groupPost?: boolean | Prisma.GroupPostDefaultArgs<ExtArgs>
@@ -734,6 +855,7 @@ export type $GroupPostCommentPayload<ExtArgs extends runtime.Types.Extensions.In
   objects: {
     groupPost: Prisma.$GroupPostPayload<ExtArgs>
     user: Prisma.$UserPayload<ExtArgs>
+    likes: Prisma.$GroupPostCommentLikePayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: number
@@ -1139,6 +1261,7 @@ export interface Prisma__GroupPostCommentClient<T, Null = never, ExtArgs extends
   readonly [Symbol.toStringTag]: "PrismaPromise"
   groupPost<T extends Prisma.GroupPostDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.GroupPostDefaultArgs<ExtArgs>>): Prisma.Prisma__GroupPostClient<runtime.Types.Result.GetResult<Prisma.$GroupPostPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   user<T extends Prisma.UserDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.UserDefaultArgs<ExtArgs>>): Prisma.Prisma__UserClient<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+  likes<T extends Prisma.GroupPostComment$likesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.GroupPostComment$likesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$GroupPostCommentLikePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1571,6 +1694,30 @@ export type GroupPostCommentDeleteManyArgs<ExtArgs extends runtime.Types.Extensi
    * Limit how many GroupPostComments to delete.
    */
   limit?: number
+}
+
+/**
+ * GroupPostComment.likes
+ */
+export type GroupPostComment$likesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the GroupPostCommentLike
+   */
+  select?: Prisma.GroupPostCommentLikeSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the GroupPostCommentLike
+   */
+  omit?: Prisma.GroupPostCommentLikeOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.GroupPostCommentLikeInclude<ExtArgs> | null
+  where?: Prisma.GroupPostCommentLikeWhereInput
+  orderBy?: Prisma.GroupPostCommentLikeOrderByWithRelationInput | Prisma.GroupPostCommentLikeOrderByWithRelationInput[]
+  cursor?: Prisma.GroupPostCommentLikeWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.GroupPostCommentLikeScalarFieldEnum | Prisma.GroupPostCommentLikeScalarFieldEnum[]
 }
 
 /**
