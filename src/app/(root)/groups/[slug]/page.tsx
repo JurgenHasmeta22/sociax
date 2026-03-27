@@ -10,6 +10,7 @@ import { Separator } from "@/components/ui/separator";
 import { Globe, Lock, Users, Shield } from "lucide-react";
 import { GroupJoinButton } from "@/components/groups/GroupJoinButton";
 import { GroupFeed } from "@/components/groups/GroupFeed";
+import { GroupMembersModal } from "@/components/groups/GroupMembersModal";
 
 export async function generateMetadata({
 	params,
@@ -74,6 +75,26 @@ export default async function GroupDetailPage({
 		include: { user: { include: { avatar: true } } },
 	});
 
+	const sidebarMemberIds = members.map((m) => m.user.id);
+	const followStates: Record<number, "none" | "pending" | "accepted"> = {};
+	if (userId && sidebarMemberIds.length > 0) {
+		const existingFollows = await prisma.userFollow.findMany({
+			where: {
+				followerId: userId,
+				followingId: { in: sidebarMemberIds },
+			},
+			select: { followingId: true, state: true },
+		});
+		for (const f of existingFollows) {
+			followStates[f.followingId] =
+				f.state === "accepted"
+					? "accepted"
+					: f.state === "pending"
+						? "pending"
+						: "none";
+		}
+	}
+
 	const ownerName =
 		[group.owner.firstName, group.owner.lastName]
 			.filter(Boolean)
@@ -109,10 +130,12 @@ export default async function GroupDetailPage({
 						</Badge>
 					</div>
 					<div className="flex items-center gap-3 mt-1 text-sm text-muted-foreground flex-wrap">
-						<span className="flex items-center gap-1">
-							<Users className="h-3.5 w-3.5" />
-							{group._count.members.toLocaleString()} members
-						</span>
+						<GroupMembersModal
+							groupId={group.id}
+							memberCount={group._count.members}
+							currentUserId={userId}
+							initialFollowStates={followStates}
+						/>
 						<span>{group._count.posts} posts</span>
 						<span className="flex items-center gap-1">
 							<Shield className="h-3.5 w-3.5" />
@@ -172,7 +195,15 @@ export default async function GroupDetailPage({
 
 				<aside className="space-y-5">
 					<div className="border rounded-xl p-4">
-						<h3 className="font-semibold text-sm mb-3">Members</h3>
+					<div className="flex items-center justify-between mb-3">
+						<h3 className="font-semibold text-sm">Members</h3>
+						<GroupMembersModal
+							groupId={group.id}
+							memberCount={group._count.members}
+							currentUserId={userId}
+							initialFollowStates={followStates}
+						/>
+					</div>
 						<div className="grid grid-cols-3 gap-2">
 							{members.map(({ user }) => {
 								const n =
@@ -203,12 +234,7 @@ export default async function GroupDetailPage({
 								);
 							})}
 						</div>
-						{group._count.members > 9 && (
-							<p className="text-xs text-muted-foreground mt-3 text-center">
-								+{(group._count.members - 9).toLocaleString()}{" "}
-								more members
-							</p>
-						)}
+
 					</div>
 				</aside>
 			</div>

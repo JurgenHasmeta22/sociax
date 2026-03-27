@@ -4,7 +4,7 @@ import { revalidatePath } from "next/cache";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 import { prisma } from "@/lib/prisma";
-import type { PageCategory } from "../../prisma/generated/prisma/enums";
+import type { PageCategory, ReactionType } from "../../prisma/generated/prisma/enums";
 
 async function getSessionUserId() {
 	const session = await getServerSession(authOptions);
@@ -141,7 +141,10 @@ export async function deletePagePost(postId: number, pageSlug: string) {
 	revalidatePath(`/pages/${pageSlug}`);
 }
 
-export async function togglePagePostLike(postId: number) {
+export async function togglePagePostLike(
+	postId: number,
+	reactionType: ReactionType,
+) {
 	const userId = await getSessionUserId();
 
 	const existing = await prisma.pagePostLike.findUnique({
@@ -149,16 +152,93 @@ export async function togglePagePostLike(postId: number) {
 	});
 
 	if (existing) {
-		await prisma.pagePostLike.delete({
-			where: { userId_pagePostId: { userId, pagePostId: postId } },
-		});
-		return false;
+		if (existing.reactionType === reactionType) {
+			await prisma.pagePostLike.delete({
+				where: { userId_pagePostId: { userId, pagePostId: postId } },
+			});
+		} else {
+			await prisma.pagePostLike.update({
+				where: { userId_pagePostId: { userId, pagePostId: postId } },
+				data: { reactionType },
+			});
+		}
 	} else {
 		await prisma.pagePostLike.create({
-			data: { userId, pagePostId: postId },
+			data: { userId, pagePostId: postId, reactionType },
 		});
-		return true;
 	}
+}
+
+export async function createPagePostComment(postId: number, content: string) {
+	const userId = await getSessionUserId();
+	if (!content.trim()) return;
+
+	await prisma.pagePostComment.create({
+		data: { pagePostId: postId, userId, content: content.trim() },
+	});
+}
+
+export async function deletePagePostComment(commentId: number) {
+	const userId = await getSessionUserId();
+
+	const comment = await prisma.pagePostComment.findUnique({
+		where: { id: commentId },
+	});
+	if (!comment || comment.userId !== userId) throw new Error("Forbidden");
+
+	await prisma.pagePostComment.update({
+		where: { id: commentId },
+		data: { isDeleted: true },
+	});
+}
+
+export async function getPagePostComments(postId: number) {
+	return prisma.pagePostComment.findMany({
+		where: { pagePostId: postId, isDeleted: false },
+		orderBy: { createdAt: "asc" },
+		include: {
+			user: {
+				select: {
+					id: true,
+					userName: true,
+					firstName: true,
+					lastName: true,
+					avatar: { select: { photoSrc: true } },
+				},
+			},
+		},
+	});
+}
+
+const FOLLOWERS_LIMIT = 20;
+
+export async function getPageFollowers(pageId: number, skip: number) {
+	const [followers, total] = await Promise.all([
+		prisma.pageFollower.findMany({
+			where: { pageId },
+			skip,
+			take: FOLLOWERS_LIMIT,
+			orderBy: { createdAt: "desc" },
+			include: {
+				user: {
+					select: {
+						id: true,
+						userName: true,
+						firstName: true,
+						lastName: true,
+						avatar: { select: { photoSrc: true } },
+					},
+				},
+			},
+		}),
+		prisma.pageFollower.count({ where: { pageId } }),
+	]);
+
+	return {
+		followers: followers.map((f) => f.user),
+		total,
+		hasMore: skip + FOLLOWERS_LIMIT < total,
+	};
 }
 
 export async function getPageBySlug(

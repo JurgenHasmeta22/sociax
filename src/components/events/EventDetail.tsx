@@ -24,6 +24,7 @@ import {
 import { rsvpEvent, deleteEvent } from "@/actions/event.actions";
 import { toast } from "sonner";
 import { ConfirmDeleteDialog } from "@/components/ui/ConfirmDeleteDialog";
+import { EventAttendeesModal } from "@/components/events/EventAttendeesModal";
 import type { AttendeeStatus } from "../../../prisma/generated/prisma/enums";
 
 type EventCreator = {
@@ -108,14 +109,14 @@ export function EventDetail({
 
 	const handleRsvp = (status: AttendeeStatus) => {
 		if (!currentUserId) return;
-		const isToggleOff = attendance === status || status === "NotGoing";
-		setAttendance(isToggleOff ? null : status);
-
+		const isSame = attendance === status;
+		setAttendance(isSame ? null : status);
 		startTransition(async () => {
 			try {
-				await rsvpEvent(event.id, isToggleOff ? "NotGoing" : status);
+				await rsvpEvent(event.id, status);
 			} catch {
 				toast.error("Failed to update RSVP.");
+				setAttendance(attendance);
 			}
 		});
 	};
@@ -271,20 +272,11 @@ export function EventDetail({
 				)}
 
 				<div className="flex items-center gap-4 text-sm text-muted-foreground">
-					<span className="flex items-center gap-1.5">
-						<Check className="h-4 w-4 text-primary" />
-						<span className="font-semibold text-foreground">
-							{goingCount}
-						</span>{" "}
-						going
-					</span>
-					<span className="flex items-center gap-1.5">
-						<Star className="h-4 w-4 text-yellow-500" />
-						<span className="font-semibold text-foreground">
-							{interestedCount}
-						</span>{" "}
-						interested
-					</span>
+					<EventAttendeesModal
+						eventId={event.id}
+						goingCount={goingCount}
+						interestedCount={interestedCount}
+					/>
 				</div>
 
 				<Separator />

@@ -139,7 +139,11 @@ export default async function ProfilePage({ params }: PageProps) {
 			: Promise.resolve([]),
 		canViewContent
 			? prisma.groupMember.findMany({
-					where: { userId: user.id, status: "Approved" },
+					where: {
+						userId: user.id,
+						status: "Approved",
+						group: { ownerId: { not: user.id } },
+					},
 					take: 12,
 					include: {
 						group: {
@@ -173,7 +177,10 @@ export default async function ProfilePage({ params }: PageProps) {
 			: Promise.resolve([]),
 		canViewContent
 			? prisma.pageFollower.findMany({
-					where: { userId: user.id },
+					where: {
+						userId: user.id,
+						page: { ownerId: { not: user.id } },
+					},
 					take: 12,
 					include: {
 						page: {

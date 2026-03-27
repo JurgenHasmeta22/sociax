@@ -102,9 +102,6 @@ export function CreateGroupDialog({
 								<SelectItem value="Private">
 									Private — Members only can see posts
 								</SelectItem>
-								<SelectItem value="Secret">
-									Secret — Only invited members can find
-								</SelectItem>
 							</SelectContent>
 						</Select>
 					</div>

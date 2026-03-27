@@ -10,7 +10,8 @@ import { Badge } from "@/components/ui/badge";
 import { LeftSidebar } from "@/components/feed/LeftSidebar";
 import { PageFeed } from "@/components/pages/PageFeed";
 import { PageFollowButton } from "@/components/pages/PageFollowButton";
-import { Flag, Globe, Users } from "lucide-react";
+import { PageFollowersModal } from "@/components/pages/PageFollowersModal";
+import { Flag, Globe } from "lucide-react";
 
 type PageProps = { params: Promise<{ slug: string }> };
 
@@ -129,11 +130,10 @@ export default async function PageDetailPage({ params }: PageProps) {
 									<Badge variant="secondary">
 										{page.category}
 									</Badge>
-									<span className="text-sm text-muted-foreground flex items-center gap-1">
-										<Users className="h-3.5 w-3.5" />
-										{page._count.followers.toLocaleString()}{" "}
-										followers
-									</span>
+									<PageFollowersModal
+										pageId={page.id}
+										followerCount={page._count.followers}
+									/>
 								</div>
 							</div>
 						</div>

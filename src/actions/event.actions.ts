@@ -76,9 +76,13 @@ export async function createEvent(data: {
 export async function rsvpEvent(eventId: number, status: AttendeeStatus) {
 	const userId = await getSessionUserId();
 
-	if (status === "NotGoing") {
-		await prisma.eventAttendee.deleteMany({
-			where: { eventId, userId },
+	const existing = await prisma.eventAttendee.findUnique({
+		where: { eventId_userId: { eventId, userId } },
+	});
+
+	if (existing && existing.status === status) {
+		await prisma.eventAttendee.delete({
+			where: { eventId_userId: { eventId, userId } },
 		});
 	} else {
 		await prisma.eventAttendee.upsert({
@@ -95,6 +99,34 @@ export async function rsvpEvent(eventId: number, status: AttendeeStatus) {
 
 	revalidatePath("/events");
 	if (event) revalidatePath(`/events/${event.slug}`);
+}
+
+export async function getEventAttendees(eventId: number) {
+	const attendees = await prisma.eventAttendee.findMany({
+		where: { eventId },
+		orderBy: { createdAt: "asc" },
+		include: {
+			user: {
+				select: {
+					id: true,
+					userName: true,
+					firstName: true,
+					lastName: true,
+					avatar: { select: { photoSrc: true } },
+				},
+			},
+		},
+	});
+
+	return {
+		going: attendees.filter((a) => a.status === "Going").map((a) => a.user),
+		interested: attendees
+			.filter((a) => a.status === "Interested")
+			.map((a) => a.user),
+		notGoing: attendees
+			.filter((a) => a.status === "NotGoing")
+			.map((a) => a.user),
+	};
 }
 
 export async function deleteEvent(eventId: number) {

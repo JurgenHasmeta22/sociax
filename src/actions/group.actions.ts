@@ -245,3 +245,34 @@ export async function createGroup(data: {
 	revalidatePath("/groups");
 	return group;
 }
+
+const MEMBERS_LIMIT = 20;
+
+export async function getGroupMembers(groupId: number, skip: number) {
+	const [members, total] = await Promise.all([
+		prisma.groupMember.findMany({
+			where: { groupId, status: "Approved" },
+			skip,
+			take: MEMBERS_LIMIT,
+			orderBy: { joinedAt: "asc" },
+			include: {
+				user: {
+					select: {
+						id: true,
+						userName: true,
+						firstName: true,
+						lastName: true,
+						avatar: { select: { photoSrc: true } },
+					},
+				},
+			},
+		}),
+		prisma.groupMember.count({ where: { groupId, status: "Approved" } }),
+	]);
+
+	return {
+		members: members.map((m) => ({ ...m.user, role: m.role })),
+		total,
+		hasMore: skip + MEMBERS_LIMIT < total,
+	};
+}
