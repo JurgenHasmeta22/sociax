@@ -31,6 +31,7 @@ model Event {
     // Relations
     creator   User            @relation("EventCreator", fields: [creatorId], references: [id], onDelete: Cascade, onUpdate: Cascade)
     attendees EventAttendee[]
+    posts     EventPost[]
 
     @@index([creatorId])
     @@index([startDate])
@@ -55,4 +56,80 @@ model EventAttendee {
     @@unique([eventId, userId])
     @@index([eventId])
     @@index([status])
+}
+
+model EventPost {
+    id        Int      @id @default(autoincrement())
+    content   String?
+    mediaUrl  String?
+    isDeleted Boolean  @default(false)
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+
+    // FK Keys
+    eventId Int
+    userId  Int
+
+    // Relations
+    event    Event              @relation(fields: [eventId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+    user     User               @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+    likes    EventPostLike[]
+    comments EventPostComment[]
+
+    @@index([eventId])
+    @@index([userId])
+    @@index([createdAt])
+}
+
+model EventPostLike {
+    id           Int          @id @default(autoincrement())
+    reactionType ReactionType @default(Like)
+    createdAt    DateTime     @default(now())
+
+    // FK Keys
+    userId      Int
+    eventPostId Int
+
+    // Relations
+    user      User      @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+    eventPost EventPost @relation(fields: [eventPostId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+
+    @@unique([userId, eventPostId])
+    @@index([eventPostId])
+}
+
+model EventPostComment {
+    id        Int      @id @default(autoincrement())
+    content   String
+    isDeleted Boolean  @default(false)
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+
+    // FK Keys
+    userId      Int
+    eventPostId Int
+
+    // Relations
+    user      User                   @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+    eventPost EventPost              @relation(fields: [eventPostId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+    likes     EventPostCommentLike[]
+
+    @@index([eventPostId])
+    @@index([userId])
+}
+
+model EventPostCommentLike {
+    id        Int      @id @default(autoincrement())
+    createdAt DateTime @default(now())
+
+    // FK Keys
+    userId             Int
+    eventPostCommentId Int
+
+    // Relations
+    user             User             @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+    eventPostComment EventPostComment @relation(fields: [eventPostCommentId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+
+    @@unique([userId, eventPostCommentId])
+    @@index([eventPostCommentId])
 }

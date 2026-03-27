@@ -73,6 +73,26 @@ export type Event = Prisma.EventModel
  */
 export type EventAttendee = Prisma.EventAttendeeModel
 /**
+ * Model EventPost
+ * 
+ */
+export type EventPost = Prisma.EventPostModel
+/**
+ * Model EventPostLike
+ * 
+ */
+export type EventPostLike = Prisma.EventPostLikeModel
+/**
+ * Model EventPostComment
+ * 
+ */
+export type EventPostComment = Prisma.EventPostCommentModel
+/**
+ * Model EventPostCommentLike
+ * 
+ */
+export type EventPostCommentLike = Prisma.EventPostCommentLikeModel
+/**
  * Model Group
  * 
  */

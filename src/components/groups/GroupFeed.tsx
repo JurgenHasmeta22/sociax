@@ -2,6 +2,7 @@
 
 import { useState, useRef, useTransition, useEffect } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { formatDistanceToNow } from "date-fns";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
@@ -239,6 +240,15 @@ function GroupPostCard({
 	const [commentToDelete, setCommentToDelete] = useState<number | null>(null);
 	const [showReactionsModal, setShowReactionsModal] = useState(false);
 
+	const reactionCounts: Record<string, number> = {};
+	post.likes.forEach((l) => {
+		reactionCounts[l.reactionType] = (reactionCounts[l.reactionType] || 0) + 1;
+	});
+	const topReactions = Object.entries(reactionCounts)
+		.sort((a, b) => b[1] - a[1])
+		.slice(0, 3)
+		.map(([t]) => t);
+
 	const name = displayName(post.user);
 	const timeAgo = formatDistanceToNow(new Date(post.createdAt), {
 		addSuffix: true,
@@ -374,12 +384,7 @@ function GroupPostCard({
 								</DropdownMenuTrigger>
 								<DropdownMenuContent align="end">
 									<DropdownMenuItem
-										onClick={() => {
-											onDelete(post.id);
-											startTransition(() =>
-												deleteGroupPost(post.id),
-											);
-										}}
+										onClick={() => setShowDeletePostConfirm(true)}
 										className="text-destructive focus:text-destructive"
 									>
 										<Trash2 className="h-4 w-4 mr-2" />
@@ -395,17 +400,38 @@ function GroupPostCard({
 							{post.content}
 						</p>
 					)}
+				{post.mediaUrl && (
+					<div className="relative rounded-lg overflow-hidden bg-muted mt-3 h-72">
+						<Image
+							src={post.mediaUrl}
+							alt=""
+							fill
+							unoptimized
+							className="object-cover"
+							sizes="600px"
+						/>
+					</div>
+				)}
 				</CardContent>
 
 				<CardContent className="pt-3 pb-2">
 					{likeCount > 0 && (
 						<>
-							<button
-								onClick={() => setShowReactionsModal(true)}
-								className="text-sm text-muted-foreground mb-2 hover:underline text-left w-full"
-							>
-								{likeCount} reaction{likeCount !== 1 ? "s" : ""}
-							</button>
+							<div className="flex items-center gap-1.5 text-sm text-muted-foreground mb-2">
+								<div className="flex -space-x-1">
+									{topReactions.map((r) => (
+										<span key={r} className="text-base leading-none">
+											{REACTIONS[r]?.emoji}
+										</span>
+									))}
+								</div>
+								<button
+									onClick={() => setShowReactionsModal(true)}
+									className="hover:underline"
+								>
+									{likeCount.toLocaleString()}
+								</button>
+							</div>
 							<Separator className="mb-1" />
 						</>
 					)}
@@ -472,9 +498,7 @@ function GroupPostCard({
 								) : (
 									<ThumbsUp className="h-[18px] w-[18px]" />
 								)}
-								{myReaction
-									? REACTIONS[myReaction]?.label
-									: "Like"}
+								{!myReaction && "Like"}
 							</Button>
 						</div>
 						<Button
@@ -530,9 +554,7 @@ function GroupPostCard({
 									</div>
 									{c.user.id === currentUserId && (
 										<button
-											onClick={() =>
-												handleDeleteComment(c.id)
-											}
+											onClick={() => setCommentToDelete(c.id)}
 											className="opacity-0 group-hover:opacity-100 self-start mt-2 text-muted-foreground hover:text-destructive transition-opacity"
 										>
 											<Trash2 className="h-3.5 w-3.5" />

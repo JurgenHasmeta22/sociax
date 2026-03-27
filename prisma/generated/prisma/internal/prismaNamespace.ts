@@ -395,6 +395,10 @@ export const ModelName = {
   ReplyLike: 'ReplyLike',
   Event: 'Event',
   EventAttendee: 'EventAttendee',
+  EventPost: 'EventPost',
+  EventPostLike: 'EventPostLike',
+  EventPostComment: 'EventPostComment',
+  EventPostCommentLike: 'EventPostCommentLike',
   Group: 'Group',
   GroupMember: 'GroupMember',
   GroupPost: 'GroupPost',
@@ -446,7 +450,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "account" | "session" | "verificationToken" | "activateToken" | "resetPasswordToken" | "postComment" | "commentLike" | "commentReply" | "replyLike" | "event" | "eventAttendee" | "group" | "groupMember" | "groupPost" | "groupPostLike" | "groupPostComment" | "groupPostCommentLike" | "memory" | "conversation" | "conversationParticipant" | "message" | "messageReaction" | "reportedContent" | "moderationLog" | "notification" | "page" | "pageFollower" | "pagePost" | "pagePostLike" | "pagePostComment" | "pagePostCommentLike" | "post" | "postMedia" | "postLike" | "postSave" | "postShare" | "postHistory" | "hashtag" | "postHashtag" | "story" | "storyView" | "storyReaction" | "user" | "avatar" | "coverPhoto" | "userFollow" | "userBlock"
+    modelProps: "account" | "session" | "verificationToken" | "activateToken" | "resetPasswordToken" | "postComment" | "commentLike" | "commentReply" | "replyLike" | "event" | "eventAttendee" | "eventPost" | "eventPostLike" | "eventPostComment" | "eventPostCommentLike" | "group" | "groupMember" | "groupPost" | "groupPostLike" | "groupPostComment" | "groupPostCommentLike" | "memory" | "conversation" | "conversationParticipant" | "message" | "messageReaction" | "reportedContent" | "moderationLog" | "notification" | "page" | "pageFollower" | "pagePost" | "pagePostLike" | "pagePostComment" | "pagePostCommentLike" | "post" | "postMedia" | "postLike" | "postSave" | "postShare" | "postHistory" | "hashtag" | "postHashtag" | "story" | "storyView" | "storyReaction" | "user" | "avatar" | "coverPhoto" | "userFollow" | "userBlock"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -1261,6 +1265,302 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         count: {
           args: Prisma.EventAttendeeCountArgs<ExtArgs>
           result: runtime.Types.Utils.Optional<Prisma.EventAttendeeCountAggregateOutputType> | number
+        }
+      }
+    }
+    EventPost: {
+      payload: Prisma.$EventPostPayload<ExtArgs>
+      fields: Prisma.EventPostFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.EventPostFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$EventPostPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.EventPostFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$EventPostPayload>
+        }
+        findFirst: {
+          args: Prisma.EventPostFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$EventPostPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.EventPostFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$EventPostPayload>
+        }
+        findMany: {
+          args: Prisma.EventPostFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$EventPostPayload>[]
+        }
+        create: {
+          args: Prisma.EventPostCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$EventPostPayload>
+        }
+        createMany: {
+          args: Prisma.EventPostCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.EventPostCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$EventPostPayload>[]
+        }
+        delete: {
+          args: Prisma.EventPostDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$EventPostPayload>
+        }
+        update: {
+          args: Prisma.EventPostUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$EventPostPayload>
+        }
+        deleteMany: {
+          args: Prisma.EventPostDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.EventPostUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.EventPostUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$EventPostPayload>[]
+        }
+        upsert: {
+          args: Prisma.EventPostUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$EventPostPayload>
+        }
+        aggregate: {
+          args: Prisma.EventPostAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateEventPost>
+        }
+        groupBy: {
+          args: Prisma.EventPostGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.EventPostGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.EventPostCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.EventPostCountAggregateOutputType> | number
+        }
+      }
+    }
+    EventPostLike: {
+      payload: Prisma.$EventPostLikePayload<ExtArgs>
+      fields: Prisma.EventPostLikeFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.EventPostLikeFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$EventPostLikePayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.EventPostLikeFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$EventPostLikePayload>
+        }
+        findFirst: {
+          args: Prisma.EventPostLikeFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$EventPostLikePayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.EventPostLikeFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$EventPostLikePayload>
+        }
+        findMany: {
+          args: Prisma.EventPostLikeFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$EventPostLikePayload>[]
+        }
+        create: {
+          args: Prisma.EventPostLikeCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$EventPostLikePayload>
+        }
+        createMany: {
+          args: Prisma.EventPostLikeCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.EventPostLikeCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$EventPostLikePayload>[]
+        }
+        delete: {
+          args: Prisma.EventPostLikeDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$EventPostLikePayload>
+        }
+        update: {
+          args: Prisma.EventPostLikeUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$EventPostLikePayload>
+        }
+        deleteMany: {
+          args: Prisma.EventPostLikeDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.EventPostLikeUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.EventPostLikeUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$EventPostLikePayload>[]
+        }
+        upsert: {
+          args: Prisma.EventPostLikeUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$EventPostLikePayload>
+        }
+        aggregate: {
+          args: Prisma.EventPostLikeAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateEventPostLike>
+        }
+        groupBy: {
+          args: Prisma.EventPostLikeGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.EventPostLikeGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.EventPostLikeCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.EventPostLikeCountAggregateOutputType> | number
+        }
+      }
+    }
+    EventPostComment: {
+      payload: Prisma.$EventPostCommentPayload<ExtArgs>
+      fields: Prisma.EventPostCommentFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.EventPostCommentFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$EventPostCommentPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.EventPostCommentFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$EventPostCommentPayload>
+        }
+        findFirst: {
+          args: Prisma.EventPostCommentFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$EventPostCommentPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.EventPostCommentFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$EventPostCommentPayload>
+        }
+        findMany: {
+          args: Prisma.EventPostCommentFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$EventPostCommentPayload>[]
+        }
+        create: {
+          args: Prisma.EventPostCommentCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$EventPostCommentPayload>
+        }
+        createMany: {
+          args: Prisma.EventPostCommentCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.EventPostCommentCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$EventPostCommentPayload>[]
+        }
+        delete: {
+          args: Prisma.EventPostCommentDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$EventPostCommentPayload>
+        }
+        update: {
+          args: Prisma.EventPostCommentUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$EventPostCommentPayload>
+        }
+        deleteMany: {
+          args: Prisma.EventPostCommentDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.EventPostCommentUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.EventPostCommentUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$EventPostCommentPayload>[]
+        }
+        upsert: {
+          args: Prisma.EventPostCommentUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$EventPostCommentPayload>
+        }
+        aggregate: {
+          args: Prisma.EventPostCommentAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateEventPostComment>
+        }
+        groupBy: {
+          args: Prisma.EventPostCommentGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.EventPostCommentGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.EventPostCommentCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.EventPostCommentCountAggregateOutputType> | number
+        }
+      }
+    }
+    EventPostCommentLike: {
+      payload: Prisma.$EventPostCommentLikePayload<ExtArgs>
+      fields: Prisma.EventPostCommentLikeFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.EventPostCommentLikeFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$EventPostCommentLikePayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.EventPostCommentLikeFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$EventPostCommentLikePayload>
+        }
+        findFirst: {
+          args: Prisma.EventPostCommentLikeFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$EventPostCommentLikePayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.EventPostCommentLikeFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$EventPostCommentLikePayload>
+        }
+        findMany: {
+          args: Prisma.EventPostCommentLikeFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$EventPostCommentLikePayload>[]
+        }
+        create: {
+          args: Prisma.EventPostCommentLikeCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$EventPostCommentLikePayload>
+        }
+        createMany: {
+          args: Prisma.EventPostCommentLikeCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.EventPostCommentLikeCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$EventPostCommentLikePayload>[]
+        }
+        delete: {
+          args: Prisma.EventPostCommentLikeDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$EventPostCommentLikePayload>
+        }
+        update: {
+          args: Prisma.EventPostCommentLikeUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$EventPostCommentLikePayload>
+        }
+        deleteMany: {
+          args: Prisma.EventPostCommentLikeDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.EventPostCommentLikeUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.EventPostCommentLikeUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$EventPostCommentLikePayload>[]
+        }
+        upsert: {
+          args: Prisma.EventPostCommentLikeUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$EventPostCommentLikePayload>
+        }
+        aggregate: {
+          args: Prisma.EventPostCommentLikeAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateEventPostCommentLike>
+        }
+        groupBy: {
+          args: Prisma.EventPostCommentLikeGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.EventPostCommentLikeGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.EventPostCommentLikeCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.EventPostCommentLikeCountAggregateOutputType> | number
         }
       }
     }
@@ -4107,6 +4407,54 @@ export const EventAttendeeScalarFieldEnum = {
 export type EventAttendeeScalarFieldEnum = (typeof EventAttendeeScalarFieldEnum)[keyof typeof EventAttendeeScalarFieldEnum]
 
 
+export const EventPostScalarFieldEnum = {
+  id: 'id',
+  content: 'content',
+  mediaUrl: 'mediaUrl',
+  isDeleted: 'isDeleted',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  eventId: 'eventId',
+  userId: 'userId'
+} as const
+
+export type EventPostScalarFieldEnum = (typeof EventPostScalarFieldEnum)[keyof typeof EventPostScalarFieldEnum]
+
+
+export const EventPostLikeScalarFieldEnum = {
+  id: 'id',
+  reactionType: 'reactionType',
+  createdAt: 'createdAt',
+  userId: 'userId',
+  eventPostId: 'eventPostId'
+} as const
+
+export type EventPostLikeScalarFieldEnum = (typeof EventPostLikeScalarFieldEnum)[keyof typeof EventPostLikeScalarFieldEnum]
+
+
+export const EventPostCommentScalarFieldEnum = {
+  id: 'id',
+  content: 'content',
+  isDeleted: 'isDeleted',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  userId: 'userId',
+  eventPostId: 'eventPostId'
+} as const
+
+export type EventPostCommentScalarFieldEnum = (typeof EventPostCommentScalarFieldEnum)[keyof typeof EventPostCommentScalarFieldEnum]
+
+
+export const EventPostCommentLikeScalarFieldEnum = {
+  id: 'id',
+  createdAt: 'createdAt',
+  userId: 'userId',
+  eventPostCommentId: 'eventPostCommentId'
+} as const
+
+export type EventPostCommentLikeScalarFieldEnum = (typeof EventPostCommentLikeScalarFieldEnum)[keyof typeof EventPostCommentLikeScalarFieldEnum]
+
+
 export const GroupScalarFieldEnum = {
   id: 'id',
   name: 'name',
@@ -4875,6 +5223,10 @@ export type GlobalOmitConfig = {
   replyLike?: Prisma.ReplyLikeOmit
   event?: Prisma.EventOmit
   eventAttendee?: Prisma.EventAttendeeOmit
+  eventPost?: Prisma.EventPostOmit
+  eventPostLike?: Prisma.EventPostLikeOmit
+  eventPostComment?: Prisma.EventPostCommentOmit
+  eventPostCommentLike?: Prisma.EventPostCommentLikeOmit
   group?: Prisma.GroupOmit
   groupMember?: Prisma.GroupMemberOmit
   groupPost?: Prisma.GroupPostOmit

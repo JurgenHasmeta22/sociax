@@ -7,6 +7,7 @@ import { prisma } from "@/lib/prisma";
 import type {
 	AttendeeStatus,
 	EventPrivacy,
+	ReactionType,
 } from "../../prisma/generated/prisma/enums";
 
 async function getSessionUserId() {
@@ -226,4 +227,224 @@ export async function fetchEvents(filter: EventFilter = "all", skip = 0) {
 		})),
 		total,
 	};
+}
+
+export async function getEventPosts(eventId: number, currentUserId?: number) {
+	const posts = await prisma.eventPost.findMany({
+		where: { eventId, isDeleted: false },
+		orderBy: { createdAt: "desc" },
+		include: {
+			user: {
+				select: {
+					id: true,
+					userName: true,
+					firstName: true,
+					lastName: true,
+					avatar: { select: { photoSrc: true } },
+				},
+			},
+			likes: { select: { id: true, userId: true, reactionType: true } },
+			_count: { select: { comments: true } },
+		},
+	});
+
+	return posts.map((p) => ({
+		...p,
+		myReaction: currentUserId
+			? (p.likes.find((l) => l.userId === currentUserId)?.reactionType ??
+				null)
+			: null,
+	}));
+}
+
+export async function createEventPost(
+	eventId: number,
+	content: string,
+	mediaUrl?: string,
+) {
+	const userId = await getSessionUserId();
+
+	const event = await prisma.event.findUnique({
+		where: { id: eventId },
+		select: { creatorId: true, slug: true },
+	});
+	if (!event) throw new Error("Event not found");
+	if (event.creatorId !== userId)
+		throw new Error("Only the event organizer can post");
+
+	const post = await prisma.eventPost.create({
+		data: {
+			content: content.trim() || null,
+			mediaUrl: mediaUrl ?? null,
+			eventId,
+			userId,
+		},
+		include: {
+			user: {
+				select: {
+					id: true,
+					userName: true,
+					firstName: true,
+					lastName: true,
+					avatar: { select: { photoSrc: true } },
+				},
+			},
+			likes: { select: { id: true, userId: true, reactionType: true } },
+			_count: { select: { comments: true } },
+		},
+	});
+
+	revalidatePath(`/events/${event.slug}`);
+	return { ...post, myReaction: null };
+}
+
+export async function deleteEventPost(postId: number) {
+	const userId = await getSessionUserId();
+
+	const post = await prisma.eventPost.findUnique({
+		where: { id: postId },
+		select: { userId: true, event: { select: { slug: true } } },
+	});
+	if (!post) throw new Error("Post not found");
+	if (post.userId !== userId) throw new Error("Forbidden");
+
+	await prisma.eventPost.update({
+		where: { id: postId },
+		data: { isDeleted: true },
+	});
+	revalidatePath(`/events/${post.event.slug}`);
+}
+
+export async function toggleEventPostLike(
+	postId: number,
+	reactionType: ReactionType,
+) {
+	const userId = await getSessionUserId();
+
+	const existing = await prisma.eventPostLike.findUnique({
+		where: { userId_eventPostId: { userId, eventPostId: postId } },
+	});
+
+	if (existing) {
+		if (existing.reactionType === reactionType) {
+			await prisma.eventPostLike.delete({
+				where: { userId_eventPostId: { userId, eventPostId: postId } },
+			});
+		} else {
+			await prisma.eventPostLike.update({
+				where: { userId_eventPostId: { userId, eventPostId: postId } },
+				data: { reactionType },
+			});
+		}
+	} else {
+		await prisma.eventPostLike.create({
+			data: { userId, eventPostId: postId, reactionType },
+		});
+	}
+}
+
+export async function getEventPostComments(
+	postId: number,
+	currentUserId?: number,
+) {
+	const comments = await prisma.eventPostComment.findMany({
+		where: { eventPostId: postId, isDeleted: false },
+		orderBy: { createdAt: "asc" },
+		include: {
+			user: {
+				select: {
+					id: true,
+					userName: true,
+					firstName: true,
+					lastName: true,
+					avatar: { select: { photoSrc: true } },
+				},
+			},
+			_count: { select: { likes: true } },
+			likes: currentUserId
+				? { where: { userId: currentUserId }, select: { id: true } }
+				: false,
+		},
+	});
+
+	return comments.map((c) => ({
+		...c,
+		likeCount: c._count.likes,
+		isLikedByMe: currentUserId
+			? (c.likes as { id: number }[]).length > 0
+			: false,
+		likes: undefined,
+		_count: undefined,
+	}));
+}
+
+export async function createEventPostComment(postId: number, content: string) {
+	const userId = await getSessionUserId();
+	if (!content.trim()) throw new Error("Content required");
+
+	await prisma.eventPostComment.create({
+		data: { content: content.trim(), eventPostId: postId, userId },
+	});
+}
+
+export async function deleteEventPostComment(commentId: number) {
+	const userId = await getSessionUserId();
+
+	const comment = await prisma.eventPostComment.findUnique({
+		where: { id: commentId },
+		select: { userId: true },
+	});
+	if (!comment) throw new Error("Comment not found");
+	if (comment.userId !== userId) throw new Error("Forbidden");
+
+	await prisma.eventPostComment.update({
+		where: { id: commentId },
+		data: { isDeleted: true },
+	});
+}
+
+export async function toggleEventPostCommentLike(commentId: number) {
+	const userId = await getSessionUserId();
+
+	const existing = await prisma.eventPostCommentLike.findUnique({
+		where: {
+			userId_eventPostCommentId: {
+				userId,
+				eventPostCommentId: commentId,
+			},
+		},
+	});
+
+	if (existing) {
+		await prisma.eventPostCommentLike.delete({
+			where: {
+				userId_eventPostCommentId: {
+					userId,
+					eventPostCommentId: commentId,
+				},
+			},
+		});
+	} else {
+		await prisma.eventPostCommentLike.create({
+			data: { userId, eventPostCommentId: commentId },
+		});
+	}
+}
+
+export async function getEventPostReactions(postId: number) {
+	return prisma.eventPostLike.findMany({
+		where: { eventPostId: postId },
+		orderBy: { createdAt: "desc" },
+		include: {
+			user: {
+				select: {
+					id: true,
+					userName: true,
+					firstName: true,
+					lastName: true,
+					avatar: { select: { photoSrc: true } },
+				},
+			},
+		},
+	});
 }

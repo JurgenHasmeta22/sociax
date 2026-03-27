@@ -29,6 +29,7 @@ import {
 	User,
 	Moon,
 	Sun,
+	NotebookPen,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { SearchModal } from "@/components/root/SearchModal";
@@ -204,17 +205,28 @@ export function Navbar() {
 												Settings & privacy
 											</Link>
 										</DropdownMenuItem>
-										<DropdownMenuSeparator />
-										<DropdownMenuItem
-											onClick={() =>
-												setTheme(
-													theme === "dark"
-														? "light"
-														: "dark",
-												)
-											}
+									<DropdownMenuItem asChild>
+										<Link
+											href="/memories"
 											className="flex items-center gap-3 cursor-pointer rounded-md"
 										>
+											<div className="w-8 h-8 rounded-full bg-muted flex items-center justify-center">
+												<NotebookPen className="h-4 w-4" />
+											</div>
+											Memories
+										</Link>
+									</DropdownMenuItem>
+									<DropdownMenuSeparator />
+									<DropdownMenuItem
+										onClick={() =>
+											setTheme(
+												theme === "dark"
+													? "light"
+													: "dark",
+											)
+										}
+										className="flex items-center gap-3 cursor-pointer rounded-md"
+									>
 											<div className="w-8 h-8 rounded-full bg-muted flex items-center justify-center">
 												{theme === "dark" ? (
 													<Sun className="h-4 w-4" />

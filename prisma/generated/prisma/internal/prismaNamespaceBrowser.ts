@@ -62,6 +62,10 @@ export const ModelName = {
   ReplyLike: 'ReplyLike',
   Event: 'Event',
   EventAttendee: 'EventAttendee',
+  EventPost: 'EventPost',
+  EventPostLike: 'EventPostLike',
+  EventPostComment: 'EventPostComment',
+  EventPostCommentLike: 'EventPostCommentLike',
   Group: 'Group',
   GroupMember: 'GroupMember',
   GroupPost: 'GroupPost',
@@ -254,6 +258,54 @@ export const EventAttendeeScalarFieldEnum = {
 } as const
 
 export type EventAttendeeScalarFieldEnum = (typeof EventAttendeeScalarFieldEnum)[keyof typeof EventAttendeeScalarFieldEnum]
+
+
+export const EventPostScalarFieldEnum = {
+  id: 'id',
+  content: 'content',
+  mediaUrl: 'mediaUrl',
+  isDeleted: 'isDeleted',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  eventId: 'eventId',
+  userId: 'userId'
+} as const
+
+export type EventPostScalarFieldEnum = (typeof EventPostScalarFieldEnum)[keyof typeof EventPostScalarFieldEnum]
+
+
+export const EventPostLikeScalarFieldEnum = {
+  id: 'id',
+  reactionType: 'reactionType',
+  createdAt: 'createdAt',
+  userId: 'userId',
+  eventPostId: 'eventPostId'
+} as const
+
+export type EventPostLikeScalarFieldEnum = (typeof EventPostLikeScalarFieldEnum)[keyof typeof EventPostLikeScalarFieldEnum]
+
+
+export const EventPostCommentScalarFieldEnum = {
+  id: 'id',
+  content: 'content',
+  isDeleted: 'isDeleted',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  userId: 'userId',
+  eventPostId: 'eventPostId'
+} as const
+
+export type EventPostCommentScalarFieldEnum = (typeof EventPostCommentScalarFieldEnum)[keyof typeof EventPostCommentScalarFieldEnum]
+
+
+export const EventPostCommentLikeScalarFieldEnum = {
+  id: 'id',
+  createdAt: 'createdAt',
+  userId: 'userId',
+  eventPostCommentId: 'eventPostCommentId'
+} as const
+
+export type EventPostCommentLikeScalarFieldEnum = (typeof EventPostCommentLikeScalarFieldEnum)[keyof typeof EventPostCommentLikeScalarFieldEnum]
 
 
 export const GroupScalarFieldEnum = {

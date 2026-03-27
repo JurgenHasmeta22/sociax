@@ -167,7 +167,7 @@ export function EventDetail({
 	};
 
 	return (
-		<div className="max-w-3xl mx-auto pb-12">
+		<div>
 			<div className="relative h-64 md:h-80 bg-muted rounded-b-2xl overflow-hidden">
 				{event.coverUrl ? (
 					<Image

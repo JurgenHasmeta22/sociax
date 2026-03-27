@@ -97,6 +97,10 @@ model User {
     // Event Relations
     createdEvents   Event[]         @relation("EventCreator")
     eventAttendances EventAttendee[]
+    eventPosts       EventPost[]
+    eventPostLikes   EventPostLike[]
+    eventPostComments EventPostComment[]
+    eventPostCommentLikes EventPostCommentLike[]
 
     // Memory Relations
     memories Memory[]

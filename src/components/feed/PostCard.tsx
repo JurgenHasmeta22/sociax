@@ -32,6 +32,7 @@ import {
 	Bookmark,
 	BookmarkCheck,
 	Trash2,
+	NotebookPen,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import {
@@ -40,6 +41,7 @@ import {
 	getPostReactions,
 	togglePostSave,
 } from "@/actions/post.actions";
+import { addMemory, removeMemory } from "@/actions/memory.actions";
 import type { ReactionType } from "../../../prisma/generated/prisma/enums";
 import { CommentsSection } from "@/components/feed/CommentsSection";
 import { ConfirmDeleteDialog } from "@/components/ui/ConfirmDeleteDialog";
@@ -237,6 +239,7 @@ export function PostCard({
 	const [showPicker, setShowPicker] = useState(false);
 	const [deleted, setDeleted] = useState(false);
 	const [saved, setSaved] = useState((post.saves?.length ?? 0) > 0);
+	const [inMemories, setInMemories] = useState(false);
 	const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
 	const [isPending, startTransition] = useTransition();
 	const hoverTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -362,7 +365,22 @@ export function PostCard({
 									<Bookmark className="h-4 w-4 mr-2" />
 								)}
 								{saved ? "Unsave post" : "Save post"}
-							</DropdownMenuItem>
+							</DropdownMenuItem>{" "}
+							<DropdownMenuItem
+								onClick={() => {
+									setInMemories((p) => !p);
+									startTransition(() => {
+										inMemories
+											? removeMemory(post.id)
+											: addMemory(post.id);
+									});
+								}}
+							>
+								<NotebookPen className="h-4 w-4 mr-2" />
+								{inMemories
+									? "Remove from Memories"
+									: "Save to Memories"}
+							</DropdownMenuItem>{" "}
 							{isOwnPost && (
 								<DropdownMenuItem
 									onClick={() => setShowDeleteConfirm(true)}

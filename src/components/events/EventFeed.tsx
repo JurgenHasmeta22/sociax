@@ -1,13 +1,14 @@
-﻿"use client";
+"use client";
 
 import { useState, useRef, useTransition, useEffect } from "react";
-import Image from "next/image";
 import Link from "next/link";
+import Image from "next/image";
+import { formatDistanceToNow } from "date-fns";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import { Textarea } from "@/components/ui/textarea";
 import { Separator } from "@/components/ui/separator";
+import { Textarea } from "@/components/ui/textarea";
 import {
 	Dialog,
 	DialogContent,
@@ -26,26 +27,24 @@ import {
 	MessageCircle,
 	MoreHorizontal,
 	Trash2,
-	Loader2,
 	Send,
 	ImagePlus,
 	X,
 } from "lucide-react";
-import { formatDistanceToNow } from "date-fns";
-import {
-	createPagePost,
-	deletePagePost,
-	togglePagePostLike,
-	createPagePostComment,
-	deletePagePostComment,
-	getPagePostComments,
-	togglePagePostCommentLike,
-	getPagePostReactions,
-} from "@/actions/page.actions";
-import { toast } from "sonner";
 import { cn } from "@/lib/utils";
-import { ConfirmDeleteDialog } from "@/components/ui/ConfirmDeleteDialog";
+import {
+	createEventPost,
+	deleteEventPost,
+	toggleEventPostLike,
+	createEventPostComment,
+	deleteEventPostComment,
+	getEventPostComments,
+	toggleEventPostCommentLike,
+	getEventPostReactions,
+} from "@/actions/event.actions";
 import type { ReactionType } from "../../../prisma/generated/prisma/enums";
+import { ConfirmDeleteDialog } from "@/components/ui/ConfirmDeleteDialog";
+import { toast } from "sonner";
 
 const REACTIONS: Record<string, { emoji: string; label: string }> = {
 	Like: { emoji: "👍", label: "Like" },
@@ -56,44 +55,58 @@ const REACTIONS: Record<string, { emoji: string; label: string }> = {
 	Angry: { emoji: "😠", label: "Angry" },
 };
 
-type PagePostUser = {
-	id: number;
-	userName: string;
-	firstName: string | null;
-	lastName: string | null;
-	avatar: { photoSrc: string } | null;
-};
-
-type PageComment = {
+type EventPostLike = { id: number; userId: number; reactionType: string };
+type EventPostComment = {
 	id: number;
 	content: string;
 	createdAt: Date;
-	user: PagePostUser;
 	likeCount: number;
 	isLikedByMe: boolean;
 	isPending?: boolean;
+	user: {
+		id: number;
+		userName: string;
+		firstName: string | null;
+		lastName: string | null;
+		avatar: { photoSrc: string } | null;
+	};
 };
-
-type PagePostItem = {
+type EventPostData = {
 	id: number;
 	content: string | null;
 	mediaUrl: string | null;
 	createdAt: Date;
-	user: PagePostUser;
-	likes: { userId: number; reactionType: string }[];
-	_count: { likes: number; comments: number };
+	myReaction: string | null;
+	user: {
+		id: number;
+		userName: string;
+		firstName: string | null;
+		lastName: string | null;
+		avatar: { photoSrc: string } | null;
+	};
+	likes: EventPostLike[];
+	_count: { comments: number };
 };
 
-const displayName = (u: PagePostUser) =>
-	[u.firstName, u.lastName].filter(Boolean).join(" ") || u.userName;
+const displayName = (u: {
+	firstName: string | null;
+	lastName: string | null;
+	userName: string;
+}) => [u.firstName, u.lastName].filter(Boolean).join(" ") || u.userName;
 
-type ReactionUser = {
+type EventReactionUser = {
 	id: number;
 	reactionType: string;
-	user: PagePostUser;
+	user: {
+		id: number;
+		userName: string;
+		firstName: string | null;
+		lastName: string | null;
+		avatar: { photoSrc: string } | null;
+	};
 };
 
-function ReactionsModal({
+function EventReactionsModal({
 	postId,
 	open,
 	onClose,
@@ -102,16 +115,16 @@ function ReactionsModal({
 	open: boolean;
 	onClose: () => void;
 }) {
-	const [data, setData] = useState<ReactionUser[] | null>(null);
+	const [data, setData] = useState<EventReactionUser[] | null>(null);
 
 	useEffect(() => {
 		if (open && data === null) {
-			getPagePostReactions(postId).then(setData);
+			getEventPostReactions(postId).then(setData);
 		}
 		if (!open) setData(null);
 	}, [open, postId]);
 
-	const grouped = (data ?? []).reduce<Record<string, ReactionUser[]>>(
+	const grouped = (data ?? []).reduce<Record<string, EventReactionUser[]>>(
 		(acc, r) => {
 			(acc[r.reactionType] ??= []).push(r);
 			return acc;
@@ -151,11 +164,11 @@ function ReactionsModal({
 							))}
 						</TabsList>
 						<TabsContent value="All">
-							<ReactionList items={data} />
+							<EventReactionList items={data} />
 						</TabsContent>
 						{Object.entries(grouped).map(([type, items]) => (
 							<TabsContent key={type} value={type}>
-								<ReactionList items={items} />
+								<EventReactionList items={items} />
 							</TabsContent>
 						))}
 					</Tabs>
@@ -165,7 +178,7 @@ function ReactionsModal({
 	);
 }
 
-function ReactionList({ items }: { items: ReactionUser[] }) {
+function EventReactionList({ items }: { items: EventReactionUser[] }) {
 	return (
 		<div className="space-y-3 max-h-72 overflow-y-auto pr-1">
 			{items.map((r) => {
@@ -203,30 +216,26 @@ function ReactionList({ items }: { items: ReactionUser[] }) {
 	);
 }
 
-function PagePostCard({
+function EventPostCard({
 	post,
 	currentUserId,
-	pageSlug,
-	isOwner,
+	onDelete,
 }: {
-	post: PagePostItem;
-	currentUserId: number;
-	pageSlug: string;
-	isOwner: boolean;
+	post: EventPostData;
+	currentUserId: number | null;
+	onDelete: (id: number) => void;
 }) {
-	const myExisting = post.likes.find((l) => l.userId === currentUserId);
 	const [myReaction, setMyReaction] = useState<string | null>(
-		myExisting?.reactionType ?? null,
+		post.myReaction,
 	);
-	const [likeCount, setLikeCount] = useState(post._count.likes);
-	const [deleted, setDeleted] = useState(false);
-	const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
+	const [likeCount, setLikeCount] = useState(post.likes.length);
+	const [showComments, setShowComments] = useState(false);
+	const [comments, setComments] = useState<EventPostComment[]>([]);
+	const [commentText, setCommentText] = useState("");
 	const [isPending, startTransition] = useTransition();
 	const hoverTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
 	const [showPicker, setShowPicker] = useState(false);
-	const [showComments, setShowComments] = useState(false);
-	const [comments, setComments] = useState<PageComment[]>([]);
-	const [commentText, setCommentText] = useState("");
+	const [showDeletePostConfirm, setShowDeletePostConfirm] = useState(false);
 	const [commentToDelete, setCommentToDelete] = useState<number | null>(null);
 	const [showReactionsModal, setShowReactionsModal] = useState(false);
 
@@ -239,9 +248,11 @@ function PagePostCard({
 		.slice(0, 3)
 		.map(([t]) => t);
 
-	if (deleted) return null;
-
 	const name = displayName(post.user);
+	const timeAgo = formatDistanceToNow(new Date(post.createdAt), {
+		addSuffix: true,
+	});
+	const isOwnPost = post.user.id === currentUserId;
 
 	const handleReact = (type: string) => {
 		setShowPicker(false);
@@ -249,13 +260,13 @@ function PagePostCard({
 		const wasLiked = myReaction !== null;
 		if (isSame) {
 			setMyReaction(null);
-			setLikeCount((c) => c - 1);
+			setLikeCount((p) => p - 1);
 		} else {
-			if (!wasLiked) setLikeCount((c) => c + 1);
+			if (!wasLiked) setLikeCount((p) => p + 1);
 			setMyReaction(type);
 		}
 		startTransition(() =>
-			togglePagePostLike(post.id, type as ReactionType),
+			toggleEventPostLike(post.id, type as ReactionType),
 		);
 	};
 
@@ -263,25 +274,21 @@ function PagePostCard({
 		setShowComments(true);
 		if (comments.length === 0) {
 			startTransition(async () => {
-				const fetched = await getPagePostComments(
+				const fetched = await getEventPostComments(
 					post.id,
-					currentUserId,
+					currentUserId ?? undefined,
 				);
-				setComments(
-					fetched.map((c) => ({
-						...c,
-						isLikedByMe: c.myReactionType !== null,
-					})),
-				);
+				setComments(fetched);
 			});
 		}
 	};
 
 	const handleComment = () => {
+		if (!currentUserId) return;
 		const text = commentText.trim();
 		if (!text) return;
 		setCommentText("");
-		const optimistic: PageComment = {
+		const optimistic: EventPostComment = {
 			id: Date.now(),
 			content: text,
 			createdAt: new Date(),
@@ -297,7 +304,7 @@ function PagePostCard({
 			},
 		};
 		setComments((p) => [...p, optimistic]);
-		startTransition(() => createPagePostComment(post.id, text));
+		startTransition(() => createEventPostComment(post.id, text));
 	};
 
 	const handleCommentLike = (commentId: number) => {
@@ -314,43 +321,34 @@ function PagePostCard({
 					: c,
 			),
 		);
-		startTransition(() =>
-			togglePagePostCommentLike(commentId, "Like" as ReactionType),
-		);
+		startTransition(() => toggleEventPostCommentLike(commentId));
 	};
 
 	const handleDeleteComment = (commentId: number) => {
 		setComments((p) => p.filter((c) => c.id !== commentId));
-		startTransition(() => deletePagePostComment(commentId));
+		startTransition(() => deleteEventPostComment(commentId));
 	};
 
-	const handleDelete = () => {
-		startTransition(async () => {
-			try {
-				await deletePagePost(post.id, pageSlug);
-				setDeleted(true);
-				toast.success("Post deleted.");
-			} catch {
-				toast.error("Failed to delete post.");
-			}
-		});
+	const handleConfirmDeletePost = () => {
+		onDelete(post.id);
+		startTransition(() => deleteEventPost(post.id));
 	};
 
 	return (
 		<>
 			<Card className="shadow-sm hover:shadow-md transition-shadow duration-200">
 				<CardContent className="pt-4 pb-0">
-					<div className="flex items-start justify-between mb-3">
-						<div className="flex items-center gap-2.5">
+					<div className="flex items-start justify-between">
+						<div className="flex items-center gap-3">
 							<Link href={`/profile/${post.user.userName}`}>
-								<Avatar className="h-10 w-10 shrink-0">
+								<Avatar className="h-10 w-10">
 									<AvatarImage
 										src={
 											post.user.avatar?.photoSrc ??
 											undefined
 										}
 									/>
-									<AvatarFallback className="bg-primary text-primary-foreground font-semibold text-sm">
+									<AvatarFallback className="bg-primary text-primary-foreground font-semibold">
 										{name[0]?.toUpperCase()}
 									</AvatarFallback>
 								</Avatar>
@@ -363,20 +361,17 @@ function PagePostCard({
 									{name}
 								</Link>
 								<p className="text-xs text-muted-foreground">
-									{formatDistanceToNow(
-										new Date(post.createdAt),
-										{ addSuffix: true },
-									)}
+									{timeAgo}
 								</p>
 							</div>
 						</div>
-						{(isOwner || post.user.id === currentUserId) && (
+						{isOwnPost && (
 							<DropdownMenu>
 								<DropdownMenuTrigger asChild>
 									<Button
 										variant="ghost"
 										size="icon"
-										className="h-8 w-8"
+										className="h-8 w-8 rounded-full text-muted-foreground"
 									>
 										<MoreHorizontal className="h-4 w-4" />
 									</Button>
@@ -384,12 +379,11 @@ function PagePostCard({
 								<DropdownMenuContent align="end">
 									<DropdownMenuItem
 										onClick={() =>
-											setShowDeleteConfirm(true)
+											setShowDeletePostConfirm(true)
 										}
-										className="text-destructive focus:text-destructive gap-2"
-										disabled={isPending}
+										className="text-destructive focus:text-destructive"
 									>
-										<Trash2 className="h-4 w-4" />
+										<Trash2 className="h-4 w-4 mr-2" />
 										Delete post
 									</DropdownMenuItem>
 								</DropdownMenuContent>
@@ -398,17 +392,17 @@ function PagePostCard({
 					</div>
 
 					{post.content && (
-						<p className="text-sm leading-relaxed mb-3">
+						<p className="mt-3 text-sm leading-relaxed">
 							{post.content}
 						</p>
 					)}
-
 					{post.mediaUrl && (
-						<div className="relative rounded-lg overflow-hidden bg-muted mb-3 h-72">
+						<div className="relative rounded-lg overflow-hidden bg-muted mt-3 h-72">
 							<Image
 								src={post.mediaUrl}
 								alt=""
 								fill
+								unoptimized
 								className="object-cover"
 								sizes="600px"
 							/>
@@ -416,12 +410,12 @@ function PagePostCard({
 					)}
 				</CardContent>
 
-				<CardContent className="pt-2 pb-2">
+				<CardContent className="pt-3 pb-2">
 					{likeCount > 0 && (
 						<>
 							<button
 								onClick={() => setShowReactionsModal(true)}
-								className="text-sm text-muted-foreground mb-2 hover:underline cursor-pointer"
+								className="text-sm text-muted-foreground mb-2 hover:underline text-left w-full"
 							>
 								{likeCount} reaction{likeCount !== 1 ? "s" : ""}
 							</button>
@@ -476,7 +470,7 @@ function PagePostCard({
 										? handleReact(myReaction)
 										: handleReact("Like")
 								}
-								disabled={isPending}
+								disabled={isPending || !currentUserId}
 								className={cn(
 									"w-full gap-2 rounded-lg font-semibold text-sm h-9",
 									myReaction
@@ -535,23 +529,17 @@ function PagePostCard({
 												onClick={() =>
 													handleCommentLike(c.id)
 												}
-												disabled={c.isPending}
-												className={cn(
-													"text-xs font-semibold hover:underline",
-													c.isLikedByMe
-														? "text-primary"
-														: "text-muted-foreground",
-													c.isPending &&
-														"opacity-50 cursor-not-allowed",
-												)}
+												disabled={
+													c.isPending ||
+													!currentUserId
+												}
+												className={`text-xs font-semibold transition-colors disabled:opacity-40 disabled:cursor-default ${c.isLikedByMe ? "text-primary" : "text-muted-foreground hover:text-foreground"}`}
 											>
 												Like
+												{c.likeCount > 0
+													? ` · ${c.likeCount}`
+													: ""}
 											</button>
-											{c.likeCount > 0 && (
-												<span className="text-xs text-muted-foreground">
-													{c.likeCount}
-												</span>
-											)}
 										</div>
 									</div>
 									{c.user.id === currentUserId && (
@@ -559,7 +547,7 @@ function PagePostCard({
 											onClick={() =>
 												setCommentToDelete(c.id)
 											}
-											className="opacity-0 group-hover:opacity-100 text-muted-foreground hover:text-destructive transition-opacity self-start mt-2"
+											className="opacity-0 group-hover:opacity-100 self-start mt-2 text-muted-foreground hover:text-destructive transition-opacity"
 										>
 											<Trash2 className="h-3.5 w-3.5" />
 										</button>
@@ -568,37 +556,48 @@ function PagePostCard({
 							))}
 						</div>
 						<div className="flex gap-2 mt-3">
-							<Textarea
-								value={commentText}
-								onChange={(e) => setCommentText(e.target.value)}
-								onKeyDown={(e) => {
-									if (e.key === "Enter" && !e.shiftKey) {
-										e.preventDefault();
-										handleComment();
-									}
-								}}
-								placeholder="Write a comment…"
-								className="min-h-0 h-9 resize-none text-sm rounded-full py-2 px-4"
-							/>
-							<Button
-								size="icon"
-								className="h-9 w-9 rounded-full shrink-0"
-								onClick={handleComment}
-								disabled={!commentText.trim() || isPending}
-							>
-								<Send className="h-4 w-4" />
-							</Button>
+							{currentUserId && (
+								<>
+									<Textarea
+										value={commentText}
+										onChange={(e) =>
+											setCommentText(e.target.value)
+										}
+										onKeyDown={(e) => {
+											if (
+												e.key === "Enter" &&
+												!e.shiftKey
+											) {
+												e.preventDefault();
+												handleComment();
+											}
+										}}
+										placeholder="Write a comment…"
+										className="min-h-0 h-9 resize-none text-sm rounded-full py-2 px-4"
+									/>
+									<Button
+										size="icon"
+										className="h-9 w-9 rounded-full shrink-0"
+										onClick={handleComment}
+										disabled={
+											!commentText.trim() || isPending
+										}
+									>
+										<Send className="h-4 w-4" />
+									</Button>
+								</>
+							)}
 						</div>
 					</CardContent>
 				)}
 			</Card>
 
 			<ConfirmDeleteDialog
-				open={showDeleteConfirm}
-				onClose={() => setShowDeleteConfirm(false)}
-				onConfirm={handleDelete}
+				open={showDeletePostConfirm}
+				onClose={() => setShowDeletePostConfirm(false)}
+				onConfirm={handleConfirmDeletePost}
 				title="Delete post?"
-				description="This post will be permanently removed from the page."
+				description="This post will be permanently removed from the event."
 				isPending={isPending}
 			/>
 			<ConfirmDeleteDialog
@@ -613,7 +612,7 @@ function PagePostCard({
 				description="This comment will be permanently removed."
 				isPending={isPending}
 			/>
-			<ReactionsModal
+			<EventReactionsModal
 				postId={post.id}
 				open={showReactionsModal}
 				onClose={() => setShowReactionsModal(false)}
@@ -622,30 +621,25 @@ function PagePostCard({
 	);
 }
 
-export function PageFeed({
-	posts,
-	pageId,
-	pageSlug,
+function EventPostComposer({
+	eventId,
 	currentUser,
-	isOwner,
+	onPost,
 }: {
-	posts: PagePostItem[];
-	pageId: number;
-	pageSlug: string;
+	eventId: number;
 	currentUser: {
 		id: number;
-		avatar: { photoSrc: string } | null;
+		userName: string;
 		firstName: string | null;
 		lastName: string | null;
-		userName: string;
+		avatar: { photoSrc: string } | null;
 	};
-	isOwner: boolean;
+	onPost: (post: EventPostData) => void;
 }) {
 	const [content, setContent] = useState("");
 	const [selectedFile, setSelectedFile] = useState<File | null>(null);
 	const [previewUrl, setPreviewUrl] = useState<string | null>(null);
 	const [isPending, startTransition] = useTransition();
-	const [localPosts, setLocalPosts] = useState<PagePostItem[]>(posts);
 	const fileInputRef = useRef<HTMLInputElement>(null);
 
 	const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -662,7 +656,7 @@ export function PageFeed({
 		if (fileInputRef.current) fileInputRef.current.value = "";
 	};
 
-	const handlePost = () => {
+	const handleSubmit = () => {
 		if (!content.trim() && !selectedFile) return;
 		startTransition(async () => {
 			try {
@@ -678,8 +672,12 @@ export function PageFeed({
 					const json = await res.json();
 					mediaUrl = json.url;
 				}
-				await createPagePost(pageId, content, mediaUrl);
-				toast.success("Posted!");
+				const newPost = await createEventPost(
+					eventId,
+					content,
+					mediaUrl,
+				);
+				if (newPost) onPost(newPost as unknown as EventPostData);
 				setContent("");
 				clearFile();
 			} catch {
@@ -691,114 +689,140 @@ export function PageFeed({
 	const name = displayName(currentUser);
 
 	return (
-		<div className="space-y-4">
-			{isOwner && (
-				<Card className="shadow-sm">
-					<CardContent className="pt-4 pb-3">
-						<div className="flex items-start gap-3">
-							<Avatar className="h-10 w-10 shrink-0 mt-0.5">
-								<AvatarImage
-									src={
-										currentUser.avatar?.photoSrc ??
-										undefined
-									}
-								/>
-								<AvatarFallback className="bg-primary text-primary-foreground font-semibold">
-									{name[0]?.toUpperCase()}
-								</AvatarFallback>
-							</Avatar>
-							<div className="flex-1 space-y-2">
-								<Textarea
-									placeholder="Write something for your page…"
-									value={content}
-									onChange={(e) => setContent(e.target.value)}
-									className="resize-none min-h-[80px] border-0 focus-visible:ring-0 p-0 text-sm"
-								/>
-								{previewUrl && selectedFile && (
-									<div className="relative rounded-lg overflow-hidden bg-muted">
-										{selectedFile.type.startsWith(
-											"video/",
-										) ? (
-											<video
-												src={previewUrl}
-												className="w-full max-h-48 object-contain"
-												controls
-											/>
-										) : (
-											<img
-												src={previewUrl}
-												alt=""
-												className="w-full max-h-48 object-contain"
-											/>
-										)}
-										<button
-											onClick={clearFile}
-											className="absolute top-2 right-2 bg-background/80 rounded-full p-1 hover:bg-background transition-colors"
-										>
-											<X className="h-4 w-4" />
-										</button>
-									</div>
+		<Card className="shadow-sm">
+			<CardContent className="pt-4 pb-4">
+				<div className="flex items-start gap-3">
+					<Avatar className="h-10 w-10 shrink-0 mt-0.5">
+						<AvatarImage
+							src={currentUser.avatar?.photoSrc ?? undefined}
+						/>
+						<AvatarFallback className="bg-primary text-primary-foreground font-semibold">
+							{name[0]?.toUpperCase()}
+						</AvatarFallback>
+					</Avatar>
+					<div className="flex-1 space-y-2">
+						<Textarea
+							value={content}
+							onChange={(e) => setContent(e.target.value)}
+							placeholder="Share an update about this event…"
+							className="min-h-[80px] resize-none border-0 focus-visible:ring-0 p-0 text-sm"
+						/>
+						{previewUrl && selectedFile && (
+							<div className="relative rounded-lg overflow-hidden bg-muted">
+								{selectedFile.type.startsWith("video/") ? (
+									<video
+										src={previewUrl}
+										className="w-full max-h-48 object-contain"
+										controls
+									/>
+								) : (
+									<img
+										src={previewUrl}
+										alt=""
+										className="w-full max-h-48 object-contain"
+									/>
 								)}
-								<div className="flex items-center justify-between border-t pt-2">
-									<div className="flex items-center gap-1">
-										<input
-											ref={fileInputRef}
-											type="file"
-											accept="image/*,video/*"
-											className="hidden"
-											onChange={handleFileChange}
-										/>
-										<button
-											onClick={() =>
-												fileInputRef.current?.click()
-											}
-											className="flex items-center gap-1.5 text-xs text-muted-foreground hover:text-foreground px-2 py-1.5 rounded hover:bg-muted transition-colors"
-											title="Add photo or video"
-										>
-											<ImagePlus className="h-4 w-4 text-green-500" />
-											Photo/Video
-										</button>
-									</div>
-									<Button
-										size="sm"
-										onClick={handlePost}
-										disabled={
-											isPending ||
-											(!content.trim() && !selectedFile)
-										}
-										className="gap-1.5"
-									>
-										{isPending ? (
-											<Loader2 className="h-3.5 w-3.5 animate-spin" />
-										) : (
-											<Send className="h-3.5 w-3.5" />
-										)}
-										Post
-									</Button>
-								</div>
+								<button
+									onClick={clearFile}
+									className="absolute top-2 right-2 bg-background/80 rounded-full p-1 hover:bg-background transition-colors"
+								>
+									<X className="h-4 w-4" />
+								</button>
 							</div>
+						)}
+						<div className="flex items-center justify-between border-t pt-2">
+							<div className="flex items-center gap-1">
+								<input
+									ref={fileInputRef}
+									type="file"
+									accept="image/*,video/*"
+									className="hidden"
+									onChange={handleFileChange}
+								/>
+								<button
+									onClick={() =>
+										fileInputRef.current?.click()
+									}
+									className="flex items-center gap-1.5 text-xs text-muted-foreground hover:text-foreground px-2 py-1.5 rounded hover:bg-muted transition-colors"
+									title="Add photo or video"
+								>
+									<ImagePlus className="h-4 w-4 text-green-500" />
+									Photo/Video
+								</button>
+							</div>
+							<Button
+								size="sm"
+								disabled={
+									(!content.trim() && !selectedFile) ||
+									isPending
+								}
+								onClick={handleSubmit}
+								className="font-semibold"
+							>
+								Post
+							</Button>
 						</div>
-					</CardContent>
-				</Card>
-			)}
+					</div>
+				</div>
+			</CardContent>
+		</Card>
+	);
+}
 
-			{localPosts.length === 0 ? (
-				<div className="text-center py-16 text-muted-foreground border border-dashed rounded-xl">
-					<p className="font-medium">No posts yet</p>
+export function EventFeed({
+	posts: initialPosts,
+	eventId,
+	currentUserId,
+	isOwner,
+	currentUser,
+}: {
+	posts: EventPostData[];
+	eventId: number;
+	currentUserId: number | null;
+	isOwner: boolean;
+	currentUser: {
+		id: number;
+		userName: string;
+		firstName: string | null;
+		lastName: string | null;
+		avatar: { photoSrc: string } | null;
+	} | null;
+}) {
+	const [posts, setPosts] = useState<EventPostData[]>(initialPosts);
+
+	const handleNewPost = (post: EventPostData) => {
+		setPosts((p) => [post, ...p]);
+	};
+
+	const handleDeletePost = (id: number) => {
+		setPosts((p) => p.filter((post) => post.id !== id));
+	};
+
+	return (
+		<div className="space-y-4">
+			{isOwner && currentUser && (
+				<EventPostComposer
+					eventId={eventId}
+					currentUser={currentUser}
+					onPost={handleNewPost}
+				/>
+			)}
+			{posts.length === 0 ? (
+				<div className="text-center py-12 text-muted-foreground border border-dashed rounded-xl">
+					<p className="font-medium">No updates yet</p>
 					{isOwner && (
 						<p className="text-sm mt-1">
-							Share something with your followers!
+							Share updates with attendees above.
 						</p>
 					)}
 				</div>
 			) : (
-				localPosts.map((post) => (
-					<PagePostCard
+				posts.map((post) => (
+					<EventPostCard
 						key={post.id}
 						post={post}
-						currentUserId={currentUser.id}
-						pageSlug={pageSlug}
-						isOwner={isOwner}
+						currentUserId={currentUserId}
+						onDelete={handleDeletePost}
 					/>
 				))
 			)}
