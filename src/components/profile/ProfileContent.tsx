@@ -69,6 +69,7 @@ type GroupItem = {
 	avatarUrl: string | null;
 	privacy: string;
 	_count: { members: number };
+	isOwned?: boolean;
 };
 
 type PageItem = {
@@ -80,6 +81,7 @@ type PageItem = {
 	category: string;
 	isVerified: boolean;
 	_count: { followers: number };
+	isOwned?: boolean;
 };
 
 type EventItem = {
@@ -92,6 +94,7 @@ type EventItem = {
 	isOnline: boolean;
 	privacy: string;
 	_count: { attendees: number };
+	isOwned?: boolean;
 };
 
 type ProfileUser = {
@@ -228,7 +231,12 @@ function GroupGrid({
 									<Users className="h-10 w-10 text-primary/30" />
 								</div>
 							)}
-							<div className="absolute top-2 right-2">
+							<div className="absolute top-2 right-2 flex gap-1">
+								{g.isOwned && (
+									<Badge className="text-[10px] bg-primary text-primary-foreground gap-1">
+										Admin
+									</Badge>
+								)}
 								<Badge
 									variant="secondary"
 									className="text-[10px] bg-background/90 backdrop-blur gap-1"
@@ -295,6 +303,11 @@ function PageGrid({
 									<Flag className="h-8 w-8 text-primary/30" />
 								</div>
 							)}
+							{p.isOwned && (
+								<Badge className="absolute top-2 right-2 text-[10px] bg-primary text-primary-foreground">
+									Admin
+								</Badge>
+							)}
 						</div>
 						<CardContent className="p-3">
 							<div className="flex items-center gap-1.5">
@@ -359,6 +372,11 @@ function EventGrid({
 								<div className="w-full h-full bg-gradient-to-br from-primary/20 to-primary/5 flex items-center justify-center">
 									<CalendarCheck className="h-10 w-10 text-primary/30" />
 								</div>
+							)}
+							{e.isOwned && (
+								<Badge className="absolute top-2 right-2 text-[10px] bg-primary text-primary-foreground">
+									Organizer
+								</Badge>
 							)}
 						</div>
 						<CardContent className="p-3">
@@ -431,14 +449,16 @@ export function ProfileContent({
 	};
 
 	const allGroups = [
-		...ownedGroups,
-		...groups.filter((g) => !ownedGroups.find((og) => og.id === g.id)),
+		...ownedGroups.map((g) => ({ ...g, isOwned: true })),
+		...groups
+			.filter((g) => !ownedGroups.find((og) => og.id === g.id))
+			.map((g) => ({ ...g, isOwned: false })),
 	];
 	const allPages = [
-		...ownedPages,
-		...followedPages.filter(
-			(p) => !ownedPages.find((op) => op.id === p.id),
-		),
+		...ownedPages.map((p) => ({ ...p, isOwned: true })),
+		...followedPages
+			.filter((p) => !ownedPages.find((op) => op.id === p.id))
+			.map((p) => ({ ...p, isOwned: false })),
 	];
 
 	return (
@@ -796,10 +816,17 @@ export function ProfileContent({
 																	</div>
 																)}
 															</div>
-															<div className="min-w-0">
-																<p className="text-sm font-medium truncate group-hover:underline">
-																	{g.name}
-																</p>
+															<div className="min-w-0 flex-1">
+																<div className="flex items-center gap-1.5">
+																	<p className="text-sm font-medium truncate group-hover:underline">
+																		{g.name}
+																	</p>
+																	{g.isOwned && (
+																		<Badge className="text-[9px] px-1 py-0 h-4 bg-primary text-primary-foreground shrink-0">
+																			Admin
+																		</Badge>
+																	)}
+																</div>
 																<p className="text-xs text-muted-foreground">
 																	{
 																		g._count
@@ -861,10 +888,17 @@ export function ProfileContent({
 																	</div>
 																)}
 															</div>
-															<div className="min-w-0">
-																<p className="text-sm font-medium truncate group-hover:underline">
-																	{p.name}
-																</p>
+															<div className="min-w-0 flex-1">
+																<div className="flex items-center gap-1.5">
+																	<p className="text-sm font-medium truncate group-hover:underline">
+																		{p.name}
+																	</p>
+																	{p.isOwned && (
+																		<Badge className="text-[9px] px-1 py-0 h-4 bg-primary text-primary-foreground shrink-0">
+																			Admin
+																		</Badge>
+																	)}
+																</div>
 																<p className="text-xs text-muted-foreground">
 																	{p.category}
 																</p>

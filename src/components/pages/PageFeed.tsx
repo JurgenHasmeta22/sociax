@@ -21,6 +21,8 @@ import {
 	Trash2,
 	Loader2,
 	Send,
+	ImagePlus,
+	X,
 } from "lucide-react";
 import { formatDistanceToNow } from "date-fns";
 import {
@@ -30,6 +32,7 @@ import {
 	createPagePostComment,
 	deletePagePostComment,
 	getPagePostComments,
+	togglePagePostCommentLike,
 } from "@/actions/page.actions";
 import { toast } from "sonner";
 import { cn } from "@/lib/utils";
@@ -58,6 +61,8 @@ type PageComment = {
 	content: string;
 	createdAt: Date;
 	user: PagePostUser;
+	likeCount: number;
+	isLikedByMe: boolean;
 };
 
 type PagePostItem = {
@@ -123,7 +128,7 @@ function PagePostCard({
 		setShowComments(true);
 		if (comments.length === 0) {
 			startTransition(async () => {
-				const fetched = await getPagePostComments(post.id);
+				const fetched = await getPagePostComments(post.id, currentUserId);
 				setComments(fetched);
 			});
 		}
@@ -137,6 +142,8 @@ function PagePostCard({
 			id: Date.now(),
 			content: text,
 			createdAt: new Date(),
+			likeCount: 0,
+			isLikedByMe: false,
 			user: {
 				id: currentUserId,
 				userName: "",
@@ -147,6 +154,21 @@ function PagePostCard({
 		};
 		setComments((p) => [...p, optimistic]);
 		startTransition(() => createPagePostComment(post.id, text));
+	};
+
+	const handleCommentLike = (commentId: number) => {
+		setComments((prev) =>
+			prev.map((c) =>
+				c.id === commentId
+					? {
+							...c,
+							isLikedByMe: !c.isLikedByMe,
+							likeCount: c.isLikedByMe ? c.likeCount - 1 : c.likeCount + 1,
+						}
+					: c,
+			),
+		);
+		startTransition(() => togglePagePostCommentLike(commentId));
 	};
 
 	const handleDeleteComment = (commentId: number) => {
@@ -359,13 +381,29 @@ function PagePostCard({
 											</span>
 											{c.content}
 										</div>
+										<div className="flex items-center gap-3 px-1 mt-1">
+											<button
+												onClick={() => handleCommentLike(c.id)}
+												className={cn(
+													"text-xs font-semibold hover:underline",
+													c.isLikedByMe ? "text-primary" : "text-muted-foreground",
+												)}
+											>
+												Like
+											</button>
+											{c.likeCount > 0 && (
+												<span className="text-xs text-muted-foreground">
+													{c.likeCount}
+												</span>
+											)}
+										</div>
 									</div>
 									{c.user.id === currentUserId && (
 										<button
 											onClick={() =>
 												setCommentToDelete(c.id)
 											}
-											className="opacity-0 group-hover:opacity-100 text-muted-foreground hover:text-destructive transition-opacity"
+											className="opacity-0 group-hover:opacity-100 text-muted-foreground hover:text-destructive transition-opacity self-start mt-2"
 										>
 											<Trash2 className="h-3.5 w-3.5" />
 										</button>
@@ -443,18 +481,43 @@ export function PageFeed({
 	isOwner: boolean;
 }) {
 	const [content, setContent] = useState("");
-	const [mediaUrl, setMediaUrl] = useState("");
+	const [selectedFile, setSelectedFile] = useState<File | null>(null);
+	const [previewUrl, setPreviewUrl] = useState<string | null>(null);
 	const [isPending, startTransition] = useTransition();
 	const [localPosts, setLocalPosts] = useState<PagePostItem[]>(posts);
+	const fileInputRef = useRef<HTMLInputElement>(null);
+
+	const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+		const file = e.target.files?.[0];
+		if (!file) return;
+		setSelectedFile(file);
+		setPreviewUrl(URL.createObjectURL(file));
+	};
+
+	const clearFile = () => {
+		setSelectedFile(null);
+		if (previewUrl) URL.revokeObjectURL(previewUrl);
+		setPreviewUrl(null);
+		if (fileInputRef.current) fileInputRef.current.value = "";
+	};
 
 	const handlePost = () => {
-		if (!content.trim()) return;
+		if (!content.trim() && !selectedFile) return;
 		startTransition(async () => {
 			try {
-				await createPagePost(pageId, content, mediaUrl || undefined);
+				let mediaUrl: string | undefined;
+				if (selectedFile) {
+					const fd = new FormData();
+					fd.append("file", selectedFile);
+					const res = await fetch("/api/upload", { method: "POST", body: fd });
+					if (!res.ok) throw new Error("Upload failed");
+					const json = await res.json();
+					mediaUrl = json.url;
+				}
+				await createPagePost(pageId, content, mediaUrl);
 				toast.success("Posted!");
 				setContent("");
-				setMediaUrl("");
+				clearFile();
 			} catch {
 				toast.error("Failed to post.");
 			}
@@ -487,20 +550,51 @@ export function PageFeed({
 									onChange={(e) => setContent(e.target.value)}
 									className="resize-none min-h-[80px] border-0 focus-visible:ring-0 p-0 text-sm"
 								/>
-								<div className="flex items-center gap-2">
-									<input
-										type="text"
-										placeholder="Image URL (optional)"
-										value={mediaUrl}
-										onChange={(e) =>
-											setMediaUrl(e.target.value)
-										}
-										className="flex-1 text-xs text-muted-foreground bg-muted rounded px-2 py-1 border-0 focus:outline-none"
-									/>
+								{previewUrl && selectedFile && (
+									<div className="relative rounded-lg overflow-hidden bg-muted">
+										{selectedFile.type.startsWith("video/") ? (
+											<video
+												src={previewUrl}
+												className="w-full max-h-48 object-contain"
+												controls
+											/>
+										) : (
+											<img
+												src={previewUrl}
+												alt=""
+												className="w-full max-h-48 object-contain"
+											/>
+										)}
+										<button
+											onClick={clearFile}
+											className="absolute top-2 right-2 bg-background/80 rounded-full p-1 hover:bg-background transition-colors"
+										>
+											<X className="h-4 w-4" />
+										</button>
+									</div>
+								)}
+								<div className="flex items-center justify-between border-t pt-2">
+									<div className="flex items-center gap-1">
+										<input
+											ref={fileInputRef}
+											type="file"
+											accept="image/*,video/*"
+											className="hidden"
+											onChange={handleFileChange}
+										/>
+										<button
+											onClick={() => fileInputRef.current?.click()}
+											className="flex items-center gap-1.5 text-xs text-muted-foreground hover:text-foreground px-2 py-1.5 rounded hover:bg-muted transition-colors"
+											title="Add photo or video"
+										>
+											<ImagePlus className="h-4 w-4 text-green-500" />
+											Photo/Video
+										</button>
+									</div>
 									<Button
 										size="sm"
 										onClick={handlePost}
-										disabled={isPending || !content.trim()}
+										disabled={isPending || (!content.trim() && !selectedFile)}
 										className="gap-1.5"
 									>
 										{isPending ? (

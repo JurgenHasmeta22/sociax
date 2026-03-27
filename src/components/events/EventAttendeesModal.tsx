@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useTransition, useCallback } from "react";
+import { useState, useTransition } from "react";
 import Link from "next/link";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
@@ -72,45 +72,52 @@ export function EventAttendeesModal({
 	eventId,
 	goingCount,
 	interestedCount,
+	notGoingCount,
 }: {
 	eventId: number;
 	goingCount: number;
 	interestedCount: number;
+	notGoingCount: number;
 }) {
 	const [open, setOpen] = useState(false);
 	const [data, setData] = useState<AttendeesData | null>(null);
 	const [activeTab, setActiveTab] = useState<Tab>("going");
 	const [isPending, startTransition] = useTransition();
 
-	const load = useCallback(() => {
-		if (data) return;
+	const fetchData = () => {
 		startTransition(async () => {
 			const result = await getEventAttendees(eventId);
 			setData(result);
 		});
-	}, [eventId, data]);
+	};
 
-	const handleOpen = () => {
-		setOpen(true);
-		load();
+	const handleOpenChange = (isOpen: boolean) => {
+		if (isOpen) {
+			setOpen(true);
+			setData(null);
+			fetchData();
+		} else {
+			setOpen(false);
+			setData(null);
+		}
 	};
 
 	const tabs: { key: Tab; label: string; count: number }[] = [
-		{ key: "going", label: "Going", count: goingCount },
-		{ key: "interested", label: "Interested", count: interestedCount },
-		{ key: "notGoing", label: "Not going", count: data?.notGoing.length ?? 0 },
+		{ key: "going", label: "Going", count: data ? data.going.length : goingCount },
+		{ key: "interested", label: "Interested", count: data ? data.interested.length : interestedCount },
+		{ key: "notGoing", label: "Not going", count: data ? data.notGoing.length : notGoingCount },
 	];
 
 	return (
 		<>
 			<button
-				onClick={handleOpen}
+				onClick={() => handleOpenChange(true)}
 				className="text-sm font-medium hover:underline text-foreground"
 			>
 				{goingCount} going · {interestedCount} interested
 			</button>
 
-			<Dialog open={open} onOpenChange={setOpen}>
+			<Dialog open={open} onOpenChange={handleOpenChange}>
 				<DialogContent className="max-w-sm">
 					<DialogHeader>
 						<DialogTitle>Attendees</DialogTitle>

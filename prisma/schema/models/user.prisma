@@ -98,6 +98,13 @@ model User {
     createdEvents   Event[]         @relation("EventCreator")
     eventAttendances EventAttendee[]
 
+    // Memory Relations
+    memories Memory[]
+
+    // Comment Like Relations
+    pagePostCommentLikes  PagePostCommentLike[]
+    groupPostCommentLikes GroupPostCommentLike[]
+
     // Notification Relations
     notificationsReceived Notification[] @relation("NotificationReceiver")
     notificationsSent     Notification[] @relation("NotificationSender")

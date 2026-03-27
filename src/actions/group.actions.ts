@@ -39,9 +39,9 @@ export async function leaveGroup(groupId: number) {
 	if (group) revalidatePath(`/groups/${group.slug}`);
 }
 
-export async function createGroupPost(groupId: number, content: string) {
+export async function createGroupPost(groupId: number, content: string, mediaUrl?: string) {
 	const userId = await getSessionUserId();
-	if (!content.trim()) return;
+	if (!content.trim() && !mediaUrl?.trim()) return;
 
 	const member = await prisma.groupMember.findUnique({
 		where: { userId_groupId: { userId, groupId } },
@@ -52,7 +52,7 @@ export async function createGroupPost(groupId: number, content: string) {
 	const group = await prisma.group.findUnique({ where: { id: groupId } });
 
 	const post = await prisma.groupPost.create({
-		data: { groupId, userId, content: content.trim() },
+		data: { groupId, userId, content: content.trim() || null, mediaUrl: mediaUrl?.trim() || null },
 		include: {
 			user: { include: { avatar: true } },
 			likes: { select: { id: true, userId: true, reactionType: true } },
@@ -153,8 +153,8 @@ export async function deleteGroupPostComment(commentId: number) {
 	});
 }
 
-export async function getGroupPostComments(groupPostId: number) {
-	return prisma.groupPostComment.findMany({
+export async function getGroupPostComments(groupPostId: number, currentUserId?: number) {
+	const comments = await prisma.groupPostComment.findMany({
 		where: { groupPostId, isDeleted: false },
 		orderBy: { createdAt: "asc" },
 		include: {
@@ -167,8 +167,38 @@ export async function getGroupPostComments(groupPostId: number) {
 					avatar: { select: { photoSrc: true } },
 				},
 			},
+			_count: { select: { likes: true } },
+			likes: currentUserId
+				? { where: { userId: currentUserId }, select: { id: true } }
+				: false,
 		},
 	});
+
+	return comments.map((c) => ({
+		...c,
+		likeCount: c._count.likes,
+		isLikedByMe: currentUserId ? c.likes.length > 0 : false,
+		likes: undefined,
+		_count: undefined,
+	}));
+}
+
+export async function toggleGroupPostCommentLike(commentId: number) {
+	const userId = await getSessionUserId();
+
+	const existing = await prisma.groupPostCommentLike.findUnique({
+		where: { userId_groupPostCommentId: { userId, groupPostCommentId: commentId } },
+	});
+
+	if (existing) {
+		await prisma.groupPostCommentLike.delete({
+			where: { userId_groupPostCommentId: { userId, groupPostCommentId: commentId } },
+		});
+	} else {
+		await prisma.groupPostCommentLike.create({
+			data: { userId, groupPostCommentId: commentId },
+		});
+	}
 }
 
 const GROUPS_LIMIT = 12;

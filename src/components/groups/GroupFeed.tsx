@@ -20,6 +20,8 @@ import {
 	MoreHorizontal,
 	Trash2,
 	Send,
+	ImagePlus,
+	X,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import {
@@ -28,6 +30,8 @@ import {
 	toggleGroupPostLike,
 	createGroupPostComment,
 	deleteGroupPostComment,
+	getGroupPostComments,
+	toggleGroupPostCommentLike,
 } from "@/actions/group.actions";
 import type { ReactionType } from "../../../prisma/generated/prisma/enums";
 import { ConfirmDeleteDialog } from "@/components/ui/ConfirmDeleteDialog";
@@ -46,6 +50,8 @@ type GroupPostComment = {
 	id: number;
 	content: string;
 	createdAt: Date;
+	likeCount: number;
+	isLikedByMe: boolean;
 	user: {
 		id: number;
 		userName: string;
@@ -127,9 +133,7 @@ function GroupPostCard({
 		setShowComments(true);
 		if (comments.length === 0) {
 			startTransition(async () => {
-				const fetched = await import("@/actions/group.actions").then(
-					(m) => m.getGroupPostComments(post.id),
-				);
+				const fetched = await getGroupPostComments(post.id, currentUserId ?? undefined);
 				setComments(fetched);
 			});
 		}
@@ -144,6 +148,8 @@ function GroupPostCard({
 			id: Date.now(),
 			content: text,
 			createdAt: new Date(),
+			likeCount: 0,
+			isLikedByMe: false,
 			user: {
 				id: currentUserId,
 				userName: "",
@@ -154,6 +160,21 @@ function GroupPostCard({
 		};
 		setComments((p) => [...p, optimistic]);
 		startTransition(() => createGroupPostComment(post.id, text));
+	};
+
+	const handleCommentLike = (commentId: number) => {
+		setComments((prev) =>
+			prev.map((c) =>
+				c.id === commentId
+					? {
+							...c,
+							isLikedByMe: !c.isLikedByMe,
+							likeCount: c.isLikedByMe ? c.likeCount - 1 : c.likeCount + 1,
+						}
+					: c,
+			),
+		);
+		startTransition(() => toggleGroupPostCommentLike(commentId));
 	};
 
 	const handleDeleteComment = (commentId: number) => {
@@ -351,13 +372,21 @@ function GroupPostCard({
 											</span>
 											{c.content}
 										</div>
+										<div className="flex items-center gap-3 px-1 mt-1">
+											<button
+												onClick={() => handleCommentLike(c.id)}
+												className={`text-xs font-semibold transition-colors ${c.isLikedByMe ? "text-primary" : "text-muted-foreground hover:text-foreground"}`}
+											>
+												Like{c.likeCount > 0 ? ` · ${c.likeCount}` : ""}
+											</button>
+										</div>
 									</div>
 									{c.user.id === currentUserId && (
 										<button
 											onClick={() =>
 												handleDeleteComment(c.id)
 											}
-											className="opacity-0 group-hover:opacity-100 text-muted-foreground hover:text-destructive transition-opacity"
+											className="opacity-0 group-hover:opacity-100 self-start mt-2 text-muted-foreground hover:text-destructive transition-opacity"
 										>
 											<Trash2 className="h-3.5 w-3.5" />
 										</button>
@@ -433,17 +462,47 @@ function GroupPostComposer({
 	onPost: (post: GroupPostData) => void;
 }) {
 	const [content, setContent] = useState("");
+	const [selectedFile, setSelectedFile] = useState<File | null>(null);
+	const [previewUrl, setPreviewUrl] = useState<string | null>(null);
 	const [isPending, startTransition] = useTransition();
+	const fileInputRef = useRef<HTMLInputElement>(null);
 
 	if (!isMember) return null;
 
+	const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+		const file = e.target.files?.[0];
+		if (!file) return;
+		setSelectedFile(file);
+		setPreviewUrl(URL.createObjectURL(file));
+	};
+
+	const clearFile = () => {
+		setSelectedFile(null);
+		if (previewUrl) URL.revokeObjectURL(previewUrl);
+		setPreviewUrl(null);
+		if (fileInputRef.current) fileInputRef.current.value = "";
+	};
+
 	const handleSubmit = () => {
-		const text = content.trim();
-		if (!text) return;
-		setContent("");
+		if (!content.trim() && !selectedFile) return;
 		startTransition(async () => {
-			const newPost = await createGroupPost(groupId, text);
-			if (newPost) onPost(newPost as unknown as GroupPostData);
+			try {
+				let mediaUrl: string | undefined;
+				if (selectedFile) {
+					const fd = new FormData();
+					fd.append("file", selectedFile);
+					const res = await fetch("/api/upload", { method: "POST", body: fd });
+					if (!res.ok) throw new Error("Upload failed");
+					const json = await res.json();
+					mediaUrl = json.url;
+				}
+				const newPost = await createGroupPost(groupId, content, mediaUrl);
+				if (newPost) onPost(newPost as unknown as GroupPostData);
+				setContent("");
+				clearFile();
+			} catch {
+				// silently fail — toast avoidance
+			}
 		});
 	};
 
@@ -456,10 +515,50 @@ function GroupPostComposer({
 					placeholder="Write something to the group…"
 					className="min-h-[80px] resize-none border-none bg-muted rounded-xl text-sm p-3 focus-visible:ring-0"
 				/>
-				<div className="flex justify-end mt-2">
+				{previewUrl && selectedFile && (
+					<div className="relative rounded-lg overflow-hidden bg-muted mt-2">
+						{selectedFile.type.startsWith("video/") ? (
+							<video
+								src={previewUrl}
+								className="w-full max-h-48 object-contain"
+								controls
+							/>
+						) : (
+							<img
+								src={previewUrl}
+								alt=""
+								className="w-full max-h-48 object-contain"
+							/>
+						)}
+						<button
+							onClick={clearFile}
+							className="absolute top-2 right-2 bg-background/80 rounded-full p-1 hover:bg-background transition-colors"
+						>
+							<X className="h-4 w-4" />
+						</button>
+					</div>
+				)}
+				<div className="flex items-center justify-between mt-2">
+					<div className="flex items-center">
+						<input
+							ref={fileInputRef}
+							type="file"
+							accept="image/*,video/*"
+							className="hidden"
+							onChange={handleFileChange}
+						/>
+						<button
+							onClick={() => fileInputRef.current?.click()}
+							className="flex items-center gap-1.5 text-xs text-muted-foreground hover:text-foreground px-2 py-1.5 rounded hover:bg-muted transition-colors"
+							title="Add photo or video"
+						>
+							<ImagePlus className="h-4 w-4 text-green-500" />
+							Photo/Video
+						</button>
+					</div>
 					<Button
 						size="sm"
-						disabled={!content.trim() || isPending}
+						disabled={(!content.trim() && !selectedFile) || isPending}
 						onClick={handleSubmit}
 						className="font-semibold"
 					>

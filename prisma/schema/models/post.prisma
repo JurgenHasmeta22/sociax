@@ -50,6 +50,7 @@ model Post {
     shares     PostShare[]
     history    PostHistory[]
     hashtags   PostHashtag[]
+    memories   Memory[]
 
     @@index([userId])
     @@index([createdAt])

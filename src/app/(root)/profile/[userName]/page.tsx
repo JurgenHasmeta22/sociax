@@ -270,15 +270,15 @@ export default async function ProfilePage({ params }: PageProps) {
 				(f) => (f as { following: unknown }).following as never,
 			)}
 			groups={groups.map((m) => (m as { group: unknown }).group as never)}
-			ownedGroups={ownedGroups as never[]}
+			ownedGroups={ownedGroups.map((g) => ({ ...g, isOwned: true })) as never[]}
 			followedPages={followedPages.map(
 				(pf) => (pf as { page: unknown }).page as never,
 			)}
-			ownedPages={ownedPages as never[]}
-			createdEvents={createdEvents as never[]}
+			ownedPages={ownedPages.map((p) => ({ ...p, isOwned: true })) as never[]}
+			createdEvents={createdEvents.map((e) => ({ ...e, isOwned: true })) as never[]}
 			attendingEvents={attendingEvents.map(
-				(ae) => (ae as { event: unknown }).event as never,
-			)}
+				(ae) => ({ ...(ae as { event: unknown }).event as object, isOwned: false }),
+			) as never[]}
 		/>
 	);
 }

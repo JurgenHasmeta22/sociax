@@ -7,11 +7,12 @@ import Image from "next/image";
 import Link from "next/link";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 import { LeftSidebar } from "@/components/feed/LeftSidebar";
 import { PageFeed } from "@/components/pages/PageFeed";
 import { PageFollowButton } from "@/components/pages/PageFollowButton";
 import { PageFollowersModal } from "@/components/pages/PageFollowersModal";
-import { Flag, Globe } from "lucide-react";
+import { Crown, Flag, Globe, Settings } from "lucide-react";
 
 type PageProps = { params: Promise<{ slug: string }> };
 
@@ -138,10 +139,19 @@ export default async function PageDetailPage({ params }: PageProps) {
 							</div>
 						</div>
 						<div className="flex items-center gap-2 pb-1">
-							<PageFollowButton
-								pageId={page.id}
-								initialFollowing={isFollowing}
-							/>
+							{isOwner ? (
+								<div className="flex items-center gap-2">
+									<div className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-primary/10 text-primary text-sm font-medium">
+										<Crown className="h-4 w-4" />
+										You manage this page
+									</div>
+								</div>
+							) : (
+								<PageFollowButton
+									pageId={page.id}
+									initialFollowing={isFollowing}
+								/>
+							)}
 						</div>
 					</div>
 

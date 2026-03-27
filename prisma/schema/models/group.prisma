@@ -113,10 +113,28 @@ model GroupPostComment {
     userId      Int
 
     // Relations
-    groupPost GroupPost @relation(fields: [groupPostId], references: [id], onDelete: Cascade, onUpdate: Cascade)
-    user      User      @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+    groupPost GroupPost             @relation(fields: [groupPostId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+    user      User                  @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+    likes     GroupPostCommentLike[]
 
     @@index([groupPostId])
     @@index([userId])
     @@index([createdAt])
+}
+
+model GroupPostCommentLike {
+    id           Int          @id @default(autoincrement())
+    reactionType ReactionType @default(Like)
+    createdAt    DateTime     @default(now())
+
+    // FK Keys
+    userId             Int
+    groupPostCommentId Int
+
+    // Relations
+    user    User             @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+    comment GroupPostComment @relation(fields: [groupPostCommentId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+
+    @@unique([userId, groupPostCommentId])
+    @@index([groupPostCommentId])
 }

@@ -192,8 +192,8 @@ export async function deletePagePostComment(commentId: number) {
 	});
 }
 
-export async function getPagePostComments(postId: number) {
-	return prisma.pagePostComment.findMany({
+export async function getPagePostComments(postId: number, currentUserId?: number) {
+	const comments = await prisma.pagePostComment.findMany({
 		where: { pagePostId: postId, isDeleted: false },
 		orderBy: { createdAt: "asc" },
 		include: {
@@ -206,8 +206,38 @@ export async function getPagePostComments(postId: number) {
 					avatar: { select: { photoSrc: true } },
 				},
 			},
+			_count: { select: { likes: true } },
+			likes: currentUserId
+				? { where: { userId: currentUserId }, select: { id: true } }
+				: false,
 		},
 	});
+
+	return comments.map((c) => ({
+		...c,
+		likeCount: c._count.likes,
+		isLikedByMe: currentUserId ? c.likes.length > 0 : false,
+		likes: undefined,
+		_count: undefined,
+	}));
+}
+
+export async function togglePagePostCommentLike(commentId: number) {
+	const userId = await getSessionUserId();
+
+	const existing = await prisma.pagePostCommentLike.findUnique({
+		where: { userId_pagePostCommentId: { userId, pagePostCommentId: commentId } },
+	});
+
+	if (existing) {
+		await prisma.pagePostCommentLike.delete({
+			where: { userId_pagePostCommentId: { userId, pagePostCommentId: commentId } },
+		});
+	} else {
+		await prisma.pagePostCommentLike.create({
+			data: { userId, pagePostCommentId: commentId },
+		});
+	}
 }
 
 const FOLLOWERS_LIMIT = 20;

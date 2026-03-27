@@ -10,7 +10,6 @@ import {
 	DialogTitle,
 } from "@/components/ui/dialog";
 import { Textarea } from "@/components/ui/textarea";
-import { Input } from "@/components/ui/input";
 import {
 	Select,
 	SelectContent,
@@ -51,20 +50,33 @@ export function CreatePostDialog({
 }) {
 	const [content, setContent] = useState("");
 	const [privacy, setPrivacy] = useState<Privacy>("Public");
-	const [mediaUrl, setMediaUrl] = useState("");
-	const [showImageInput, setShowImageInput] = useState(false);
+	const [selectedFile, setSelectedFile] = useState<File | null>(null);
+	const [previewUrl, setPreviewUrl] = useState<string | null>(null);
 	const [isPending, startTransition] = useTransition();
 	const textareaRef = useRef<HTMLTextAreaElement>(null);
+	const fileInputRef = useRef<HTMLInputElement>(null);
 
 	const name = displayName(user);
 	const PrivacyIcon =
 		PRIVACY_OPTIONS.find((o) => o.value === privacy)?.icon ?? Globe;
 
+	const clearFile = () => {
+		setSelectedFile(null);
+		setPreviewUrl(null);
+		if (fileInputRef.current) fileInputRef.current.value = "";
+	};
+
+	const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+		const file = e.target.files?.[0];
+		if (!file) return;
+		setSelectedFile(file);
+		setPreviewUrl(URL.createObjectURL(file));
+	};
+
 	const reset = () => {
 		setContent("");
-		setMediaUrl("");
+		clearFile();
 		setPrivacy("Public");
-		setShowImageInput(false);
 	};
 
 	const handleClose = () => {
@@ -73,18 +85,23 @@ export function CreatePostDialog({
 	};
 
 	const handleSubmit = () => {
-		if (!content.trim() && !mediaUrl.trim()) {
+		if (!content.trim() && !selectedFile) {
 			toast.warning("Write something or add a photo first.");
 			return;
 		}
 
 		startTransition(async () => {
 			try {
-				await createPost(
-					content,
-					privacy,
-					mediaUrl.trim() ? [mediaUrl.trim()] : [],
-				);
+				let uploadedUrl = "";
+				if (selectedFile) {
+					const form = new FormData();
+					form.append("file", selectedFile);
+					const res = await fetch("/api/upload", { method: "POST", body: form });
+					if (!res.ok) throw new Error("Upload failed");
+					const json = await res.json() as { url: string };
+					uploadedUrl = json.url;
+				}
+				await createPost(content, privacy, uploadedUrl ? [uploadedUrl] : []);
 				toast.success("Post shared!");
 				handleClose();
 			} catch {
@@ -146,32 +163,36 @@ export function CreatePostDialog({
 					className="min-h-[120px] resize-none border-0 focus-visible:ring-0 text-base p-0 text-foreground placeholder:text-muted-foreground"
 				/>
 
-				{showImageInput && (
-					<div className="flex items-center gap-2 border rounded-lg p-3 bg-muted/40">
-						<Input
-							placeholder="Paste image URL…"
-							value={mediaUrl}
-							onChange={(e) => setMediaUrl(e.target.value)}
-							className="border-0 bg-transparent focus-visible:ring-0 text-sm p-0"
-						/>
+				{previewUrl && (
+					<div className="relative rounded-lg overflow-hidden border">
+						{selectedFile?.type.startsWith("video/") ? (
+							<video src={previewUrl} controls className="w-full max-h-60 object-contain bg-black" />
+						) : (
+							<img src={previewUrl} alt="preview" className="w-full max-h-60 object-contain" />
+						)}
 						<button
-							onClick={() => {
-								setMediaUrl("");
-								setShowImageInput(false);
-							}}
-							className="text-muted-foreground hover:text-foreground"
+							onClick={clearFile}
+							className="absolute top-2 right-2 bg-black/60 text-white rounded-full p-1 hover:bg-black/80"
 						>
 							<X className="h-4 w-4" />
 						</button>
 					</div>
 				)}
 
+				<input
+					ref={fileInputRef}
+					type="file"
+					accept="image/jpeg,image/png,image/gif,image/webp,video/mp4,video/webm"
+					className="hidden"
+					onChange={handleFileChange}
+				/>
+
 				<div className="border rounded-lg p-3 flex items-center justify-between">
 					<p className="text-sm font-medium">Add to your post</p>
 					<button
-						onClick={() => setShowImageInput((v) => !v)}
+						onClick={() => fileInputRef.current?.click()}
 						className="w-8 h-8 flex items-center justify-center rounded-full hover:bg-muted transition-colors"
-						title="Add photo"
+						title="Add photo/video"
 					>
 						<ImagePlus className="h-5 w-5 text-green-500" />
 					</button>
@@ -180,7 +201,7 @@ export function CreatePostDialog({
 				<Button
 					onClick={handleSubmit}
 					disabled={
-						isPending || (!content.trim() && !mediaUrl.trim())
+						isPending || (!content.trim() && !selectedFile)
 					}
 					className="w-full font-semibold"
 				>

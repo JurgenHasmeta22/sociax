@@ -20,6 +20,7 @@ import {
 	Trash2,
 	Loader2,
 	ExternalLink,
+	Crown,
 } from "lucide-react";
 import { rsvpEvent, deleteEvent } from "@/actions/event.actions";
 import { toast } from "sonner";
@@ -99,24 +100,42 @@ export function EventDetail({
 	const isOwner = currentUserId === event.creator.id;
 	const creatorName = displayName(event.creator);
 
+	const initialGoingCount = event.attendees.filter((a) => a.status === "Going").length;
+	const initialInterestedCount = event.attendees.filter((a) => a.status === "Interested").length;
+	const initialNotGoingCount = event.attendees.filter((a) => a.status === "NotGoing").length;
+
+	const [counts, setCounts] = useState({
+		going: initialGoingCount,
+		interested: initialInterestedCount,
+		notGoing: initialNotGoingCount,
+	});
+
 	const goingAttendees = event.attendees.filter((a) => a.status === "Going");
-	const interestedCount = event.attendees.filter(
-		(a) => a.status === "Interested",
-	).length;
-	const goingCount = event.attendees.filter(
-		(a) => a.status === "Going",
-	).length;
 
 	const handleRsvp = (status: AttendeeStatus) => {
 		if (!currentUserId) return;
 		const isSame = attendance === status;
+		const prevAttendance = attendance;
 		setAttendance(isSame ? null : status);
+		setCounts((prev) => {
+			const next = { ...prev };
+			if (prevAttendance === "Going") next.going = Math.max(0, next.going - 1);
+			else if (prevAttendance === "Interested") next.interested = Math.max(0, next.interested - 1);
+			else if (prevAttendance === "NotGoing") next.notGoing = Math.max(0, next.notGoing - 1);
+			if (!isSame) {
+				if (status === "Going") next.going += 1;
+				else if (status === "Interested") next.interested += 1;
+				else if (status === "NotGoing") next.notGoing += 1;
+			}
+			return next;
+		});
 		startTransition(async () => {
 			try {
 				await rsvpEvent(event.id, status);
 			} catch {
 				toast.error("Failed to update RSVP.");
-				setAttendance(attendance);
+				setAttendance(prevAttendance);
+				setCounts({ going: initialGoingCount, interested: initialInterestedCount, notGoing: initialNotGoingCount });
 			}
 		});
 	};
@@ -250,7 +269,7 @@ export function EventDetail({
 					) : null}
 				</div>
 
-				{currentUserId && (
+				{currentUserId && !isOwner && (
 					<div className="flex gap-2">
 						{RSVP_OPTIONS.map(({ status, label, icon: Icon }) => (
 							<Button
@@ -271,11 +290,19 @@ export function EventDetail({
 					</div>
 				)}
 
+				{isOwner && (
+					<div className="flex items-center gap-2 px-3 py-2 rounded-xl bg-primary/10 text-primary text-sm font-medium">
+						<Crown className="h-4 w-4" />
+						You are the organizer of this event
+					</div>
+				)}
+
 				<div className="flex items-center gap-4 text-sm text-muted-foreground">
 					<EventAttendeesModal
 						eventId={event.id}
-						goingCount={goingCount}
-						interestedCount={interestedCount}
+						goingCount={counts.going}
+						interestedCount={counts.interested}
+						notGoingCount={counts.notGoing}
 					/>
 				</div>
 

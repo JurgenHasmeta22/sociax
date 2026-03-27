@@ -107,10 +107,28 @@ model PagePostComment {
     userId     Int
 
     // Relations
-    pagePost PagePost @relation(fields: [pagePostId], references: [id], onDelete: Cascade, onUpdate: Cascade)
-    user     User     @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+    pagePost PagePost             @relation(fields: [pagePostId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+    user     User                 @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+    likes    PagePostCommentLike[]
 
     @@index([pagePostId])
     @@index([userId])
     @@index([createdAt])
+}
+
+model PagePostCommentLike {
+    id           Int          @id @default(autoincrement())
+    reactionType ReactionType @default(Like)
+    createdAt    DateTime     @default(now())
+
+    // FK Keys
+    userId            Int
+    pagePostCommentId Int
+
+    // Relations
+    user    User            @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+    comment PagePostComment @relation(fields: [pagePostCommentId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+
+    @@unique([userId, pagePostCommentId])
+    @@index([pagePostCommentId])
 }
