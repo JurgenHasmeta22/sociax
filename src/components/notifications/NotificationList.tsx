@@ -1,16 +1,18 @@
 ﻿"use client";
 
-import { useState, useTransition } from "react";
+import { useState, useTransition, useCallback } from "react";
 import { formatDistanceToNow } from "date-fns";
 import Link from "next/link";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
-import { Bell, CheckCheck, Check } from "lucide-react";
+import { Bell, CheckCheck, Check, Loader2 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import {
 	markNotificationRead,
 	markAllNotificationsRead,
+	fetchNotificationsPage,
 } from "@/actions/notification.actions";
+import { useInfiniteScroll } from "@/hooks/use-infinite-scroll";
 
 const NOTIFICATION_LABELS: Record<string, string> = {
 	follow_request: "sent you a friend request",
@@ -147,6 +149,24 @@ export function NotificationList({
 	const [notifications, setNotifications] =
 		useState<NotificationItem[]>(initialNotifications);
 	const [isPending, startTransition] = useTransition();
+	const [hasMore, setHasMore] = useState(initialNotifications.length >= 40);
+	const [loadingMore, setLoadingMore] = useState(false);
+
+	const loadMore = useCallback(async () => {
+		if (loadingMore || !hasMore) return;
+		setLoadingMore(true);
+		try {
+			const next = await fetchNotificationsPage(notifications.length, 20);
+			setNotifications((prev) => [...prev, ...(next as NotificationItem[])]);
+			if (next.length < 20) setHasMore(false);
+		} catch {
+			// ignore
+		} finally {
+			setLoadingMore(false);
+		}
+	}, [loadingMore, hasMore, notifications.length]);
+
+	const sentinelRef = useInfiniteScroll(loadMore, { hasMore, loading: loadingMore });
 
 	const unreadCount = notifications.filter(
 		(n) => n.status === "unread",
@@ -217,6 +237,13 @@ export function NotificationList({
 					<NotificationRow key={n.id} n={n} onRead={handleRead} />
 				))}
 			</div>
+			{hasMore && (
+				<div ref={sentinelRef} className="flex justify-center py-6">
+					{loadingMore && (
+						<Loader2 className="h-6 w-6 animate-spin text-muted-foreground" />
+					)}
+				</div>
+			)}
 		</div>
 	);
 }

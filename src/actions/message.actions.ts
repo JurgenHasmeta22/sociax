@@ -506,6 +506,67 @@ export async function getUnreadMessageNotifications() {
 	return messages;
 }
 
+export async function getUnreadConversations(take = 6) {
+	const userId = await getSessionUserId();
+
+	const participations = await prisma.conversationParticipant.findMany({
+		where: { userId },
+		select: { conversationId: true },
+	});
+	const convIds = participations.map((p) => p.conversationId);
+
+	// Get conversations with unread messages
+	const unreadConvs = await prisma.message.groupBy({
+		by: ["conversationId"],
+		where: {
+			conversationId: { in: convIds },
+			senderId: { not: userId },
+			status: { not: "Read" },
+			isDeleted: false,
+		},
+		_count: { id: true },
+		orderBy: { _count: { id: "desc" } },
+	});
+
+	const unreadConvIds = unreadConvs.slice(0, take).map((c) => c.conversationId);
+	if (unreadConvIds.length === 0) return [];
+
+	// Fetch last message + sender for each unread conv
+	const conversations = await Promise.all(
+		unreadConvIds.map(async (convId) => {
+			const lastMessage = await prisma.message.findFirst({
+				where: { conversationId: convId, isDeleted: false },
+				orderBy: { createdAt: "desc" },
+				select: {
+					id: true,
+					content: true,
+					type: true,
+					createdAt: true,
+					sender: {
+						select: {
+							id: true,
+							userName: true,
+							firstName: true,
+							lastName: true,
+							avatar: { select: { photoSrc: true } },
+						},
+					},
+				},
+			});
+			const unreadCount =
+				unreadConvs.find((c) => c.conversationId === convId)?._count
+					?.id ?? 0;
+			return {
+				conversationId: convId,
+				unreadCount,
+				lastMessage,
+			};
+		}),
+	);
+
+	return conversations.filter((c) => c.lastMessage !== null);
+}
+
 export async function getChatNavData() {
 	const userId = await getSessionUserId();
 

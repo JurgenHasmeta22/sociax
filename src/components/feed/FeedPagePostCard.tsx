@@ -99,6 +99,16 @@ export function FeedPagePostCard({
 
 	const name = displayName(post.user);
 
+	// Compute top reaction types for display
+	const reactionCounts: Record<string, number> = {};
+	post.likes.forEach((l) => {
+		reactionCounts[l.reactionType] = (reactionCounts[l.reactionType] || 0) + 1;
+	});
+	const topReactions = Object.entries(reactionCounts)
+		.sort((a, b) => b[1] - a[1])
+		.slice(0, 3)
+		.map(([type]) => type);
+
 	const handleReact = (type: string) => {
 		setShowPicker(false);
 		const isSame = myReaction === type;
@@ -176,7 +186,7 @@ export function FeedPagePostCard({
 	};
 
 	return (
-		<Card className="shadow-sm hover:shadow-md transition-shadow duration-200">
+		<Card className="shadow-sm hover:shadow-md transition-shadow duration-200 overflow-visible">
 			<CardContent className="pt-4 pb-0">
 				<div className="flex items-center gap-2 mb-3 text-xs text-muted-foreground">
 					<div className="w-5 h-5 rounded bg-primary/10 flex items-center justify-center overflow-hidden shrink-0">
@@ -241,16 +251,21 @@ export function FeedPagePostCard({
 				)}
 			</CardContent>
 
-			<CardContent className="pt-2 pb-2">
+			<CardContent className="pt-2 pb-2 overflow-visible">
 				{likeCount > 0 && (
 					<>
-						<p className="text-sm text-muted-foreground mb-2">
-							{likeCount} reaction{likeCount !== 1 ? "s" : ""}
-						</p>
+						<div className="flex items-center gap-1 text-sm text-muted-foreground mb-2">
+							{topReactions.map((type) => (
+								<span key={type} className="text-base leading-none">
+									{REACTIONS[type]?.emoji}
+								</span>
+							))}
+							<span>{likeCount.toLocaleString()}</span>
+						</div>
 						<Separator className="mb-1" />
 					</>
 				)}
-				<div className="flex items-center -mx-1 relative">
+				<div className="flex items-center -mx-1 relative" style={{ overflow: "visible" }}>
 					<div
 						className="flex-1 flex justify-center relative"
 						onMouseEnter={() => {
@@ -266,7 +281,7 @@ export function FeedPagePostCard({
 					>
 						{showPicker && (
 							<div
-								className="absolute bottom-full mb-1 left-1/2 -translate-x-1/2 z-20 flex items-center gap-1 bg-background border border-border rounded-full shadow-lg px-2 py-1.5"
+								className="absolute bottom-full mb-1 left-1/2 -translate-x-1/2 z-50 flex items-center gap-1 bg-background border border-border rounded-full shadow-lg px-2 py-1.5"
 								onMouseEnter={() => {
 									if (hoverTimer.current)
 										clearTimeout(hoverTimer.current);
@@ -279,8 +294,11 @@ export function FeedPagePostCard({
 										<button
 											key={type}
 											title={label}
-											onClick={() => handleReact(type)}
-											className="text-2xl leading-none hover:scale-125 transition-transform duration-150 px-0.5"
+											onClick={(e) => {
+												e.stopPropagation();
+												handleReact(type);
+											}}
+											className="text-2xl leading-none hover:scale-125 transition-transform duration-150 px-0.5 cursor-pointer"
 										>
 											{emoji}
 										</button>

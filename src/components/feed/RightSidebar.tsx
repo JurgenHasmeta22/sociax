@@ -247,17 +247,21 @@ export function RightSidebar({
 
 			{/* Footer */}
 			<div className="flex flex-wrap gap-x-2 gap-y-1 pt-1">
-				{["About", "Privacy", "Terms", "Advertising", "Support"].map(
-					(item) => (
-						<a
-							key={item}
-							href="#"
-							className="text-xs text-muted-foreground/60 hover:text-muted-foreground transition-colors"
-						>
-							{item}
-						</a>
-					),
-				)}
+				{[
+					{ label: "About", href: "/about" },
+					{ label: "Privacy", href: "/privacy" },
+					{ label: "Terms", href: "/terms" },
+					{ label: "Advertising", href: "/advertising" },
+					{ label: "Support", href: "/support" },
+				].map((item) => (
+					<Link
+						key={item.label}
+						href={item.href}
+						className="text-xs text-muted-foreground/60 hover:text-muted-foreground transition-colors"
+					>
+						{item.label}
+					</Link>
+				))}
 				<span className="text-xs text-muted-foreground/60">
 					Sociax © 2026
 				</span>

@@ -1,14 +1,15 @@
 "use client";
 
-import { useState, useTransition } from "react";
+import { useState, useTransition, useCallback } from "react";
 import { formatDistanceToNow } from "date-fns";
 import { PostCard } from "@/components/feed/PostCard";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Card, CardContent } from "@/components/ui/card";
-import { removeMemory, updateMemoryNote } from "@/actions/memory.actions";
-import { NotebookPen, Trash2, Pencil, Check, X } from "lucide-react";
+import { removeMemory, updateMemoryNote, getUserMemories } from "@/actions/memory.actions";
+import { NotebookPen, Trash2, Pencil, Check, X, Loader2 } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { useInfiniteScroll } from "@/hooks/use-infinite-scroll";
 
 type MemoryPost = {
 	id: number;
@@ -160,6 +161,24 @@ export function MemoriesClient({
 	currentUserId: number;
 }) {
 	const [memories, setMemories] = useState(initialMemories);
+	const [hasMore, setHasMore] = useState(initialMemories.length >= 20);
+	const [loading, setLoading] = useState(false);
+
+	const loadMore = useCallback(async () => {
+		if (loading || !hasMore) return;
+		setLoading(true);
+		try {
+			const next = await getUserMemories(memories.length, 20);
+			setMemories((prev) => [...prev, ...(next as Memory[])]);
+			if (next.length < 20) setHasMore(false);
+		} catch {
+			// ignore
+		} finally {
+			setLoading(false);
+		}
+	}, [loading, hasMore, memories.length]);
+
+	const sentinelRef = useInfiniteScroll(loadMore, { hasMore, loading });
 
 	const handleRemove = (id: number) => {
 		setMemories((p) => p.filter((m) => m.id !== id));
@@ -175,6 +194,13 @@ export function MemoriesClient({
 					onRemove={handleRemove}
 				/>
 			))}
+			{hasMore && (
+				<div ref={sentinelRef} className="flex justify-center py-6">
+					{loading && (
+						<Loader2 className="h-6 w-6 animate-spin text-muted-foreground" />
+					)}
+				</div>
+			)}
 		</div>
 	);
 }

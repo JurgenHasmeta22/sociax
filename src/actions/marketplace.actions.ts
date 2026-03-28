@@ -236,6 +236,53 @@ export async function sendListingMessage(listingId: number, content: string) {
 	return message;
 }
 
+export async function fetchListingsPage(opts: {
+	category?: string;
+	search?: string;
+	cursor?: number;
+	take?: number;
+}) {
+	const userId = await getSessionUserId();
+	const take = opts.take ?? 24;
+	const where: Record<string, unknown> = { status: "Active" };
+	if (opts.category && opts.category !== "All") where.category = opts.category;
+	if (opts.search) {
+		where.OR = [
+			{ title: { contains: opts.search } },
+			{ description: { contains: opts.search } },
+		];
+	}
+
+	const listings = await prisma.marketplaceListing.findMany({
+		where: where as never,
+		orderBy: { createdAt: "desc" },
+		take: take + 1,
+		...(opts.cursor ? { skip: 1, cursor: { id: opts.cursor } } : {}),
+		include: {
+			seller: {
+				select: {
+					id: true,
+					userName: true,
+					firstName: true,
+					lastName: true,
+					avatar: { select: { photoSrc: true } },
+				},
+			},
+			images: { orderBy: { order: "asc" }, take: 1 },
+			saves: { where: { userId }, select: { id: true } },
+			_count: { select: { saves: true, offers: true } },
+		},
+	});
+
+	const hasMore = listings.length > take;
+	const items = hasMore ? listings.slice(0, take) : listings;
+	return {
+		items,
+		hasMore,
+		nextCursor: hasMore ? items[items.length - 1].id : null,
+	};
+}
+
 export async function getListings(opts?: {
 	category?: string;
 	search?: string;

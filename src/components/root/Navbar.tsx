@@ -79,33 +79,7 @@ export function Navbar() {
 								Sociax
 							</span>
 						</Link>
-						{session && (
-							<nav className="hidden md:flex items-center">
-								{NAV_LINKS.map(
-									({ href, icon: Icon, label }) => {
-										const isActive =
-											pathname === href ||
-											pathname.startsWith(href + "/");
-										return (
-											<Link
-												key={href}
-												href={href}
-												title={label}
-												className={cn(
-													"relative flex items-center justify-center h-14 w-11 rounded-md transition-colors text-muted-foreground hover:bg-muted",
-													isActive && "text-primary",
-												)}
-											>
-												<Icon className="h-5 w-5" />
-												{isActive && (
-													<span className="absolute bottom-0 left-1 right-1 h-[3px] bg-primary rounded-t-full" />
-												)}
-											</Link>
-										);
-									},
-								)}
-							</nav>
-						)}
+	
 					</div>
 
 					{/* Center: Search bar */}

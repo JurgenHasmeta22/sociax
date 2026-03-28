@@ -44,3 +44,50 @@ export async function getUnreadNotificationCount(): Promise<number> {
 
 	return count;
 }
+
+export async function getRecentNotifications(take = 8) {
+	const session = await getServerSession(authOptions);
+	if (!session) return [];
+	const userId = parseInt(session.user.id);
+
+	return prisma.notification.findMany({
+		where: { userId },
+		orderBy: { createdAt: "desc" },
+		take,
+		include: {
+			sender: {
+				select: {
+					id: true,
+					userName: true,
+					firstName: true,
+					lastName: true,
+					avatar: { select: { photoSrc: true } },
+				},
+			},
+		},
+	});
+}
+
+export async function fetchNotificationsPage(skip: number, take = 20) {
+	const session = await getServerSession(authOptions);
+	if (!session) return [];
+	const userId = parseInt(session.user.id);
+
+	return prisma.notification.findMany({
+		where: { userId },
+		orderBy: { createdAt: "desc" },
+		skip,
+		take,
+		include: {
+			sender: {
+				select: {
+					id: true,
+					userName: true,
+					firstName: true,
+					lastName: true,
+					avatar: { select: { photoSrc: true } },
+				},
+			},
+		},
+	});
+}

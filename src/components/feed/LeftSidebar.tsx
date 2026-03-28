@@ -76,7 +76,7 @@ const MORE_LINKS = [
 	{ href: "/memories", icon: Clock, label: "Memories", color: "bg-cyan-500" },
 ];
 
-const PAGE_LINKS = [{ href: "/settings", icon: Settings, label: "Setting" }];
+const PAGE_LINKS = [{ href: "/settings", icon: Settings, label: "Settings" }];
 
 interface NavLinkDef {
 	href: string;

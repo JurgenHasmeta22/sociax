@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useTransition, useEffect } from "react";
+import { useState, useTransition, useEffect, useCallback } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -25,6 +25,7 @@ import {
 	Trash2,
 	Edit2,
 	TrendingUp,
+	Loader2,
 } from "lucide-react";
 import { format } from "date-fns";
 import { toast } from "sonner";
@@ -32,8 +33,10 @@ import {
 	toggleSaveListing,
 	deleteListing,
 	markAsSold,
+	fetchListingsPage,
 } from "@/actions/marketplace.actions";
 import { CreateListingDialog } from "@/components/marketplace/CreateListingDialog";
+import { useInfiniteScroll } from "@/hooks/use-infinite-scroll";
 
 const CATEGORIES = [
 	"All",
@@ -410,10 +413,38 @@ export function MarketplaceClient({
 	const [savedListings, setSavedListings] =
 		useState<Listing[]>(initialSavedListings);
 	const [createOpen, setCreateOpen] = useState(false);
+	const [hasMore, setHasMore] = useState(initialListings.length >= 24);
+	const [loadingMore, setLoadingMore] = useState(false);
+	const [cursor, setCursor] = useState<number | null>(
+		initialListings.length > 0 ? initialListings[initialListings.length - 1].id : null,
+	);
+
+	const loadMore = useCallback(async () => {
+		if (loadingMore || !hasMore || !cursor) return;
+		setLoadingMore(true);
+		try {
+			const result = await fetchListingsPage({
+				category: category !== "All" ? category : undefined,
+				search: search || undefined,
+				cursor,
+			});
+			setListings((prev) => [...prev, ...(result.items as Listing[])]);
+			setHasMore(result.hasMore);
+			setCursor(result.nextCursor);
+		} catch {
+			toast.error("Failed to load more listings");
+		} finally {
+			setLoadingMore(false);
+		}
+	}, [loadingMore, hasMore, cursor, category, search]);
+
+	const sentinelRef = useInfiniteScroll(loadMore, { hasMore, loading: loadingMore });
 
 	// Sync state when server re-renders with new filtered props
 	useEffect(() => {
 		setListings(initialListings);
+		setHasMore(initialListings.length >= 24);
+		setCursor(initialListings.length > 0 ? initialListings[initialListings.length - 1].id : null);
 	}, [initialListings]);
 
 	useEffect(() => {
@@ -560,16 +591,23 @@ export function MarketplaceClient({
 							</Button>
 						</div>
 					) : (
-						<div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-3">
-							{listings.map((listing) => (
-								<ListingCard
-									key={listing.id}
-									listing={listing}
-									currentUserId={currentUserId}
-									onSaveToggle={handleSaveToggle}
-								/>
-							))}
-						</div>
+						<>
+							<div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-3">
+								{listings.map((listing) => (
+									<ListingCard
+										key={listing.id}
+										listing={listing}
+										currentUserId={currentUserId}
+										onSaveToggle={handleSaveToggle}
+									/>
+								))}
+							</div>
+							{hasMore && (
+								<div ref={sentinelRef} className="flex justify-center py-6">
+									{loadingMore && <Loader2 className="h-6 w-6 animate-spin text-muted-foreground" />}
+								</div>
+							)}
+						</>
 					)}
 				</>
 			)}

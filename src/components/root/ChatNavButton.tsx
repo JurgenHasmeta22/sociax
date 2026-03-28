@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useCallback, useTransition } from "react";
 import { useRouter, usePathname } from "next/navigation";
+import { formatDistanceToNow } from "date-fns";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import {
@@ -15,13 +16,19 @@ import { cn } from "@/lib/utils";
 import {
 	getChatNavData,
 	getOrCreateConversation,
+	getUnreadConversations,
 } from "@/actions/message.actions";
 
 type NavData = Awaited<ReturnType<typeof getChatNavData>>;
 type Friend = NavData["onlineFriends"][number];
+type UnreadConv = Awaited<ReturnType<typeof getUnreadConversations>>[number];
 
-function friendName(f: Friend) {
+function friendName(f: { firstName: string | null; lastName: string | null; userName: string }) {
 	return [f.firstName, f.lastName].filter(Boolean).join(" ") || f.userName;
+}
+
+function senderName(sender: { firstName: string | null; lastName: string | null; userName: string }) {
+	return [sender.firstName, sender.lastName].filter(Boolean).join(" ") || sender.userName;
 }
 
 function FriendRow({
@@ -80,12 +87,17 @@ export function ChatNavButton() {
 		unreadCount: 0,
 		onlineFriends: [],
 	});
+	const [unreadConvs, setUnreadConvs] = useState<UnreadConv[]>([]);
 	const [loading, setLoading] = useState(false);
 
 	const refresh = useCallback(async () => {
 		try {
-			const next = await getChatNavData();
+			const [next, unreads] = await Promise.all([
+				getChatNavData(),
+				getUnreadConversations(6),
+			]);
 			setData(next);
+			setUnreadConvs(unreads);
 		} catch {
 			// ignore
 		}
@@ -171,7 +183,7 @@ export function ChatNavButton() {
 					<div className="flex items-center justify-center py-10">
 						<Loader2 className="h-5 w-5 animate-spin text-muted-foreground" />
 					</div>
-				) : data.onlineFriends.length === 0 ? (
+				) : data.onlineFriends.length === 0 && unreadConvs.length === 0 ? (
 					<div className="text-center py-10 text-muted-foreground px-4">
 						<MessageCircle className="h-9 w-9 mx-auto mb-2 opacity-30" />
 						<p className="text-sm font-medium">No friends yet</p>
@@ -182,9 +194,84 @@ export function ChatNavButton() {
 				) : (
 					<ScrollArea className="max-h-[420px]">
 						<div className="py-2">
-							{onlineFriends.length > 0 && (
+							{/* Unread messages */}
+							{unreadConvs.length > 0 && (
 								<>
 									<p className="px-4 py-1 text-[11px] font-semibold text-muted-foreground uppercase tracking-wide">
+										Unread Messages — {unreadConvs.length}
+									</p>
+									{unreadConvs.map((conv) => {
+										const msg = conv.lastMessage!;
+										const name = senderName(msg.sender);
+										const preview =
+											msg.type === "Text"
+												? msg.content?.slice(0, 50) +
+													(msg.content && msg.content.length > 50
+														? "…"
+														: "")
+												: msg.type === "Image"
+													? "📷 Photo"
+													: "📎 File";
+
+										return (
+											<button
+												key={conv.conversationId}
+												className="w-full flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-muted transition-colors text-left bg-primary/5"
+												onClick={() => {
+													setOpen(false);
+													router.push(
+														`/messages?conv=${conv.conversationId}`,
+													);
+												}}
+											>
+												<div className="relative shrink-0">
+													<Avatar className="h-9 w-9">
+														<AvatarImage
+															src={
+																msg.sender.avatar
+																	?.photoSrc ??
+																undefined
+															}
+														/>
+														<AvatarFallback className="bg-primary text-primary-foreground text-sm font-semibold">
+															{name[0]?.toUpperCase()}
+														</AvatarFallback>
+													</Avatar>
+												</div>
+												<div className="flex-1 min-w-0">
+													<p className="text-sm font-semibold truncate">
+														{name}
+													</p>
+													<p className="text-xs text-muted-foreground truncate">
+														{preview}
+													</p>
+												</div>
+												<div className="flex flex-col items-end gap-0.5 shrink-0">
+													<span className="min-w-[18px] h-[18px] flex items-center justify-center rounded-full bg-primary text-primary-foreground text-[10px] font-bold px-1 leading-none">
+														{conv.unreadCount}
+													</span>
+													<span className="text-[10px] text-muted-foreground">
+														{formatDistanceToNow(
+															new Date(msg.createdAt),
+															{ addSuffix: true },
+														).replace("about ", "")}
+													</span>
+												</div>
+											</button>
+										);
+									})}
+								</>
+							)}
+
+							{/* Online friends */}
+							{onlineFriends.length > 0 && (
+								<>
+									<p
+										className={cn(
+											"px-4 py-1 text-[11px] font-semibold text-muted-foreground uppercase tracking-wide",
+											unreadConvs.length > 0 && "mt-2",
+										)}
+									>
 										Active now — {onlineFriends.length}
 									</p>
 									{onlineFriends.map((f) => (
@@ -202,7 +289,7 @@ export function ChatNavButton() {
 									<p
 										className={cn(
 											"px-4 py-1 text-[11px] font-semibold text-muted-foreground uppercase tracking-wide",
-											onlineFriends.length > 0 && "mt-2",
+											(onlineFriends.length > 0 || unreadConvs.length > 0) && "mt-2",
 										)}
 									>
 										Friends

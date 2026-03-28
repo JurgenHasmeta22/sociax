@@ -11,12 +11,14 @@ async function getSessionUserId() {
 	return parseInt(session.user.id);
 }
 
-export async function getUserMemories() {
+export async function getUserMemories(skip = 0, take = 20) {
 	const userId = await getSessionUserId();
 
 	const memories = await prisma.memory.findMany({
 		where: { userId },
 		orderBy: { createdAt: "desc" },
+		skip,
+		take,
 		include: {
 			post: {
 				where: { isDeleted: false },
