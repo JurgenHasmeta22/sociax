@@ -7,10 +7,14 @@ import {
     GroupMemberStatus,
     GroupPrivacy,
     EventPrivacy,
+    ListingCategory,
+    ListingCondition,
+    ListingStatus,
     MessageStatus,
     MessageType,
     ModerationAction,
     NotificationType,
+    OfferStatus,
     PageCategory,
     PostMediaType,
     PostPrivacy,
@@ -361,6 +365,177 @@ const MESSAGE_TEXTS = [
     "That thing you said the other day stuck with me.",
     "Miss you already!",
 ];
+const VIDEO_TITLES = [
+    "My Morning Routine for 2026", "How I Built My First App in 30 Days",
+    "Travel Vlog: Tokyo Street Food Tour", "5 Things I Wish I Knew Before Freelancing",
+    "Ultimate Home Workout — No Equipment Needed", "Cooking Challenge: 5 Meals Under $10",
+    "City Night Walk — London 4K", "Day in My Life as a Remote Developer",
+    "The Best Coffee Shops in Amsterdam", "How to Actually Read More Books",
+    "Minimalist Living: What I Got Rid Of", "Road Trip Across the USA — Part 1",
+    "Learning Guitar at 30: Week 10 Update", "My Productivity System for 2026",
+    "How I Built a $1k/Month Side Project", "Documentary: Urban Farming Revolution",
+    "Top 10 VS Code Extensions in 2026", "Backpacking Europe on a Budget",
+    "Meditation for Beginners — Day 1", "Behind the Lens: Street Photography Tips",
+    "The Science of Getting Better Sleep", "Starting a Podcast from Scratch",
+    "My Fitness Transformation — 6 Months", "Languages I'm Learning in 2026",
+    "Weekend at a Tiny House Airbnb", "How to Make Sourdough Bread",
+    "Running My First Marathon", "Inside a Startup Studio",
+    "The 4-Hour Workweek Actually Works", "Night Photography Masterclass",
+];
+const VIDEO_DESCS = [
+    "Join me as I walk through my daily routine and share tips that have changed my life.",
+    "A deep dive into how I went from idea to launch in just 30 days.",
+    "Exploring the incredible street food scene in Tokyo — bites, prices, and favorites.",
+    "Hard lessons learned from 3 years of freelancing. Watch before you quit your job.",
+    "A complete 30-minute home workout you can do anywhere, anytime.",
+    "Can I feed myself for a week with just $50? Let's find out.",
+    "A cinematic walk through London at night. Perfect for relaxing.",
+    "What does a typical day look like for a remote developer in 2026?",
+    "I visited 15 coffee shops in Amsterdam so you don't have to.",
+    "My honest review of the methods I use to read 50+ books a year.",
+    "A tour of my apartment after my minimalism experiment. Less really is more.",
+    "Day 1 of our cross-country road trip. National parks, diners, and chaos.",
+    "Week 10 of learning guitar. Sharing progress and struggles.",
+    "The exact productivity system I use to run two projects and stay sane.",
+    "Breaking down how my side project went from $0 to $1,000/month.",
+    "A short documentary about people growing food in unexpected urban places.",
+    "My favorite VS Code extensions that save me hours every week.",
+    "Two weeks across Europe for under $1,200. Here's how.",
+    "Complete beginner guide to starting a meditation practice.",
+    "Tips and behind-the-scenes from a day of street photography.",
+    "What research says about sleep and how to actually improve yours.",
+    "Everything you need to start a podcast — gear, software, and workflow.",
+    "Documenting my 6-month fitness transformation: before, during, after.",
+    "My language learning stack and weekly routine for three languages.",
+    "Staying in a tiny house for the weekend — pros, cons, and vibes.",
+    "Step-by-step sourdough bread for complete beginners.",
+    "Training for and running my first marathon. What I learned.",
+    "Inside the daily operations of a startup studio building 10 companies at once.",
+    "My experiment living by the 4-hour workweek principles for 90 days.",
+    "Long-exposure and astrophotography tips for beginners.",
+];
+const VIDEO_THUMBNAIL_URLS = Array.from({ length: 30 }, (_, i) => `https://picsum.photos/seed/vt${i + 1}/1280/720`);
+const VIDEO_URLS = Array.from({ length: 30 }, (_, i) => `https://example-cdn.sociax.dev/videos/sample-${i + 1}.mp4`);
+
+const BLOG_TITLES = [
+    "Why I Deleted All My Social Media for 30 Days",
+    "The Hidden Benefits of Waking Up at 5am",
+    "What Nobody Tells You About Building a Startup",
+    "How I Learned to Code in 6 Months",
+    "The Art of Slow Travel: A Manifesto",
+    "Why Remote Work Changed My Relationship with Time",
+    "A Beginner's Guide to Personal Finance",
+    "The Books That Changed How I Think",
+    "What Minimalism Actually Taught Me",
+    "My Mental Health Journey: Year Two",
+    "Building in Public: The Good, Bad, and Ugly",
+    "An Honest Review of 12 Productivity Apps",
+    "How I Overcame Creative Block",
+    "The Case for Doing Hard Things",
+    "Learning a New Language as an Adult",
+    "Why I Moved Abroad and Stayed",
+    "The Economics of Content Creation",
+    "How Meditation Changed My Work",
+    "Everything I Ate For a Week and What I Learned",
+    "The Future of Work Is Already Here",
+    "Freelancing Isn't Freedom — It's a Different Kind of Job",
+    "What Three Years of Daily Journaling Taught Me",
+    "How to Actually Achieve Your Goals",
+    "The Quiet Power of Saying No",
+    "Building a Second Brain: My Note-Taking System",
+    "How Running Changed My Mind",
+    "Tech I No Longer Use and Why",
+    "The Science of Forming Better Habits",
+    "What I Wish I Knew Before Investing",
+    "Life After Burnout: A Reflection",
+];
+const BLOG_EXCERPTS = [
+    "I didn't expect to discover so much about myself during a 30-day digital detox.",
+    "The science and personal experience behind early rising might surprise you.",
+    "Three years in, here are the things the startup community won't prepare you for.",
+    "A realistic breakdown of timelines, resources, and expectations.",
+    "Slow travel isn't just a budget hack — it's a meaningful way to experience the world.",
+    "Distributed work broke my assumptions about productivity and presence.",
+    "You don't need to be a finance expert to take control of your money.",
+    "A curated list with context on why each book mattered.",
+    "What I expected vs. what actually happened after decluttering my life.",
+    "A vulnerable look at what year two of therapy and self-work looks like.",
+    "The unfiltered version of building something in public.",
+    "Twelve apps. Three months. One conclusion.",
+    "Creative blocks aren't obstacles. They're information.",
+    "Comfort zones are fine. Growth lives just outside them.",
+    "Every adult language learner has the same fears. Here's how I beat mine.",
+];
+const BLOG_CONTENTS = [
+    "When I decided to delete every social media app from my phone for 30 days, I thought I'd be bored. What I actually found was a kind of clarity I hadn't experienced in years. The first week was uncomfortable — I kept reaching for my phone out of habit. But by week two, something shifted. I started cooking more, reading longer, and sleeping better. The notifications had been a constant low-level anxiety I'd normalized. Without them, I realized how much mental bandwidth I'd been sacrificing. I'm not saying social media is evil. I'm back on it now. But that month gave me a perspective I return to whenever I feel scattered.",
+    "Three years ago I started waking up at 5am every day. Not because a productivity guru told me to, but because I needed time before my household woke up. What I discovered was that those early hours are mine in a way that no other part of the day is. I use them inconsistently: sometimes writing, sometimes running, sometimes just drinking coffee slowly. The point isn't the activity. It's the intentionality. Starting the day on your own terms, even just for one hour, changes the entire flavor of everything that follows.",
+    "Here is the thing no one warns you about when you start a company: the psychological weight of it. You can read every startup book and still be blindsided by the loneliness of decision-making, the randomness of what takes off versus what doesn't, and the strange grief of letting go of your original idea. My startup pivoted twice. We fired people we liked. We raised money from people who later became difficult. None of it is in the framework documents. But all of it is survivable. And weirdly, it's also the most alive I've ever felt.",
+    "I started learning to code at 27, with no technical background and no CS degree. The first two months were brutal. I failed tutorials, misunderstood fundamentals, and considered quitting weekly. But I kept a single rule: code something every day, even if it's just 15 minutes. By month three I had built a tool I actually used. By month five I was contributing to an open source project. By month six I had a job. What changed wasn't my aptitude — it was my tolerance for confusion. Learning to sit with not knowing is the actual skill.",
+    "Slow travel is not a budget strategy. It's a philosophy. It means staying somewhere long enough to stop being a tourist. To know the baker's name, to have a regular table, to notice how the light changes in the afternoon. Fast travel optimizes for coverage — how many countries, how many photos. Slow travel optimizes for depth. I've lived for a month in cities that most people pass through in a day. I can tell you that depth always wins. You leave knowing something real. You leave having been somewhere, not just passing through.",
+    "Remote work removed the commute, the small talk, and the office politics. What I didn't anticipate was how it would change my relationship with time itself. Without the forced structure of an office, I started noticing my own rhythms. I work better in the morning. I crash at 3pm. I get a second wind at 7pm. Now I structure my day around that reality. My output didn't decrease — it increased. And I stopped performing productivity for an audience and started actually practicing it.",
+    "Personal finance isn't complicated. It's just uncomfortable. Looking at your bank statement, cutting subscriptions you forgot you had, acknowledging that your spending doesn't match your values — that's the hard part. The math is simple: spend less than you earn, invest the difference consistently, and wait. That's it. Everything else is noise, complexity added by people who profit from your confusion. Start with a budget you can keep, an emergency fund, and one index fund. The rest can wait.",
+    "Reading changed me before I understood it was changing me. The books on this list didn't give me answers. They gave me better questions. Thinking Fast and Slow made me distrust my instincts in the best way. The Almanack of Naval Ravikant made me rethink what wealth actually means. Man's Search for Meaning gave me a framework for suffering. Not every book works for every person. But these worked for me at specific moments, and I suspect they'll work for someone reading this right now.",
+    "I owned fewer things than I thought and still got rid of half of them. Minimalism isn't about living with 100 possessions or sleeping on the floor. It's about intentionality. Every item you own has a cost: storage space, mental overhead, maintenance. When I cleared out what I didn't use, I could finally see what I did use. My space felt calmer. My mornings took less time. The unexpected benefit was emotional — I stopped using objects as comfort and started using the space they created.",
+    "Year two of therapy is quieter than year one. In year one, everything is discovery — you uncover patterns, understand your childhood, name the things that were nameless. Year two is integration. You know the patterns. Now you have to do something with them. It's slower work, less dramatic, more real. I still have the same anxious tendencies, the same defensive reflexes. But I catch them faster. I recover quicker. The goal was never to become a different person. It was to understand the one I am.",
+];
+const LISTING_TITLES = [
+    "iPhone 15 Pro Max — Mint Condition", "Vintage Leather Sofa — 2-Seater",
+    "Sony WH-1000XM5 Headphones", "Trek Mountain Bike 27.5\"",
+    "Standing Desk — Oak Top White Frame", "Canon EOS R6 Mark II Body",
+    "Gaming Chair — Ergonomic Home Office", "Mechanical Keyboard — Keychron K3",
+    "Indoor Plants Bundle — 5 Plants", "Nintendo Switch OLED + 3 Games",
+    "Coffee Table — Solid Walnut", "Dell UltraSharp 27\" 4K Monitor",
+    "Yoga Mat + Blocks + Strap Set", "Dyson V12 Cordless Vacuum",
+    "Electric Scooter — Xiaomi Pro 2", "Leather Jacket — Size M",
+    "MacBook Air M2 2023 — 256GB", "IKEA KALLAX Shelving Unit",
+    "Acoustic Guitar — Yamaha F310", "Bean Bag Chair — XL Grey",
+    "Nespresso Vertuo Next Machine", "Small Aquarium Starter Kit",
+    "GoPro Hero 12 Black — Barely Used", "Air Purifier — Levoit Core 400S",
+    "PS5 Console + Extra Controller", "Road Bike — Carbon Frame Size 54",
+    "Bookshelf — 5 Tier Rustic Wood", "Blender — Vitamix A3500",
+    "Smart Home Starter Kit", "Desk Lamp — LED Wireless Charging",
+];
+const LISTING_DESCS = [
+    "Used for only 6 months. Deep Purple, 256GB. No scratches, with original box and accessories.",
+    "Beautiful vintage leather sofa in excellent condition. Minor wear consistent with age. Pick up only.",
+    "Best-in-class noise cancelling headphones, lightly used for travel. Comes with case and cables.",
+    "Trek Marlin 7 in excellent condition. Lightly used, recently serviced. Original RRP $750.",
+    "Adjustable height desk, oak surface, 4 USB ports, cable management tray. 1yr old, near perfect.",
+    "Low shutter count (~900 actuations). Includes battery, charger, strap. Body only, no lens.",
+    "Ergonomic design, lumbar support, adjustable armrests. Good condition, used in home office only.",
+    "Gateron Brown switches, backlit, compact 75% layout. Excellent condition with original keycaps.",
+    "Includes pothos, snake plant, peace lily, spider plant, and monstera. All healthy and thriving.",
+    "Great condition. Includes: Mario Kart 8, Zelda BOTW, Animal Crossing. Original box included.",
+    "Solid walnut coffee table, oval top. One small scratch on underside only. 120x60cm footprint.",
+    "U2722D, 4K, USB-C 90W charging. One dead pixel but unnoticeable. Selling due to upgrade.",
+    "Lightly used mat, 6mm thick non-slip backing. Blocks and strap are basically brand new.",
+    "V12 Detect in Nickel color. Runs perfectly, all accessories included. Selling because I upgraded.",
+    "35km range, 25km/h top speed. Minor scuffs on base from regular use. Battery in great health.",
+    "Genuine leather, barely worn. Great condition. Size Medium, fits like a medium-large.",
+    "M2 chip, 8GB RAM, 256GB SSD, Midnight color. Light use, comes with charger and original box.",
+    "4x4 cube storage unit in white. Some minor assembly marks but solid and sturdy structure.",
+    "Full-size dreadnought guitar. Great for starter or practice. Comes with gig bag and extra strings.",
+    "Huge bean bag in dark grey microsuede. Kept indoors, pet-free home, excellent condition.",
+    "Capsule machine with milk frother. Works perfectly. Includes 20-capsule sampler pack.",
+    "10-gallon tank with filter, heater, LED light, substrate and decor. Setup ready to go.",
+    "Almost new — used on one dive trip only. All accessories + two extra batteries included.",
+    "Covers 1500 sq ft, smart auto mode. Filter replaced 2 months ago, very clean unit.",
+    "Disc edition, 825GB SSD. Includes DualSense controller x2. Selling due to upgrade.",
+    "Lightweight carbon frame, Shimano 105 groupset. Size 54. Matching helmet included.",
+    "Farmhouse style, solid pine. Some minor marks. Easy disassembly for transport.",
+    "Vitamix A3500, top of the line. Self-cleaning, stainless steel, no dents or chips.",
+    "Philips Hue starter pack + smart plugs, smart thermostat, and voice hub. All work perfectly.",
+    "Minimalist LED desk lamp with 15W wireless charging base. Stepless dimming. Like new.",
+];
+const ALBUM_NAMES = [
+    "Summer Memories", "Family Vacation 2025", "Graduation Day",
+    "Wedding Photos", "Travel Highlights", "Weekend Adventures",
+    "Nature Walks", "Food Favorites", "Friends Forever",
+    "City Exploration", "Concert Nights", "Birthday Bash",
+    "Road Trip 2026", "Home Sweet Home", "Work Milestones",
+    "Fitness Journey", "Throwback Collection", "Autumn Vibes",
+    "Beach Days", "Holiday Season",
+];
 // #endregion
 
 // #region Delete all data
@@ -373,13 +548,20 @@ async function deleteAll() {
     await prisma.message.deleteMany();
     await prisma.conversationParticipant.deleteMany();
     await prisma.conversation.deleteMany();
+    await prisma.eventPostCommentLike.deleteMany();
+    await prisma.eventPostComment.deleteMany();
+    await prisma.eventPostLike.deleteMany();
+    await prisma.eventPost.deleteMany();
+    await prisma.eventHashtag.deleteMany();
     await prisma.eventAttendee.deleteMany();
     await prisma.event.deleteMany();
+    await prisma.pagePostCommentLike.deleteMany();
     await prisma.pagePostComment.deleteMany();
     await prisma.pagePostLike.deleteMany();
     await prisma.pagePost.deleteMany();
     await prisma.pageFollower.deleteMany();
     await prisma.page.deleteMany();
+    await prisma.groupPostCommentLike.deleteMany();
     await prisma.groupPostComment.deleteMany();
     await prisma.groupPostLike.deleteMany();
     await prisma.groupPost.deleteMany();
@@ -392,6 +574,21 @@ async function deleteAll() {
     await prisma.commentReply.deleteMany();
     await prisma.commentLike.deleteMany();
     await prisma.postComment.deleteMany();
+    await prisma.memory.deleteMany();
+    await prisma.videoLike.deleteMany();
+    await prisma.videoComment.deleteMany();
+    await prisma.videoHashtag.deleteMany();
+    await prisma.video.deleteMany();
+    await prisma.blogLike.deleteMany();
+    await prisma.blogHashtag.deleteMany();
+    await prisma.blog.deleteMany();
+    await prisma.albumPhoto.deleteMany();
+    await prisma.album.deleteMany();
+    await prisma.listingMessage.deleteMany();
+    await prisma.listingOffer.deleteMany();
+    await prisma.listingSave.deleteMany();
+    await prisma.listingImage.deleteMany();
+    await prisma.marketplaceListing.deleteMany();
     await prisma.postHashtag.deleteMany();
     await prisma.hashtag.deleteMany();
     await prisma.postHistory.deleteMany();
@@ -412,20 +609,24 @@ async function deleteAll() {
 }
 // #endregion
 
+// Change this single value to scale all seed volumes proportionally.
+// SCALE=1 ≈ original seed, SCALE=3 ≈ previous run, SCALE=10 ≈ big traffic simulation.
+const SCALE = 50;
+
 async function main() {
-    console.log("Seeding Sociax database (20x volume)...\n");
+    console.log(`Seeding Sociax database (SCALE=${SCALE})...\n`);
 
     await deleteAll();
 
-    const POST_COUNT = 800;
+    const POST_COUNT = 800 * SCALE;
 
-    // #region Users (400)
+    // #region Users (1200)
     console.log("  Creating users...");
     const password = hashSync("Password123!", 10);
     const genders = [Gender.Male, Gender.Female, Gender.Other, Gender.PreferNotToSay];
     const privacies = [ProfilePrivacy.Public, ProfilePrivacy.Public, ProfilePrivacy.FriendsOnly, ProfilePrivacy.Private];
 
-    const USER_COUNT = 400;
+    const USER_COUNT = 400 * SCALE;
     const userDataList = Array.from({ length: USER_COUNT }, (_, i) => {
         const first = FIRST_NAMES[i % FIRST_NAMES.length];
         const last = LAST_NAMES[i % LAST_NAMES.length];
@@ -488,7 +689,7 @@ async function main() {
     console.log("  Creating blocks...");
     const blockPairs = new Set<string>();
     let blockCount = 0;
-    for (let i = 0; i < 80; i++) {
+    for (let i = 0; i < 80 * SCALE; i++) {
         const [a, b] = pickMany(users, 2);
         const key = `${a.id}-${b.id}`;
         if (!blockPairs.has(key) && a.id !== b.id) {
@@ -534,9 +735,9 @@ async function main() {
     console.log(`  -> ${posts.length} posts`);
     // #endregion
 
-    // #region Shared posts (100)
+    // #region Shared posts (300)
     console.log("  Creating shared posts...");
-    const sourcePosts = pickMany(posts, 100);
+    const sourcePosts = pickMany(posts, Math.min(posts.length, 100 * SCALE));
     const sharedPosts: { id: number }[] = [];
     await runInChunks(sourcePosts, 50, async (source) => {
         const sp = await prisma.post.create({
@@ -596,7 +797,7 @@ async function main() {
     console.log("  Creating post shares...");
     const sharePairs = new Set<string>();
     let shareCount = 0;
-    for (let i = 0; i < 300; i++) {
+    for (let i = 0; i < 300 * SCALE; i++) {
         const u = pick(users);
         const post = pick(allPosts);
         const key = `psh-${u.id}-${post.id}`;
@@ -615,7 +816,7 @@ async function main() {
     let replyCount = 0;
     let commentLikeCount = 0;
     let replyLikeCount = 0;
-    const commentedPosts = pickMany(allPosts, 400);
+    const commentedPosts = pickMany(allPosts, Math.min(allPosts.length, 400 * SCALE));
     for (const post of commentedPosts) {
         const commentors = pickMany(users, randomInt(3, 10));
         for (const u of commentors) {
@@ -713,7 +914,7 @@ async function main() {
     let msgCount = 0;
     let convCount = 0;
 
-    for (let i = 0; i < 300; i++) {
+    for (let i = 0; i < 300 * SCALE; i++) {
         const [userA, userB] = pickMany(users, 2);
         const conv = await prisma.conversation.create({
             data: {
@@ -751,7 +952,7 @@ async function main() {
         }
     }
 
-    for (let i = 0; i < 30; i++) {
+    for (let i = 0; i < 30 * SCALE; i++) {
         const members = pickMany(users, randomInt(3, 8));
         const conv = await prisma.conversation.create({
             data: {
@@ -781,10 +982,10 @@ async function main() {
     console.log(`  -> ${convCount} conversations, ${msgCount} messages`);
     // #endregion
 
-    // #region Groups (200)
+    // #region Groups (600)
     console.log("  Creating groups...");
     const groupPrivacies = [GroupPrivacy.Public, GroupPrivacy.Private, GroupPrivacy.Secret];
-    const GROUPS_COUNT = 200;
+    const GROUPS_COUNT = 200 * SCALE;
     const groupList: { id: number; slug: string }[] = [];
 
     await runInChunks(Array.from({ length: GROUPS_COUNT }, (_, i) => i), 20, async (i) => {
@@ -859,10 +1060,10 @@ async function main() {
     console.log(`  -> ${groupPostCount} group posts, ${groupLikeCount} group likes, ${groupCommentCount} group comments`);
     // #endregion
 
-    // #region Pages (200)
+    // #region Pages (600)
     console.log("  Creating pages...");
     const pageCategories = Object.values(PageCategory);
-    const PAGES_COUNT = 200;
+    const PAGES_COUNT = 200 * SCALE;
     const pageList: { id: number; slug: string }[] = [];
 
     await runInChunks(Array.from({ length: PAGES_COUNT }, (_, i) => i), 20, async (i) => {
@@ -930,11 +1131,11 @@ async function main() {
     console.log(`  -> ${pagePostCount} page posts, ${pageLikeCount} page likes, ${pageCommentCount} page comments`);
     // #endregion
 
-    // #region Events (200)
+    // #region Events (600)
     console.log("  Creating events...");
     const eventPrivacies = [EventPrivacy.Public, EventPrivacy.FriendsOnly, EventPrivacy.Private];
     const attendeeStatuses = [AttendeeStatus.Going, AttendeeStatus.Interested];
-    const EVENTS_COUNT = 200;
+    const EVENTS_COUNT = 200 * SCALE;
     const eventList: { id: number }[] = [];
 
     await runInChunks(Array.from({ length: EVENTS_COUNT }, (_, i) => i), 20, async (i) => {
@@ -967,11 +1168,11 @@ async function main() {
     console.log(`  -> ${eventList.length} events`);
     // #endregion
 
-    // #region Notifications (1200)
+    // #region Notifications (3600)
     console.log("  Creating notifications...");
     const notifTypes = Object.values(NotificationType);
     let notifCount = 0;
-    for (let i = 0; i < 1200; i++) {
+    for (let i = 0; i < 1200 * SCALE; i++) {
         const [receiver, sender] = pickMany(users, 2);
         await prisma.notification.create({
             data: {
@@ -991,7 +1192,7 @@ async function main() {
     console.log("  Creating reports...");
     const reportTypes = Object.values(ReportType);
     const reportStatuses = Object.values(ReportStatus);
-    for (let i = 0; i < 120; i++) {
+    for (let i = 0; i < 120 * SCALE; i++) {
         const [reporter, reported] = pickMany(users, 2);
         await prisma.reportedContent.create({
             data: {
@@ -1004,13 +1205,13 @@ async function main() {
             },
         });
     }
-    console.log("  -> 120 reports");
+    console.log(`  -> ${120 * SCALE} reports`);
     // #endregion
 
     // #region ModerationLogs
     console.log("  Creating moderation logs...");
     const modActions = Object.values(ModerationAction);
-    for (let i = 0; i < 100; i++) {
+    for (let i = 0; i < 100 * SCALE; i++) {
         const mod = users[i % 2];
         const target = pick(users);
         await prisma.moderationLog.create({
@@ -1023,10 +1224,368 @@ async function main() {
             },
         });
     }
-    console.log("  -> 100 moderation logs");
+    console.log(`  -> ${100 * SCALE} moderation logs`);
     // #endregion
 
-    console.log("\nSeeding complete! (400 users, 800 posts, 200 groups, 200 pages, 200 events)");
+    // #region EventPosts
+    console.log("  Creating event posts/likes/comments...");
+    let eventPostCount = 0;
+    let eventPostLikeCount = 0;
+    let eventPostCommentCount = 0;
+    const eventPostCommentLikedPairs = new Set<string>();
+    let eventPostCommentLikeCount = 0;
+    await runInChunks(eventList, 20, async (event) => {
+        for (let p = 0; p < randomInt(3, 10); p++) {
+            const author = pick(users);
+            const epost = await prisma.eventPost.create({
+                data: {
+                    content: pick(POST_CONTENTS),
+                    mediaUrl: Math.random() > 0.6 ? pick(IMAGE_URLS) : null,
+                    eventId: event.id,
+                    userId: author.id,
+                    createdAt: randomDate(new Date("2025-01-01"), new Date()),
+                },
+            });
+            eventPostCount++;
+            for (const liker of pickMany(users, randomInt(2, 15))) {
+                const key = `epl-${liker.id}-${epost.id}`;
+                if (!likedPairs.has(key)) {
+                    likedPairs.add(key);
+                    await prisma.eventPostLike.create({
+                        data: { userId: liker.id, eventPostId: epost.id, reactionType: pick(reactionTypes) },
+                    });
+                    eventPostLikeCount++;
+                }
+            }
+            for (let c = 0; c < randomInt(0, 6); c++) {
+                const epComment = await prisma.eventPostComment.create({
+                    data: {
+                        content: pick(COMMENT_CONTENTS),
+                        eventPostId: epost.id,
+                        userId: pick(users).id,
+                    },
+                });
+                eventPostCommentCount++;
+                for (const liker of pickMany(users, randomInt(0, 4))) {
+                    const key = `epcl-${liker.id}-${epComment.id}`;
+                    if (!eventPostCommentLikedPairs.has(key)) {
+                        eventPostCommentLikedPairs.add(key);
+                        await prisma.eventPostCommentLike.create({
+                            data: { userId: liker.id, eventPostCommentId: epComment.id },
+                        });
+                        eventPostCommentLikeCount++;
+                    }
+                }
+            }
+        }
+    });
+    console.log(`  -> ${eventPostCount} event posts, ${eventPostLikeCount} likes, ${eventPostCommentCount} comments, ${eventPostCommentLikeCount} comment likes`);
+    // #endregion
+
+    // #region EventHashtags
+    console.log("  Creating event hashtags...");
+    let eventHashtagCount = 0;
+    const eventHashtagPairs = new Set<string>();
+    await runInChunks(eventList, 20, async (event) => {
+        for (const h of pickMany(hashtags, randomInt(1, 3))) {
+            const key = `eh-${event.id}-${h.id}`;
+            if (!eventHashtagPairs.has(key)) {
+                eventHashtagPairs.add(key);
+                await prisma.eventHashtag.create({ data: { eventId: event.id, hashtagId: h.id } });
+                eventHashtagCount++;
+            }
+        }
+    });
+    console.log(`  -> ${eventHashtagCount} event hashtags`);
+    // #endregion
+
+    // #region GroupPostCommentLikes
+    console.log("  Creating group post comment likes...");
+    let groupPostCommentLikeCount = 0;
+    const groupCommentLikedPairs = new Set<string>();
+    // Fetch a sample of group post comments to like
+    const groupPostComments = await prisma.groupPostComment.findMany({ take: 2000, select: { id: true } });
+    await runInChunks(groupPostComments, 50, async (c) => {
+        for (const liker of pickMany(users, randomInt(0, 5))) {
+            const key = `gpcl-${liker.id}-${c.id}`;
+            if (!groupCommentLikedPairs.has(key)) {
+                groupCommentLikedPairs.add(key);
+                await prisma.groupPostCommentLike.create({
+                    data: { userId: liker.id, groupPostCommentId: c.id, reactionType: pick(reactionTypes) },
+                }).catch(() => {});
+                groupPostCommentLikeCount++;
+            }
+        }
+    });
+    console.log(`  -> ${groupPostCommentLikeCount} group post comment likes`);
+    // #endregion
+
+    // #region PagePostCommentLikes
+    console.log("  Creating page post comment likes...");
+    let pagePostCommentLikeCount = 0;
+    const pageCommentLikedPairs = new Set<string>();
+    const pagePostComments = await prisma.pagePostComment.findMany({ take: 2000, select: { id: true } });
+    await runInChunks(pagePostComments, 50, async (c) => {
+        for (const liker of pickMany(users, randomInt(0, 5))) {
+            const key = `ppcl-${liker.id}-${c.id}`;
+            if (!pageCommentLikedPairs.has(key)) {
+                pageCommentLikedPairs.add(key);
+                await prisma.pagePostCommentLike.create({
+                    data: { userId: liker.id, pagePostCommentId: c.id, reactionType: pick(reactionTypes) },
+                }).catch(() => {});
+                pagePostCommentLikeCount++;
+            }
+        }
+    });
+    console.log(`  -> ${pagePostCommentLikeCount} page post comment likes`);
+    // #endregion
+
+    // #region Albums
+    console.log("  Creating albums and photos...");
+    let albumCount = 0;
+    let albumPhotoCount = 0;
+    const albumOwners = pickMany(users, Math.min(200 * SCALE, users.length));
+    await runInChunks(albumOwners, 50, async (u) => {
+        const albumsPerUser = randomInt(1, 3);
+        for (let a = 0; a < albumsPerUser; a++) {
+            const album = await prisma.album.create({
+                data: {
+                    name: pick(ALBUM_NAMES),
+                    description: Math.random() > 0.5 ? pick(BIOS) : null,
+                    coverUrl: pick(IMAGE_URLS),
+                    privacy: pick([PostPrivacy.Public, PostPrivacy.Public, PostPrivacy.FriendsOnly, PostPrivacy.OnlyMe]),
+                    userId: u.id,
+                    createdAt: randomDate(new Date("2024-01-01"), new Date()),
+                },
+            });
+            albumCount++;
+            const photoCount = randomInt(3, 8);
+            for (let p = 0; p < photoCount; p++) {
+                await prisma.albumPhoto.create({
+                    data: {
+                        photoUrl: pick(IMAGE_URLS),
+                        caption: Math.random() > 0.6 ? pick(POST_CONTENTS).slice(0, 80) : null,
+                        order: p,
+                        albumId: album.id,
+                        createdAt: randomDate(new Date("2024-01-01"), new Date()),
+                    },
+                });
+                albumPhotoCount++;
+            }
+        }
+    });
+    console.log(`  -> ${albumCount} albums, ${albumPhotoCount} album photos`);
+    // #endregion
+
+    // #region Videos
+    console.log("  Creating videos, likes, comments, hashtags...");
+    const VIDEO_COUNT = 300 * SCALE;
+    const videos: { id: number }[] = [];
+    await runInChunks(Array.from({ length: VIDEO_COUNT }, (_, i) => i), 50, async (i) => {
+        const author = users[i % users.length];
+        const titleIdx = i % VIDEO_TITLES.length;
+        const video = await prisma.video.create({
+            data: {
+                title: VIDEO_TITLES[titleIdx],
+                description: VIDEO_DESCS[titleIdx],
+                url: VIDEO_URLS[i % VIDEO_URLS.length],
+                thumbnailUrl: VIDEO_THUMBNAIL_URLS[i % VIDEO_THUMBNAIL_URLS.length],
+                duration: randomInt(60, 3600),
+                views: randomInt(0, 50000),
+                privacy: pick([PostPrivacy.Public, PostPrivacy.Public, PostPrivacy.FriendsOnly, PostPrivacy.OnlyMe]),
+                authorId: author.id,
+                createdAt: randomDate(new Date("2024-06-01"), new Date()),
+            },
+        });
+        videos.push(video);
+    });
+
+    const videoLikedPairs = new Set<string>();
+    let videoLikeCount = 0;
+    let videoCommentCount = 0;
+    let videoHashtagCount = 0;
+    const videoHashtagPairs = new Set<string>();
+    await runInChunks(videos, 50, async (video) => {
+        for (const liker of pickMany(users, randomInt(5, 25))) {
+            const key = `vl-${liker.id}-${video.id}`;
+            if (!videoLikedPairs.has(key)) {
+                videoLikedPairs.add(key);
+                await prisma.videoLike.create({ data: { userId: liker.id, videoId: video.id } });
+                videoLikeCount++;
+            }
+        }
+        for (let c = 0; c < randomInt(2, 10); c++) {
+            await prisma.videoComment.create({
+                data: {
+                    content: pick(COMMENT_CONTENTS),
+                    userId: pick(users).id,
+                    videoId: video.id,
+                    createdAt: randomDate(new Date("2024-06-01"), new Date()),
+                },
+            });
+            videoCommentCount++;
+        }
+        for (const h of pickMany(hashtags, randomInt(1, 3))) {
+            const key = `vh-${video.id}-${h.id}`;
+            if (!videoHashtagPairs.has(key)) {
+                videoHashtagPairs.add(key);
+                await prisma.videoHashtag.create({ data: { videoId: video.id, hashtagId: h.id } });
+                videoHashtagCount++;
+            }
+        }
+    });
+    console.log(`  -> ${VIDEO_COUNT} videos, ${videoLikeCount} video likes, ${videoCommentCount} video comments, ${videoHashtagCount} video hashtags`);
+    // #endregion
+
+    // #region Blogs
+    console.log("  Creating blogs, likes, hashtags...");
+    const BLOG_COUNT = 300 * SCALE;
+    const blogs: { id: number }[] = [];
+    await runInChunks(Array.from({ length: BLOG_COUNT }, (_, i) => i), 50, async (i) => {
+        const author = users[i % users.length];
+        const titleIdx = i % BLOG_TITLES.length;
+        const slugBase = slugify(BLOG_TITLES[titleIdx]);
+        const blog = await prisma.blog.create({
+            data: {
+                slug: `${slugBase}-${author.id}-${i}`,
+                title: BLOG_TITLES[titleIdx],
+                content: BLOG_CONTENTS[i % BLOG_CONTENTS.length],
+                excerpt: BLOG_EXCERPTS[i % BLOG_EXCERPTS.length],
+                coverImageUrl: Math.random() > 0.3 ? pick(IMAGE_URLS) : null,
+                published: Math.random() > 0.2,
+                authorId: author.id,
+                createdAt: randomDate(new Date("2024-01-01"), new Date()),
+            },
+        });
+        blogs.push(blog);
+    });
+
+    const blogLikedPairs = new Set<string>();
+    let blogLikeCount = 0;
+    let blogHashtagCount = 0;
+    const blogHashtagPairs = new Set<string>();
+    await runInChunks(blogs, 50, async (blog) => {
+        for (const liker of pickMany(users, randomInt(5, 20))) {
+            const key = `bl-${liker.id}-${blog.id}`;
+            if (!blogLikedPairs.has(key)) {
+                blogLikedPairs.add(key);
+                await prisma.blogLike.create({ data: { userId: liker.id, blogId: blog.id } });
+                blogLikeCount++;
+            }
+        }
+        for (const h of pickMany(hashtags, randomInt(1, 3))) {
+            const key = `bh-${blog.id}-${h.id}`;
+            if (!blogHashtagPairs.has(key)) {
+                blogHashtagPairs.add(key);
+                await prisma.blogHashtag.create({ data: { blogId: blog.id, hashtagId: h.id } });
+                blogHashtagCount++;
+            }
+        }
+    });
+    console.log(`  -> ${BLOG_COUNT} blogs, ${blogLikeCount} blog likes, ${blogHashtagCount} blog hashtags`);
+    // #endregion
+
+    // #region Marketplace
+    console.log("  Creating marketplace listings...");
+    const listingCategories = Object.values(ListingCategory);
+    const listingConditions = Object.values(ListingCondition);
+    const listingStatuses = [ListingStatus.Active, ListingStatus.Active, ListingStatus.Active, ListingStatus.Reserved, ListingStatus.Sold];
+    const offerStatuses = Object.values(OfferStatus);
+    const LISTING_COUNT = 300 * SCALE;
+    const listings: { id: number; sellerId: number }[] = [];
+    await runInChunks(Array.from({ length: LISTING_COUNT }, (_, i) => i), 50, async (i) => {
+        const seller = users[i % users.length];
+        const titleIdx = i % LISTING_TITLES.length;
+        const listing = await prisma.marketplaceListing.create({
+            data: {
+                title: LISTING_TITLES[titleIdx],
+                description: LISTING_DESCS[titleIdx],
+                price: parseFloat((randomInt(5, 2000) + Math.random()).toFixed(2)),
+                isFree: Math.random() > 0.95,
+                category: pick(listingCategories),
+                condition: pick(listingConditions),
+                status: pick(listingStatuses),
+                location: pick(LOCATIONS),
+                slug: `listing-${seller.id}-${i}`,
+                viewCount: randomInt(0, 5000),
+                sellerId: seller.id,
+                createdAt: randomDate(new Date("2024-01-01"), new Date()),
+                images: {
+                    create: Array.from({ length: randomInt(1, 4) }, (_, o) => ({
+                        url: pick(IMAGE_URLS),
+                        order: o,
+                    })),
+                },
+            },
+        });
+        listings.push({ id: listing.id, sellerId: seller.id });
+    });
+
+    const listingSavedPairs = new Set<string>();
+    let listingSaveCount = 0;
+    let listingOfferCount = 0;
+    let listingMsgCount = 0;
+    await runInChunks(listings, 50, async (listing) => {
+        for (const saver of pickMany(users.filter((u) => u.id !== listing.sellerId), randomInt(1, 10))) {
+            const key = `ls-${saver.id}-${listing.id}`;
+            if (!listingSavedPairs.has(key)) {
+                listingSavedPairs.add(key);
+                await prisma.listingSave.create({ data: { userId: saver.id, listingId: listing.id } });
+                listingSaveCount++;
+            }
+        }
+        const offersCount = randomInt(0, 3);
+        for (let o = 0; o < offersCount; o++) {
+            const buyer = pick(users.filter((u) => u.id !== listing.sellerId));
+            await prisma.listingOffer.create({
+                data: {
+                    amount: parseFloat((randomInt(1, 1800) + Math.random()).toFixed(2)),
+                    message: Math.random() > 0.5 ? pick(MESSAGE_TEXTS) : null,
+                    status: pick(offerStatuses),
+                    buyerId: buyer.id,
+                    listingId: listing.id,
+                },
+            });
+            listingOfferCount++;
+        }
+        const msgsCount = randomInt(0, 5);
+        for (let m = 0; m < msgsCount; m++) {
+            const sender = pick(users.filter((u) => u.id !== listing.sellerId));
+            await prisma.listingMessage.create({
+                data: {
+                    content: pick(MESSAGE_TEXTS),
+                    senderId: sender.id,
+                    listingId: listing.id,
+                    createdAt: randomDate(new Date("2024-01-01"), new Date()),
+                },
+            });
+            listingMsgCount++;
+        }
+    });
+    console.log(`  -> ${LISTING_COUNT} listings, ${listingSaveCount} saves, ${listingOfferCount} offers, ${listingMsgCount} messages`);
+    // #endregion
+
+    // #region Memories
+    console.log("  Creating memories...");
+    let memoryCount = 0;
+    await runInChunks(users, 50, async (u) => {
+        const count = randomInt(2, 5);
+        for (let m = 0; m < count; m++) {
+            await prisma.memory.create({
+                data: {
+                    note: Math.random() > 0.4 ? pick(POST_CONTENTS).slice(0, 120) : null,
+                    userId: u.id,
+                    postId: Math.random() > 0.5 ? pick(posts).id : null,
+                    createdAt: randomDate(new Date("2023-01-01"), new Date()),
+                },
+            });
+            memoryCount++;
+        }
+    });
+    console.log(`  -> ${memoryCount} memories`);
+    // #endregion
+
+    console.log(`\nSeeding complete! SCALE=${SCALE} → (${400 * SCALE} users, ${800 * SCALE} posts, ${200 * SCALE} groups, ${200 * SCALE} pages, ${200 * SCALE} events, ${300 * SCALE} videos, ${300 * SCALE} blogs, ${300 * SCALE} listings)`);
 }
 
 main()
