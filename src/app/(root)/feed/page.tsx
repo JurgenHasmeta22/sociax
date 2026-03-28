@@ -10,6 +10,8 @@ import { PostComposer } from "@/components/feed/PostComposer";
 import { PostCard } from "@/components/feed/PostCard";
 import { FeedPagePostCard } from "@/components/feed/FeedPagePostCard";
 import { FeedGroupPostCard } from "@/components/feed/FeedGroupPostCard";
+import { FeedVideoCard } from "@/components/feed/FeedVideoCard";
+import { FeedBlogCard } from "@/components/feed/FeedBlogCard";
 
 export default async function FeedPage() {
 	const session = await getServerSession(authOptions);
@@ -43,6 +45,8 @@ export default async function FeedPage() {
 		posts,
 		pagePosts,
 		groupPosts,
+		videos,
+		blogs,
 		stories,
 		suggestedUsers,
 		events,
@@ -142,6 +146,53 @@ export default async function FeedPage() {
 					},
 				})
 			: Promise.resolve([]),
+		friendIds.length > 0
+			? prisma.video.findMany({
+					where: {
+						authorId: { in: [...friendIds, userId] },
+						isDeleted: false,
+						privacy: "Public",
+					},
+					orderBy: { createdAt: "desc" },
+					take: 10,
+					include: {
+						author: {
+							select: {
+								id: true,
+								userName: true,
+								firstName: true,
+								lastName: true,
+								avatar: { select: { photoSrc: true } },
+							},
+						},
+						hashtags: { include: { hashtag: true } },
+						_count: { select: { likes: true, comments: true } },
+					},
+				})
+			: Promise.resolve([]),
+		friendIds.length > 0
+			? prisma.blog.findMany({
+					where: {
+						authorId: { in: [...friendIds, userId] },
+						published: true,
+					},
+					orderBy: { createdAt: "desc" },
+					take: 10,
+					include: {
+						author: {
+							select: {
+								id: true,
+								userName: true,
+								firstName: true,
+								lastName: true,
+								avatar: { select: { photoSrc: true } },
+							},
+						},
+						hashtags: { include: { hashtag: true } },
+						_count: { select: { likes: true, comments: true } },
+					},
+				})
+			: Promise.resolve([]),
 		prisma.story.findMany({
 			where: {
 				userId: { in: allowedIds },
@@ -219,7 +270,9 @@ export default async function FeedPage() {
 				source: "group";
 				createdAt: Date;
 				data: (typeof groupPosts)[number];
-		  };
+		  }
+		| { source: "video"; createdAt: Date; data: (typeof videos)[number] }
+		| { source: "blog"; createdAt: Date; data: (typeof blogs)[number] };
 
 	const feedItems: FeedItem[] = [
 		...posts.map((p) => ({
@@ -236,6 +289,16 @@ export default async function FeedPage() {
 			source: "group" as const,
 			createdAt: p.createdAt,
 			data: p,
+		})),
+		...videos.map((v) => ({
+			source: "video" as const,
+			createdAt: v.createdAt,
+			data: v,
+		})),
+		...blogs.map((b) => ({
+			source: "blog" as const,
+			createdAt: b.createdAt,
+			data: b,
 		})),
 	].sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime());
 
@@ -268,13 +331,33 @@ export default async function FeedPage() {
 								/>
 							);
 						}
-						return (
-							<FeedGroupPostCard
-								key={`group-${item.data.id}`}
-								post={item.data as never}
-								currentUserId={userId}
-							/>
-						);
+						if (item.source === "group") {
+							return (
+								<FeedGroupPostCard
+									key={`group-${item.data.id}`}
+									post={item.data as never}
+									currentUserId={userId}
+								/>
+							);
+						}
+						if (item.source === "video") {
+							return (
+								<FeedVideoCard
+									key={`video-${item.data.id}`}
+									video={item.data as never}
+									currentUserId={userId}
+								/>
+							);
+						}
+						if (item.source === "blog") {
+							return (
+								<FeedBlogCard
+									key={`blog-${item.data.id}`}
+									post={item.data as never}
+								/>
+							);
+						}
+						return null;
 					})}
 					{feedItems.length === 0 && (
 						<div className="text-center py-16 text-muted-foreground">

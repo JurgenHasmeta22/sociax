@@ -34,6 +34,7 @@ import { cn } from "@/lib/utils";
 import { SearchModal } from "@/components/root/SearchModal";
 import { ChatNavButton } from "@/components/root/ChatNavButton";
 import { NotificationBell } from "@/components/root/NotificationBell";
+import { CreateMenu } from "@/components/root/CreateMenu";
 
 const NAV_LINKS = [
 	{ href: "/feed", icon: Home, label: "Home" },
@@ -107,6 +108,7 @@ export function Navbar() {
 								>
 									<Search className="h-5 w-5" />
 								</Button>{" "}
+								<CreateMenu />
 								<ChatNavButton /> <NotificationBell />
 								<DropdownMenu>
 									<DropdownMenuTrigger asChild>

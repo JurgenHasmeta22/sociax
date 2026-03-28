@@ -5,6 +5,8 @@ import { prisma } from "@/lib/prisma";
 import { ProfileContent } from "@/components/profile/ProfileContent";
 import { getBlogsByAuthor } from "@/actions/blog.actions";
 import { getUserAlbums } from "@/actions/album.actions";
+import { getUserMemories } from "@/actions/memory.actions";
+import { fetchSavedPosts } from "@/actions/post.actions";
 
 type PageProps = { params: Promise<{ userName: string }> };
 
@@ -83,6 +85,9 @@ export default async function ProfilePage({ params }: PageProps) {
 		attendingEvents,
 		blogs,
 		albums,
+		memories,
+		savedPosts,
+		marketListings,
 	] = await Promise.all([
 		canViewContent
 			? prisma.post.findMany({
@@ -263,6 +268,21 @@ export default async function ProfilePage({ params }: PageProps) {
 			: Promise.resolve([]),
 		getBlogsByAuthor(user.id, isOwnProfile),
 		getUserAlbums(user.id, currentUserId ?? undefined),
+		isOwnProfile && currentUserId
+			? getUserMemories(0, 20)
+			: Promise.resolve([]),
+		isOwnProfile && currentUserId
+			? fetchSavedPosts(0)
+			: Promise.resolve([]),
+		prisma.marketplaceListing.findMany({
+			where: { sellerId: user.id, status: { in: ["Active", "Sold"] } },
+			orderBy: { createdAt: "desc" },
+			take: 20,
+			include: {
+				images: { orderBy: { order: "asc" }, take: 1 },
+				_count: { select: { saves: true } },
+			},
+		}),
 	]);
 
 	const isBlocked =
@@ -310,6 +330,9 @@ export default async function ProfilePage({ params }: PageProps) {
 			}
 			blogs={blogs}
 			albums={albums}
+			initialMemories={memories as never[]}
+			initialSavedPosts={savedPosts as never[]}
+			marketListings={marketListings as never[]}
 		/>
 	);
 }

@@ -28,6 +28,7 @@ export default async function VideosPage({
 
 	return (
 		<VideosPageClient
+			key={validFilter}
 			initialVideos={videos}
 			initialHasMore={hasMore}
 			currentFilter={validFilter}

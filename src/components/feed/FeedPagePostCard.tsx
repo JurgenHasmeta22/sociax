@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useRef, useTransition } from "react";
+import { useState, useRef, useTransition, useEffect } from "react";
 import Link from "next/link";
 import { formatDistanceToNow } from "date-fns";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
@@ -8,6 +8,13 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import { Textarea } from "@/components/ui/textarea";
+import {
+	Dialog,
+	DialogContent,
+	DialogHeader,
+	DialogTitle,
+} from "@/components/ui/dialog";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import {
 	Flag,
 	MessageCircle,
@@ -23,6 +30,8 @@ import {
 	createPagePostComment,
 	deletePagePostComment,
 	getPagePostComments,
+	getPagePostReactions,
+	togglePagePostCommentLike,
 } from "@/actions/page.actions";
 import type { ReactionType } from "../../../prisma/generated/prisma/enums";
 
@@ -40,6 +49,20 @@ type PageComment = {
 	content: string;
 	mediaUrl?: string | null;
 	createdAt: Date;
+	likeCount?: number;
+	myReactionType?: string | null;
+	user: {
+		id: number;
+		userName: string;
+		firstName: string | null;
+		lastName: string | null;
+		avatar: { photoSrc: string } | null;
+	};
+};
+
+type ReactionUser = {
+	id: number;
+	reactionType: string;
 	user: {
 		id: number;
 		userName: string;
@@ -72,6 +95,112 @@ const displayName = (u: {
 	userName: string;
 }) => [u.firstName, u.lastName].filter(Boolean).join(" ") || u.userName;
 
+function ReactionsModal({
+	postId,
+	open,
+	onClose,
+}: {
+	postId: number;
+	open: boolean;
+	onClose: () => void;
+}) {
+	const [data, setData] = useState<ReactionUser[] | null>(null);
+	useEffect(() => {
+		if (open && data === null) {
+			getPagePostReactions(postId).then((r) =>
+				setData(r as ReactionUser[]),
+			);
+		}
+		if (!open) setData(null);
+	}, [open, postId, data]);
+
+	const grouped = (data ?? []).reduce<Record<string, ReactionUser[]>>(
+		(acc, r) => {
+			(acc[r.reactionType] ??= []).push(r);
+			return acc;
+		},
+		{},
+	);
+	const tabs = ["All", ...Object.keys(grouped)];
+
+	return (
+		<Dialog open={open} onOpenChange={(o) => !o && onClose()}>
+			<DialogContent className="max-w-sm">
+				<DialogHeader>
+					<DialogTitle>Reactions</DialogTitle>
+				</DialogHeader>
+				{!data ? (
+					<p className="text-sm text-muted-foreground py-4 text-center">
+						Loading…
+					</p>
+				) : (
+					<Tabs defaultValue="All">
+						<TabsList className="w-full flex-wrap h-auto gap-1 mb-2">
+							{tabs.map((tab) => (
+								<TabsTrigger
+									key={tab}
+									value={tab}
+									className="text-xs px-2 py-1"
+								>
+									{tab === "All"
+										? `All ${data.length}`
+										: `${REACTIONS[tab]?.emoji} ${grouped[tab]?.length}`}
+								</TabsTrigger>
+							))}
+						</TabsList>
+						<TabsContent value="All">
+							<ReactionList items={data} />
+						</TabsContent>
+						{Object.entries(grouped).map(([type, items]) => (
+							<TabsContent key={type} value={type}>
+								<ReactionList items={items} />
+							</TabsContent>
+						))}
+					</Tabs>
+				)}
+			</DialogContent>
+		</Dialog>
+	);
+}
+
+function ReactionList({ items }: { items: ReactionUser[] }) {
+	return (
+		<div className="space-y-3 max-h-72 overflow-y-auto pr-1">
+			{items.map((r) => {
+				const n = displayName(r.user);
+				return (
+					<div key={r.id} className="flex items-center gap-3">
+						<div className="relative">
+							<Avatar className="h-9 w-9">
+								<AvatarImage
+									src={r.user.avatar?.photoSrc ?? undefined}
+								/>
+								<AvatarFallback className="bg-primary text-primary-foreground text-sm font-semibold">
+									{n[0]?.toUpperCase()}
+								</AvatarFallback>
+							</Avatar>
+							<span className="absolute -bottom-0.5 -right-0.5 text-sm leading-none">
+								{REACTIONS[r.reactionType]?.emoji}
+							</span>
+						</div>
+						<div>
+							<Link
+								href={`/profile/${r.user.userName}`}
+								className="text-sm font-semibold hover:underline"
+							>
+								{n}
+							</Link>
+							<p className="text-xs text-muted-foreground">
+								@{r.user.userName}
+							</p>
+						</div>
+					</div>
+				);
+			})}
+		</div>
+	);
+}
+
 export function FeedPagePostCard({
 	post,
 	currentUserId,
@@ -96,10 +225,10 @@ export function FeedPagePostCard({
 	const [isPending, startTransition] = useTransition();
 	const hoverTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
 	const [showPicker, setShowPicker] = useState(false);
+	const [showReactionsModal, setShowReactionsModal] = useState(false);
 
 	const name = displayName(post.user);
 
-	// Compute top reaction types for display
 	const reactionCounts: Record<string, number> = {};
 	post.likes.forEach((l) => {
 		reactionCounts[l.reactionType] = (reactionCounts[l.reactionType] || 0) + 1;
@@ -129,8 +258,8 @@ export function FeedPagePostCard({
 		setShowComments(true);
 		if (comments.length === 0) {
 			startTransition(async () => {
-				const fetched = await getPagePostComments(post.id);
-				setComments(fetched);
+				const fetched = await getPagePostComments(post.id, currentUserId);
+				setComments(fetched as PageComment[]);
 			});
 		}
 	};
@@ -166,6 +295,8 @@ export function FeedPagePostCard({
 			content: text,
 			mediaUrl: commentMediaPreview,
 			createdAt: new Date(),
+			likeCount: 0,
+			myReactionType: null,
 			user: {
 				id: currentUserId,
 				userName: "",
@@ -175,14 +306,35 @@ export function FeedPagePostCard({
 			},
 		};
 		setComments((p) => [...p, optimistic]);
-		startTransition(() =>
-			createPagePostComment(post.id, text, uploadedUrl),
-		);
+		startTransition(async () => {
+			await createPagePostComment(post.id, text, uploadedUrl);
+			const fresh = await getPagePostComments(post.id, currentUserId);
+			setComments(fresh as PageComment[]);
+		});
 	};
 
 	const handleDeleteComment = (commentId: number) => {
 		setComments((p) => p.filter((c) => c.id !== commentId));
 		startTransition(() => deletePagePostComment(commentId));
+	};
+
+	const handleCommentLike = (commentId: number, currentLiked: boolean) => {
+		setComments((prev) =>
+			prev.map((c) =>
+				c.id === commentId
+					? {
+							...c,
+							likeCount: currentLiked
+								? (c.likeCount ?? 0) - 1
+								: (c.likeCount ?? 0) + 1,
+							myReactionType: currentLiked ? null : "Like",
+						}
+					: c,
+			),
+		);
+		startTransition(() =>
+			togglePagePostCommentLike(commentId, "Like" as ReactionType),
+		);
 	};
 
 	return (
@@ -255,17 +407,28 @@ export function FeedPagePostCard({
 				{likeCount > 0 && (
 					<>
 						<div className="flex items-center gap-1 text-sm text-muted-foreground mb-2">
-							{topReactions.map((type) => (
-								<span key={type} className="text-base leading-none">
-									{REACTIONS[type]?.emoji}
-								</span>
-							))}
-							<span>{likeCount.toLocaleString()}</span>
+							<button
+								onClick={() => setShowReactionsModal(true)}
+								className="flex items-center gap-1.5 hover:text-foreground transition-colors"
+							>
+								{topReactions.map((type) => (
+									<span
+										key={type}
+										className="text-base leading-none"
+									>
+										{REACTIONS[type]?.emoji}
+									</span>
+								))}
+								<span>{likeCount.toLocaleString()}</span>
+							</button>
 						</div>
 						<Separator className="mb-1" />
 					</>
 				)}
-				<div className="flex items-center -mx-1 relative" style={{ overflow: "visible" }}>
+				<div
+					className="flex items-center -mx-1 relative"
+					style={{ overflow: "visible" }}
+				>
 					<div
 						className="flex-1 flex justify-center relative"
 						onMouseEnter={() => {
@@ -341,79 +504,182 @@ export function FeedPagePostCard({
 						<MessageCircle className="h-[18px] w-[18px]" />
 						Comment
 					</Button>
+					<Button
+						variant="ghost"
+						size="sm"
+						className="flex-1 gap-2 text-muted-foreground hover:text-foreground rounded-lg font-semibold text-sm h-9"
+					>
+						<Send className="h-[18px] w-[18px]" />
+						Share
+					</Button>
 				</div>
 			</CardContent>
 
 			{showComments && (
 				<CardContent className="pt-0 pb-4 border-t border-border/50 mt-1">
 					<div className="space-y-3 mt-3 max-h-80 overflow-y-auto">
-						{comments.map((c) => (
-							<div key={c.id} className="flex gap-2 group">
-								<Avatar className="h-7 w-7 shrink-0">
-									<AvatarImage
-										src={
-											c.user.avatar?.photoSrc ?? undefined
-										}
-									/>
-									<AvatarFallback className="bg-primary text-primary-foreground text-xs font-semibold">
-										{(displayName(c.user) ||
-											"?")[0]?.toUpperCase()}
-									</AvatarFallback>
-								</Avatar>
-								<div className="flex-1">
-									<div className="bg-muted rounded-2xl px-3 py-2 text-sm">
-										<span className="font-semibold text-xs block">
-											{displayName(c.user) || "You"}
-										</span>
-										{c.content}
-										{c.mediaUrl && (
-											<div className="mt-1.5">
-												<img
-													src={c.mediaUrl}
-													alt="media"
-													className="max-h-32 rounded-xl object-cover"
-												/>
-											</div>
-										)}
+						{comments.map((c) => {
+							const liked = !!c.myReactionType;
+							return (
+								<div key={c.id} className="flex gap-2 group">
+									<Avatar className="h-7 w-7 shrink-0">
+										<AvatarImage
+											src={
+												c.user.avatar?.photoSrc ??
+												undefined
+											}
+										/>
+										<AvatarFallback className="bg-primary text-primary-foreground text-xs font-semibold">
+											{(
+												displayName(c.user) || "?"
+											)[0]?.toUpperCase()}
+										</AvatarFallback>
+									</Avatar>
+									<div className="flex-1 min-w-0">
+										<div className="inline-block bg-muted rounded-2xl px-3 py-2 text-sm max-w-full">
+											<span className="font-semibold text-xs block">
+												{displayName(c.user) || "You"}
+											</span>
+											{c.content}
+											{c.mediaUrl && (
+												<div className="mt-1.5">
+													<img
+														src={c.mediaUrl}
+														alt="media"
+														className="max-h-32 rounded-xl object-cover"
+													/>
+												</div>
+											)}
+										</div>
+										<div className="flex items-center gap-3 mt-1 ml-2 text-xs text-muted-foreground">
+											<span>
+												{formatDistanceToNow(
+													new Date(c.createdAt),
+													{ addSuffix: true },
+												)}
+											</span>
+											<button
+												onClick={() =>
+													handleCommentLike(
+														c.id,
+														liked,
+													)
+												}
+												disabled={isPending}
+												className={cn(
+													"font-semibold hover:text-foreground transition-colors",
+													liked && "text-primary",
+												)}
+											>
+												{liked ? "👍 Liked" : "Like"}
+												{(c.likeCount ?? 0) > 0 && (
+													<span className="ml-1 font-normal">
+														{c.likeCount}
+													</span>
+												)}
+											</button>
+											{c.user.id === currentUserId && (
+												<button
+													onClick={() =>
+														handleDeleteComment(c.id)
+													}
+													className="opacity-0 group-hover:opacity-100 transition-opacity hover:text-destructive"
+												>
+													<Trash2 className="h-3 w-3" />
+												</button>
+											)}
+										</div>
 									</div>
 								</div>
-								{c.user.id === currentUserId && (
-									<button
-										onClick={() =>
-											handleDeleteComment(c.id)
-										}
-										className="opacity-0 group-hover:opacity-100 text-muted-foreground hover:text-destructive transition-opacity"
-									>
-										<Trash2 className="h-3.5 w-3.5" />
-									</button>
-								)}
-							</div>
-						))}
+							);
+						})}
 					</div>
 					<div className="flex gap-2 mt-3">
-						<Textarea
-							value={commentText}
-							onChange={(e) => setCommentText(e.target.value)}
-							onKeyDown={(e) => {
-								if (e.key === "Enter" && !e.shiftKey) {
-									e.preventDefault();
-									handleComment();
-								}
+						<input
+							ref={commentFileRef}
+							type="file"
+							accept="image/*"
+							className="hidden"
+							onChange={(e) => {
+								const file = e.target.files?.[0];
+								if (!file) return;
+								setCommentMedia(file);
+								setCommentMediaPreview(
+									URL.createObjectURL(file),
+								);
 							}}
-							placeholder="Write a comment…"
-							className="min-h-0 h-9 resize-none text-sm rounded-full py-2 px-4"
 						/>
-						<Button
-							size="icon"
-							className="h-9 w-9 rounded-full shrink-0"
-							onClick={handleComment}
-							disabled={!commentText.trim() || isPending}
-						>
-							<Send className="h-4 w-4" />
-						</Button>
+						<div className="flex-1 bg-muted rounded-2xl px-3 py-2 flex flex-col gap-1.5">
+							{commentMediaPreview && (
+								<div className="relative inline-flex">
+									<img
+										src={commentMediaPreview}
+										alt="preview"
+										className="max-h-24 rounded-xl object-cover"
+									/>
+									<button
+										onClick={() => {
+											setCommentMedia(null);
+											setCommentMediaPreview(null);
+										}}
+										className="absolute -top-1.5 -right-1.5 bg-background border rounded-full p-0.5"
+									>
+										<X className="h-3 w-3" />
+									</button>
+								</div>
+							)}
+							<div className="flex items-end gap-2">
+								<Textarea
+									value={commentText}
+									onChange={(e) =>
+										setCommentText(e.target.value)
+									}
+									onKeyDown={(e) => {
+										if (e.key === "Enter" && !e.shiftKey) {
+											e.preventDefault();
+											void handleComment();
+										}
+									}}
+									placeholder="Write a comment…"
+									className="min-h-0 h-7 resize-none border-0 bg-transparent p-0 shadow-none focus-visible:ring-0 text-sm leading-snug flex-1"
+									rows={1}
+								/>
+								<Button
+									variant="ghost"
+									size="icon"
+									className="h-6 w-6 shrink-0 text-muted-foreground hover:text-foreground hover:bg-transparent"
+									onClick={() =>
+										commentFileRef.current?.click()
+									}
+									disabled={isPending || isUploadingComment}
+								>
+									<ImagePlus className="h-4 w-4" />
+								</Button>
+								<Button
+									variant="ghost"
+									size="icon"
+									className="h-6 w-6 shrink-0 text-primary hover:bg-transparent"
+									onClick={() => void handleComment()}
+									disabled={
+										(!commentText.trim() &&
+											!commentMedia) ||
+										isPending ||
+										isUploadingComment
+									}
+								>
+									<Send className="h-4 w-4" />
+								</Button>
+							</div>
+						</div>
 					</div>
 				</CardContent>
 			)}
+
+			<ReactionsModal
+				postId={post.id}
+				open={showReactionsModal}
+				onClose={() => setShowReactionsModal(false)}
+			/>
 		</Card>
 	);
 }
