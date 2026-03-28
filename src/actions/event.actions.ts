@@ -39,6 +39,7 @@ export async function createEvent(data: {
 	startDate: string;
 	endDate?: string;
 	privacy: EventPrivacy;
+	hashtags?: string[];
 }) {
 	const userId = await getSessionUserId();
 	if (!data.title.trim()) throw new Error("Title is required");
@@ -66,6 +67,22 @@ export async function createEvent(data: {
 		await tx.eventAttendee.create({
 			data: { eventId: created.id, userId, status: "Going" },
 		});
+
+		// Extract hashtags from title + description + explicit tags
+		const textTags = ((data.title || "") + " " + (data.description || "")).match(/#[\w]+/g) ?? [];
+		const explicitTags = (data.hashtags ?? []).map((t) => t.toLowerCase().replace(/^#/, "").trim()).filter(Boolean);
+		const allTags = [...new Set([...textTags.map((t) => t.slice(1).toLowerCase()), ...explicitTags])];
+
+		for (const name of allTags) {
+			if (!name) continue;
+			let tag = await tx.hashtag.findUnique({ where: { name } });
+			if (!tag) tag = await tx.hashtag.create({ data: { name } });
+			await tx.eventHashtag.upsert({
+				where: { eventId_hashtagId: { eventId: created.id, hashtagId: tag.id } },
+				create: { eventId: created.id, hashtagId: tag.id },
+				update: {},
+			});
+		}
 
 		return created;
 	});

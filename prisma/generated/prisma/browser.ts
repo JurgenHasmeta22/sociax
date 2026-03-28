@@ -18,6 +18,16 @@ export { Prisma }
 export * as $Enums from './enums'
 export * from './enums';
 /**
+ * Model Album
+ * 
+ */
+export type Album = Prisma.AlbumModel
+/**
+ * Model AlbumPhoto
+ * 
+ */
+export type AlbumPhoto = Prisma.AlbumPhotoModel
+/**
  * Model Account
  * 
  */
@@ -42,6 +52,21 @@ export type ActivateToken = Prisma.ActivateTokenModel
  * 
  */
 export type ResetPasswordToken = Prisma.ResetPasswordTokenModel
+/**
+ * Model Blog
+ * 
+ */
+export type Blog = Prisma.BlogModel
+/**
+ * Model BlogLike
+ * 
+ */
+export type BlogLike = Prisma.BlogLikeModel
+/**
+ * Model BlogHashtag
+ * 
+ */
+export type BlogHashtag = Prisma.BlogHashtagModel
 /**
  * Model PostComment
  * 
@@ -92,6 +117,11 @@ export type EventPostComment = Prisma.EventPostCommentModel
  * 
  */
 export type EventPostCommentLike = Prisma.EventPostCommentLikeModel
+/**
+ * Model EventHashtag
+ * 
+ */
+export type EventHashtag = Prisma.EventHashtagModel
 /**
  * Model Group
  * 
@@ -297,3 +327,23 @@ export type UserFollow = Prisma.UserFollowModel
  * 
  */
 export type UserBlock = Prisma.UserBlockModel
+/**
+ * Model Video
+ * 
+ */
+export type Video = Prisma.VideoModel
+/**
+ * Model VideoLike
+ * 
+ */
+export type VideoLike = Prisma.VideoLikeModel
+/**
+ * Model VideoComment
+ * 
+ */
+export type VideoComment = Prisma.VideoCommentModel
+/**
+ * Model VideoHashtag
+ * 
+ */
+export type VideoHashtag = Prisma.VideoHashtagModel

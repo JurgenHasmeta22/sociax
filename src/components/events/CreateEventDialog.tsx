@@ -20,7 +20,7 @@ import {
 	SelectTrigger,
 	SelectValue,
 } from "@/components/ui/select";
-import { Globe, Users, Lock, Loader2 } from "lucide-react";
+import { Globe, Users, Lock, Loader2, Hash } from "lucide-react";
 import { createEvent } from "@/actions/event.actions";
 import { toast } from "sonner";
 import type { EventPrivacy } from "../../../prisma/generated/prisma/enums";
@@ -54,6 +54,7 @@ export function CreateEventDialog({
 	const [startDate, setStartDate] = useState("");
 	const [endDate, setEndDate] = useState("");
 	const [privacy, setPrivacy] = useState<EventPrivacy>("Public");
+	const [tagsInput, setTagsInput] = useState("");
 
 	const reset = () => {
 		setTitle("");
@@ -65,6 +66,7 @@ export function CreateEventDialog({
 		setStartDate("");
 		setEndDate("");
 		setPrivacy("Public");
+		setTagsInput("");
 	};
 
 	const handleClose = () => {
@@ -94,6 +96,7 @@ export function CreateEventDialog({
 					startDate,
 					endDate: endDate || undefined,
 					privacy,
+					hashtags: tagsInput.split(/[,\s]+/).filter(Boolean),
 				});
 				toast.success("Event created!");
 				handleClose();
@@ -197,8 +200,20 @@ export function CreateEventDialog({
 						</div>
 					</div>
 
-					<div className="space-y-1.5">
-						<Label>Audience</Label>
+					<div className="space-y-1.5">					<Label htmlFor="event-tags">Tags (optional)</Label>
+					<div className="relative">
+						<Hash className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+						<Input
+							id="event-tags"
+							placeholder="music, tech, art (comma or space separated)"
+							value={tagsInput}
+							onChange={(e) => setTagsInput(e.target.value)}
+							className="pl-9"
+						/>
+					</div>
+				</div>
+
+				<div className="space-y-1.5">						<Label>Audience</Label>
 						<Select
 							value={privacy}
 							onValueChange={(v) => setPrivacy(v as EventPrivacy)}

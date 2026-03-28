@@ -42,7 +42,7 @@ posts: number;
 const PRIMARY_LINKS = [
 { href: "/feed", icon: Home, label: "Feed", color: "bg-blue-600" },
 { href: "/messages", icon: MessageCircle, label: "Messages", color: "bg-teal-500" },
-{ href: "/video", icon: Video, label: "Video", color: "bg-indigo-500" },
+{ href: "/videos", icon: Video, label: "Video", color: "bg-indigo-500" },
 { href: "/events", icon: CalendarDays, label: "Event", color: "bg-green-500" },
 { href: "/pages", icon: Flag, label: "Pages", color: "bg-rose-500" },
 { href: "/groups", icon: UsersRound, label: "Groups", color: "bg-amber-500" },

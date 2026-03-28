@@ -21,7 +21,6 @@ import {
 	Flag,
 	CalendarDays,
 	Search,
-	Bell,
 	Settings,
 	LogOut,
 	User,
@@ -33,6 +32,7 @@ import {
 import { cn } from "@/lib/utils";
 import { SearchModal } from "@/components/root/SearchModal";
 import { ChatNavButton } from "@/components/root/ChatNavButton";
+import { NotificationBell } from "@/components/root/NotificationBell";
 
 const NAV_LINKS = [
 	{ href: "/feed", icon: Home, label: "Home" },
@@ -119,15 +119,7 @@ export function Navbar() {
 									onClick={() => setSearchOpen(true)}
 								>
 									<Search className="h-5 w-5" />
-								</Button>							<ChatNavButton />								<Link href="/notifications">
-									<Button
-										variant="ghost"
-										size="icon"
-										className="rounded-full bg-muted h-9 w-9"
-									>
-										<Bell className="h-5 w-5" />
-									</Button>
-								</Link>
+								</Button>							<ChatNavButton />								<NotificationBell />
 								<DropdownMenu>
 									<DropdownMenuTrigger asChild>
 										<Button

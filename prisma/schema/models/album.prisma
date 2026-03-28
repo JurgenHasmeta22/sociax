@@ -1,0 +1,35 @@
+model Album {
+    id          Int         @id @default(autoincrement())
+    name        String
+    description String?
+    coverUrl    String?
+    privacy     PostPrivacy @default(Public)
+    createdAt   DateTime    @default(now())
+    updatedAt   DateTime    @updatedAt
+
+    // FK Keys
+    userId Int
+
+    // Relations
+    user   User         @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+    photos AlbumPhoto[]
+
+    @@index([userId])
+    @@index([createdAt])
+}
+
+model AlbumPhoto {
+    id        Int      @id @default(autoincrement())
+    photoUrl  String
+    caption   String?
+    order     Int      @default(0)
+    createdAt DateTime @default(now())
+
+    // FK Keys
+    albumId Int
+
+    // Relations
+    album Album @relation(fields: [albumId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+
+    @@index([albumId])
+}

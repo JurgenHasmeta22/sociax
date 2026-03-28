@@ -51,11 +51,16 @@ export const AnyNull = runtime.AnyNull
 
 
 export const ModelName = {
+  Album: 'Album',
+  AlbumPhoto: 'AlbumPhoto',
   Account: 'Account',
   Session: 'Session',
   VerificationToken: 'VerificationToken',
   ActivateToken: 'ActivateToken',
   ResetPasswordToken: 'ResetPasswordToken',
+  Blog: 'Blog',
+  BlogLike: 'BlogLike',
+  BlogHashtag: 'BlogHashtag',
   PostComment: 'PostComment',
   CommentLike: 'CommentLike',
   CommentReply: 'CommentReply',
@@ -66,6 +71,7 @@ export const ModelName = {
   EventPostLike: 'EventPostLike',
   EventPostComment: 'EventPostComment',
   EventPostCommentLike: 'EventPostCommentLike',
+  EventHashtag: 'EventHashtag',
   Group: 'Group',
   GroupMember: 'GroupMember',
   GroupPost: 'GroupPost',
@@ -106,7 +112,11 @@ export const ModelName = {
   Avatar: 'Avatar',
   CoverPhoto: 'CoverPhoto',
   UserFollow: 'UserFollow',
-  UserBlock: 'UserBlock'
+  UserBlock: 'UserBlock',
+  Video: 'Video',
+  VideoLike: 'VideoLike',
+  VideoComment: 'VideoComment',
+  VideoHashtag: 'VideoHashtag'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -120,6 +130,32 @@ export const TransactionIsolationLevel = runtime.makeStrictEnum({
 } as const)
 
 export type TransactionIsolationLevel = (typeof TransactionIsolationLevel)[keyof typeof TransactionIsolationLevel]
+
+
+export const AlbumScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  description: 'description',
+  coverUrl: 'coverUrl',
+  privacy: 'privacy',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  userId: 'userId'
+} as const
+
+export type AlbumScalarFieldEnum = (typeof AlbumScalarFieldEnum)[keyof typeof AlbumScalarFieldEnum]
+
+
+export const AlbumPhotoScalarFieldEnum = {
+  id: 'id',
+  photoUrl: 'photoUrl',
+  caption: 'caption',
+  order: 'order',
+  createdAt: 'createdAt',
+  albumId: 'albumId'
+} as const
+
+export type AlbumPhotoScalarFieldEnum = (typeof AlbumPhotoScalarFieldEnum)[keyof typeof AlbumPhotoScalarFieldEnum]
 
 
 export const AccountScalarFieldEnum = {
@@ -179,6 +215,42 @@ export const ResetPasswordTokenScalarFieldEnum = {
 } as const
 
 export type ResetPasswordTokenScalarFieldEnum = (typeof ResetPasswordTokenScalarFieldEnum)[keyof typeof ResetPasswordTokenScalarFieldEnum]
+
+
+export const BlogScalarFieldEnum = {
+  id: 'id',
+  slug: 'slug',
+  title: 'title',
+  content: 'content',
+  excerpt: 'excerpt',
+  coverImageUrl: 'coverImageUrl',
+  published: 'published',
+  isDeleted: 'isDeleted',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  authorId: 'authorId'
+} as const
+
+export type BlogScalarFieldEnum = (typeof BlogScalarFieldEnum)[keyof typeof BlogScalarFieldEnum]
+
+
+export const BlogLikeScalarFieldEnum = {
+  id: 'id',
+  createdAt: 'createdAt',
+  userId: 'userId',
+  blogId: 'blogId'
+} as const
+
+export type BlogLikeScalarFieldEnum = (typeof BlogLikeScalarFieldEnum)[keyof typeof BlogLikeScalarFieldEnum]
+
+
+export const BlogHashtagScalarFieldEnum = {
+  id: 'id',
+  blogId: 'blogId',
+  hashtagId: 'hashtagId'
+} as const
+
+export type BlogHashtagScalarFieldEnum = (typeof BlogHashtagScalarFieldEnum)[keyof typeof BlogHashtagScalarFieldEnum]
 
 
 export const PostCommentScalarFieldEnum = {
@@ -313,6 +385,15 @@ export const EventPostCommentLikeScalarFieldEnum = {
 } as const
 
 export type EventPostCommentLikeScalarFieldEnum = (typeof EventPostCommentLikeScalarFieldEnum)[keyof typeof EventPostCommentLikeScalarFieldEnum]
+
+
+export const EventHashtagScalarFieldEnum = {
+  id: 'id',
+  eventId: 'eventId',
+  hashtagId: 'hashtagId'
+} as const
+
+export type EventHashtagScalarFieldEnum = (typeof EventHashtagScalarFieldEnum)[keyof typeof EventHashtagScalarFieldEnum]
 
 
 export const GroupScalarFieldEnum = {
@@ -834,6 +915,56 @@ export const UserBlockScalarFieldEnum = {
 } as const
 
 export type UserBlockScalarFieldEnum = (typeof UserBlockScalarFieldEnum)[keyof typeof UserBlockScalarFieldEnum]
+
+
+export const VideoScalarFieldEnum = {
+  id: 'id',
+  title: 'title',
+  description: 'description',
+  url: 'url',
+  thumbnailUrl: 'thumbnailUrl',
+  duration: 'duration',
+  views: 'views',
+  privacy: 'privacy',
+  isDeleted: 'isDeleted',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  authorId: 'authorId'
+} as const
+
+export type VideoScalarFieldEnum = (typeof VideoScalarFieldEnum)[keyof typeof VideoScalarFieldEnum]
+
+
+export const VideoLikeScalarFieldEnum = {
+  id: 'id',
+  createdAt: 'createdAt',
+  userId: 'userId',
+  videoId: 'videoId'
+} as const
+
+export type VideoLikeScalarFieldEnum = (typeof VideoLikeScalarFieldEnum)[keyof typeof VideoLikeScalarFieldEnum]
+
+
+export const VideoCommentScalarFieldEnum = {
+  id: 'id',
+  content: 'content',
+  isDeleted: 'isDeleted',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  userId: 'userId',
+  videoId: 'videoId'
+} as const
+
+export type VideoCommentScalarFieldEnum = (typeof VideoCommentScalarFieldEnum)[keyof typeof VideoCommentScalarFieldEnum]
+
+
+export const VideoHashtagScalarFieldEnum = {
+  id: 'id',
+  videoId: 'videoId',
+  hashtagId: 'hashtagId'
+} as const
+
+export type VideoHashtagScalarFieldEnum = (typeof VideoHashtagScalarFieldEnum)[keyof typeof VideoHashtagScalarFieldEnum]
 
 
 export const SortOrder = {

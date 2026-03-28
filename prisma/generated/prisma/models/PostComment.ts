@@ -501,10 +501,6 @@ export type PostCommentOrderByRelationAggregateInput = {
   _count?: Prisma.SortOrder
 }
 
-export type BoolFieldUpdateOperationsInput = {
-  set?: boolean
-}
-
 export type PostCommentCreateNestedOneWithoutLikesInput = {
   create?: Prisma.XOR<Prisma.PostCommentCreateWithoutLikesInput, Prisma.PostCommentUncheckedCreateWithoutLikesInput>
   connectOrCreate?: Prisma.PostCommentCreateOrConnectWithoutLikesInput

@@ -201,6 +201,9 @@ export type HashtagWhereInput = {
   name?: Prisma.StringFilter<"Hashtag"> | string
   createdAt?: Prisma.DateTimeFilter<"Hashtag"> | Date | string
   posts?: Prisma.PostHashtagListRelationFilter
+  videos?: Prisma.VideoHashtagListRelationFilter
+  blogs?: Prisma.BlogHashtagListRelationFilter
+  events?: Prisma.EventHashtagListRelationFilter
 }
 
 export type HashtagOrderByWithRelationInput = {
@@ -208,6 +211,9 @@ export type HashtagOrderByWithRelationInput = {
   name?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   posts?: Prisma.PostHashtagOrderByRelationAggregateInput
+  videos?: Prisma.VideoHashtagOrderByRelationAggregateInput
+  blogs?: Prisma.BlogHashtagOrderByRelationAggregateInput
+  events?: Prisma.EventHashtagOrderByRelationAggregateInput
 }
 
 export type HashtagWhereUniqueInput = Prisma.AtLeast<{
@@ -218,6 +224,9 @@ export type HashtagWhereUniqueInput = Prisma.AtLeast<{
   NOT?: Prisma.HashtagWhereInput | Prisma.HashtagWhereInput[]
   createdAt?: Prisma.DateTimeFilter<"Hashtag"> | Date | string
   posts?: Prisma.PostHashtagListRelationFilter
+  videos?: Prisma.VideoHashtagListRelationFilter
+  blogs?: Prisma.BlogHashtagListRelationFilter
+  events?: Prisma.EventHashtagListRelationFilter
 }, "id" | "name">
 
 export type HashtagOrderByWithAggregationInput = {
@@ -244,6 +253,9 @@ export type HashtagCreateInput = {
   name: string
   createdAt?: Date | string
   posts?: Prisma.PostHashtagCreateNestedManyWithoutHashtagInput
+  videos?: Prisma.VideoHashtagCreateNestedManyWithoutHashtagInput
+  blogs?: Prisma.BlogHashtagCreateNestedManyWithoutHashtagInput
+  events?: Prisma.EventHashtagCreateNestedManyWithoutHashtagInput
 }
 
 export type HashtagUncheckedCreateInput = {
@@ -251,12 +263,18 @@ export type HashtagUncheckedCreateInput = {
   name: string
   createdAt?: Date | string
   posts?: Prisma.PostHashtagUncheckedCreateNestedManyWithoutHashtagInput
+  videos?: Prisma.VideoHashtagUncheckedCreateNestedManyWithoutHashtagInput
+  blogs?: Prisma.BlogHashtagUncheckedCreateNestedManyWithoutHashtagInput
+  events?: Prisma.EventHashtagUncheckedCreateNestedManyWithoutHashtagInput
 }
 
 export type HashtagUpdateInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   posts?: Prisma.PostHashtagUpdateManyWithoutHashtagNestedInput
+  videos?: Prisma.VideoHashtagUpdateManyWithoutHashtagNestedInput
+  blogs?: Prisma.BlogHashtagUpdateManyWithoutHashtagNestedInput
+  events?: Prisma.EventHashtagUpdateManyWithoutHashtagNestedInput
 }
 
 export type HashtagUncheckedUpdateInput = {
@@ -264,6 +282,9 @@ export type HashtagUncheckedUpdateInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   posts?: Prisma.PostHashtagUncheckedUpdateManyWithoutHashtagNestedInput
+  videos?: Prisma.VideoHashtagUncheckedUpdateManyWithoutHashtagNestedInput
+  blogs?: Prisma.BlogHashtagUncheckedUpdateManyWithoutHashtagNestedInput
+  events?: Prisma.EventHashtagUncheckedUpdateManyWithoutHashtagNestedInput
 }
 
 export type HashtagCreateManyInput = {
@@ -281,6 +302,11 @@ export type HashtagUncheckedUpdateManyInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   name?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+}
+
+export type HashtagScalarRelationFilter = {
+  is?: Prisma.HashtagWhereInput
+  isNot?: Prisma.HashtagWhereInput
 }
 
 export type HashtagCountOrderByAggregateInput = {
@@ -309,9 +335,32 @@ export type HashtagSumOrderByAggregateInput = {
   id?: Prisma.SortOrder
 }
 
-export type HashtagScalarRelationFilter = {
-  is?: Prisma.HashtagWhereInput
-  isNot?: Prisma.HashtagWhereInput
+export type HashtagCreateNestedOneWithoutBlogsInput = {
+  create?: Prisma.XOR<Prisma.HashtagCreateWithoutBlogsInput, Prisma.HashtagUncheckedCreateWithoutBlogsInput>
+  connectOrCreate?: Prisma.HashtagCreateOrConnectWithoutBlogsInput
+  connect?: Prisma.HashtagWhereUniqueInput
+}
+
+export type HashtagUpdateOneRequiredWithoutBlogsNestedInput = {
+  create?: Prisma.XOR<Prisma.HashtagCreateWithoutBlogsInput, Prisma.HashtagUncheckedCreateWithoutBlogsInput>
+  connectOrCreate?: Prisma.HashtagCreateOrConnectWithoutBlogsInput
+  upsert?: Prisma.HashtagUpsertWithoutBlogsInput
+  connect?: Prisma.HashtagWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.HashtagUpdateToOneWithWhereWithoutBlogsInput, Prisma.HashtagUpdateWithoutBlogsInput>, Prisma.HashtagUncheckedUpdateWithoutBlogsInput>
+}
+
+export type HashtagCreateNestedOneWithoutEventsInput = {
+  create?: Prisma.XOR<Prisma.HashtagCreateWithoutEventsInput, Prisma.HashtagUncheckedCreateWithoutEventsInput>
+  connectOrCreate?: Prisma.HashtagCreateOrConnectWithoutEventsInput
+  connect?: Prisma.HashtagWhereUniqueInput
+}
+
+export type HashtagUpdateOneRequiredWithoutEventsNestedInput = {
+  create?: Prisma.XOR<Prisma.HashtagCreateWithoutEventsInput, Prisma.HashtagUncheckedCreateWithoutEventsInput>
+  connectOrCreate?: Prisma.HashtagCreateOrConnectWithoutEventsInput
+  upsert?: Prisma.HashtagUpsertWithoutEventsInput
+  connect?: Prisma.HashtagWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.HashtagUpdateToOneWithWhereWithoutEventsInput, Prisma.HashtagUpdateWithoutEventsInput>, Prisma.HashtagUncheckedUpdateWithoutEventsInput>
 }
 
 export type HashtagCreateNestedOneWithoutPostsInput = {
@@ -328,15 +377,135 @@ export type HashtagUpdateOneRequiredWithoutPostsNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.HashtagUpdateToOneWithWhereWithoutPostsInput, Prisma.HashtagUpdateWithoutPostsInput>, Prisma.HashtagUncheckedUpdateWithoutPostsInput>
 }
 
+export type HashtagCreateNestedOneWithoutVideosInput = {
+  create?: Prisma.XOR<Prisma.HashtagCreateWithoutVideosInput, Prisma.HashtagUncheckedCreateWithoutVideosInput>
+  connectOrCreate?: Prisma.HashtagCreateOrConnectWithoutVideosInput
+  connect?: Prisma.HashtagWhereUniqueInput
+}
+
+export type HashtagUpdateOneRequiredWithoutVideosNestedInput = {
+  create?: Prisma.XOR<Prisma.HashtagCreateWithoutVideosInput, Prisma.HashtagUncheckedCreateWithoutVideosInput>
+  connectOrCreate?: Prisma.HashtagCreateOrConnectWithoutVideosInput
+  upsert?: Prisma.HashtagUpsertWithoutVideosInput
+  connect?: Prisma.HashtagWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.HashtagUpdateToOneWithWhereWithoutVideosInput, Prisma.HashtagUpdateWithoutVideosInput>, Prisma.HashtagUncheckedUpdateWithoutVideosInput>
+}
+
+export type HashtagCreateWithoutBlogsInput = {
+  name: string
+  createdAt?: Date | string
+  posts?: Prisma.PostHashtagCreateNestedManyWithoutHashtagInput
+  videos?: Prisma.VideoHashtagCreateNestedManyWithoutHashtagInput
+  events?: Prisma.EventHashtagCreateNestedManyWithoutHashtagInput
+}
+
+export type HashtagUncheckedCreateWithoutBlogsInput = {
+  id?: number
+  name: string
+  createdAt?: Date | string
+  posts?: Prisma.PostHashtagUncheckedCreateNestedManyWithoutHashtagInput
+  videos?: Prisma.VideoHashtagUncheckedCreateNestedManyWithoutHashtagInput
+  events?: Prisma.EventHashtagUncheckedCreateNestedManyWithoutHashtagInput
+}
+
+export type HashtagCreateOrConnectWithoutBlogsInput = {
+  where: Prisma.HashtagWhereUniqueInput
+  create: Prisma.XOR<Prisma.HashtagCreateWithoutBlogsInput, Prisma.HashtagUncheckedCreateWithoutBlogsInput>
+}
+
+export type HashtagUpsertWithoutBlogsInput = {
+  update: Prisma.XOR<Prisma.HashtagUpdateWithoutBlogsInput, Prisma.HashtagUncheckedUpdateWithoutBlogsInput>
+  create: Prisma.XOR<Prisma.HashtagCreateWithoutBlogsInput, Prisma.HashtagUncheckedCreateWithoutBlogsInput>
+  where?: Prisma.HashtagWhereInput
+}
+
+export type HashtagUpdateToOneWithWhereWithoutBlogsInput = {
+  where?: Prisma.HashtagWhereInput
+  data: Prisma.XOR<Prisma.HashtagUpdateWithoutBlogsInput, Prisma.HashtagUncheckedUpdateWithoutBlogsInput>
+}
+
+export type HashtagUpdateWithoutBlogsInput = {
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  posts?: Prisma.PostHashtagUpdateManyWithoutHashtagNestedInput
+  videos?: Prisma.VideoHashtagUpdateManyWithoutHashtagNestedInput
+  events?: Prisma.EventHashtagUpdateManyWithoutHashtagNestedInput
+}
+
+export type HashtagUncheckedUpdateWithoutBlogsInput = {
+  id?: Prisma.IntFieldUpdateOperationsInput | number
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  posts?: Prisma.PostHashtagUncheckedUpdateManyWithoutHashtagNestedInput
+  videos?: Prisma.VideoHashtagUncheckedUpdateManyWithoutHashtagNestedInput
+  events?: Prisma.EventHashtagUncheckedUpdateManyWithoutHashtagNestedInput
+}
+
+export type HashtagCreateWithoutEventsInput = {
+  name: string
+  createdAt?: Date | string
+  posts?: Prisma.PostHashtagCreateNestedManyWithoutHashtagInput
+  videos?: Prisma.VideoHashtagCreateNestedManyWithoutHashtagInput
+  blogs?: Prisma.BlogHashtagCreateNestedManyWithoutHashtagInput
+}
+
+export type HashtagUncheckedCreateWithoutEventsInput = {
+  id?: number
+  name: string
+  createdAt?: Date | string
+  posts?: Prisma.PostHashtagUncheckedCreateNestedManyWithoutHashtagInput
+  videos?: Prisma.VideoHashtagUncheckedCreateNestedManyWithoutHashtagInput
+  blogs?: Prisma.BlogHashtagUncheckedCreateNestedManyWithoutHashtagInput
+}
+
+export type HashtagCreateOrConnectWithoutEventsInput = {
+  where: Prisma.HashtagWhereUniqueInput
+  create: Prisma.XOR<Prisma.HashtagCreateWithoutEventsInput, Prisma.HashtagUncheckedCreateWithoutEventsInput>
+}
+
+export type HashtagUpsertWithoutEventsInput = {
+  update: Prisma.XOR<Prisma.HashtagUpdateWithoutEventsInput, Prisma.HashtagUncheckedUpdateWithoutEventsInput>
+  create: Prisma.XOR<Prisma.HashtagCreateWithoutEventsInput, Prisma.HashtagUncheckedCreateWithoutEventsInput>
+  where?: Prisma.HashtagWhereInput
+}
+
+export type HashtagUpdateToOneWithWhereWithoutEventsInput = {
+  where?: Prisma.HashtagWhereInput
+  data: Prisma.XOR<Prisma.HashtagUpdateWithoutEventsInput, Prisma.HashtagUncheckedUpdateWithoutEventsInput>
+}
+
+export type HashtagUpdateWithoutEventsInput = {
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  posts?: Prisma.PostHashtagUpdateManyWithoutHashtagNestedInput
+  videos?: Prisma.VideoHashtagUpdateManyWithoutHashtagNestedInput
+  blogs?: Prisma.BlogHashtagUpdateManyWithoutHashtagNestedInput
+}
+
+export type HashtagUncheckedUpdateWithoutEventsInput = {
+  id?: Prisma.IntFieldUpdateOperationsInput | number
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  posts?: Prisma.PostHashtagUncheckedUpdateManyWithoutHashtagNestedInput
+  videos?: Prisma.VideoHashtagUncheckedUpdateManyWithoutHashtagNestedInput
+  blogs?: Prisma.BlogHashtagUncheckedUpdateManyWithoutHashtagNestedInput
+}
+
 export type HashtagCreateWithoutPostsInput = {
   name: string
   createdAt?: Date | string
+  videos?: Prisma.VideoHashtagCreateNestedManyWithoutHashtagInput
+  blogs?: Prisma.BlogHashtagCreateNestedManyWithoutHashtagInput
+  events?: Prisma.EventHashtagCreateNestedManyWithoutHashtagInput
 }
 
 export type HashtagUncheckedCreateWithoutPostsInput = {
   id?: number
   name: string
   createdAt?: Date | string
+  videos?: Prisma.VideoHashtagUncheckedCreateNestedManyWithoutHashtagInput
+  blogs?: Prisma.BlogHashtagUncheckedCreateNestedManyWithoutHashtagInput
+  events?: Prisma.EventHashtagUncheckedCreateNestedManyWithoutHashtagInput
 }
 
 export type HashtagCreateOrConnectWithoutPostsInput = {
@@ -358,12 +527,68 @@ export type HashtagUpdateToOneWithWhereWithoutPostsInput = {
 export type HashtagUpdateWithoutPostsInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  videos?: Prisma.VideoHashtagUpdateManyWithoutHashtagNestedInput
+  blogs?: Prisma.BlogHashtagUpdateManyWithoutHashtagNestedInput
+  events?: Prisma.EventHashtagUpdateManyWithoutHashtagNestedInput
 }
 
 export type HashtagUncheckedUpdateWithoutPostsInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   name?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  videos?: Prisma.VideoHashtagUncheckedUpdateManyWithoutHashtagNestedInput
+  blogs?: Prisma.BlogHashtagUncheckedUpdateManyWithoutHashtagNestedInput
+  events?: Prisma.EventHashtagUncheckedUpdateManyWithoutHashtagNestedInput
+}
+
+export type HashtagCreateWithoutVideosInput = {
+  name: string
+  createdAt?: Date | string
+  posts?: Prisma.PostHashtagCreateNestedManyWithoutHashtagInput
+  blogs?: Prisma.BlogHashtagCreateNestedManyWithoutHashtagInput
+  events?: Prisma.EventHashtagCreateNestedManyWithoutHashtagInput
+}
+
+export type HashtagUncheckedCreateWithoutVideosInput = {
+  id?: number
+  name: string
+  createdAt?: Date | string
+  posts?: Prisma.PostHashtagUncheckedCreateNestedManyWithoutHashtagInput
+  blogs?: Prisma.BlogHashtagUncheckedCreateNestedManyWithoutHashtagInput
+  events?: Prisma.EventHashtagUncheckedCreateNestedManyWithoutHashtagInput
+}
+
+export type HashtagCreateOrConnectWithoutVideosInput = {
+  where: Prisma.HashtagWhereUniqueInput
+  create: Prisma.XOR<Prisma.HashtagCreateWithoutVideosInput, Prisma.HashtagUncheckedCreateWithoutVideosInput>
+}
+
+export type HashtagUpsertWithoutVideosInput = {
+  update: Prisma.XOR<Prisma.HashtagUpdateWithoutVideosInput, Prisma.HashtagUncheckedUpdateWithoutVideosInput>
+  create: Prisma.XOR<Prisma.HashtagCreateWithoutVideosInput, Prisma.HashtagUncheckedCreateWithoutVideosInput>
+  where?: Prisma.HashtagWhereInput
+}
+
+export type HashtagUpdateToOneWithWhereWithoutVideosInput = {
+  where?: Prisma.HashtagWhereInput
+  data: Prisma.XOR<Prisma.HashtagUpdateWithoutVideosInput, Prisma.HashtagUncheckedUpdateWithoutVideosInput>
+}
+
+export type HashtagUpdateWithoutVideosInput = {
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  posts?: Prisma.PostHashtagUpdateManyWithoutHashtagNestedInput
+  blogs?: Prisma.BlogHashtagUpdateManyWithoutHashtagNestedInput
+  events?: Prisma.EventHashtagUpdateManyWithoutHashtagNestedInput
+}
+
+export type HashtagUncheckedUpdateWithoutVideosInput = {
+  id?: Prisma.IntFieldUpdateOperationsInput | number
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  posts?: Prisma.PostHashtagUncheckedUpdateManyWithoutHashtagNestedInput
+  blogs?: Prisma.BlogHashtagUncheckedUpdateManyWithoutHashtagNestedInput
+  events?: Prisma.EventHashtagUncheckedUpdateManyWithoutHashtagNestedInput
 }
 
 
@@ -373,10 +598,16 @@ export type HashtagUncheckedUpdateWithoutPostsInput = {
 
 export type HashtagCountOutputType = {
   posts: number
+  videos: number
+  blogs: number
+  events: number
 }
 
 export type HashtagCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   posts?: boolean | HashtagCountOutputTypeCountPostsArgs
+  videos?: boolean | HashtagCountOutputTypeCountVideosArgs
+  blogs?: boolean | HashtagCountOutputTypeCountBlogsArgs
+  events?: boolean | HashtagCountOutputTypeCountEventsArgs
 }
 
 /**
@@ -396,12 +627,36 @@ export type HashtagCountOutputTypeCountPostsArgs<ExtArgs extends runtime.Types.E
   where?: Prisma.PostHashtagWhereInput
 }
 
+/**
+ * HashtagCountOutputType without action
+ */
+export type HashtagCountOutputTypeCountVideosArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.VideoHashtagWhereInput
+}
+
+/**
+ * HashtagCountOutputType without action
+ */
+export type HashtagCountOutputTypeCountBlogsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.BlogHashtagWhereInput
+}
+
+/**
+ * HashtagCountOutputType without action
+ */
+export type HashtagCountOutputTypeCountEventsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.EventHashtagWhereInput
+}
+
 
 export type HashtagSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   name?: boolean
   createdAt?: boolean
   posts?: boolean | Prisma.Hashtag$postsArgs<ExtArgs>
+  videos?: boolean | Prisma.Hashtag$videosArgs<ExtArgs>
+  blogs?: boolean | Prisma.Hashtag$blogsArgs<ExtArgs>
+  events?: boolean | Prisma.Hashtag$eventsArgs<ExtArgs>
   _count?: boolean | Prisma.HashtagCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["hashtag"]>
 
@@ -426,6 +681,9 @@ export type HashtagSelectScalar = {
 export type HashtagOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "createdAt", ExtArgs["result"]["hashtag"]>
 export type HashtagInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   posts?: boolean | Prisma.Hashtag$postsArgs<ExtArgs>
+  videos?: boolean | Prisma.Hashtag$videosArgs<ExtArgs>
+  blogs?: boolean | Prisma.Hashtag$blogsArgs<ExtArgs>
+  events?: boolean | Prisma.Hashtag$eventsArgs<ExtArgs>
   _count?: boolean | Prisma.HashtagCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type HashtagIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
@@ -435,6 +693,9 @@ export type $HashtagPayload<ExtArgs extends runtime.Types.Extensions.InternalArg
   name: "Hashtag"
   objects: {
     posts: Prisma.$PostHashtagPayload<ExtArgs>[]
+    videos: Prisma.$VideoHashtagPayload<ExtArgs>[]
+    blogs: Prisma.$BlogHashtagPayload<ExtArgs>[]
+    events: Prisma.$EventHashtagPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: number
@@ -835,6 +1096,9 @@ readonly fields: HashtagFieldRefs;
 export interface Prisma__HashtagClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
   posts<T extends Prisma.Hashtag$postsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Hashtag$postsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$PostHashtagPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  videos<T extends Prisma.Hashtag$videosArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Hashtag$videosArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$VideoHashtagPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  blogs<T extends Prisma.Hashtag$blogsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Hashtag$blogsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$BlogHashtagPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  events<T extends Prisma.Hashtag$eventsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Hashtag$eventsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$EventHashtagPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1279,6 +1543,78 @@ export type Hashtag$postsArgs<ExtArgs extends runtime.Types.Extensions.InternalA
   take?: number
   skip?: number
   distinct?: Prisma.PostHashtagScalarFieldEnum | Prisma.PostHashtagScalarFieldEnum[]
+}
+
+/**
+ * Hashtag.videos
+ */
+export type Hashtag$videosArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the VideoHashtag
+   */
+  select?: Prisma.VideoHashtagSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the VideoHashtag
+   */
+  omit?: Prisma.VideoHashtagOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.VideoHashtagInclude<ExtArgs> | null
+  where?: Prisma.VideoHashtagWhereInput
+  orderBy?: Prisma.VideoHashtagOrderByWithRelationInput | Prisma.VideoHashtagOrderByWithRelationInput[]
+  cursor?: Prisma.VideoHashtagWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.VideoHashtagScalarFieldEnum | Prisma.VideoHashtagScalarFieldEnum[]
+}
+
+/**
+ * Hashtag.blogs
+ */
+export type Hashtag$blogsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the BlogHashtag
+   */
+  select?: Prisma.BlogHashtagSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the BlogHashtag
+   */
+  omit?: Prisma.BlogHashtagOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.BlogHashtagInclude<ExtArgs> | null
+  where?: Prisma.BlogHashtagWhereInput
+  orderBy?: Prisma.BlogHashtagOrderByWithRelationInput | Prisma.BlogHashtagOrderByWithRelationInput[]
+  cursor?: Prisma.BlogHashtagWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.BlogHashtagScalarFieldEnum | Prisma.BlogHashtagScalarFieldEnum[]
+}
+
+/**
+ * Hashtag.events
+ */
+export type Hashtag$eventsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the EventHashtag
+   */
+  select?: Prisma.EventHashtagSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the EventHashtag
+   */
+  omit?: Prisma.EventHashtagOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.EventHashtagInclude<ExtArgs> | null
+  where?: Prisma.EventHashtagWhereInput
+  orderBy?: Prisma.EventHashtagOrderByWithRelationInput | Prisma.EventHashtagOrderByWithRelationInput[]
+  cursor?: Prisma.EventHashtagWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.EventHashtagScalarFieldEnum | Prisma.EventHashtagScalarFieldEnum[]
 }
 
 /**

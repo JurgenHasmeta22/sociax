@@ -3,6 +3,8 @@ import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 import { notFound } from "next/navigation";
 import { prisma } from "@/lib/prisma";
 import { ProfileContent } from "@/components/profile/ProfileContent";
+import { getBlogsByAuthor } from "@/actions/blog.actions";
+import { getUserAlbums } from "@/actions/album.actions";
 
 type PageProps = { params: Promise<{ userName: string }> };
 
@@ -79,6 +81,8 @@ export default async function ProfilePage({ params }: PageProps) {
 		ownedPages,
 		createdEvents,
 		attendingEvents,
+		blogs,
+		albums,
 	] = await Promise.all([
 		canViewContent
 			? prisma.post.findMany({
@@ -257,6 +261,8 @@ export default async function ProfilePage({ params }: PageProps) {
 					},
 				})
 			: Promise.resolve([]),
+		getBlogsByAuthor(user.id, isOwnProfile),
+		getUserAlbums(user.id, currentUserId ?? undefined),
 	]);
 
 	const isBlocked =
@@ -296,12 +302,12 @@ export default async function ProfilePage({ params }: PageProps) {
 			createdEvents={
 				createdEvents.map((e) => ({ ...e, isOwned: true })) as never[]
 			}
-			attendingEvents={
-				attendingEvents.map((ae) => ({
-					...((ae as { event: unknown }).event as object),
-					isOwned: false,
-				})) as never[]
-			}
+			attendingEvents={attendingEvents.map((ae) => ({
+				...((ae as { event: unknown }).event as object),
+				isOwned: false,
+			})) as never[]}
+			blogs={blogs}
+			albums={albums}
 		/>
 	);
 }

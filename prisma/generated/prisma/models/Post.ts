@@ -631,10 +631,6 @@ export type EnumPostTypeFieldUpdateOperationsInput = {
   set?: $Enums.PostType
 }
 
-export type EnumPostPrivacyFieldUpdateOperationsInput = {
-  set?: $Enums.PostPrivacy
-}
-
 export type PostUpdateOneWithoutSharesOfNestedInput = {
   create?: Prisma.XOR<Prisma.PostCreateWithoutSharesOfInput, Prisma.PostUncheckedCreateWithoutSharesOfInput>
   connectOrCreate?: Prisma.PostCreateOrConnectWithoutSharesOfInput

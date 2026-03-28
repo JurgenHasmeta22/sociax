@@ -45,6 +45,9 @@ import { deleteGroup } from "@/actions/group.actions";
 import { deleteEvent } from "@/actions/event.actions";
 import { PostCard } from "@/components/feed/PostCard";
 import { PostComposer } from "@/components/feed/PostComposer";
+import { CreateAlbumDialog } from "@/components/profile/CreateAlbumDialog";
+import { AddPhotoDialog } from "@/components/profile/AddPhotoDialog";
+import { AlbumView } from "@/components/profile/AlbumView";
 import { toast } from "sonner";
 import {
   DropdownMenu,
@@ -137,6 +140,29 @@ _count: { attendees: number };
 isOwned?: boolean;
 };
 
+type BlogItem = {
+id: number;
+slug: string;
+title: string;
+excerpt: string | null;
+coverImageUrl: string | null;
+published: boolean;
+createdAt: Date;
+hashtags: { hashtag: { id: number; name: string } }[];
+_count: { likes: number };
+};
+
+type AlbumItem = {
+id: number;
+name: string;
+description: string | null;
+coverUrl: string | null;
+privacy: string;
+createdAt: Date;
+_count: { photos: number };
+photos: { photoUrl: string }[];
+};
+
 type ProfileUser = {
 id: number;
 userName: string;
@@ -154,7 +180,7 @@ _count: { followers: number; following: number; posts: number };
 posts: Post[];
 };
 
-const TABS = ["Timeline", "Friends", "Photos", "Videos", "Groups", "More"] as const;
+const TABS = ["Timeline", "Friends", "Photos", "Videos", "Groups", "Blogs", "More"] as const;
 type Tab = (typeof TABS)[number];
 
 const displayName = (u: {
@@ -353,6 +379,8 @@ followedPages,
 ownedPages,
 createdEvents,
 attendingEvents,
+blogs = [],
+albums = [],
 initialIsBlocked = false,
 }: {
 user: ProfileUser;
@@ -367,6 +395,8 @@ followedPages: PageItem[];
 ownedPages: PageItem[];
 createdEvents: EventItem[];
 attendingEvents: EventItem[];
+blogs?: BlogItem[];
+albums?: AlbumItem[];
 initialIsBlocked?: boolean;
 }) {
 const router = useRouter();
@@ -391,6 +421,10 @@ const [ownedGroupsList, setOwnedGroupsList] = useState<GroupItem[]>(ownedGroups)
 const [createdEventsList, setCreatedEventsList] = useState<EventItem[]>(createdEvents);
 const [deleteConfirm, setDeleteConfirm] = useState<{ type: "page" | "group" | "event"; id: number; name: string } | null>(null);
 const [deletingId, setDeletingId] = useState<number | null>(null);
+const [selectedAlbumId, setSelectedAlbumId] = useState<number | null>(null);
+const [createAlbumOpen, setCreateAlbumOpen] = useState(false);
+const [addPhotoOpen, setAddPhotoOpen] = useState(false);
+const [albumsList, setAlbumsList] = useState<AlbumItem[]>(albums);
 
 const handleBlock = async () => {
   setBlockPending(true);
@@ -624,9 +658,6 @@ className="absolute bottom-1 right-1 w-9 h-9 rounded-full bg-muted border-2 bord
 Edit profile
 </Link>
 </Button>
-<Button variant="secondary" size="icon">
-<MoreHorizontal className="h-4 w-4" />
-</Button>
 </>
 ) : (
 <>
@@ -709,12 +740,6 @@ activeTab === tab
 Add Your Story
 </Button>
 )}
-<Button variant="secondary" size="icon" className="h-8 w-8">
-<Search className="h-4 w-4" />
-</Button>
-<Button variant="secondary" size="icon" className="h-8 w-8">
-<MoreHorizontal className="h-4 w-4" />
-</Button>
 </div>
 </div>
 <Separator className="mb-6" />
@@ -874,27 +899,125 @@ avatar: user.avatar,
 <div className="pb-10">
 {!canViewContent ? (
 <PrivacyGate privacy={user.profilePrivacy} />
-) : (
+) : activeTab === "Videos" ? (
 <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-2">
 {posts
 .flatMap((p) => p.media)
-.filter((m) => activeTab === "Photos" ? m.type === "image" : m.type === "video")
+.filter((m) => m.type === "video")
 .map((m) => (
 <div key={m.id} className="aspect-square rounded-lg overflow-hidden bg-muted">
-{m.type === "video" ? (
 <video src={m.url} className="w-full h-full object-cover" />
-) : (
-<img src={m.url} alt="" className="w-full h-full object-cover hover:opacity-90 transition-opacity cursor-pointer" />
-)}
 </div>
 ))}
-{posts.flatMap((p) => p.media).filter((m) =>
-activeTab === "Photos" ? m.type === "image" : m.type === "video"
-).length === 0 && (
+{posts.flatMap((p) => p.media).filter((m) => m.type === "video").length === 0 && (
 <div className="col-span-4 text-center py-16 text-muted-foreground">
-<p className="font-medium">No {activeTab.toLowerCase()} yet</p>
+<p className="font-medium">No videos yet</p>
 </div>
 )}
+</div>
+) : selectedAlbumId !== null ? (
+(() => {
+const selAlbum = albumsList.find((a) => a.id === selectedAlbumId);
+if (!selAlbum) return null;
+return (
+<AlbumView
+album={{
+id: selAlbum.id,
+name: selAlbum.name,
+description: selAlbum.description,
+privacy: selAlbum.privacy,
+photos: selAlbum.photos.map((p, i) => ({ id: i, photoUrl: p.photoUrl, caption: null })),
+isOwner: isOwnProfile,
+}}
+allAlbums={albumsList.map((a) => ({ id: a.id, name: a.name }))}
+onBack={() => setSelectedAlbumId(null)}
+/> 
+);
+})()
+) : (
+<div className="space-y-6">
+{/* Albums section */}
+<div>
+<div className="flex items-center justify-between mb-3">
+<h3 className="font-semibold text-base">Albums</h3>
+{isOwnProfile && (
+<div className="flex gap-2">
+<Button size="sm" variant="outline" className="gap-1.5" onClick={() => setAddPhotoOpen(true)}>
++ Add Photo
+</Button>
+<Button size="sm" className="gap-1.5" onClick={() => setCreateAlbumOpen(true)}>
++ Create Album
+</Button>
+</div>
+)}
+</div>
+{albumsList.length === 0 ? (
+<div className="text-center py-10 text-muted-foreground border border-dashed rounded-lg">
+<p className="font-medium">No albums yet</p>
+{isOwnProfile && <p className="text-sm mt-1">Create an album to organise your photos</p>}
+</div>
+) : (
+<div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3">
+{albumsList.map((album) => (
+<button
+key={album.id}
+onClick={() => setSelectedAlbumId(album.id)}
+className="text-left group"
+>
+<div className="aspect-square rounded-lg overflow-hidden bg-muted relative">
+{album.photos[0] ? (
+<img src={album.photos[0].photoUrl} alt={album.name} className="w-full h-full object-cover group-hover:opacity-90 transition-opacity" />
+) : (
+<div className="w-full h-full flex items-center justify-center">
+<Camera className="h-10 w-10 text-muted-foreground/30" />
+</div>
+)}
+<div className="absolute bottom-0 left-0 right-0 bg-black/50 px-2 py-1.5">
+<p className="text-white text-xs font-medium truncate">{album.name}</p>
+<p className="text-white/70 text-[10px]">{album._count.photos} photo{album._count.photos !== 1 ? "s" : ""}</p>
+</div>
+</div>
+</button>
+))}
+</div>
+)}
+</div>
+
+{/* Individual photos */}
+<div>
+<h3 className="font-semibold text-base mb-3">Photos</h3>
+<div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-2">
+{posts
+.flatMap((p) => p.media)
+.filter((m) => m.type === "image")
+.map((m) => (
+<div key={m.id} className="aspect-square rounded-lg overflow-hidden bg-muted">
+<img src={m.url} alt="" className="w-full h-full object-cover hover:opacity-90 transition-opacity cursor-pointer" />
+</div>
+))}
+{posts.flatMap((p) => p.media).filter((m) => m.type === "image").length === 0 && (
+<div className="col-span-4 text-center py-10 text-muted-foreground">
+<p className="text-sm">No individual photos yet</p>
+</div>
+)}
+</div>
+</div>
+
+{/* Dialogs */}
+<CreateAlbumDialog
+open={createAlbumOpen}
+onClose={() => setCreateAlbumOpen(false)}
+onCreated={(newAlbum) => {
+setAlbumsList((prev) => [...prev, { ...newAlbum, _count: { photos: 0 }, photos: [] }]);
+setCreateAlbumOpen(false);
+}}
+/>
+<AddPhotoDialog
+open={addPhotoOpen}
+onClose={() => setAddPhotoOpen(false)}
+albums={albumsList.map((a) => ({ id: a.id, name: a.name }))}
+onAdded={() => { setAddPhotoOpen(false); router.refresh(); }}
+/>
 </div>
 )}
 </div>
@@ -908,14 +1031,20 @@ activeTab === "Photos" ? m.type === "image" : m.type === "video"
 <>
 {ownedGroups.length > 0 && (
 <section>
-<h2 className="font-semibold text-base mb-3">Groups created</h2>
+<div className="flex items-center gap-2 mb-3">
+<div className="w-1 h-4 rounded-full bg-primary" />
+<h2 className="font-medium text-sm text-foreground">Groups I Created</h2>
+</div>
 <GroupGrid groups={ownedGroups} emptyLabel="No groups created" />
 </section>
 )}
 <section>
-<h2 className="font-semibold text-base mb-3">
-{ownedGroups.length > 0 ? "Groups joined" : "Groups"}
+<div className="flex items-center gap-2 mb-3">
+<div className="w-1 h-4 rounded-full bg-muted-foreground/50" />
+<h2 className="font-medium text-sm text-muted-foreground">
+{ownedGroups.length > 0 ? "Groups I Joined" : "Groups"}
 </h2>
+</div>
 <GroupGrid
 groups={groups.filter((g) => !ownedGroups.find((og) => og.id === g.id))}
 emptyLabel="Not a member of any groups"
@@ -926,6 +1055,69 @@ emptyLabel="Not a member of any groups"
 </div>
 )}
 
+
+{activeTab === "Blogs" && (
+<div className="pb-10">
+{!canViewContent ? (
+<PrivacyGate privacy={user.profilePrivacy} />
+) : blogs.length === 0 ? (
+<div className="text-center py-16 text-muted-foreground">
+<BookOpen className="h-10 w-10 mx-auto mb-3 opacity-30" />
+<p className="font-medium">No blog posts yet</p>
+{isOwnProfile && (
+<Link href="/blog/new" className="text-primary text-sm hover:underline mt-1 block">
+Write your first blog →
+</Link>
+)}
+</div>
+) : (
+<div className="space-y-4">
+{isOwnProfile && (
+<div className="flex justify-end mb-2">
+<Link href="/blog/new">
+<Button size="sm" className="gap-1.5">
+<BookOpen className="h-3.5 w-3.5" />
+Write New Blog
+</Button>
+</Link>
+</div>
+)}
+{blogs.map((blog) => (
+<Link key={blog.id} href={`/blog/${blog.slug}`}>
+<Card className="overflow-hidden hover:shadow-md transition-shadow mb-3">
+<div className="flex gap-0 flex-col sm:flex-row">
+{blog.coverImageUrl && (
+<div className="relative sm:w-36 w-full h-28 sm:h-auto shrink-0 bg-muted">
+<Image src={blog.coverImageUrl} alt={blog.title} fill className="object-cover" />
+</div>
+)}
+<CardContent className="p-4 flex-1">
+<div className="flex items-start justify-between gap-2">
+<h3 className="font-semibold text-sm line-clamp-2 leading-snug flex-1">{blog.title}</h3>
+{!blog.published && isOwnProfile && (
+<Badge variant="outline" className="text-[10px] shrink-0">Draft</Badge>
+)}
+</div>
+{blog.excerpt && (
+<p className="text-sm text-muted-foreground line-clamp-2 mt-1">{blog.excerpt}</p>
+)}
+{blog.hashtags.length > 0 && (
+<div className="flex flex-wrap gap-1 mt-2">
+{blog.hashtags.slice(0, 4).map(({ hashtag }) => (
+<Badge key={hashtag.id} variant="secondary" className="text-xs font-normal">#{hashtag.name}</Badge>
+))}
+</div>
+)}
+<p className="text-xs text-muted-foreground mt-1.5">❤ {blog._count.likes}</p>
+</CardContent>
+</div>
+</Card>
+</Link>
+))}
+</div>
+)}
+</div>
+)}
 {activeTab === "More" && (
 <div className="pb-10 space-y-8">
 {!canViewContent ? (
@@ -933,151 +1125,201 @@ emptyLabel="Not a member of any groups"
 ) : (
 <>
 {allPages.length > 0 && (
-<section>
-<h2 className="font-semibold text-base mb-3">Pages</h2>
+<section className="space-y-6">
+<h2 className="font-semibold text-base">Pages</h2>
+{ownedPagesList.length > 0 && (
+<div>
+<div className="flex items-center gap-2 mb-3">
+<div className="w-1 h-4 rounded-full bg-primary" />
+<h3 className="font-medium text-sm text-foreground">
+{isOwnProfile ? "Pages I Manage" : "Managed Pages"}
+</h3>
+</div>
 {isOwnProfile ? (
-  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
-    {allPages.map((p) => (
-      <div key={p.id} className="relative group">
-        <Link href={`/pages/${p.slug}`} className="block">
-          <Card className="overflow-hidden hover:shadow-md transition-shadow duration-200">
-            <div className="relative h-24 bg-muted">
-              {p.coverUrl ? (
-                <Image src={p.coverUrl} alt={p.name} fill className="object-cover" sizes="400px" />
-              ) : (
-                <div className="w-full h-full bg-gradient-to-br from-primary/20 to-primary/5 flex items-center justify-center">
-                  <Flag className="h-8 w-8 text-primary/30" />
-                </div>
-              )}
-              {p.isOwned && (
-                <Badge className="absolute top-2 right-2 text-[10px] bg-primary text-primary-foreground">Admin</Badge>
-              )}
-            </div>
-            <CardContent className="p-3">
-              <div className="flex items-center gap-1.5">
-                <p className="font-semibold text-sm truncate flex-1">{p.name}</p>
-                {p.isVerified && <CheckCircle2 className="h-3.5 w-3.5 text-primary shrink-0" />}
-              </div>
-              <div className="flex items-center justify-between mt-0.5">
-                <p className="text-xs text-muted-foreground">{p.category}</p>
-                <p className="text-xs text-muted-foreground">{p._count.followers.toLocaleString()} followers</p>
-              </div>
-            </CardContent>
-          </Card>
-        </Link>
-        {p.isOwned && (
-          <button
-            onClick={() => setDeleteConfirm({ type: "page", id: p.id, name: p.name })}
-            className="absolute top-2 left-2 opacity-0 group-hover:opacity-100 transition-opacity bg-background/80 backdrop-blur rounded-full p-1 hover:bg-destructive hover:text-white"
-            title="Delete page"
-          >
-            <Trash2 className="h-3.5 w-3.5" />
-          </button>
-        )}
-      </div>
-    ))}
-  </div>
+<div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+{ownedPagesList.map((p) => (
+<div key={p.id} className="relative group">
+<Link href={`/pages/${p.slug}`} className="block">
+<Card className="overflow-hidden hover:shadow-md transition-shadow duration-200">
+<div className="relative h-24 bg-muted">
+{p.coverUrl ? (
+<Image src={p.coverUrl} alt={p.name} fill className="object-cover" sizes="400px" />
 ) : (
-  <PageGrid pages={allPages} emptyLabel="No pages" />
+<div className="w-full h-full bg-gradient-to-br from-primary/20 to-primary/5 flex items-center justify-center">
+<Flag className="h-8 w-8 text-primary/30" />
+</div>
+)}
+<Badge className="absolute top-2 right-2 text-[10px] bg-primary text-primary-foreground">Admin</Badge>
+</div>
+<CardContent className="p-3">
+<div className="flex items-center gap-1.5">
+<p className="font-semibold text-sm truncate flex-1">{p.name}</p>
+{p.isVerified && <CheckCircle2 className="h-3.5 w-3.5 text-primary shrink-0" />}
+</div>
+<div className="flex items-center justify-between mt-0.5">
+<p className="text-xs text-muted-foreground">{p.category}</p>
+<p className="text-xs text-muted-foreground">{p._count.followers.toLocaleString()} followers</p>
+</div>
+</CardContent>
+</Card>
+</Link>
+<button
+onClick={() => setDeleteConfirm({ type: "page", id: p.id, name: p.name })}
+className="absolute top-2 left-2 opacity-0 group-hover:opacity-100 transition-opacity bg-background/80 backdrop-blur rounded-full p-1 hover:bg-destructive hover:text-white"
+title="Delete page"
+>
+<Trash2 className="h-3.5 w-3.5" />
+</button>
+</div>
+))}
+</div>
+) : (
+<PageGrid pages={ownedPagesList} emptyLabel="No managed pages" />
+)}
+</div>
+)}
+{followedPages.length > 0 && (
+<div>
+<div className="flex items-center gap-2 mb-3">
+<div className="w-1 h-4 rounded-full bg-muted-foreground/50" />
+<h3 className="font-medium text-sm text-muted-foreground">
+{isOwnProfile ? "Pages I Follow" : "Followed Pages"}
+</h3>
+</div>
+<PageGrid pages={followedPages} emptyLabel="No followed pages" />
+</div>
 )}
 </section>
 )}
 {allGroups.length > 0 && (
-<section>
-<h2 className="font-semibold text-base mb-3">Groups</h2>
+<section className="space-y-6">
+<h2 className="font-semibold text-base">Groups</h2>
+{ownedGroups.length > 0 && (
+<div>
+<div className="flex items-center gap-2 mb-3">
+<div className="w-1 h-4 rounded-full bg-primary" />
+<h3 className="font-medium text-sm text-foreground">
+{isOwnProfile ? "Groups I Created" : "Created Groups"}
+</h3>
+</div>
 {isOwnProfile ? (
-  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
-    {allGroups.map((g) => (
-      <div key={g.id} className="relative group">
-        <Link href={`/groups/${g.slug}`} className="block">
-          <Card className="overflow-hidden hover:shadow-md transition-shadow duration-200">
-            <div className="relative h-28 bg-muted">
-              {g.coverUrl ? (
-                <Image src={g.coverUrl} alt={g.name} fill className="object-cover" sizes="400px" />
-              ) : (
-                <div className="w-full h-full bg-gradient-to-br from-primary/20 to-primary/5 flex items-center justify-center">
-                  <Users className="h-10 w-10 text-primary/30" />
-                </div>
-              )}
-              <div className="absolute top-2 right-2 flex gap-1">
-                {g.isOwned && <Badge className="text-[10px] bg-primary text-primary-foreground">Admin</Badge>}
-                <Badge variant="secondary" className="text-[10px] bg-background/90 backdrop-blur">
-                  {g.privacy === "Public" ? <Globe className="h-3 w-3" /> : <Lock className="h-3 w-3" />}
-                  {g.privacy}
-                </Badge>
-              </div>
-            </div>
-            <CardContent className="p-3">
-              <p className="font-semibold text-sm truncate">{g.name}</p>
-              <p className="text-xs text-muted-foreground mt-0.5">{g._count.members.toLocaleString()} members</p>
-            </CardContent>
-          </Card>
-        </Link>
-        {g.isOwned && (
-          <button
-            onClick={() => setDeleteConfirm({ type: "group", id: g.id, name: g.name })}
-            className="absolute top-2 left-2 opacity-0 group-hover:opacity-100 transition-opacity bg-background/80 backdrop-blur rounded-full p-1 hover:bg-destructive hover:text-white"
-            title="Delete group"
-          >
-            <Trash2 className="h-3.5 w-3.5" />
-          </button>
-        )}
-      </div>
-    ))}
-  </div>
+<div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+{ownedGroups.map((g) => (
+<div key={g.id} className="relative group">
+<Link href={`/groups/${g.slug}`} className="block">
+<Card className="overflow-hidden hover:shadow-md transition-shadow duration-200">
+<div className="relative h-28 bg-muted">
+{g.coverUrl ? (
+<Image src={g.coverUrl} alt={g.name} fill className="object-cover" sizes="400px" />
 ) : (
-  <GroupGrid groups={allGroups} emptyLabel="No groups" />
+<div className="w-full h-full bg-gradient-to-br from-primary/20 to-primary/5 flex items-center justify-center">
+<Users className="h-10 w-10 text-primary/30" />
+</div>
+)}
+<div className="absolute top-2 right-2 flex gap-1">
+<Badge className="text-[10px] bg-primary text-primary-foreground">Admin</Badge>
+<Badge variant="secondary" className="text-[10px] bg-background/90 backdrop-blur">
+{g.privacy === "Public" ? <Globe className="h-3 w-3" /> : <Lock className="h-3 w-3" />}
+{g.privacy}
+</Badge>
+</div>
+</div>
+<CardContent className="p-3">
+<p className="font-semibold text-sm truncate">{g.name}</p>
+<p className="text-xs text-muted-foreground mt-0.5">{g._count.members.toLocaleString()} members</p>
+</CardContent>
+</Card>
+</Link>
+<button
+onClick={() => setDeleteConfirm({ type: "group", id: g.id, name: g.name })}
+className="absolute top-2 left-2 opacity-0 group-hover:opacity-100 transition-opacity bg-background/80 backdrop-blur rounded-full p-1 hover:bg-destructive hover:text-white"
+title="Delete group"
+>
+<Trash2 className="h-3.5 w-3.5" />
+</button>
+</div>
+))}
+</div>
+) : (
+<GroupGrid groups={ownedGroups} emptyLabel="No created groups" />
+)}
+</div>
+)}
+{groups.filter((g) => !ownedGroups.find((og) => og.id === g.id)).length > 0 && (
+<div>
+<div className="flex items-center gap-2 mb-3">
+<div className="w-1 h-4 rounded-full bg-muted-foreground/50" />
+<h3 className="font-medium text-sm text-muted-foreground">
+{isOwnProfile ? "Groups I Joined" : "Joined Groups"}
+</h3>
+</div>
+<GroupGrid groups={groups.filter((g) => !ownedGroups.find((og) => og.id === g.id))} emptyLabel="No joined groups" />
+</div>
 )}
 </section>
 )}
 {(createdEventsList.length > 0 || attendingEvents.length > 0) && (
-<section>
-<h2 className="font-semibold text-base mb-3">Events</h2>
+<section className="space-y-6">
+<h2 className="font-semibold text-base">Events</h2>
+{createdEventsList.length > 0 && (
+<div>
+<div className="flex items-center gap-2 mb-3">
+<div className="w-1 h-4 rounded-full bg-primary" />
+<h3 className="font-medium text-sm text-foreground">
+{isOwnProfile ? "Events I Organize" : "Organized Events"}
+</h3>
+</div>
 {isOwnProfile ? (
-  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-    {[...createdEventsList.map(e => ({ ...e, isOwned: true })), ...attendingEvents.map(e => ({ ...e, isOwned: false }))].map((e) => (
-      <div key={e.id} className="relative group">
-        <Link href={`/events/${e.slug}`} className="block">
-          <Card className="overflow-hidden hover:shadow-md transition-shadow duration-200">
-            <div className="relative h-28 bg-muted">
-              {e.coverUrl ? (
-                <Image src={e.coverUrl} alt={e.title} fill className="object-cover" sizes="500px" />
-              ) : (
-                <div className="w-full h-full bg-gradient-to-br from-primary/20 to-primary/5 flex items-center justify-center">
-                  <CalendarCheck className="h-10 w-10 text-primary/30" />
-                </div>
-              )}
-              {e.isOwned && (
-                <Badge className="absolute top-2 right-2 text-[10px] bg-primary text-primary-foreground">Organizer</Badge>
-              )}
-            </div>
-            <CardContent className="p-3">
-              <p className="font-semibold text-sm truncate">{e.title}</p>
-              <p className="text-xs text-muted-foreground mt-0.5">
-                {format(new Date(e.startDate), "MMM d, yyyy")}
-                {e.isOnline ? " · Online" : e.location ? ` · ${e.location}` : ""}
-              </p>
-              <p className="text-xs text-muted-foreground">{e._count.attendees} attending</p>
-            </CardContent>
-          </Card>
-        </Link>
-        {e.isOwned && (
-          <button
-            onClick={() => setDeleteConfirm({ type: "event", id: e.id, name: e.title })}
-            className="absolute top-2 left-2 opacity-0 group-hover:opacity-100 transition-opacity bg-background/80 backdrop-blur rounded-full p-1 hover:bg-destructive hover:text-white"
-            title="Delete event"
-          >
-            <Trash2 className="h-3.5 w-3.5" />
-          </button>
-        )}
-      </div>
-    ))}
-  </div>
+<div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+{createdEventsList.map((e) => (
+<div key={e.id} className="relative group">
+<Link href={`/events/${e.slug}`} className="block">
+<Card className="overflow-hidden hover:shadow-md transition-shadow duration-200">
+<div className="relative h-28 bg-muted">
+{e.coverUrl ? (
+<Image src={e.coverUrl} alt={e.title} fill className="object-cover" sizes="500px" />
 ) : (
-  <EventGrid
-    events={[...createdEventsList, ...attendingEvents]}
-    emptyLabel="No events"
-  />
+<div className="w-full h-full bg-gradient-to-br from-primary/20 to-primary/5 flex items-center justify-center">
+<CalendarCheck className="h-10 w-10 text-primary/30" />
+</div>
+)}
+<Badge className="absolute top-2 right-2 text-[10px] bg-primary text-primary-foreground">Organizer</Badge>
+</div>
+<CardContent className="p-3">
+<p className="font-semibold text-sm truncate">{e.title}</p>
+<p className="text-xs text-muted-foreground mt-0.5">
+{format(new Date(e.startDate), "MMM d, yyyy")}
+{e.isOnline ? " · Online" : e.location ? ` · ${e.location}` : ""}
+</p>
+<p className="text-xs text-muted-foreground">{e._count.attendees} attending</p>
+</CardContent>
+</Card>
+</Link>
+<button
+onClick={() => setDeleteConfirm({ type: "event", id: e.id, name: e.title })}
+className="absolute top-2 left-2 opacity-0 group-hover:opacity-100 transition-opacity bg-background/80 backdrop-blur rounded-full p-1 hover:bg-destructive hover:text-white"
+title="Delete event"
+>
+<Trash2 className="h-3.5 w-3.5" />
+</button>
+</div>
+))}
+</div>
+) : (
+<EventGrid events={createdEventsList} emptyLabel="No organized events" />
+)}
+</div>
+)}
+{attendingEvents.length > 0 && (
+<div>
+<div className="flex items-center gap-2 mb-3">
+<div className="w-1 h-4 rounded-full bg-muted-foreground/50" />
+<h3 className="font-medium text-sm text-muted-foreground">
+{isOwnProfile ? "Events I'm Attending" : "Attending"}
+</h3>
+</div>
+<EventGrid events={attendingEvents} emptyLabel="No upcoming events" />
+</div>
 )}
 </section>
 )}

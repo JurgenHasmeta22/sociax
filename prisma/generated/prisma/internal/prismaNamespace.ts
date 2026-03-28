@@ -384,11 +384,16 @@ type FieldRefInputType<Model, FieldType> = Model extends never ? never : FieldRe
 
 
 export const ModelName = {
+  Album: 'Album',
+  AlbumPhoto: 'AlbumPhoto',
   Account: 'Account',
   Session: 'Session',
   VerificationToken: 'VerificationToken',
   ActivateToken: 'ActivateToken',
   ResetPasswordToken: 'ResetPasswordToken',
+  Blog: 'Blog',
+  BlogLike: 'BlogLike',
+  BlogHashtag: 'BlogHashtag',
   PostComment: 'PostComment',
   CommentLike: 'CommentLike',
   CommentReply: 'CommentReply',
@@ -399,6 +404,7 @@ export const ModelName = {
   EventPostLike: 'EventPostLike',
   EventPostComment: 'EventPostComment',
   EventPostCommentLike: 'EventPostCommentLike',
+  EventHashtag: 'EventHashtag',
   Group: 'Group',
   GroupMember: 'GroupMember',
   GroupPost: 'GroupPost',
@@ -439,7 +445,11 @@ export const ModelName = {
   Avatar: 'Avatar',
   CoverPhoto: 'CoverPhoto',
   UserFollow: 'UserFollow',
-  UserBlock: 'UserBlock'
+  UserBlock: 'UserBlock',
+  Video: 'Video',
+  VideoLike: 'VideoLike',
+  VideoComment: 'VideoComment',
+  VideoHashtag: 'VideoHashtag'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -455,10 +465,158 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "account" | "session" | "verificationToken" | "activateToken" | "resetPasswordToken" | "postComment" | "commentLike" | "commentReply" | "replyLike" | "event" | "eventAttendee" | "eventPost" | "eventPostLike" | "eventPostComment" | "eventPostCommentLike" | "group" | "groupMember" | "groupPost" | "groupPostLike" | "groupPostComment" | "groupPostCommentLike" | "marketplaceListing" | "listingImage" | "listingSave" | "listingOffer" | "listingMessage" | "memory" | "conversation" | "conversationParticipant" | "message" | "messageReaction" | "reportedContent" | "moderationLog" | "notification" | "page" | "pageFollower" | "pagePost" | "pagePostLike" | "pagePostComment" | "pagePostCommentLike" | "post" | "postMedia" | "postLike" | "postSave" | "postShare" | "postHistory" | "hashtag" | "postHashtag" | "story" | "storyView" | "storyReaction" | "user" | "avatar" | "coverPhoto" | "userFollow" | "userBlock"
+    modelProps: "album" | "albumPhoto" | "account" | "session" | "verificationToken" | "activateToken" | "resetPasswordToken" | "blog" | "blogLike" | "blogHashtag" | "postComment" | "commentLike" | "commentReply" | "replyLike" | "event" | "eventAttendee" | "eventPost" | "eventPostLike" | "eventPostComment" | "eventPostCommentLike" | "eventHashtag" | "group" | "groupMember" | "groupPost" | "groupPostLike" | "groupPostComment" | "groupPostCommentLike" | "marketplaceListing" | "listingImage" | "listingSave" | "listingOffer" | "listingMessage" | "memory" | "conversation" | "conversationParticipant" | "message" | "messageReaction" | "reportedContent" | "moderationLog" | "notification" | "page" | "pageFollower" | "pagePost" | "pagePostLike" | "pagePostComment" | "pagePostCommentLike" | "post" | "postMedia" | "postLike" | "postSave" | "postShare" | "postHistory" | "hashtag" | "postHashtag" | "story" | "storyView" | "storyReaction" | "user" | "avatar" | "coverPhoto" | "userFollow" | "userBlock" | "video" | "videoLike" | "videoComment" | "videoHashtag"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
+    Album: {
+      payload: Prisma.$AlbumPayload<ExtArgs>
+      fields: Prisma.AlbumFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.AlbumFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AlbumPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.AlbumFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AlbumPayload>
+        }
+        findFirst: {
+          args: Prisma.AlbumFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AlbumPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.AlbumFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AlbumPayload>
+        }
+        findMany: {
+          args: Prisma.AlbumFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AlbumPayload>[]
+        }
+        create: {
+          args: Prisma.AlbumCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AlbumPayload>
+        }
+        createMany: {
+          args: Prisma.AlbumCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.AlbumCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AlbumPayload>[]
+        }
+        delete: {
+          args: Prisma.AlbumDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AlbumPayload>
+        }
+        update: {
+          args: Prisma.AlbumUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AlbumPayload>
+        }
+        deleteMany: {
+          args: Prisma.AlbumDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.AlbumUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.AlbumUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AlbumPayload>[]
+        }
+        upsert: {
+          args: Prisma.AlbumUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AlbumPayload>
+        }
+        aggregate: {
+          args: Prisma.AlbumAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateAlbum>
+        }
+        groupBy: {
+          args: Prisma.AlbumGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AlbumGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.AlbumCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AlbumCountAggregateOutputType> | number
+        }
+      }
+    }
+    AlbumPhoto: {
+      payload: Prisma.$AlbumPhotoPayload<ExtArgs>
+      fields: Prisma.AlbumPhotoFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.AlbumPhotoFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AlbumPhotoPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.AlbumPhotoFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AlbumPhotoPayload>
+        }
+        findFirst: {
+          args: Prisma.AlbumPhotoFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AlbumPhotoPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.AlbumPhotoFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AlbumPhotoPayload>
+        }
+        findMany: {
+          args: Prisma.AlbumPhotoFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AlbumPhotoPayload>[]
+        }
+        create: {
+          args: Prisma.AlbumPhotoCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AlbumPhotoPayload>
+        }
+        createMany: {
+          args: Prisma.AlbumPhotoCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.AlbumPhotoCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AlbumPhotoPayload>[]
+        }
+        delete: {
+          args: Prisma.AlbumPhotoDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AlbumPhotoPayload>
+        }
+        update: {
+          args: Prisma.AlbumPhotoUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AlbumPhotoPayload>
+        }
+        deleteMany: {
+          args: Prisma.AlbumPhotoDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.AlbumPhotoUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.AlbumPhotoUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AlbumPhotoPayload>[]
+        }
+        upsert: {
+          args: Prisma.AlbumPhotoUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AlbumPhotoPayload>
+        }
+        aggregate: {
+          args: Prisma.AlbumPhotoAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateAlbumPhoto>
+        }
+        groupBy: {
+          args: Prisma.AlbumPhotoGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AlbumPhotoGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.AlbumPhotoCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AlbumPhotoCountAggregateOutputType> | number
+        }
+      }
+    }
     Account: {
       payload: Prisma.$AccountPayload<ExtArgs>
       fields: Prisma.AccountFieldRefs
@@ -826,6 +984,228 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         count: {
           args: Prisma.ResetPasswordTokenCountArgs<ExtArgs>
           result: runtime.Types.Utils.Optional<Prisma.ResetPasswordTokenCountAggregateOutputType> | number
+        }
+      }
+    }
+    Blog: {
+      payload: Prisma.$BlogPayload<ExtArgs>
+      fields: Prisma.BlogFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.BlogFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$BlogPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.BlogFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$BlogPayload>
+        }
+        findFirst: {
+          args: Prisma.BlogFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$BlogPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.BlogFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$BlogPayload>
+        }
+        findMany: {
+          args: Prisma.BlogFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$BlogPayload>[]
+        }
+        create: {
+          args: Prisma.BlogCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$BlogPayload>
+        }
+        createMany: {
+          args: Prisma.BlogCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.BlogCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$BlogPayload>[]
+        }
+        delete: {
+          args: Prisma.BlogDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$BlogPayload>
+        }
+        update: {
+          args: Prisma.BlogUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$BlogPayload>
+        }
+        deleteMany: {
+          args: Prisma.BlogDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.BlogUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.BlogUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$BlogPayload>[]
+        }
+        upsert: {
+          args: Prisma.BlogUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$BlogPayload>
+        }
+        aggregate: {
+          args: Prisma.BlogAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateBlog>
+        }
+        groupBy: {
+          args: Prisma.BlogGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.BlogGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.BlogCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.BlogCountAggregateOutputType> | number
+        }
+      }
+    }
+    BlogLike: {
+      payload: Prisma.$BlogLikePayload<ExtArgs>
+      fields: Prisma.BlogLikeFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.BlogLikeFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$BlogLikePayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.BlogLikeFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$BlogLikePayload>
+        }
+        findFirst: {
+          args: Prisma.BlogLikeFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$BlogLikePayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.BlogLikeFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$BlogLikePayload>
+        }
+        findMany: {
+          args: Prisma.BlogLikeFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$BlogLikePayload>[]
+        }
+        create: {
+          args: Prisma.BlogLikeCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$BlogLikePayload>
+        }
+        createMany: {
+          args: Prisma.BlogLikeCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.BlogLikeCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$BlogLikePayload>[]
+        }
+        delete: {
+          args: Prisma.BlogLikeDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$BlogLikePayload>
+        }
+        update: {
+          args: Prisma.BlogLikeUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$BlogLikePayload>
+        }
+        deleteMany: {
+          args: Prisma.BlogLikeDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.BlogLikeUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.BlogLikeUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$BlogLikePayload>[]
+        }
+        upsert: {
+          args: Prisma.BlogLikeUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$BlogLikePayload>
+        }
+        aggregate: {
+          args: Prisma.BlogLikeAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateBlogLike>
+        }
+        groupBy: {
+          args: Prisma.BlogLikeGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.BlogLikeGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.BlogLikeCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.BlogLikeCountAggregateOutputType> | number
+        }
+      }
+    }
+    BlogHashtag: {
+      payload: Prisma.$BlogHashtagPayload<ExtArgs>
+      fields: Prisma.BlogHashtagFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.BlogHashtagFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$BlogHashtagPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.BlogHashtagFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$BlogHashtagPayload>
+        }
+        findFirst: {
+          args: Prisma.BlogHashtagFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$BlogHashtagPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.BlogHashtagFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$BlogHashtagPayload>
+        }
+        findMany: {
+          args: Prisma.BlogHashtagFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$BlogHashtagPayload>[]
+        }
+        create: {
+          args: Prisma.BlogHashtagCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$BlogHashtagPayload>
+        }
+        createMany: {
+          args: Prisma.BlogHashtagCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.BlogHashtagCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$BlogHashtagPayload>[]
+        }
+        delete: {
+          args: Prisma.BlogHashtagDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$BlogHashtagPayload>
+        }
+        update: {
+          args: Prisma.BlogHashtagUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$BlogHashtagPayload>
+        }
+        deleteMany: {
+          args: Prisma.BlogHashtagDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.BlogHashtagUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.BlogHashtagUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$BlogHashtagPayload>[]
+        }
+        upsert: {
+          args: Prisma.BlogHashtagUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$BlogHashtagPayload>
+        }
+        aggregate: {
+          args: Prisma.BlogHashtagAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateBlogHashtag>
+        }
+        groupBy: {
+          args: Prisma.BlogHashtagGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.BlogHashtagGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.BlogHashtagCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.BlogHashtagCountAggregateOutputType> | number
         }
       }
     }
@@ -1566,6 +1946,80 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         count: {
           args: Prisma.EventPostCommentLikeCountArgs<ExtArgs>
           result: runtime.Types.Utils.Optional<Prisma.EventPostCommentLikeCountAggregateOutputType> | number
+        }
+      }
+    }
+    EventHashtag: {
+      payload: Prisma.$EventHashtagPayload<ExtArgs>
+      fields: Prisma.EventHashtagFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.EventHashtagFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$EventHashtagPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.EventHashtagFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$EventHashtagPayload>
+        }
+        findFirst: {
+          args: Prisma.EventHashtagFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$EventHashtagPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.EventHashtagFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$EventHashtagPayload>
+        }
+        findMany: {
+          args: Prisma.EventHashtagFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$EventHashtagPayload>[]
+        }
+        create: {
+          args: Prisma.EventHashtagCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$EventHashtagPayload>
+        }
+        createMany: {
+          args: Prisma.EventHashtagCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.EventHashtagCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$EventHashtagPayload>[]
+        }
+        delete: {
+          args: Prisma.EventHashtagDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$EventHashtagPayload>
+        }
+        update: {
+          args: Prisma.EventHashtagUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$EventHashtagPayload>
+        }
+        deleteMany: {
+          args: Prisma.EventHashtagDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.EventHashtagUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.EventHashtagUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$EventHashtagPayload>[]
+        }
+        upsert: {
+          args: Prisma.EventHashtagUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$EventHashtagPayload>
+        }
+        aggregate: {
+          args: Prisma.EventHashtagAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateEventHashtag>
+        }
+        groupBy: {
+          args: Prisma.EventHashtagGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.EventHashtagGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.EventHashtagCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.EventHashtagCountAggregateOutputType> | number
         }
       }
     }
@@ -4603,6 +5057,302 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
+    Video: {
+      payload: Prisma.$VideoPayload<ExtArgs>
+      fields: Prisma.VideoFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.VideoFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$VideoPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.VideoFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$VideoPayload>
+        }
+        findFirst: {
+          args: Prisma.VideoFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$VideoPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.VideoFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$VideoPayload>
+        }
+        findMany: {
+          args: Prisma.VideoFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$VideoPayload>[]
+        }
+        create: {
+          args: Prisma.VideoCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$VideoPayload>
+        }
+        createMany: {
+          args: Prisma.VideoCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.VideoCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$VideoPayload>[]
+        }
+        delete: {
+          args: Prisma.VideoDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$VideoPayload>
+        }
+        update: {
+          args: Prisma.VideoUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$VideoPayload>
+        }
+        deleteMany: {
+          args: Prisma.VideoDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.VideoUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.VideoUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$VideoPayload>[]
+        }
+        upsert: {
+          args: Prisma.VideoUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$VideoPayload>
+        }
+        aggregate: {
+          args: Prisma.VideoAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateVideo>
+        }
+        groupBy: {
+          args: Prisma.VideoGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.VideoGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.VideoCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.VideoCountAggregateOutputType> | number
+        }
+      }
+    }
+    VideoLike: {
+      payload: Prisma.$VideoLikePayload<ExtArgs>
+      fields: Prisma.VideoLikeFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.VideoLikeFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$VideoLikePayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.VideoLikeFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$VideoLikePayload>
+        }
+        findFirst: {
+          args: Prisma.VideoLikeFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$VideoLikePayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.VideoLikeFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$VideoLikePayload>
+        }
+        findMany: {
+          args: Prisma.VideoLikeFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$VideoLikePayload>[]
+        }
+        create: {
+          args: Prisma.VideoLikeCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$VideoLikePayload>
+        }
+        createMany: {
+          args: Prisma.VideoLikeCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.VideoLikeCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$VideoLikePayload>[]
+        }
+        delete: {
+          args: Prisma.VideoLikeDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$VideoLikePayload>
+        }
+        update: {
+          args: Prisma.VideoLikeUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$VideoLikePayload>
+        }
+        deleteMany: {
+          args: Prisma.VideoLikeDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.VideoLikeUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.VideoLikeUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$VideoLikePayload>[]
+        }
+        upsert: {
+          args: Prisma.VideoLikeUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$VideoLikePayload>
+        }
+        aggregate: {
+          args: Prisma.VideoLikeAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateVideoLike>
+        }
+        groupBy: {
+          args: Prisma.VideoLikeGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.VideoLikeGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.VideoLikeCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.VideoLikeCountAggregateOutputType> | number
+        }
+      }
+    }
+    VideoComment: {
+      payload: Prisma.$VideoCommentPayload<ExtArgs>
+      fields: Prisma.VideoCommentFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.VideoCommentFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$VideoCommentPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.VideoCommentFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$VideoCommentPayload>
+        }
+        findFirst: {
+          args: Prisma.VideoCommentFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$VideoCommentPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.VideoCommentFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$VideoCommentPayload>
+        }
+        findMany: {
+          args: Prisma.VideoCommentFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$VideoCommentPayload>[]
+        }
+        create: {
+          args: Prisma.VideoCommentCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$VideoCommentPayload>
+        }
+        createMany: {
+          args: Prisma.VideoCommentCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.VideoCommentCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$VideoCommentPayload>[]
+        }
+        delete: {
+          args: Prisma.VideoCommentDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$VideoCommentPayload>
+        }
+        update: {
+          args: Prisma.VideoCommentUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$VideoCommentPayload>
+        }
+        deleteMany: {
+          args: Prisma.VideoCommentDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.VideoCommentUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.VideoCommentUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$VideoCommentPayload>[]
+        }
+        upsert: {
+          args: Prisma.VideoCommentUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$VideoCommentPayload>
+        }
+        aggregate: {
+          args: Prisma.VideoCommentAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateVideoComment>
+        }
+        groupBy: {
+          args: Prisma.VideoCommentGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.VideoCommentGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.VideoCommentCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.VideoCommentCountAggregateOutputType> | number
+        }
+      }
+    }
+    VideoHashtag: {
+      payload: Prisma.$VideoHashtagPayload<ExtArgs>
+      fields: Prisma.VideoHashtagFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.VideoHashtagFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$VideoHashtagPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.VideoHashtagFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$VideoHashtagPayload>
+        }
+        findFirst: {
+          args: Prisma.VideoHashtagFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$VideoHashtagPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.VideoHashtagFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$VideoHashtagPayload>
+        }
+        findMany: {
+          args: Prisma.VideoHashtagFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$VideoHashtagPayload>[]
+        }
+        create: {
+          args: Prisma.VideoHashtagCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$VideoHashtagPayload>
+        }
+        createMany: {
+          args: Prisma.VideoHashtagCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.VideoHashtagCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$VideoHashtagPayload>[]
+        }
+        delete: {
+          args: Prisma.VideoHashtagDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$VideoHashtagPayload>
+        }
+        update: {
+          args: Prisma.VideoHashtagUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$VideoHashtagPayload>
+        }
+        deleteMany: {
+          args: Prisma.VideoHashtagDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.VideoHashtagUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.VideoHashtagUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$VideoHashtagPayload>[]
+        }
+        upsert: {
+          args: Prisma.VideoHashtagUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$VideoHashtagPayload>
+        }
+        aggregate: {
+          args: Prisma.VideoHashtagAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateVideoHashtag>
+        }
+        groupBy: {
+          args: Prisma.VideoHashtagGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.VideoHashtagGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.VideoHashtagCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.VideoHashtagCountAggregateOutputType> | number
+        }
+      }
+    }
   }
 } & {
   other: {
@@ -4637,6 +5387,32 @@ export const TransactionIsolationLevel = runtime.makeStrictEnum({
 } as const)
 
 export type TransactionIsolationLevel = (typeof TransactionIsolationLevel)[keyof typeof TransactionIsolationLevel]
+
+
+export const AlbumScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  description: 'description',
+  coverUrl: 'coverUrl',
+  privacy: 'privacy',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  userId: 'userId'
+} as const
+
+export type AlbumScalarFieldEnum = (typeof AlbumScalarFieldEnum)[keyof typeof AlbumScalarFieldEnum]
+
+
+export const AlbumPhotoScalarFieldEnum = {
+  id: 'id',
+  photoUrl: 'photoUrl',
+  caption: 'caption',
+  order: 'order',
+  createdAt: 'createdAt',
+  albumId: 'albumId'
+} as const
+
+export type AlbumPhotoScalarFieldEnum = (typeof AlbumPhotoScalarFieldEnum)[keyof typeof AlbumPhotoScalarFieldEnum]
 
 
 export const AccountScalarFieldEnum = {
@@ -4696,6 +5472,42 @@ export const ResetPasswordTokenScalarFieldEnum = {
 } as const
 
 export type ResetPasswordTokenScalarFieldEnum = (typeof ResetPasswordTokenScalarFieldEnum)[keyof typeof ResetPasswordTokenScalarFieldEnum]
+
+
+export const BlogScalarFieldEnum = {
+  id: 'id',
+  slug: 'slug',
+  title: 'title',
+  content: 'content',
+  excerpt: 'excerpt',
+  coverImageUrl: 'coverImageUrl',
+  published: 'published',
+  isDeleted: 'isDeleted',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  authorId: 'authorId'
+} as const
+
+export type BlogScalarFieldEnum = (typeof BlogScalarFieldEnum)[keyof typeof BlogScalarFieldEnum]
+
+
+export const BlogLikeScalarFieldEnum = {
+  id: 'id',
+  createdAt: 'createdAt',
+  userId: 'userId',
+  blogId: 'blogId'
+} as const
+
+export type BlogLikeScalarFieldEnum = (typeof BlogLikeScalarFieldEnum)[keyof typeof BlogLikeScalarFieldEnum]
+
+
+export const BlogHashtagScalarFieldEnum = {
+  id: 'id',
+  blogId: 'blogId',
+  hashtagId: 'hashtagId'
+} as const
+
+export type BlogHashtagScalarFieldEnum = (typeof BlogHashtagScalarFieldEnum)[keyof typeof BlogHashtagScalarFieldEnum]
 
 
 export const PostCommentScalarFieldEnum = {
@@ -4830,6 +5642,15 @@ export const EventPostCommentLikeScalarFieldEnum = {
 } as const
 
 export type EventPostCommentLikeScalarFieldEnum = (typeof EventPostCommentLikeScalarFieldEnum)[keyof typeof EventPostCommentLikeScalarFieldEnum]
+
+
+export const EventHashtagScalarFieldEnum = {
+  id: 'id',
+  eventId: 'eventId',
+  hashtagId: 'hashtagId'
+} as const
+
+export type EventHashtagScalarFieldEnum = (typeof EventHashtagScalarFieldEnum)[keyof typeof EventHashtagScalarFieldEnum]
 
 
 export const GroupScalarFieldEnum = {
@@ -5353,6 +6174,56 @@ export const UserBlockScalarFieldEnum = {
 export type UserBlockScalarFieldEnum = (typeof UserBlockScalarFieldEnum)[keyof typeof UserBlockScalarFieldEnum]
 
 
+export const VideoScalarFieldEnum = {
+  id: 'id',
+  title: 'title',
+  description: 'description',
+  url: 'url',
+  thumbnailUrl: 'thumbnailUrl',
+  duration: 'duration',
+  views: 'views',
+  privacy: 'privacy',
+  isDeleted: 'isDeleted',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  authorId: 'authorId'
+} as const
+
+export type VideoScalarFieldEnum = (typeof VideoScalarFieldEnum)[keyof typeof VideoScalarFieldEnum]
+
+
+export const VideoLikeScalarFieldEnum = {
+  id: 'id',
+  createdAt: 'createdAt',
+  userId: 'userId',
+  videoId: 'videoId'
+} as const
+
+export type VideoLikeScalarFieldEnum = (typeof VideoLikeScalarFieldEnum)[keyof typeof VideoLikeScalarFieldEnum]
+
+
+export const VideoCommentScalarFieldEnum = {
+  id: 'id',
+  content: 'content',
+  isDeleted: 'isDeleted',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  userId: 'userId',
+  videoId: 'videoId'
+} as const
+
+export type VideoCommentScalarFieldEnum = (typeof VideoCommentScalarFieldEnum)[keyof typeof VideoCommentScalarFieldEnum]
+
+
+export const VideoHashtagScalarFieldEnum = {
+  id: 'id',
+  videoId: 'videoId',
+  hashtagId: 'hashtagId'
+} as const
+
+export type VideoHashtagScalarFieldEnum = (typeof VideoHashtagScalarFieldEnum)[keyof typeof VideoHashtagScalarFieldEnum]
+
+
 export const SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -5376,6 +6247,13 @@ export type NullsOrder = (typeof NullsOrder)[keyof typeof NullsOrder]
 
 
 /**
+ * Reference to a field of type 'Int'
+ */
+export type IntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int'>
+    
+
+
+/**
  * Reference to a field of type 'String'
  */
 export type StringFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'String'>
@@ -5383,9 +6261,9 @@ export type StringFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 
 
 
 /**
- * Reference to a field of type 'Int'
+ * Reference to a field of type 'PostPrivacy'
  */
-export type IntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int'>
+export type EnumPostPrivacyFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'PostPrivacy'>
     
 
 
@@ -5544,13 +6422,6 @@ export type EnumPostTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaM
 
 
 /**
- * Reference to a field of type 'PostPrivacy'
- */
-export type EnumPostPrivacyFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'PostPrivacy'>
-    
-
-
-/**
  * Reference to a field of type 'PostMediaType'
  */
 export type EnumPostMediaTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'PostMediaType'>
@@ -5686,11 +6557,16 @@ export type PrismaClientOptions = ({
   comments?: runtime.SqlCommenterPlugin[]
 }
 export type GlobalOmitConfig = {
+  album?: Prisma.AlbumOmit
+  albumPhoto?: Prisma.AlbumPhotoOmit
   account?: Prisma.AccountOmit
   session?: Prisma.SessionOmit
   verificationToken?: Prisma.VerificationTokenOmit
   activateToken?: Prisma.ActivateTokenOmit
   resetPasswordToken?: Prisma.ResetPasswordTokenOmit
+  blog?: Prisma.BlogOmit
+  blogLike?: Prisma.BlogLikeOmit
+  blogHashtag?: Prisma.BlogHashtagOmit
   postComment?: Prisma.PostCommentOmit
   commentLike?: Prisma.CommentLikeOmit
   commentReply?: Prisma.CommentReplyOmit
@@ -5701,6 +6577,7 @@ export type GlobalOmitConfig = {
   eventPostLike?: Prisma.EventPostLikeOmit
   eventPostComment?: Prisma.EventPostCommentOmit
   eventPostCommentLike?: Prisma.EventPostCommentLikeOmit
+  eventHashtag?: Prisma.EventHashtagOmit
   group?: Prisma.GroupOmit
   groupMember?: Prisma.GroupMemberOmit
   groupPost?: Prisma.GroupPostOmit
@@ -5742,6 +6619,10 @@ export type GlobalOmitConfig = {
   coverPhoto?: Prisma.CoverPhotoOmit
   userFollow?: Prisma.UserFollowOmit
   userBlock?: Prisma.UserBlockOmit
+  video?: Prisma.VideoOmit
+  videoLike?: Prisma.VideoLikeOmit
+  videoComment?: Prisma.VideoCommentOmit
+  videoHashtag?: Prisma.VideoHashtagOmit
 }
 
 /* Types for Logging */

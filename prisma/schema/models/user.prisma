@@ -126,6 +126,18 @@ model User {
     listingOffers    ListingOffer[]       @relation("ListingBuyer")
     listingMessages  ListingMessage[]     @relation("ListingMessageSender")
 
+    // Video Relations
+    videos       Video[]
+    videoLikes   VideoLike[]
+    videoComments VideoComment[]
+
+    // Blog Relations
+    blogs     Blog[]
+    blogLikes BlogLike[]
+
+    // Album Relations
+    albums Album[]
+
     @@index([userName(sort: Asc)])
     @@index([email])
     @@index([createdAt])

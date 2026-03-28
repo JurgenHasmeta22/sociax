@@ -402,18 +402,31 @@ export function PostCard({
 
 				{post.content && (
 					<p className="mt-3 text-sm leading-relaxed">
-						{post.content}
+						{post.content.split(/(#[\w]+)/g).map((part, i) =>
+							/^#[\w]+$/.test(part) ? (
+								<Link
+									key={i}
+									href={`/hashtags/${part.slice(1).toLowerCase()}`}
+									className="text-primary hover:underline font-medium"
+								>
+									{part}
+								</Link>
+							) : (
+								<span key={i}>{part}</span>
+							),
+						)}
 					</p>
 				)}
 				{post.hashtags.length > 0 && (
 					<div className="flex flex-wrap gap-1 mt-1.5">
 						{post.hashtags.map(({ hashtag }) => (
-							<span
+							<Link
 								key={hashtag.id}
-								className="text-primary text-sm hover:underline cursor-pointer"
+								href={`/hashtags/${hashtag.name}`}
+								className="text-primary text-sm hover:underline font-medium"
 							>
 								#{hashtag.name}
-							</span>
+							</Link>
 						))}
 					</div>
 				)}

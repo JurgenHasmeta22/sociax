@@ -146,7 +146,10 @@ model Hashtag {
     createdAt DateTime @default(now())
 
     // Relations
-    posts PostHashtag[]
+    posts  PostHashtag[]
+    videos VideoHashtag[]
+    blogs  BlogHashtag[]
+    events EventHashtag[]
 
     @@index([name(sort: Asc)])
 }

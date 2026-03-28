@@ -1,0 +1,76 @@
+model Video {
+    id           Int         @id @default(autoincrement())
+    title        String
+    description  String?
+    url          String
+    thumbnailUrl String?
+    duration     Int?
+    views        Int         @default(0)
+    privacy      PostPrivacy @default(Public)
+    isDeleted    Boolean     @default(false)
+    createdAt    DateTime    @default(now())
+    updatedAt    DateTime    @updatedAt
+
+    // FK Keys
+    authorId Int
+
+    // Relations
+    author   User           @relation(fields: [authorId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+    likes    VideoLike[]
+    comments VideoComment[]
+    hashtags VideoHashtag[]
+
+    @@index([authorId])
+    @@index([createdAt])
+    @@index([privacy])
+    @@index([isDeleted])
+}
+
+model VideoLike {
+    id        Int      @id @default(autoincrement())
+    createdAt DateTime @default(now())
+
+    // FK Keys
+    userId  Int
+    videoId Int
+
+    // Relations
+    user  User  @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+    video Video @relation(fields: [videoId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+
+    @@unique([userId, videoId])
+    @@index([videoId])
+}
+
+model VideoComment {
+    id        Int      @id @default(autoincrement())
+    content   String
+    isDeleted Boolean  @default(false)
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+
+    // FK Keys
+    userId  Int
+    videoId Int
+
+    // Relations
+    user  User  @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+    video Video @relation(fields: [videoId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+
+    @@index([videoId])
+    @@index([userId])
+}
+
+model VideoHashtag {
+    id Int @id @default(autoincrement())
+
+    // FK Keys
+    videoId   Int
+    hashtagId Int
+
+    // Relations
+    video   Video   @relation(fields: [videoId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+    hashtag Hashtag @relation(fields: [hashtagId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+
+    @@unique([videoId, hashtagId])
+}
