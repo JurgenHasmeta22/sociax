@@ -58,6 +58,7 @@ function ToolbarButton({
 
 export function BlogEditor({ initialContent, onChange, placeholder = "Write your blog post…" }: BlogEditorProps) {
 	const editor = useEditor({
+		immediatelyRender: false,
 		extensions: [
 			StarterKit.configure({
 				heading: { levels: [2, 3] },

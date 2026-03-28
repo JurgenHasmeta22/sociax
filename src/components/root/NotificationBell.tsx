@@ -24,8 +24,14 @@ export function NotificationBell() {
 			eventSource.close();
 		};
 
+		const handleCountUpdate = (e: Event) => {
+			setCount((e as CustomEvent<number>).detail);
+		};
+		window.addEventListener("notifications:count", handleCountUpdate);
+
 		return () => {
 			eventSource.close();
+			window.removeEventListener("notifications:count", handleCountUpdate);
 		};
 	}, []);
 

@@ -46,6 +46,7 @@ export default async function FeedPage() {
 		suggestedUsers,
 		events,
 		shortcutFriends,
+		trendingTags,
 	] = await Promise.all([
 		prisma.user.findUnique({
 			where: { id: userId },
@@ -175,6 +176,11 @@ export default async function FeedPage() {
 					take: 3,
 			  })
 			: Promise.resolve([]),
+		prisma.hashtag.findMany({
+			take: 5,
+			orderBy: { posts: { _count: "desc" } },
+			select: { name: true, _count: { select: { posts: true } } },
+		}),
 	]);
 
 	if (!currentUser) redirect("/login");
@@ -283,6 +289,7 @@ export default async function FeedPage() {
 					currentUserId={userId}
 					followStates={followStates}
 					onlineFriendIds={onlineFriendIds}
+					trendingTags={trendingTags}
 				/>
 			</aside>
 		</div>

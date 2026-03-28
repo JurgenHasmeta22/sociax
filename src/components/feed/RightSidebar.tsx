@@ -19,26 +19,31 @@ lastName: string | null;
 userName: string;
 }) => [u.firstName, u.lastName].filter(Boolean).join(" ") || u.userName;
 
-const TRENDS = [
-{ tag: "Artificial Intelligence", posts: "1,245,62" },
-{ tag: "Web Developers", posts: "1,624" },
-{ tag: "Ui Designers", posts: "820" },
-{ tag: "Affiliate Marketing", posts: "480" },
+const FALLBACK_TRENDS = [
+	{ tag: "webdevelopers", posts: 1624 },
+	{ tag: "uidesigners", posts: 820 },
+	{ tag: "javascript", posts: 480 },
+	{ tag: "react", posts: 320 },
 ];
 
 export function RightSidebar({
-suggestedUsers,
-currentUserId,
-followStates,
-onlineFriendIds = [],
+	suggestedUsers,
+	currentUserId,
+	followStates,
+	onlineFriendIds = [],
+	trendingTags = [],
 }: {
-suggestedUsers: SuggestedUser[];
-currentUserId: number;
-followStates: Record<number, string>;
-onlineFriendIds?: number[];
+	suggestedUsers: SuggestedUser[];
+	currentUserId: number;
+	followStates: Record<number, string>;
+	onlineFriendIds?: number[];
+	trendingTags?: { name: string; _count: { posts: number } }[];
 }) {
-const onlineFriends = suggestedUsers.filter((u) => onlineFriendIds.includes(u.id));
-const proMembers = suggestedUsers.slice(0, 2);
+	const onlineFriends = suggestedUsers.filter((u) => onlineFriendIds.includes(u.id));
+	const proMembers = suggestedUsers.slice(0, 2);
+	const trends = trendingTags.length > 0
+		? trendingTags.map((t) => ({ tag: t.name, posts: t._count.posts }))
+		: FALLBACK_TRENDS;
 
 return (
 <div className="px-3 py-4 space-y-5">
@@ -189,10 +194,10 @@ Trends for you
 </button>
 </div>
 <div className="space-y-2.5">
-{TRENDS.map((trend) => (
+{trends.map((trend) => (
 <Link
 key={trend.tag}
-href={`/search?q=${encodeURIComponent(trend.tag)}`}
+href={`/hashtags/${encodeURIComponent(trend.tag)}`}
 className="flex items-center gap-2.5 group"
 >
 <div className="w-7 h-7 rounded-lg bg-muted flex items-center justify-center shrink-0">
@@ -200,10 +205,10 @@ className="flex items-center gap-2.5 group"
 </div>
 <div className="min-w-0">
 <p className="text-sm font-medium text-foreground group-hover:text-primary transition-colors truncate">
-{trend.tag}
+#{trend.tag}
 </p>
 <p className="text-[11px] text-muted-foreground">
-{trend.posts} Post
+{trend.posts.toLocaleString()} posts
 </p>
 </div>
 </Link>

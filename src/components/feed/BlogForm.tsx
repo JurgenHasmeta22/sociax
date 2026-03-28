@@ -7,7 +7,6 @@ import Image from "next/image";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
-import { Switch } from "@/components/ui/switch";
 import { Badge } from "@/components/ui/badge";
 import { BlogEditor } from "@/components/feed/BlogEditor";
 import { createBlog, updateBlog } from "@/actions/blog.actions";
@@ -32,7 +31,6 @@ export function BlogForm({ mode, initialData }: BlogFormProps) {
 	const [title, setTitle] = useState(initialData?.title ?? "");
 	const [content, setContent] = useState(initialData?.content ?? "");
 	const [coverImageUrl, setCoverImageUrl] = useState(initialData?.coverImageUrl ?? "");
-	const [published, setPublished] = useState(initialData?.published ?? false);
 	const [tagsInput, setTagsInput] = useState(
 		initialData?.hashtags.map((h) => h.hashtag.name).join(", ") ?? "",
 	);
@@ -56,21 +54,20 @@ export function BlogForm({ mode, initialData }: BlogFormProps) {
 		}
 	}
 
-	function handleSave(publish?: boolean) {
+	function handleSave(publish: boolean) {
 		if (!title.trim()) { toast.warning("Title is required"); return; }
 		if (!content || content === '{"type":"doc","content":[]}') { toast.warning("Content is required"); return; }
 
 		const hashtags = tagsInput.split(/[,\s]+/).filter(Boolean);
-		const shouldPublish = publish ?? published;
 
 		startTransition(async () => {
 			try {
 				if (mode === "create") {
-					const result = await createBlog({ title, content, coverImageUrl: coverImageUrl || undefined, published: shouldPublish, hashtags });
-					toast.success(shouldPublish ? "Blog published!" : "Draft saved!");
+					const result = await createBlog({ title, content, coverImageUrl: coverImageUrl || undefined, published: publish, hashtags });
+					toast.success(publish ? "Blog published!" : "Draft saved!");
 					router.push(`/blog/${result.slug}`);
 				} else if (initialData) {
-					const result = await updateBlog(initialData.id, { title, content, coverImageUrl: coverImageUrl || undefined, published: shouldPublish, hashtags });
+					const result = await updateBlog(initialData.id, { title, content, coverImageUrl: coverImageUrl || undefined, published: publish, hashtags });
 					toast.success("Blog updated!");
 					router.push(`/blog/${result.slug}`);
 				}
@@ -88,10 +85,7 @@ export function BlogForm({ mode, initialData }: BlogFormProps) {
 					<Link href="/blog"><ArrowLeft className="h-4 w-4" />Back</Link>
 				</Button>
 				<div className="flex items-center gap-2">
-					<div className="flex items-center gap-1.5 text-sm">
-						<Switch checked={published} onCheckedChange={setPublished} id="published-toggle" />
-						<Label htmlFor="published-toggle" className="cursor-pointer">Publish</Label>
-					</div>
+
 					<Button variant="outline" size="sm" onClick={() => handleSave(false)} disabled={isPending} className="gap-1.5">
 						<Save className="h-3.5 w-3.5" />
 						Save Draft

@@ -10,13 +10,6 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
-import {
   Search,
   Plus,
   Heart,
@@ -443,30 +436,16 @@ export function MarketplaceClient({
 
       {activeTab === "browse" && (
         <>
-          {/* Search + Filter row */}
-          <div className="flex flex-col sm:flex-row gap-3">
-            <form onSubmit={handleSearch} className="flex-1 relative">
-              <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-              <Input
-                value={search}
-                onChange={(e) => setSearch(e.target.value)}
-                placeholder="Search listings..."
-                className="pl-9"
-              />
-            </form>
-            <Select value={category} onValueChange={handleCategoryChange}>
-              <SelectTrigger className="w-[180px]">
-                <SelectValue />
-              </SelectTrigger>
-              <SelectContent>
-                {CATEGORIES.map((cat) => (
-                  <SelectItem key={cat} value={cat}>
-                    {CATEGORY_ICONS[cat]} {cat === "HomeGarden" ? "Home & Garden" : cat}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-          </div>
+          {/* Search bar */}
+          <form onSubmit={handleSearch} className="relative">
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+            <Input
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+              placeholder="Search listings..."
+              className="pl-9"
+            />
+          </form>
 
           {/* Category pills */}
           <div className="flex gap-2 overflow-x-auto pb-1 scrollbar-none">

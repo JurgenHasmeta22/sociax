@@ -48,6 +48,7 @@ import { PostComposer } from "@/components/feed/PostComposer";
 import { CreateAlbumDialog } from "@/components/profile/CreateAlbumDialog";
 import { AddPhotoDialog } from "@/components/profile/AddPhotoDialog";
 import { AlbumView } from "@/components/profile/AlbumView";
+import { CreateStoryDialog } from "@/components/feed/CreateStoryDialog";
 import { toast } from "sonner";
 import {
   DropdownMenu,
@@ -425,6 +426,10 @@ const [selectedAlbumId, setSelectedAlbumId] = useState<number | null>(null);
 const [createAlbumOpen, setCreateAlbumOpen] = useState(false);
 const [addPhotoOpen, setAddPhotoOpen] = useState(false);
 const [albumsList, setAlbumsList] = useState<AlbumItem[]>(albums);
+const [createStoryOpen, setCreateStoryOpen] = useState(false);
+const [pagesSubTab, setPagesSubTab] = useState<"mine" | "following">("mine");
+const [eventsSubTab, setEventsSubTab] = useState<"mine" | "attending">("mine");
+const [groupsSubTab, setGroupsSubTab] = useState<"mine" | "joined">("mine");
 
 const handleBlock = async () => {
   setBlockPending(true);
@@ -735,9 +740,9 @@ activeTab === tab
 </div>
 <div className="flex items-center gap-2 shrink-0 pb-1">
 {isOwnProfile && (
-<Button variant="default" size="sm" className="gap-2">
+<Button variant="default" size="sm" className="gap-2" onClick={() => setCreateStoryOpen(true)}>
 <Camera className="h-4 w-4" />
-Add Your Story
+Add Story
 </Button>
 )}
 </div>
@@ -1024,32 +1029,42 @@ onAdded={() => { setAddPhotoOpen(false); router.refresh(); }}
 )}
 
 {activeTab === "Groups" && (
-<div className="pb-10 space-y-8">
+<div className="pb-10 space-y-4">
 {!canViewContent ? (
 <PrivacyGate privacy={user.profilePrivacy} />
 ) : (
 <>
-{ownedGroups.length > 0 && (
-<section>
-<div className="flex items-center gap-2 mb-3">
-<div className="w-1 h-4 rounded-full bg-primary" />
-<h2 className="font-medium text-sm text-foreground">Groups I Created</h2>
+<div className="flex items-center justify-between">
+<h2 className="font-semibold text-base">Groups</h2>
+{(ownedGroups.length > 0 || groups.length > 0) && (
+<div className="flex rounded-lg border overflow-hidden text-sm">
+<button
+onClick={() => setGroupsSubTab("mine")}
+className={`px-3 py-1 font-medium transition-colors ${groupsSubTab === "mine" ? "bg-primary text-primary-foreground" : "text-muted-foreground hover:bg-muted"}`}
+>
+{isOwnProfile ? "My Groups" : "Created"}
+</button>
+<button
+onClick={() => setGroupsSubTab("joined")}
+className={`px-3 py-1 font-medium transition-colors ${groupsSubTab === "joined" ? "bg-primary text-primary-foreground" : "text-muted-foreground hover:bg-muted"}`}
+>
+Joined
+</button>
 </div>
-<GroupGrid groups={ownedGroups} emptyLabel="No groups created" />
-</section>
 )}
-<section>
-<div className="flex items-center gap-2 mb-3">
-<div className="w-1 h-4 rounded-full bg-muted-foreground/50" />
-<h2 className="font-medium text-sm text-muted-foreground">
-{ownedGroups.length > 0 ? "Groups I Joined" : "Groups"}
-</h2>
 </div>
+{groupsSubTab === "mine" ? (
+ownedGroups.length === 0 ? (
+<div className="text-center py-8 text-muted-foreground border border-dashed rounded-lg"><p className="text-sm">No groups created yet</p></div>
+) : (
+<GroupGrid groups={ownedGroups} emptyLabel="No groups created" />
+)
+) : (
 <GroupGrid
 groups={groups.filter((g) => !ownedGroups.find((og) => og.id === g.id))}
 emptyLabel="Not a member of any groups"
 />
-</section>
+)}
 </>
 )}
 </div>
@@ -1125,17 +1140,30 @@ Write New Blog
 ) : (
 <>
 {allPages.length > 0 && (
-<section className="space-y-6">
+<section className="space-y-4">
+<div className="flex items-center justify-between">
 <h2 className="font-semibold text-base">Pages</h2>
-{ownedPagesList.length > 0 && (
-<div>
-<div className="flex items-center gap-2 mb-3">
-<div className="w-1 h-4 rounded-full bg-primary" />
-<h3 className="font-medium text-sm text-foreground">
-{isOwnProfile ? "Pages I Manage" : "Managed Pages"}
-</h3>
+<div className="flex rounded-lg border overflow-hidden text-sm">
+<button
+onClick={() => setPagesSubTab("mine")}
+className={`px-3 py-1 font-medium transition-colors ${pagesSubTab === "mine" ? "bg-primary text-primary-foreground" : "text-muted-foreground hover:bg-muted"}`}
+>
+{isOwnProfile ? "My Pages" : "Managed"}
+</button>
+<button
+onClick={() => setPagesSubTab("following")}
+className={`px-3 py-1 font-medium transition-colors ${pagesSubTab === "following" ? "bg-primary text-primary-foreground" : "text-muted-foreground hover:bg-muted"}`}
+>
+Following
+</button>
 </div>
-{isOwnProfile ? (
+</div>
+{pagesSubTab === "mine" && (
+ownedPagesList.length === 0 ? (
+<div className="text-center py-8 text-muted-foreground border border-dashed rounded-lg">
+<p className="text-sm">No pages managed yet</p>
+</div>
+) : isOwnProfile ? (
 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
 {ownedPagesList.map((p) => (
 <div key={p.id} className="relative group">
@@ -1175,19 +1203,16 @@ title="Delete page"
 </div>
 ) : (
 <PageGrid pages={ownedPagesList} emptyLabel="No managed pages" />
+)
 )}
+{pagesSubTab === "following" && (
+followedPages.length === 0 ? (
+<div className="text-center py-8 text-muted-foreground border border-dashed rounded-lg">
+<p className="text-sm">No followed pages yet</p>
 </div>
-)}
-{followedPages.length > 0 && (
-<div>
-<div className="flex items-center gap-2 mb-3">
-<div className="w-1 h-4 rounded-full bg-muted-foreground/50" />
-<h3 className="font-medium text-sm text-muted-foreground">
-{isOwnProfile ? "Pages I Follow" : "Followed Pages"}
-</h3>
-</div>
+) : (
 <PageGrid pages={followedPages} emptyLabel="No followed pages" />
-</div>
+)
 )}
 </section>
 )}
@@ -1259,17 +1284,30 @@ title="Delete group"
 </section>
 )}
 {(createdEventsList.length > 0 || attendingEvents.length > 0) && (
-<section className="space-y-6">
+<section className="space-y-4">
+<div className="flex items-center justify-between">
 <h2 className="font-semibold text-base">Events</h2>
-{createdEventsList.length > 0 && (
-<div>
-<div className="flex items-center gap-2 mb-3">
-<div className="w-1 h-4 rounded-full bg-primary" />
-<h3 className="font-medium text-sm text-foreground">
-{isOwnProfile ? "Events I Organize" : "Organized Events"}
-</h3>
+<div className="flex rounded-lg border overflow-hidden text-sm">
+<button
+onClick={() => setEventsSubTab("mine")}
+className={`px-3 py-1 font-medium transition-colors ${eventsSubTab === "mine" ? "bg-primary text-primary-foreground" : "text-muted-foreground hover:bg-muted"}`}
+>
+{isOwnProfile ? "Organized" : "Created"}
+</button>
+<button
+onClick={() => setEventsSubTab("attending")}
+className={`px-3 py-1 font-medium transition-colors ${eventsSubTab === "attending" ? "bg-primary text-primary-foreground" : "text-muted-foreground hover:bg-muted"}`}
+>
+Attending
+</button>
 </div>
-{isOwnProfile ? (
+</div>
+{eventsSubTab === "mine" && (
+createdEventsList.length === 0 ? (
+<div className="text-center py-8 text-muted-foreground border border-dashed rounded-lg">
+<p className="text-sm">No organized events yet</p>
+</div>
+) : isOwnProfile ? (
 <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
 {createdEventsList.map((e) => (
 <div key={e.id} className="relative group">
@@ -1307,19 +1345,16 @@ title="Delete event"
 </div>
 ) : (
 <EventGrid events={createdEventsList} emptyLabel="No organized events" />
+)
 )}
+{eventsSubTab === "attending" && (
+attendingEvents.length === 0 ? (
+<div className="text-center py-8 text-muted-foreground border border-dashed rounded-lg">
+<p className="text-sm">{isOwnProfile ? "Not attending any upcoming events" : "No events attended"}</p>
 </div>
-)}
-{attendingEvents.length > 0 && (
-<div>
-<div className="flex items-center gap-2 mb-3">
-<div className="w-1 h-4 rounded-full bg-muted-foreground/50" />
-<h3 className="font-medium text-sm text-muted-foreground">
-{isOwnProfile ? "Events I'm Attending" : "Attending"}
-</h3>
-</div>
+) : (
 <EventGrid events={attendingEvents} emptyLabel="No upcoming events" />
-</div>
+)
 )}
 </section>
 )}
@@ -1328,6 +1363,9 @@ title="Delete event"
 </div>
 )}
 </div>
+
+{/* Story creation dialog */}
+<CreateStoryDialog open={createStoryOpen} onClose={() => setCreateStoryOpen(false)} />
 
 {/* Block confirmation dialog */}
 <AlertDialog open={confirmBlockOpen} onOpenChange={setConfirmBlockOpen}>

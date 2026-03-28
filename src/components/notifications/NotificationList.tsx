@@ -149,15 +149,19 @@ const [isPending, startTransition] = useTransition();
 const unreadCount = notifications.filter((n) => n.status === "unread").length;
 
 function handleRead(id: number) {
-setNotifications((prev) =>
-prev.map((n) => (n.id === id ? { ...n, status: "read" } : n)),
-);
+setNotifications((prev) => {
+const next = prev.map((n) => (n.id === id ? { ...n, status: "read" } : n));
+const newUnread = next.filter((n) => n.status === "unread").length;
+if (typeof window !== "undefined") window.dispatchEvent(new CustomEvent("notifications:count", { detail: newUnread }));
+return next;
+});
 }
 
 function handleMarkAll() {
 startTransition(async () => {
 await markAllNotificationsRead();
 setNotifications((prev) => prev.map((n) => ({ ...n, status: "read" })));
+if (typeof window !== "undefined") window.dispatchEvent(new CustomEvent("notifications:count", { detail: 0 }));
 });
 }
 
