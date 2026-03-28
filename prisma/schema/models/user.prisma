@@ -130,7 +130,8 @@ model User {
     // Video Relations
     videos       Video[]
     videoLikes   VideoLike[]
-    videoComments VideoComment[]
+    videoComments     VideoComment[]
+    videoCommentLikes VideoCommentLike[]
 
     // Blog Relations
     blogs     Blog[]

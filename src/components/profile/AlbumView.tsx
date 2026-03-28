@@ -3,8 +3,8 @@
 import { useState, useTransition, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { ArrowLeft, Plus, Trash2, X, Loader2 } from "lucide-react";
-import { removePhotoFromAlbum, getAlbumById } from "@/actions/album.actions";
+import { ArrowLeft, Plus, Trash2, X, Loader2, CheckSquare, Square } from "lucide-react";
+import { removePhotoFromAlbum, removeMultiplePhotosFromAlbum, getAlbumById, deleteAlbum } from "@/actions/album.actions";
 import { toast } from "sonner";
 import { AddPhotoDialog } from "@/components/profile/AddPhotoDialog";
 
@@ -34,6 +34,7 @@ type AlbumViewProps = {
 		count: number,
 		firstPhotoUrl: string | null,
 	) => void;
+	onAlbumDeleted?: (albumId: number) => void;
 };
 
 export function AlbumView({
@@ -42,6 +43,7 @@ export function AlbumView({
 	allAlbums = [],
 	onBack,
 	onPhotosChanged,
+	onAlbumDeleted,
 }: AlbumViewProps) {
 	const [photos, setPhotos] = useState<AlbumPhoto[]>([]);
 	const [loading, setLoading] = useState(true);
@@ -50,7 +52,10 @@ export function AlbumView({
 	const [addPhotoOpen, setAddPhotoOpen] = useState(false);
 	const [isPending, startTransition] = useTransition();
 
-	// Fetch all photos (with real IDs) when the album is opened
+	// Multi-select state
+	const [selectMode, setSelectMode] = useState(false);
+	const [selectedIds, setSelectedIds] = useState<Set<number>>(new Set());
+
 	useEffect(() => {
 		setLoading(true);
 		getAlbumById(albumId)
@@ -67,16 +72,74 @@ export function AlbumView({
 				await removePhotoFromAlbum(photoId);
 				const next = photos.filter((p) => p.id !== photoId);
 				setPhotos(next);
-				onPhotosChanged?.(
-					albumId,
-					next.length,
-					next[0]?.photoUrl ?? null,
-				);
+				onPhotosChanged?.(albumId, next.length, next[0]?.photoUrl ?? null);
 				toast.success("Photo removed");
 			} catch {
 				toast.error("Failed to remove photo");
 			}
 		});
+	};
+
+	const handleBulkDelete = () => {
+		if (selectedIds.size === 0) return;
+		if (!confirm(`Delete ${selectedIds.size} photo${selectedIds.size > 1 ? "s" : ""}?`)) return;
+		startTransition(async () => {
+			try {
+				await removeMultiplePhotosFromAlbum([...selectedIds]);
+				const next = photos.filter((p) => !selectedIds.has(p.id));
+				setPhotos(next);
+				onPhotosChanged?.(albumId, next.length, next[0]?.photoUrl ?? null);
+				setSelectedIds(new Set());
+				setSelectMode(false);
+				toast.success(`${selectedIds.size} photo${selectedIds.size > 1 ? "s" : ""} deleted`);
+			} catch {
+				toast.error("Failed to delete photos");
+			}
+		});
+	};
+
+	const handleDeleteAll = () => {
+		if (photos.length === 0) return;
+		if (!confirm(`Delete all ${photos.length} photos from this album?`)) return;
+		startTransition(async () => {
+			try {
+				await removeMultiplePhotosFromAlbum(photos.map((p) => p.id));
+				setPhotos([]);
+				onPhotosChanged?.(albumId, 0, null);
+				setSelectedIds(new Set());
+				setSelectMode(false);
+				toast.success("All photos deleted");
+			} catch {
+				toast.error("Failed to delete photos");
+			}
+		});
+	};
+
+	const handleDeleteAlbum = () => {
+		if (!confirm(`Delete album "${albumMeta.name}" and all its photos? This cannot be undone.`)) return;
+		startTransition(async () => {
+			try {
+				await deleteAlbum(albumId);
+				toast.success("Album deleted");
+				onAlbumDeleted?.(albumId);
+				onBack();
+			} catch {
+				toast.error("Failed to delete album");
+			}
+		});
+	};
+
+	const toggleSelect = (id: number) => {
+		setSelectedIds((prev) => {
+			const next = new Set(prev);
+			if (next.has(id)) next.delete(id);
+			else next.add(id);
+			return next;
+		});
+	};
+
+	const selectAll = () => {
+		setSelectedIds(new Set(photos.map((p) => p.id)));
 	};
 
 	const handlePhotoAdded = (
@@ -94,37 +157,77 @@ export function AlbumView({
 		<div className="space-y-4">
 			{/* Header */}
 			<div className="flex items-center gap-3">
-				<Button
-					variant="ghost"
-					size="icon"
-					onClick={onBack}
-					className="h-8 w-8"
-				>
+				<Button variant="ghost" size="icon" onClick={onBack} className="h-8 w-8">
 					<ArrowLeft className="h-4 w-4" />
 				</Button>
 				<div className="flex-1">
 					<h2 className="font-semibold text-lg">{albumMeta.name}</h2>
 					{albumMeta.description && (
-						<p className="text-sm text-muted-foreground">
-							{albumMeta.description}
-						</p>
+						<p className="text-sm text-muted-foreground">{albumMeta.description}</p>
 					)}
 				</div>
 				<Badge variant="secondary" className="capitalize text-xs">
-					{albumMeta.privacy === "FriendsOnly"
-						? "Friends"
-						: albumMeta.privacy}
+					{albumMeta.privacy === "FriendsOnly" ? "Friends" : albumMeta.privacy}
 				</Badge>
 				{albumMeta.isOwner && (
 					<>
-						<Button
-							size="sm"
-							className="gap-1.5"
-							onClick={() => setAddPhotoOpen(true)}
-						>
-							<Plus className="h-4 w-4" />
-							Add Photo
-						</Button>
+						{!selectMode ? (
+							<>
+								{photos.length > 0 && (
+									<Button
+										size="sm"
+										variant="outline"
+										className="gap-1.5"
+										onClick={() => setSelectMode(true)}
+									>
+										<CheckSquare className="h-4 w-4" />
+										Select
+									</Button>
+								)}
+								<Button
+									size="sm"
+									className="gap-1.5"
+									onClick={() => setAddPhotoOpen(true)}
+								>
+									<Plus className="h-4 w-4" />
+									Add Photo
+								</Button>
+								<Button
+									size="sm"
+									variant="destructive"
+									className="gap-1.5"
+									onClick={handleDeleteAlbum}
+									disabled={isPending}
+								>
+									<Trash2 className="h-4 w-4" />
+									Delete Album
+								</Button>
+							</>
+						) : (
+							<>
+								<span className="text-xs text-muted-foreground">
+									{selectedIds.size} selected
+								</span>
+								<Button size="sm" variant="outline" onClick={selectAll}>
+									Select All
+								</Button>
+								<Button
+									size="sm"
+									variant="destructive"
+									onClick={handleBulkDelete}
+									disabled={selectedIds.size === 0 || isPending}
+								>
+									{isPending ? <Loader2 className="h-3.5 w-3.5 animate-spin mr-1" /> : <Trash2 className="h-3.5 w-3.5 mr-1" />}
+									Delete Selected
+								</Button>
+								<Button size="sm" variant="ghost" onClick={handleDeleteAll} disabled={isPending}>
+									Delete All
+								</Button>
+								<Button size="sm" variant="ghost" onClick={() => { setSelectMode(false); setSelectedIds(new Set()); }}>
+									Cancel
+								</Button>
+							</>
+						)}
 						<AddPhotoDialog
 							open={addPhotoOpen}
 							onClose={() => setAddPhotoOpen(false)}
@@ -148,10 +251,7 @@ export function AlbumView({
 				<div className="text-center py-16 text-muted-foreground">
 					<p className="font-medium">No photos in this album yet</p>
 					{albumMeta.isOwner && (
-						<p className="text-sm mt-1">
-							Click &ldquo;Add Photo&rdquo; to upload your first
-							photo
-						</p>
+						<p className="text-sm mt-1">Click &ldquo;Add Photo&rdquo; to upload your first photo</p>
 					)}
 				</div>
 			) : (
@@ -159,26 +259,42 @@ export function AlbumView({
 					{photos.map((photo) => (
 						<div
 							key={photo.id}
-							className="relative aspect-square rounded-lg overflow-hidden bg-muted group cursor-pointer"
+							className={`relative aspect-square rounded-lg overflow-hidden bg-muted group cursor-pointer ${
+								selectMode && selectedIds.has(photo.id) ? "ring-2 ring-primary" : ""
+							}`}
 							onMouseEnter={() => setHovered(photo.id)}
 							onMouseLeave={() => setHovered(null)}
-							onClick={() => setLightbox(photo)}
+							onClick={() => {
+								if (selectMode) {
+									toggleSelect(photo.id);
+								} else {
+									setLightbox(photo);
+								}
+							}}
 						>
 							<img
 								src={photo.photoUrl}
 								alt={photo.caption ?? "Album photo"}
 								className="w-full h-full object-cover transition-transform duration-200 group-hover:scale-105"
 							/>
+							{/* Select checkbox overlay */}
+							{selectMode && (
+								<div className="absolute top-2 left-2 z-10">
+									{selectedIds.has(photo.id) ? (
+										<CheckSquare className="h-5 w-5 text-primary fill-primary/20" />
+									) : (
+										<Square className="h-5 w-5 text-white/80" />
+									)}
+								</div>
+							)}
 							{/* Caption overlay */}
-							{photo.caption && hovered === photo.id && (
+							{photo.caption && hovered === photo.id && !selectMode && (
 								<div className="absolute bottom-0 left-0 right-0 bg-black/60 px-2 py-1.5">
-									<p className="text-white text-xs truncate">
-										{photo.caption}
-									</p>
+									<p className="text-white text-xs truncate">{photo.caption}</p>
 								</div>
 							)}
 							{/* Delete button for owner */}
-							{albumMeta.isOwner && hovered === photo.id && (
+							{albumMeta.isOwner && hovered === photo.id && !selectMode && (
 								<button
 									className="absolute top-2 right-2 bg-black/60 hover:bg-destructive text-white rounded-full p-1 transition-colors"
 									onClick={(e) => {
@@ -218,9 +334,7 @@ export function AlbumView({
 							className="max-w-full max-h-[85vh] object-contain rounded-lg"
 						/>
 						{lightbox.caption && (
-							<p className="text-white/80 text-sm text-center mt-2">
-								{lightbox.caption}
-							</p>
+							<p className="text-white/80 text-sm text-center mt-2">{lightbox.caption}</p>
 						)}
 					</div>
 				</div>

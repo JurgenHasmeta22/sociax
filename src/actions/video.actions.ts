@@ -93,6 +93,7 @@ export async function getVideoById(id: number) {
 							avatar: { select: { photoSrc: true } },
 						},
 					},
+					_count: { select: { likes: true } },
 				},
 			},
 			_count: { select: { likes: true, comments: true } },
@@ -109,7 +110,20 @@ export async function getVideoById(id: number) {
 			}))
 		: false;
 
-	return { ...video, isLiked };
+	// Get current user's liked comment IDs
+	let likedCommentIds: number[] = [];
+	if (currentUserId && video.comments.length > 0) {
+		const commentLikes = await prisma.videoCommentLike.findMany({
+			where: {
+				userId: currentUserId,
+				commentId: { in: video.comments.map((c) => c.id) },
+			},
+			select: { commentId: true },
+		});
+		likedCommentIds = commentLikes.map((l) => l.commentId);
+	}
+
+	return { ...video, isLiked, likedCommentIds };
 }
 
 export async function createVideo(data: {
@@ -224,4 +238,42 @@ export async function addVideoComment(videoId: number, content: string) {
 	});
 
 	return comment;
+}
+
+export async function getVideoLikes(videoId: number) {
+	return prisma.videoLike.findMany({
+		where: { videoId },
+		orderBy: { createdAt: "desc" },
+		select: {
+			id: true,
+			createdAt: true,
+			user: {
+				select: {
+					id: true,
+					userName: true,
+					firstName: true,
+					lastName: true,
+					avatar: { select: { photoSrc: true } },
+				},
+			},
+		},
+	});
+}
+
+export async function toggleVideoCommentLike(commentId: number) {
+	const userId = await getSessionUserId();
+
+	const existing = await prisma.videoCommentLike.findUnique({
+		where: { userId_commentId: { userId, commentId } },
+	});
+
+	if (existing) {
+		await prisma.videoCommentLike.delete({
+			where: { userId_commentId: { userId, commentId } },
+		});
+		return { liked: false };
+	} else {
+		await prisma.videoCommentLike.create({ data: { userId, commentId } });
+		return { liked: true };
+	}
 }

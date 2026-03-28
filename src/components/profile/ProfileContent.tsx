@@ -53,6 +53,7 @@ import { getOrCreateConversation } from "@/actions/message.actions";
 import { deletePage } from "@/actions/page.actions";
 import { deleteGroup } from "@/actions/group.actions";
 import { deleteEvent } from "@/actions/event.actions";
+import { deleteAlbum, deleteStandalonePhoto } from "@/actions/album.actions";
 import { PostCard } from "@/components/feed/PostCard";
 import { PostComposer } from "@/components/feed/PostComposer";
 import { CreateAlbumDialog } from "@/components/profile/CreateAlbumDialog";
@@ -1254,6 +1255,10 @@ export function ProfileContent({
 												),
 											);
 										}}
+										onAlbumDeleted={(aid) => {
+											setAlbumsList((prev) => prev.filter((a) => a.id !== aid));
+											setSelectedAlbumId(null);
+										}}
 									/>
 								);
 							})()
@@ -1304,50 +1309,68 @@ export function ProfileContent({
 									) : (
 										<div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3">
 											{albumsList.map((album) => (
-												<button
+												<div
 													key={album.id}
-													onClick={() =>
-														setSelectedAlbumId(
-															album.id,
-														)
-													}
-													className="text-left group"
+													className="relative group"
 												>
-													<div className="aspect-square rounded-lg overflow-hidden bg-muted relative">
-														{album.photos[0] ? (
-															<img
-																src={
-																	album
-																		.photos[0]
-																		.photoUrl
-																}
-																alt={album.name}
-																className="w-full h-full object-cover group-hover:opacity-90 transition-opacity"
-															/>
-														) : (
-															<div className="w-full h-full flex items-center justify-center">
-																<Camera className="h-10 w-10 text-muted-foreground/30" />
+													<button
+														onClick={() =>
+															setSelectedAlbumId(
+																album.id,
+															)
+														}
+														className="text-left w-full"
+													>
+														<div className="aspect-square rounded-lg overflow-hidden bg-muted relative">
+															{album.photos[0] ? (
+																<img
+																	src={
+																		album
+																			.photos[0]
+																			.photoUrl
+																	}
+																	alt={album.name}
+																	className="w-full h-full object-cover group-hover:opacity-90 transition-opacity"
+																/>
+															) : (
+																<div className="w-full h-full flex items-center justify-center">
+																	<Camera className="h-10 w-10 text-muted-foreground/30" />
+																</div>
+															)}
+															<div className="absolute bottom-0 left-0 right-0 bg-black/50 px-2 py-1.5">
+																<p className="text-white text-xs font-medium truncate">
+																	{album.name}
+																</p>
+																<p className="text-white/70 text-[10px]">
+																	{
+																		album._count
+																			.photos
+																	}{" "}
+																	photo
+																	{album._count
+																		.photos !==
+																	1
+																		? "s"
+																		: ""}
+																</p>
 															</div>
-														)}
-														<div className="absolute bottom-0 left-0 right-0 bg-black/50 px-2 py-1.5">
-															<p className="text-white text-xs font-medium truncate">
-																{album.name}
-															</p>
-															<p className="text-white/70 text-[10px]">
-																{
-																	album._count
-																		.photos
-																}{" "}
-																photo
-																{album._count
-																	.photos !==
-																1
-																	? "s"
-																	: ""}
-															</p>
 														</div>
-													</div>
-												</button>
+													</button>
+													{isOwnProfile && (
+														<button
+															onClick={async (e) => {
+																e.stopPropagation();
+																if (!confirm("Delete this album and all its photos?")) return;
+																await deleteAlbum(album.id);
+																setAlbumsList((prev) => prev.filter((a) => a.id !== album.id));
+																toast.success("Album deleted");
+															}}
+															className="absolute top-1.5 right-1.5 p-1 rounded-full bg-black/60 text-white opacity-0 group-hover:opacity-100 transition-opacity hover:bg-red-600"
+														>
+															<Trash2 className="h-3.5 w-3.5" />
+														</button>
+													)}
+												</div>
 											))}
 										</div>
 									)}
@@ -1360,14 +1383,13 @@ export function ProfileContent({
 									</h3>
 									{(() => {
 										const postPhotos = posts
-											.flatMap((p) => p.media)
-											.filter((m) => m.type === "image")
-											.map((m) => ({ id: m.id, url: m.url }));
-										const allPhotos = [
-											...standalonePhotos,
-											...postPhotos.filter(
-												(p) => !standalonePhotos.find((sp) => sp.id === p.id)
-											),
+											.flatMap((p) => p.media.filter((m) => m.type === "image").map((m) => ({ id: m.id, url: m.url, postId: p.id })));
+										const standaloneIds = new Set(standalonePhotos.map((sp) => sp.id));
+										const allPhotos: { id: number; url: string; postId?: number; isStandalone: boolean }[] = [
+											...standalonePhotos.map((sp) => ({ ...sp, postId: sp.id, isStandalone: true })),
+											...postPhotos
+												.filter((p) => !standaloneIds.has(p.id))
+												.map((p) => ({ ...p, isStandalone: false })),
 										];
 										if (allPhotos.length === 0) {
 											return (
@@ -1383,14 +1405,36 @@ export function ProfileContent({
 											<div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-2">
 												{allPhotos.map((photo) => (
 													<div
-														key={photo.id}
-														className="aspect-square rounded-lg overflow-hidden bg-muted"
+														key={`${photo.isStandalone ? "s" : "p"}-${photo.id}`}
+														className="aspect-square rounded-lg overflow-hidden bg-muted relative group"
 													>
 														<img
 															src={photo.url}
 															alt=""
 															className="w-full h-full object-cover hover:opacity-90 transition-opacity cursor-pointer"
 														/>
+														{isOwnProfile && (
+															<button
+																onClick={async () => {
+																	if (!confirm("Delete this photo?")) return;
+																	try {
+																		if (photo.isStandalone) {
+																			await deleteStandalonePhoto(photo.postId!);
+																			setStandalonePhotos((prev) => prev.filter((sp) => sp.id !== photo.id));
+																		} else {
+																			await deleteStandalonePhoto(photo.postId!);
+																			setPosts((prev) => prev.filter((p) => p.id !== photo.postId));
+																		}
+																		toast.success("Photo deleted");
+																	} catch {
+																		toast.error("Failed to delete photo");
+																	}
+																}}
+																className="absolute top-1.5 right-1.5 p-1 rounded-full bg-black/60 text-white opacity-0 group-hover:opacity-100 transition-opacity hover:bg-red-600"
+															>
+																<Trash2 className="h-3.5 w-3.5" />
+															</button>
+														)}
 													</div>
 												))}
 											</div>

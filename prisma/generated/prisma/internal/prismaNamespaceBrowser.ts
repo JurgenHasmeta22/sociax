@@ -117,6 +117,7 @@ export const ModelName = {
   Video: 'Video',
   VideoLike: 'VideoLike',
   VideoComment: 'VideoComment',
+  VideoCommentLike: 'VideoCommentLike',
   VideoHashtag: 'VideoHashtag'
 } as const
 
@@ -967,6 +968,16 @@ export const VideoCommentScalarFieldEnum = {
 } as const
 
 export type VideoCommentScalarFieldEnum = (typeof VideoCommentScalarFieldEnum)[keyof typeof VideoCommentScalarFieldEnum]
+
+
+export const VideoCommentLikeScalarFieldEnum = {
+  id: 'id',
+  createdAt: 'createdAt',
+  userId: 'userId',
+  commentId: 'commentId'
+} as const
+
+export type VideoCommentLikeScalarFieldEnum = (typeof VideoCommentLikeScalarFieldEnum)[keyof typeof VideoCommentLikeScalarFieldEnum]
 
 
 export const VideoHashtagScalarFieldEnum = {

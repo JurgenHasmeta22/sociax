@@ -372,6 +372,11 @@ export type VideoLike = Prisma.VideoLikeModel
  */
 export type VideoComment = Prisma.VideoCommentModel
 /**
+ * Model VideoCommentLike
+ * 
+ */
+export type VideoCommentLike = Prisma.VideoCommentLikeModel
+/**
  * Model VideoHashtag
  * 
  */

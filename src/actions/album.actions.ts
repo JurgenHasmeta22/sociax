@@ -102,6 +102,36 @@ export async function removePhotoFromAlbum(photoId: number) {
 	revalidatePath("/profile");
 }
 
+export async function removeMultiplePhotosFromAlbum(photoIds: number[]) {
+	const userId = await getSessionUserId();
+	if (photoIds.length === 0) return;
+
+	// Verify all photos belong to user's albums
+	const photos = await prisma.albumPhoto.findMany({
+		where: { id: { in: photoIds } },
+		include: { album: { select: { userId: true } } },
+	});
+
+	const unauthorized = photos.some((p) => p.album.userId !== userId);
+	if (unauthorized) throw new Error("Unauthorized");
+
+	await prisma.albumPhoto.deleteMany({ where: { id: { in: photoIds } } });
+	revalidatePath("/profile");
+}
+
+export async function deleteStandalonePhoto(postId: number) {
+	const userId = await getSessionUserId();
+	const post = await prisma.post.findUnique({
+		where: { id: postId },
+		select: { userId: true },
+	});
+	if (!post) throw new Error("Photo not found");
+	if (post.userId !== userId) throw new Error("Unauthorized");
+
+	await prisma.post.delete({ where: { id: postId } });
+	revalidatePath("/profile");
+}
+
 export async function getUserAlbums(
 	userId: number,
 	viewerUserId?: number | null,

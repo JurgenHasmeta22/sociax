@@ -450,6 +450,7 @@ export const ModelName = {
   Video: 'Video',
   VideoLike: 'VideoLike',
   VideoComment: 'VideoComment',
+  VideoCommentLike: 'VideoCommentLike',
   VideoHashtag: 'VideoHashtag'
 } as const
 
@@ -466,7 +467,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "album" | "albumPhoto" | "account" | "session" | "verificationToken" | "activateToken" | "resetPasswordToken" | "blog" | "blogLike" | "blogHashtag" | "postComment" | "commentLike" | "commentReply" | "replyLike" | "event" | "eventAttendee" | "eventPost" | "eventPostLike" | "eventPostComment" | "eventPostCommentLike" | "eventHashtag" | "group" | "groupMember" | "groupPost" | "groupPostLike" | "groupPostComment" | "groupPostCommentLike" | "marketplaceListing" | "listingImage" | "listingSave" | "listingOffer" | "listingMessage" | "listingMessageLike" | "memory" | "conversation" | "conversationParticipant" | "message" | "messageReaction" | "reportedContent" | "moderationLog" | "notification" | "page" | "pageFollower" | "pagePost" | "pagePostLike" | "pagePostComment" | "pagePostCommentLike" | "post" | "postMedia" | "postLike" | "postSave" | "postShare" | "postHistory" | "hashtag" | "postHashtag" | "story" | "storyView" | "storyReaction" | "user" | "avatar" | "coverPhoto" | "userFollow" | "userBlock" | "video" | "videoLike" | "videoComment" | "videoHashtag"
+    modelProps: "album" | "albumPhoto" | "account" | "session" | "verificationToken" | "activateToken" | "resetPasswordToken" | "blog" | "blogLike" | "blogHashtag" | "postComment" | "commentLike" | "commentReply" | "replyLike" | "event" | "eventAttendee" | "eventPost" | "eventPostLike" | "eventPostComment" | "eventPostCommentLike" | "eventHashtag" | "group" | "groupMember" | "groupPost" | "groupPostLike" | "groupPostComment" | "groupPostCommentLike" | "marketplaceListing" | "listingImage" | "listingSave" | "listingOffer" | "listingMessage" | "listingMessageLike" | "memory" | "conversation" | "conversationParticipant" | "message" | "messageReaction" | "reportedContent" | "moderationLog" | "notification" | "page" | "pageFollower" | "pagePost" | "pagePostLike" | "pagePostComment" | "pagePostCommentLike" | "post" | "postMedia" | "postLike" | "postSave" | "postShare" | "postHistory" | "hashtag" | "postHashtag" | "story" | "storyView" | "storyReaction" | "user" | "avatar" | "coverPhoto" | "userFollow" | "userBlock" | "video" | "videoLike" | "videoComment" | "videoCommentLike" | "videoHashtag"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -5354,6 +5355,80 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
+    VideoCommentLike: {
+      payload: Prisma.$VideoCommentLikePayload<ExtArgs>
+      fields: Prisma.VideoCommentLikeFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.VideoCommentLikeFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$VideoCommentLikePayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.VideoCommentLikeFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$VideoCommentLikePayload>
+        }
+        findFirst: {
+          args: Prisma.VideoCommentLikeFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$VideoCommentLikePayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.VideoCommentLikeFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$VideoCommentLikePayload>
+        }
+        findMany: {
+          args: Prisma.VideoCommentLikeFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$VideoCommentLikePayload>[]
+        }
+        create: {
+          args: Prisma.VideoCommentLikeCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$VideoCommentLikePayload>
+        }
+        createMany: {
+          args: Prisma.VideoCommentLikeCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.VideoCommentLikeCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$VideoCommentLikePayload>[]
+        }
+        delete: {
+          args: Prisma.VideoCommentLikeDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$VideoCommentLikePayload>
+        }
+        update: {
+          args: Prisma.VideoCommentLikeUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$VideoCommentLikePayload>
+        }
+        deleteMany: {
+          args: Prisma.VideoCommentLikeDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.VideoCommentLikeUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.VideoCommentLikeUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$VideoCommentLikePayload>[]
+        }
+        upsert: {
+          args: Prisma.VideoCommentLikeUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$VideoCommentLikePayload>
+        }
+        aggregate: {
+          args: Prisma.VideoCommentLikeAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateVideoCommentLike>
+        }
+        groupBy: {
+          args: Prisma.VideoCommentLikeGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.VideoCommentLikeGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.VideoCommentLikeCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.VideoCommentLikeCountAggregateOutputType> | number
+        }
+      }
+    }
     VideoHashtag: {
       payload: Prisma.$VideoHashtagPayload<ExtArgs>
       fields: Prisma.VideoHashtagFieldRefs
@@ -6300,6 +6375,16 @@ export const VideoCommentScalarFieldEnum = {
 export type VideoCommentScalarFieldEnum = (typeof VideoCommentScalarFieldEnum)[keyof typeof VideoCommentScalarFieldEnum]
 
 
+export const VideoCommentLikeScalarFieldEnum = {
+  id: 'id',
+  createdAt: 'createdAt',
+  userId: 'userId',
+  commentId: 'commentId'
+} as const
+
+export type VideoCommentLikeScalarFieldEnum = (typeof VideoCommentLikeScalarFieldEnum)[keyof typeof VideoCommentLikeScalarFieldEnum]
+
+
 export const VideoHashtagScalarFieldEnum = {
   id: 'id',
   videoId: 'videoId',
@@ -6708,6 +6793,7 @@ export type GlobalOmitConfig = {
   video?: Prisma.VideoOmit
   videoLike?: Prisma.VideoLikeOmit
   videoComment?: Prisma.VideoCommentOmit
+  videoCommentLike?: Prisma.VideoCommentLikeOmit
   videoHashtag?: Prisma.VideoHashtagOmit
 }
 

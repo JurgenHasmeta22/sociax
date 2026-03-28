@@ -386,6 +386,7 @@ export type UserWhereInput = {
   videos?: Prisma.VideoListRelationFilter
   videoLikes?: Prisma.VideoLikeListRelationFilter
   videoComments?: Prisma.VideoCommentListRelationFilter
+  videoCommentLikes?: Prisma.VideoCommentLikeListRelationFilter
   blogs?: Prisma.BlogListRelationFilter
   blogLikes?: Prisma.BlogLikeListRelationFilter
   albums?: Prisma.AlbumListRelationFilter
@@ -469,6 +470,7 @@ export type UserOrderByWithRelationInput = {
   videos?: Prisma.VideoOrderByRelationAggregateInput
   videoLikes?: Prisma.VideoLikeOrderByRelationAggregateInput
   videoComments?: Prisma.VideoCommentOrderByRelationAggregateInput
+  videoCommentLikes?: Prisma.VideoCommentLikeOrderByRelationAggregateInput
   blogs?: Prisma.BlogOrderByRelationAggregateInput
   blogLikes?: Prisma.BlogLikeOrderByRelationAggregateInput
   albums?: Prisma.AlbumOrderByRelationAggregateInput
@@ -555,6 +557,7 @@ export type UserWhereUniqueInput = Prisma.AtLeast<{
   videos?: Prisma.VideoListRelationFilter
   videoLikes?: Prisma.VideoLikeListRelationFilter
   videoComments?: Prisma.VideoCommentListRelationFilter
+  videoCommentLikes?: Prisma.VideoCommentLikeListRelationFilter
   blogs?: Prisma.BlogListRelationFilter
   blogLikes?: Prisma.BlogLikeListRelationFilter
   albums?: Prisma.AlbumListRelationFilter
@@ -689,6 +692,7 @@ export type UserCreateInput = {
   videos?: Prisma.VideoCreateNestedManyWithoutAuthorInput
   videoLikes?: Prisma.VideoLikeCreateNestedManyWithoutUserInput
   videoComments?: Prisma.VideoCommentCreateNestedManyWithoutUserInput
+  videoCommentLikes?: Prisma.VideoCommentLikeCreateNestedManyWithoutUserInput
   blogs?: Prisma.BlogCreateNestedManyWithoutAuthorInput
   blogLikes?: Prisma.BlogLikeCreateNestedManyWithoutUserInput
   albums?: Prisma.AlbumCreateNestedManyWithoutUserInput
@@ -772,6 +776,7 @@ export type UserUncheckedCreateInput = {
   videos?: Prisma.VideoUncheckedCreateNestedManyWithoutAuthorInput
   videoLikes?: Prisma.VideoLikeUncheckedCreateNestedManyWithoutUserInput
   videoComments?: Prisma.VideoCommentUncheckedCreateNestedManyWithoutUserInput
+  videoCommentLikes?: Prisma.VideoCommentLikeUncheckedCreateNestedManyWithoutUserInput
   blogs?: Prisma.BlogUncheckedCreateNestedManyWithoutAuthorInput
   blogLikes?: Prisma.BlogLikeUncheckedCreateNestedManyWithoutUserInput
   albums?: Prisma.AlbumUncheckedCreateNestedManyWithoutUserInput
@@ -854,6 +859,7 @@ export type UserUpdateInput = {
   videos?: Prisma.VideoUpdateManyWithoutAuthorNestedInput
   videoLikes?: Prisma.VideoLikeUpdateManyWithoutUserNestedInput
   videoComments?: Prisma.VideoCommentUpdateManyWithoutUserNestedInput
+  videoCommentLikes?: Prisma.VideoCommentLikeUpdateManyWithoutUserNestedInput
   blogs?: Prisma.BlogUpdateManyWithoutAuthorNestedInput
   blogLikes?: Prisma.BlogLikeUpdateManyWithoutUserNestedInput
   albums?: Prisma.AlbumUpdateManyWithoutUserNestedInput
@@ -937,6 +943,7 @@ export type UserUncheckedUpdateInput = {
   videos?: Prisma.VideoUncheckedUpdateManyWithoutAuthorNestedInput
   videoLikes?: Prisma.VideoLikeUncheckedUpdateManyWithoutUserNestedInput
   videoComments?: Prisma.VideoCommentUncheckedUpdateManyWithoutUserNestedInput
+  videoCommentLikes?: Prisma.VideoCommentLikeUncheckedUpdateManyWithoutUserNestedInput
   blogs?: Prisma.BlogUncheckedUpdateManyWithoutAuthorNestedInput
   blogLikes?: Prisma.BlogLikeUncheckedUpdateManyWithoutUserNestedInput
   albums?: Prisma.AlbumUncheckedUpdateManyWithoutUserNestedInput
@@ -1961,6 +1968,20 @@ export type UserUpdateOneRequiredWithoutVideoCommentsNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutVideoCommentsInput, Prisma.UserUpdateWithoutVideoCommentsInput>, Prisma.UserUncheckedUpdateWithoutVideoCommentsInput>
 }
 
+export type UserCreateNestedOneWithoutVideoCommentLikesInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutVideoCommentLikesInput, Prisma.UserUncheckedCreateWithoutVideoCommentLikesInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutVideoCommentLikesInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
+export type UserUpdateOneRequiredWithoutVideoCommentLikesNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutVideoCommentLikesInput, Prisma.UserUncheckedCreateWithoutVideoCommentLikesInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutVideoCommentLikesInput
+  upsert?: Prisma.UserUpsertWithoutVideoCommentLikesInput
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutVideoCommentLikesInput, Prisma.UserUpdateWithoutVideoCommentLikesInput>, Prisma.UserUncheckedUpdateWithoutVideoCommentLikesInput>
+}
+
 export type UserCreateWithoutAlbumsInput = {
   userName: string
   email: string
@@ -2038,6 +2059,7 @@ export type UserCreateWithoutAlbumsInput = {
   videos?: Prisma.VideoCreateNestedManyWithoutAuthorInput
   videoLikes?: Prisma.VideoLikeCreateNestedManyWithoutUserInput
   videoComments?: Prisma.VideoCommentCreateNestedManyWithoutUserInput
+  videoCommentLikes?: Prisma.VideoCommentLikeCreateNestedManyWithoutUserInput
   blogs?: Prisma.BlogCreateNestedManyWithoutAuthorInput
   blogLikes?: Prisma.BlogLikeCreateNestedManyWithoutUserInput
 }
@@ -2120,6 +2142,7 @@ export type UserUncheckedCreateWithoutAlbumsInput = {
   videos?: Prisma.VideoUncheckedCreateNestedManyWithoutAuthorInput
   videoLikes?: Prisma.VideoLikeUncheckedCreateNestedManyWithoutUserInput
   videoComments?: Prisma.VideoCommentUncheckedCreateNestedManyWithoutUserInput
+  videoCommentLikes?: Prisma.VideoCommentLikeUncheckedCreateNestedManyWithoutUserInput
   blogs?: Prisma.BlogUncheckedCreateNestedManyWithoutAuthorInput
   blogLikes?: Prisma.BlogLikeUncheckedCreateNestedManyWithoutUserInput
 }
@@ -2217,6 +2240,7 @@ export type UserUpdateWithoutAlbumsInput = {
   videos?: Prisma.VideoUpdateManyWithoutAuthorNestedInput
   videoLikes?: Prisma.VideoLikeUpdateManyWithoutUserNestedInput
   videoComments?: Prisma.VideoCommentUpdateManyWithoutUserNestedInput
+  videoCommentLikes?: Prisma.VideoCommentLikeUpdateManyWithoutUserNestedInput
   blogs?: Prisma.BlogUpdateManyWithoutAuthorNestedInput
   blogLikes?: Prisma.BlogLikeUpdateManyWithoutUserNestedInput
 }
@@ -2299,6 +2323,7 @@ export type UserUncheckedUpdateWithoutAlbumsInput = {
   videos?: Prisma.VideoUncheckedUpdateManyWithoutAuthorNestedInput
   videoLikes?: Prisma.VideoLikeUncheckedUpdateManyWithoutUserNestedInput
   videoComments?: Prisma.VideoCommentUncheckedUpdateManyWithoutUserNestedInput
+  videoCommentLikes?: Prisma.VideoCommentLikeUncheckedUpdateManyWithoutUserNestedInput
   blogs?: Prisma.BlogUncheckedUpdateManyWithoutAuthorNestedInput
   blogLikes?: Prisma.BlogLikeUncheckedUpdateManyWithoutUserNestedInput
 }
@@ -2379,6 +2404,7 @@ export type UserCreateWithoutAccountsInput = {
   videos?: Prisma.VideoCreateNestedManyWithoutAuthorInput
   videoLikes?: Prisma.VideoLikeCreateNestedManyWithoutUserInput
   videoComments?: Prisma.VideoCommentCreateNestedManyWithoutUserInput
+  videoCommentLikes?: Prisma.VideoCommentLikeCreateNestedManyWithoutUserInput
   blogs?: Prisma.BlogCreateNestedManyWithoutAuthorInput
   blogLikes?: Prisma.BlogLikeCreateNestedManyWithoutUserInput
   albums?: Prisma.AlbumCreateNestedManyWithoutUserInput
@@ -2461,6 +2487,7 @@ export type UserUncheckedCreateWithoutAccountsInput = {
   videos?: Prisma.VideoUncheckedCreateNestedManyWithoutAuthorInput
   videoLikes?: Prisma.VideoLikeUncheckedCreateNestedManyWithoutUserInput
   videoComments?: Prisma.VideoCommentUncheckedCreateNestedManyWithoutUserInput
+  videoCommentLikes?: Prisma.VideoCommentLikeUncheckedCreateNestedManyWithoutUserInput
   blogs?: Prisma.BlogUncheckedCreateNestedManyWithoutAuthorInput
   blogLikes?: Prisma.BlogLikeUncheckedCreateNestedManyWithoutUserInput
   albums?: Prisma.AlbumUncheckedCreateNestedManyWithoutUserInput
@@ -2558,6 +2585,7 @@ export type UserUpdateWithoutAccountsInput = {
   videos?: Prisma.VideoUpdateManyWithoutAuthorNestedInput
   videoLikes?: Prisma.VideoLikeUpdateManyWithoutUserNestedInput
   videoComments?: Prisma.VideoCommentUpdateManyWithoutUserNestedInput
+  videoCommentLikes?: Prisma.VideoCommentLikeUpdateManyWithoutUserNestedInput
   blogs?: Prisma.BlogUpdateManyWithoutAuthorNestedInput
   blogLikes?: Prisma.BlogLikeUpdateManyWithoutUserNestedInput
   albums?: Prisma.AlbumUpdateManyWithoutUserNestedInput
@@ -2640,6 +2668,7 @@ export type UserUncheckedUpdateWithoutAccountsInput = {
   videos?: Prisma.VideoUncheckedUpdateManyWithoutAuthorNestedInput
   videoLikes?: Prisma.VideoLikeUncheckedUpdateManyWithoutUserNestedInput
   videoComments?: Prisma.VideoCommentUncheckedUpdateManyWithoutUserNestedInput
+  videoCommentLikes?: Prisma.VideoCommentLikeUncheckedUpdateManyWithoutUserNestedInput
   blogs?: Prisma.BlogUncheckedUpdateManyWithoutAuthorNestedInput
   blogLikes?: Prisma.BlogLikeUncheckedUpdateManyWithoutUserNestedInput
   albums?: Prisma.AlbumUncheckedUpdateManyWithoutUserNestedInput
@@ -2721,6 +2750,7 @@ export type UserCreateWithoutSessionsInput = {
   videos?: Prisma.VideoCreateNestedManyWithoutAuthorInput
   videoLikes?: Prisma.VideoLikeCreateNestedManyWithoutUserInput
   videoComments?: Prisma.VideoCommentCreateNestedManyWithoutUserInput
+  videoCommentLikes?: Prisma.VideoCommentLikeCreateNestedManyWithoutUserInput
   blogs?: Prisma.BlogCreateNestedManyWithoutAuthorInput
   blogLikes?: Prisma.BlogLikeCreateNestedManyWithoutUserInput
   albums?: Prisma.AlbumCreateNestedManyWithoutUserInput
@@ -2803,6 +2833,7 @@ export type UserUncheckedCreateWithoutSessionsInput = {
   videos?: Prisma.VideoUncheckedCreateNestedManyWithoutAuthorInput
   videoLikes?: Prisma.VideoLikeUncheckedCreateNestedManyWithoutUserInput
   videoComments?: Prisma.VideoCommentUncheckedCreateNestedManyWithoutUserInput
+  videoCommentLikes?: Prisma.VideoCommentLikeUncheckedCreateNestedManyWithoutUserInput
   blogs?: Prisma.BlogUncheckedCreateNestedManyWithoutAuthorInput
   blogLikes?: Prisma.BlogLikeUncheckedCreateNestedManyWithoutUserInput
   albums?: Prisma.AlbumUncheckedCreateNestedManyWithoutUserInput
@@ -2900,6 +2931,7 @@ export type UserUpdateWithoutSessionsInput = {
   videos?: Prisma.VideoUpdateManyWithoutAuthorNestedInput
   videoLikes?: Prisma.VideoLikeUpdateManyWithoutUserNestedInput
   videoComments?: Prisma.VideoCommentUpdateManyWithoutUserNestedInput
+  videoCommentLikes?: Prisma.VideoCommentLikeUpdateManyWithoutUserNestedInput
   blogs?: Prisma.BlogUpdateManyWithoutAuthorNestedInput
   blogLikes?: Prisma.BlogLikeUpdateManyWithoutUserNestedInput
   albums?: Prisma.AlbumUpdateManyWithoutUserNestedInput
@@ -2982,6 +3014,7 @@ export type UserUncheckedUpdateWithoutSessionsInput = {
   videos?: Prisma.VideoUncheckedUpdateManyWithoutAuthorNestedInput
   videoLikes?: Prisma.VideoLikeUncheckedUpdateManyWithoutUserNestedInput
   videoComments?: Prisma.VideoCommentUncheckedUpdateManyWithoutUserNestedInput
+  videoCommentLikes?: Prisma.VideoCommentLikeUncheckedUpdateManyWithoutUserNestedInput
   blogs?: Prisma.BlogUncheckedUpdateManyWithoutAuthorNestedInput
   blogLikes?: Prisma.BlogLikeUncheckedUpdateManyWithoutUserNestedInput
   albums?: Prisma.AlbumUncheckedUpdateManyWithoutUserNestedInput
@@ -3063,6 +3096,7 @@ export type UserCreateWithoutActivateTokensInput = {
   videos?: Prisma.VideoCreateNestedManyWithoutAuthorInput
   videoLikes?: Prisma.VideoLikeCreateNestedManyWithoutUserInput
   videoComments?: Prisma.VideoCommentCreateNestedManyWithoutUserInput
+  videoCommentLikes?: Prisma.VideoCommentLikeCreateNestedManyWithoutUserInput
   blogs?: Prisma.BlogCreateNestedManyWithoutAuthorInput
   blogLikes?: Prisma.BlogLikeCreateNestedManyWithoutUserInput
   albums?: Prisma.AlbumCreateNestedManyWithoutUserInput
@@ -3145,6 +3179,7 @@ export type UserUncheckedCreateWithoutActivateTokensInput = {
   videos?: Prisma.VideoUncheckedCreateNestedManyWithoutAuthorInput
   videoLikes?: Prisma.VideoLikeUncheckedCreateNestedManyWithoutUserInput
   videoComments?: Prisma.VideoCommentUncheckedCreateNestedManyWithoutUserInput
+  videoCommentLikes?: Prisma.VideoCommentLikeUncheckedCreateNestedManyWithoutUserInput
   blogs?: Prisma.BlogUncheckedCreateNestedManyWithoutAuthorInput
   blogLikes?: Prisma.BlogLikeUncheckedCreateNestedManyWithoutUserInput
   albums?: Prisma.AlbumUncheckedCreateNestedManyWithoutUserInput
@@ -3242,6 +3277,7 @@ export type UserUpdateWithoutActivateTokensInput = {
   videos?: Prisma.VideoUpdateManyWithoutAuthorNestedInput
   videoLikes?: Prisma.VideoLikeUpdateManyWithoutUserNestedInput
   videoComments?: Prisma.VideoCommentUpdateManyWithoutUserNestedInput
+  videoCommentLikes?: Prisma.VideoCommentLikeUpdateManyWithoutUserNestedInput
   blogs?: Prisma.BlogUpdateManyWithoutAuthorNestedInput
   blogLikes?: Prisma.BlogLikeUpdateManyWithoutUserNestedInput
   albums?: Prisma.AlbumUpdateManyWithoutUserNestedInput
@@ -3324,6 +3360,7 @@ export type UserUncheckedUpdateWithoutActivateTokensInput = {
   videos?: Prisma.VideoUncheckedUpdateManyWithoutAuthorNestedInput
   videoLikes?: Prisma.VideoLikeUncheckedUpdateManyWithoutUserNestedInput
   videoComments?: Prisma.VideoCommentUncheckedUpdateManyWithoutUserNestedInput
+  videoCommentLikes?: Prisma.VideoCommentLikeUncheckedUpdateManyWithoutUserNestedInput
   blogs?: Prisma.BlogUncheckedUpdateManyWithoutAuthorNestedInput
   blogLikes?: Prisma.BlogLikeUncheckedUpdateManyWithoutUserNestedInput
   albums?: Prisma.AlbumUncheckedUpdateManyWithoutUserNestedInput
@@ -3405,6 +3442,7 @@ export type UserCreateWithoutResetPasswordTokensInput = {
   videos?: Prisma.VideoCreateNestedManyWithoutAuthorInput
   videoLikes?: Prisma.VideoLikeCreateNestedManyWithoutUserInput
   videoComments?: Prisma.VideoCommentCreateNestedManyWithoutUserInput
+  videoCommentLikes?: Prisma.VideoCommentLikeCreateNestedManyWithoutUserInput
   blogs?: Prisma.BlogCreateNestedManyWithoutAuthorInput
   blogLikes?: Prisma.BlogLikeCreateNestedManyWithoutUserInput
   albums?: Prisma.AlbumCreateNestedManyWithoutUserInput
@@ -3487,6 +3525,7 @@ export type UserUncheckedCreateWithoutResetPasswordTokensInput = {
   videos?: Prisma.VideoUncheckedCreateNestedManyWithoutAuthorInput
   videoLikes?: Prisma.VideoLikeUncheckedCreateNestedManyWithoutUserInput
   videoComments?: Prisma.VideoCommentUncheckedCreateNestedManyWithoutUserInput
+  videoCommentLikes?: Prisma.VideoCommentLikeUncheckedCreateNestedManyWithoutUserInput
   blogs?: Prisma.BlogUncheckedCreateNestedManyWithoutAuthorInput
   blogLikes?: Prisma.BlogLikeUncheckedCreateNestedManyWithoutUserInput
   albums?: Prisma.AlbumUncheckedCreateNestedManyWithoutUserInput
@@ -3584,6 +3623,7 @@ export type UserUpdateWithoutResetPasswordTokensInput = {
   videos?: Prisma.VideoUpdateManyWithoutAuthorNestedInput
   videoLikes?: Prisma.VideoLikeUpdateManyWithoutUserNestedInput
   videoComments?: Prisma.VideoCommentUpdateManyWithoutUserNestedInput
+  videoCommentLikes?: Prisma.VideoCommentLikeUpdateManyWithoutUserNestedInput
   blogs?: Prisma.BlogUpdateManyWithoutAuthorNestedInput
   blogLikes?: Prisma.BlogLikeUpdateManyWithoutUserNestedInput
   albums?: Prisma.AlbumUpdateManyWithoutUserNestedInput
@@ -3666,6 +3706,7 @@ export type UserUncheckedUpdateWithoutResetPasswordTokensInput = {
   videos?: Prisma.VideoUncheckedUpdateManyWithoutAuthorNestedInput
   videoLikes?: Prisma.VideoLikeUncheckedUpdateManyWithoutUserNestedInput
   videoComments?: Prisma.VideoCommentUncheckedUpdateManyWithoutUserNestedInput
+  videoCommentLikes?: Prisma.VideoCommentLikeUncheckedUpdateManyWithoutUserNestedInput
   blogs?: Prisma.BlogUncheckedUpdateManyWithoutAuthorNestedInput
   blogLikes?: Prisma.BlogLikeUncheckedUpdateManyWithoutUserNestedInput
   albums?: Prisma.AlbumUncheckedUpdateManyWithoutUserNestedInput
@@ -3748,6 +3789,7 @@ export type UserCreateWithoutBlogsInput = {
   videos?: Prisma.VideoCreateNestedManyWithoutAuthorInput
   videoLikes?: Prisma.VideoLikeCreateNestedManyWithoutUserInput
   videoComments?: Prisma.VideoCommentCreateNestedManyWithoutUserInput
+  videoCommentLikes?: Prisma.VideoCommentLikeCreateNestedManyWithoutUserInput
   blogLikes?: Prisma.BlogLikeCreateNestedManyWithoutUserInput
   albums?: Prisma.AlbumCreateNestedManyWithoutUserInput
 }
@@ -3830,6 +3872,7 @@ export type UserUncheckedCreateWithoutBlogsInput = {
   videos?: Prisma.VideoUncheckedCreateNestedManyWithoutAuthorInput
   videoLikes?: Prisma.VideoLikeUncheckedCreateNestedManyWithoutUserInput
   videoComments?: Prisma.VideoCommentUncheckedCreateNestedManyWithoutUserInput
+  videoCommentLikes?: Prisma.VideoCommentLikeUncheckedCreateNestedManyWithoutUserInput
   blogLikes?: Prisma.BlogLikeUncheckedCreateNestedManyWithoutUserInput
   albums?: Prisma.AlbumUncheckedCreateNestedManyWithoutUserInput
 }
@@ -3927,6 +3970,7 @@ export type UserUpdateWithoutBlogsInput = {
   videos?: Prisma.VideoUpdateManyWithoutAuthorNestedInput
   videoLikes?: Prisma.VideoLikeUpdateManyWithoutUserNestedInput
   videoComments?: Prisma.VideoCommentUpdateManyWithoutUserNestedInput
+  videoCommentLikes?: Prisma.VideoCommentLikeUpdateManyWithoutUserNestedInput
   blogLikes?: Prisma.BlogLikeUpdateManyWithoutUserNestedInput
   albums?: Prisma.AlbumUpdateManyWithoutUserNestedInput
 }
@@ -4009,6 +4053,7 @@ export type UserUncheckedUpdateWithoutBlogsInput = {
   videos?: Prisma.VideoUncheckedUpdateManyWithoutAuthorNestedInput
   videoLikes?: Prisma.VideoLikeUncheckedUpdateManyWithoutUserNestedInput
   videoComments?: Prisma.VideoCommentUncheckedUpdateManyWithoutUserNestedInput
+  videoCommentLikes?: Prisma.VideoCommentLikeUncheckedUpdateManyWithoutUserNestedInput
   blogLikes?: Prisma.BlogLikeUncheckedUpdateManyWithoutUserNestedInput
   albums?: Prisma.AlbumUncheckedUpdateManyWithoutUserNestedInput
 }
@@ -4090,6 +4135,7 @@ export type UserCreateWithoutBlogLikesInput = {
   videos?: Prisma.VideoCreateNestedManyWithoutAuthorInput
   videoLikes?: Prisma.VideoLikeCreateNestedManyWithoutUserInput
   videoComments?: Prisma.VideoCommentCreateNestedManyWithoutUserInput
+  videoCommentLikes?: Prisma.VideoCommentLikeCreateNestedManyWithoutUserInput
   blogs?: Prisma.BlogCreateNestedManyWithoutAuthorInput
   albums?: Prisma.AlbumCreateNestedManyWithoutUserInput
 }
@@ -4172,6 +4218,7 @@ export type UserUncheckedCreateWithoutBlogLikesInput = {
   videos?: Prisma.VideoUncheckedCreateNestedManyWithoutAuthorInput
   videoLikes?: Prisma.VideoLikeUncheckedCreateNestedManyWithoutUserInput
   videoComments?: Prisma.VideoCommentUncheckedCreateNestedManyWithoutUserInput
+  videoCommentLikes?: Prisma.VideoCommentLikeUncheckedCreateNestedManyWithoutUserInput
   blogs?: Prisma.BlogUncheckedCreateNestedManyWithoutAuthorInput
   albums?: Prisma.AlbumUncheckedCreateNestedManyWithoutUserInput
 }
@@ -4269,6 +4316,7 @@ export type UserUpdateWithoutBlogLikesInput = {
   videos?: Prisma.VideoUpdateManyWithoutAuthorNestedInput
   videoLikes?: Prisma.VideoLikeUpdateManyWithoutUserNestedInput
   videoComments?: Prisma.VideoCommentUpdateManyWithoutUserNestedInput
+  videoCommentLikes?: Prisma.VideoCommentLikeUpdateManyWithoutUserNestedInput
   blogs?: Prisma.BlogUpdateManyWithoutAuthorNestedInput
   albums?: Prisma.AlbumUpdateManyWithoutUserNestedInput
 }
@@ -4351,6 +4399,7 @@ export type UserUncheckedUpdateWithoutBlogLikesInput = {
   videos?: Prisma.VideoUncheckedUpdateManyWithoutAuthorNestedInput
   videoLikes?: Prisma.VideoLikeUncheckedUpdateManyWithoutUserNestedInput
   videoComments?: Prisma.VideoCommentUncheckedUpdateManyWithoutUserNestedInput
+  videoCommentLikes?: Prisma.VideoCommentLikeUncheckedUpdateManyWithoutUserNestedInput
   blogs?: Prisma.BlogUncheckedUpdateManyWithoutAuthorNestedInput
   albums?: Prisma.AlbumUncheckedUpdateManyWithoutUserNestedInput
 }
@@ -4431,6 +4480,7 @@ export type UserCreateWithoutPostCommentsInput = {
   videos?: Prisma.VideoCreateNestedManyWithoutAuthorInput
   videoLikes?: Prisma.VideoLikeCreateNestedManyWithoutUserInput
   videoComments?: Prisma.VideoCommentCreateNestedManyWithoutUserInput
+  videoCommentLikes?: Prisma.VideoCommentLikeCreateNestedManyWithoutUserInput
   blogs?: Prisma.BlogCreateNestedManyWithoutAuthorInput
   blogLikes?: Prisma.BlogLikeCreateNestedManyWithoutUserInput
   albums?: Prisma.AlbumCreateNestedManyWithoutUserInput
@@ -4513,6 +4563,7 @@ export type UserUncheckedCreateWithoutPostCommentsInput = {
   videos?: Prisma.VideoUncheckedCreateNestedManyWithoutAuthorInput
   videoLikes?: Prisma.VideoLikeUncheckedCreateNestedManyWithoutUserInput
   videoComments?: Prisma.VideoCommentUncheckedCreateNestedManyWithoutUserInput
+  videoCommentLikes?: Prisma.VideoCommentLikeUncheckedCreateNestedManyWithoutUserInput
   blogs?: Prisma.BlogUncheckedCreateNestedManyWithoutAuthorInput
   blogLikes?: Prisma.BlogLikeUncheckedCreateNestedManyWithoutUserInput
   albums?: Prisma.AlbumUncheckedCreateNestedManyWithoutUserInput
@@ -4610,6 +4661,7 @@ export type UserUpdateWithoutPostCommentsInput = {
   videos?: Prisma.VideoUpdateManyWithoutAuthorNestedInput
   videoLikes?: Prisma.VideoLikeUpdateManyWithoutUserNestedInput
   videoComments?: Prisma.VideoCommentUpdateManyWithoutUserNestedInput
+  videoCommentLikes?: Prisma.VideoCommentLikeUpdateManyWithoutUserNestedInput
   blogs?: Prisma.BlogUpdateManyWithoutAuthorNestedInput
   blogLikes?: Prisma.BlogLikeUpdateManyWithoutUserNestedInput
   albums?: Prisma.AlbumUpdateManyWithoutUserNestedInput
@@ -4692,6 +4744,7 @@ export type UserUncheckedUpdateWithoutPostCommentsInput = {
   videos?: Prisma.VideoUncheckedUpdateManyWithoutAuthorNestedInput
   videoLikes?: Prisma.VideoLikeUncheckedUpdateManyWithoutUserNestedInput
   videoComments?: Prisma.VideoCommentUncheckedUpdateManyWithoutUserNestedInput
+  videoCommentLikes?: Prisma.VideoCommentLikeUncheckedUpdateManyWithoutUserNestedInput
   blogs?: Prisma.BlogUncheckedUpdateManyWithoutAuthorNestedInput
   blogLikes?: Prisma.BlogLikeUncheckedUpdateManyWithoutUserNestedInput
   albums?: Prisma.AlbumUncheckedUpdateManyWithoutUserNestedInput
@@ -4773,6 +4826,7 @@ export type UserCreateWithoutCommentLikesInput = {
   videos?: Prisma.VideoCreateNestedManyWithoutAuthorInput
   videoLikes?: Prisma.VideoLikeCreateNestedManyWithoutUserInput
   videoComments?: Prisma.VideoCommentCreateNestedManyWithoutUserInput
+  videoCommentLikes?: Prisma.VideoCommentLikeCreateNestedManyWithoutUserInput
   blogs?: Prisma.BlogCreateNestedManyWithoutAuthorInput
   blogLikes?: Prisma.BlogLikeCreateNestedManyWithoutUserInput
   albums?: Prisma.AlbumCreateNestedManyWithoutUserInput
@@ -4855,6 +4909,7 @@ export type UserUncheckedCreateWithoutCommentLikesInput = {
   videos?: Prisma.VideoUncheckedCreateNestedManyWithoutAuthorInput
   videoLikes?: Prisma.VideoLikeUncheckedCreateNestedManyWithoutUserInput
   videoComments?: Prisma.VideoCommentUncheckedCreateNestedManyWithoutUserInput
+  videoCommentLikes?: Prisma.VideoCommentLikeUncheckedCreateNestedManyWithoutUserInput
   blogs?: Prisma.BlogUncheckedCreateNestedManyWithoutAuthorInput
   blogLikes?: Prisma.BlogLikeUncheckedCreateNestedManyWithoutUserInput
   albums?: Prisma.AlbumUncheckedCreateNestedManyWithoutUserInput
@@ -4952,6 +5007,7 @@ export type UserUpdateWithoutCommentLikesInput = {
   videos?: Prisma.VideoUpdateManyWithoutAuthorNestedInput
   videoLikes?: Prisma.VideoLikeUpdateManyWithoutUserNestedInput
   videoComments?: Prisma.VideoCommentUpdateManyWithoutUserNestedInput
+  videoCommentLikes?: Prisma.VideoCommentLikeUpdateManyWithoutUserNestedInput
   blogs?: Prisma.BlogUpdateManyWithoutAuthorNestedInput
   blogLikes?: Prisma.BlogLikeUpdateManyWithoutUserNestedInput
   albums?: Prisma.AlbumUpdateManyWithoutUserNestedInput
@@ -5034,6 +5090,7 @@ export type UserUncheckedUpdateWithoutCommentLikesInput = {
   videos?: Prisma.VideoUncheckedUpdateManyWithoutAuthorNestedInput
   videoLikes?: Prisma.VideoLikeUncheckedUpdateManyWithoutUserNestedInput
   videoComments?: Prisma.VideoCommentUncheckedUpdateManyWithoutUserNestedInput
+  videoCommentLikes?: Prisma.VideoCommentLikeUncheckedUpdateManyWithoutUserNestedInput
   blogs?: Prisma.BlogUncheckedUpdateManyWithoutAuthorNestedInput
   blogLikes?: Prisma.BlogLikeUncheckedUpdateManyWithoutUserNestedInput
   albums?: Prisma.AlbumUncheckedUpdateManyWithoutUserNestedInput
@@ -5115,6 +5172,7 @@ export type UserCreateWithoutCommentRepliesInput = {
   videos?: Prisma.VideoCreateNestedManyWithoutAuthorInput
   videoLikes?: Prisma.VideoLikeCreateNestedManyWithoutUserInput
   videoComments?: Prisma.VideoCommentCreateNestedManyWithoutUserInput
+  videoCommentLikes?: Prisma.VideoCommentLikeCreateNestedManyWithoutUserInput
   blogs?: Prisma.BlogCreateNestedManyWithoutAuthorInput
   blogLikes?: Prisma.BlogLikeCreateNestedManyWithoutUserInput
   albums?: Prisma.AlbumCreateNestedManyWithoutUserInput
@@ -5197,6 +5255,7 @@ export type UserUncheckedCreateWithoutCommentRepliesInput = {
   videos?: Prisma.VideoUncheckedCreateNestedManyWithoutAuthorInput
   videoLikes?: Prisma.VideoLikeUncheckedCreateNestedManyWithoutUserInput
   videoComments?: Prisma.VideoCommentUncheckedCreateNestedManyWithoutUserInput
+  videoCommentLikes?: Prisma.VideoCommentLikeUncheckedCreateNestedManyWithoutUserInput
   blogs?: Prisma.BlogUncheckedCreateNestedManyWithoutAuthorInput
   blogLikes?: Prisma.BlogLikeUncheckedCreateNestedManyWithoutUserInput
   albums?: Prisma.AlbumUncheckedCreateNestedManyWithoutUserInput
@@ -5294,6 +5353,7 @@ export type UserUpdateWithoutCommentRepliesInput = {
   videos?: Prisma.VideoUpdateManyWithoutAuthorNestedInput
   videoLikes?: Prisma.VideoLikeUpdateManyWithoutUserNestedInput
   videoComments?: Prisma.VideoCommentUpdateManyWithoutUserNestedInput
+  videoCommentLikes?: Prisma.VideoCommentLikeUpdateManyWithoutUserNestedInput
   blogs?: Prisma.BlogUpdateManyWithoutAuthorNestedInput
   blogLikes?: Prisma.BlogLikeUpdateManyWithoutUserNestedInput
   albums?: Prisma.AlbumUpdateManyWithoutUserNestedInput
@@ -5376,6 +5436,7 @@ export type UserUncheckedUpdateWithoutCommentRepliesInput = {
   videos?: Prisma.VideoUncheckedUpdateManyWithoutAuthorNestedInput
   videoLikes?: Prisma.VideoLikeUncheckedUpdateManyWithoutUserNestedInput
   videoComments?: Prisma.VideoCommentUncheckedUpdateManyWithoutUserNestedInput
+  videoCommentLikes?: Prisma.VideoCommentLikeUncheckedUpdateManyWithoutUserNestedInput
   blogs?: Prisma.BlogUncheckedUpdateManyWithoutAuthorNestedInput
   blogLikes?: Prisma.BlogLikeUncheckedUpdateManyWithoutUserNestedInput
   albums?: Prisma.AlbumUncheckedUpdateManyWithoutUserNestedInput
@@ -5457,6 +5518,7 @@ export type UserCreateWithoutReplyLikesInput = {
   videos?: Prisma.VideoCreateNestedManyWithoutAuthorInput
   videoLikes?: Prisma.VideoLikeCreateNestedManyWithoutUserInput
   videoComments?: Prisma.VideoCommentCreateNestedManyWithoutUserInput
+  videoCommentLikes?: Prisma.VideoCommentLikeCreateNestedManyWithoutUserInput
   blogs?: Prisma.BlogCreateNestedManyWithoutAuthorInput
   blogLikes?: Prisma.BlogLikeCreateNestedManyWithoutUserInput
   albums?: Prisma.AlbumCreateNestedManyWithoutUserInput
@@ -5539,6 +5601,7 @@ export type UserUncheckedCreateWithoutReplyLikesInput = {
   videos?: Prisma.VideoUncheckedCreateNestedManyWithoutAuthorInput
   videoLikes?: Prisma.VideoLikeUncheckedCreateNestedManyWithoutUserInput
   videoComments?: Prisma.VideoCommentUncheckedCreateNestedManyWithoutUserInput
+  videoCommentLikes?: Prisma.VideoCommentLikeUncheckedCreateNestedManyWithoutUserInput
   blogs?: Prisma.BlogUncheckedCreateNestedManyWithoutAuthorInput
   blogLikes?: Prisma.BlogLikeUncheckedCreateNestedManyWithoutUserInput
   albums?: Prisma.AlbumUncheckedCreateNestedManyWithoutUserInput
@@ -5636,6 +5699,7 @@ export type UserUpdateWithoutReplyLikesInput = {
   videos?: Prisma.VideoUpdateManyWithoutAuthorNestedInput
   videoLikes?: Prisma.VideoLikeUpdateManyWithoutUserNestedInput
   videoComments?: Prisma.VideoCommentUpdateManyWithoutUserNestedInput
+  videoCommentLikes?: Prisma.VideoCommentLikeUpdateManyWithoutUserNestedInput
   blogs?: Prisma.BlogUpdateManyWithoutAuthorNestedInput
   blogLikes?: Prisma.BlogLikeUpdateManyWithoutUserNestedInput
   albums?: Prisma.AlbumUpdateManyWithoutUserNestedInput
@@ -5718,6 +5782,7 @@ export type UserUncheckedUpdateWithoutReplyLikesInput = {
   videos?: Prisma.VideoUncheckedUpdateManyWithoutAuthorNestedInput
   videoLikes?: Prisma.VideoLikeUncheckedUpdateManyWithoutUserNestedInput
   videoComments?: Prisma.VideoCommentUncheckedUpdateManyWithoutUserNestedInput
+  videoCommentLikes?: Prisma.VideoCommentLikeUncheckedUpdateManyWithoutUserNestedInput
   blogs?: Prisma.BlogUncheckedUpdateManyWithoutAuthorNestedInput
   blogLikes?: Prisma.BlogLikeUncheckedUpdateManyWithoutUserNestedInput
   albums?: Prisma.AlbumUncheckedUpdateManyWithoutUserNestedInput
@@ -5799,6 +5864,7 @@ export type UserCreateWithoutCreatedEventsInput = {
   videos?: Prisma.VideoCreateNestedManyWithoutAuthorInput
   videoLikes?: Prisma.VideoLikeCreateNestedManyWithoutUserInput
   videoComments?: Prisma.VideoCommentCreateNestedManyWithoutUserInput
+  videoCommentLikes?: Prisma.VideoCommentLikeCreateNestedManyWithoutUserInput
   blogs?: Prisma.BlogCreateNestedManyWithoutAuthorInput
   blogLikes?: Prisma.BlogLikeCreateNestedManyWithoutUserInput
   albums?: Prisma.AlbumCreateNestedManyWithoutUserInput
@@ -5881,6 +5947,7 @@ export type UserUncheckedCreateWithoutCreatedEventsInput = {
   videos?: Prisma.VideoUncheckedCreateNestedManyWithoutAuthorInput
   videoLikes?: Prisma.VideoLikeUncheckedCreateNestedManyWithoutUserInput
   videoComments?: Prisma.VideoCommentUncheckedCreateNestedManyWithoutUserInput
+  videoCommentLikes?: Prisma.VideoCommentLikeUncheckedCreateNestedManyWithoutUserInput
   blogs?: Prisma.BlogUncheckedCreateNestedManyWithoutAuthorInput
   blogLikes?: Prisma.BlogLikeUncheckedCreateNestedManyWithoutUserInput
   albums?: Prisma.AlbumUncheckedCreateNestedManyWithoutUserInput
@@ -5978,6 +6045,7 @@ export type UserUpdateWithoutCreatedEventsInput = {
   videos?: Prisma.VideoUpdateManyWithoutAuthorNestedInput
   videoLikes?: Prisma.VideoLikeUpdateManyWithoutUserNestedInput
   videoComments?: Prisma.VideoCommentUpdateManyWithoutUserNestedInput
+  videoCommentLikes?: Prisma.VideoCommentLikeUpdateManyWithoutUserNestedInput
   blogs?: Prisma.BlogUpdateManyWithoutAuthorNestedInput
   blogLikes?: Prisma.BlogLikeUpdateManyWithoutUserNestedInput
   albums?: Prisma.AlbumUpdateManyWithoutUserNestedInput
@@ -6060,6 +6128,7 @@ export type UserUncheckedUpdateWithoutCreatedEventsInput = {
   videos?: Prisma.VideoUncheckedUpdateManyWithoutAuthorNestedInput
   videoLikes?: Prisma.VideoLikeUncheckedUpdateManyWithoutUserNestedInput
   videoComments?: Prisma.VideoCommentUncheckedUpdateManyWithoutUserNestedInput
+  videoCommentLikes?: Prisma.VideoCommentLikeUncheckedUpdateManyWithoutUserNestedInput
   blogs?: Prisma.BlogUncheckedUpdateManyWithoutAuthorNestedInput
   blogLikes?: Prisma.BlogLikeUncheckedUpdateManyWithoutUserNestedInput
   albums?: Prisma.AlbumUncheckedUpdateManyWithoutUserNestedInput
@@ -6141,6 +6210,7 @@ export type UserCreateWithoutEventAttendancesInput = {
   videos?: Prisma.VideoCreateNestedManyWithoutAuthorInput
   videoLikes?: Prisma.VideoLikeCreateNestedManyWithoutUserInput
   videoComments?: Prisma.VideoCommentCreateNestedManyWithoutUserInput
+  videoCommentLikes?: Prisma.VideoCommentLikeCreateNestedManyWithoutUserInput
   blogs?: Prisma.BlogCreateNestedManyWithoutAuthorInput
   blogLikes?: Prisma.BlogLikeCreateNestedManyWithoutUserInput
   albums?: Prisma.AlbumCreateNestedManyWithoutUserInput
@@ -6223,6 +6293,7 @@ export type UserUncheckedCreateWithoutEventAttendancesInput = {
   videos?: Prisma.VideoUncheckedCreateNestedManyWithoutAuthorInput
   videoLikes?: Prisma.VideoLikeUncheckedCreateNestedManyWithoutUserInput
   videoComments?: Prisma.VideoCommentUncheckedCreateNestedManyWithoutUserInput
+  videoCommentLikes?: Prisma.VideoCommentLikeUncheckedCreateNestedManyWithoutUserInput
   blogs?: Prisma.BlogUncheckedCreateNestedManyWithoutAuthorInput
   blogLikes?: Prisma.BlogLikeUncheckedCreateNestedManyWithoutUserInput
   albums?: Prisma.AlbumUncheckedCreateNestedManyWithoutUserInput
@@ -6320,6 +6391,7 @@ export type UserUpdateWithoutEventAttendancesInput = {
   videos?: Prisma.VideoUpdateManyWithoutAuthorNestedInput
   videoLikes?: Prisma.VideoLikeUpdateManyWithoutUserNestedInput
   videoComments?: Prisma.VideoCommentUpdateManyWithoutUserNestedInput
+  videoCommentLikes?: Prisma.VideoCommentLikeUpdateManyWithoutUserNestedInput
   blogs?: Prisma.BlogUpdateManyWithoutAuthorNestedInput
   blogLikes?: Prisma.BlogLikeUpdateManyWithoutUserNestedInput
   albums?: Prisma.AlbumUpdateManyWithoutUserNestedInput
@@ -6402,6 +6474,7 @@ export type UserUncheckedUpdateWithoutEventAttendancesInput = {
   videos?: Prisma.VideoUncheckedUpdateManyWithoutAuthorNestedInput
   videoLikes?: Prisma.VideoLikeUncheckedUpdateManyWithoutUserNestedInput
   videoComments?: Prisma.VideoCommentUncheckedUpdateManyWithoutUserNestedInput
+  videoCommentLikes?: Prisma.VideoCommentLikeUncheckedUpdateManyWithoutUserNestedInput
   blogs?: Prisma.BlogUncheckedUpdateManyWithoutAuthorNestedInput
   blogLikes?: Prisma.BlogLikeUncheckedUpdateManyWithoutUserNestedInput
   albums?: Prisma.AlbumUncheckedUpdateManyWithoutUserNestedInput
@@ -6483,6 +6556,7 @@ export type UserCreateWithoutEventPostsInput = {
   videos?: Prisma.VideoCreateNestedManyWithoutAuthorInput
   videoLikes?: Prisma.VideoLikeCreateNestedManyWithoutUserInput
   videoComments?: Prisma.VideoCommentCreateNestedManyWithoutUserInput
+  videoCommentLikes?: Prisma.VideoCommentLikeCreateNestedManyWithoutUserInput
   blogs?: Prisma.BlogCreateNestedManyWithoutAuthorInput
   blogLikes?: Prisma.BlogLikeCreateNestedManyWithoutUserInput
   albums?: Prisma.AlbumCreateNestedManyWithoutUserInput
@@ -6565,6 +6639,7 @@ export type UserUncheckedCreateWithoutEventPostsInput = {
   videos?: Prisma.VideoUncheckedCreateNestedManyWithoutAuthorInput
   videoLikes?: Prisma.VideoLikeUncheckedCreateNestedManyWithoutUserInput
   videoComments?: Prisma.VideoCommentUncheckedCreateNestedManyWithoutUserInput
+  videoCommentLikes?: Prisma.VideoCommentLikeUncheckedCreateNestedManyWithoutUserInput
   blogs?: Prisma.BlogUncheckedCreateNestedManyWithoutAuthorInput
   blogLikes?: Prisma.BlogLikeUncheckedCreateNestedManyWithoutUserInput
   albums?: Prisma.AlbumUncheckedCreateNestedManyWithoutUserInput
@@ -6662,6 +6737,7 @@ export type UserUpdateWithoutEventPostsInput = {
   videos?: Prisma.VideoUpdateManyWithoutAuthorNestedInput
   videoLikes?: Prisma.VideoLikeUpdateManyWithoutUserNestedInput
   videoComments?: Prisma.VideoCommentUpdateManyWithoutUserNestedInput
+  videoCommentLikes?: Prisma.VideoCommentLikeUpdateManyWithoutUserNestedInput
   blogs?: Prisma.BlogUpdateManyWithoutAuthorNestedInput
   blogLikes?: Prisma.BlogLikeUpdateManyWithoutUserNestedInput
   albums?: Prisma.AlbumUpdateManyWithoutUserNestedInput
@@ -6744,6 +6820,7 @@ export type UserUncheckedUpdateWithoutEventPostsInput = {
   videos?: Prisma.VideoUncheckedUpdateManyWithoutAuthorNestedInput
   videoLikes?: Prisma.VideoLikeUncheckedUpdateManyWithoutUserNestedInput
   videoComments?: Prisma.VideoCommentUncheckedUpdateManyWithoutUserNestedInput
+  videoCommentLikes?: Prisma.VideoCommentLikeUncheckedUpdateManyWithoutUserNestedInput
   blogs?: Prisma.BlogUncheckedUpdateManyWithoutAuthorNestedInput
   blogLikes?: Prisma.BlogLikeUncheckedUpdateManyWithoutUserNestedInput
   albums?: Prisma.AlbumUncheckedUpdateManyWithoutUserNestedInput
@@ -6825,6 +6902,7 @@ export type UserCreateWithoutEventPostLikesInput = {
   videos?: Prisma.VideoCreateNestedManyWithoutAuthorInput
   videoLikes?: Prisma.VideoLikeCreateNestedManyWithoutUserInput
   videoComments?: Prisma.VideoCommentCreateNestedManyWithoutUserInput
+  videoCommentLikes?: Prisma.VideoCommentLikeCreateNestedManyWithoutUserInput
   blogs?: Prisma.BlogCreateNestedManyWithoutAuthorInput
   blogLikes?: Prisma.BlogLikeCreateNestedManyWithoutUserInput
   albums?: Prisma.AlbumCreateNestedManyWithoutUserInput
@@ -6907,6 +6985,7 @@ export type UserUncheckedCreateWithoutEventPostLikesInput = {
   videos?: Prisma.VideoUncheckedCreateNestedManyWithoutAuthorInput
   videoLikes?: Prisma.VideoLikeUncheckedCreateNestedManyWithoutUserInput
   videoComments?: Prisma.VideoCommentUncheckedCreateNestedManyWithoutUserInput
+  videoCommentLikes?: Prisma.VideoCommentLikeUncheckedCreateNestedManyWithoutUserInput
   blogs?: Prisma.BlogUncheckedCreateNestedManyWithoutAuthorInput
   blogLikes?: Prisma.BlogLikeUncheckedCreateNestedManyWithoutUserInput
   albums?: Prisma.AlbumUncheckedCreateNestedManyWithoutUserInput
@@ -7004,6 +7083,7 @@ export type UserUpdateWithoutEventPostLikesInput = {
   videos?: Prisma.VideoUpdateManyWithoutAuthorNestedInput
   videoLikes?: Prisma.VideoLikeUpdateManyWithoutUserNestedInput
   videoComments?: Prisma.VideoCommentUpdateManyWithoutUserNestedInput
+  videoCommentLikes?: Prisma.VideoCommentLikeUpdateManyWithoutUserNestedInput
   blogs?: Prisma.BlogUpdateManyWithoutAuthorNestedInput
   blogLikes?: Prisma.BlogLikeUpdateManyWithoutUserNestedInput
   albums?: Prisma.AlbumUpdateManyWithoutUserNestedInput
@@ -7086,6 +7166,7 @@ export type UserUncheckedUpdateWithoutEventPostLikesInput = {
   videos?: Prisma.VideoUncheckedUpdateManyWithoutAuthorNestedInput
   videoLikes?: Prisma.VideoLikeUncheckedUpdateManyWithoutUserNestedInput
   videoComments?: Prisma.VideoCommentUncheckedUpdateManyWithoutUserNestedInput
+  videoCommentLikes?: Prisma.VideoCommentLikeUncheckedUpdateManyWithoutUserNestedInput
   blogs?: Prisma.BlogUncheckedUpdateManyWithoutAuthorNestedInput
   blogLikes?: Prisma.BlogLikeUncheckedUpdateManyWithoutUserNestedInput
   albums?: Prisma.AlbumUncheckedUpdateManyWithoutUserNestedInput
@@ -7167,6 +7248,7 @@ export type UserCreateWithoutEventPostCommentsInput = {
   videos?: Prisma.VideoCreateNestedManyWithoutAuthorInput
   videoLikes?: Prisma.VideoLikeCreateNestedManyWithoutUserInput
   videoComments?: Prisma.VideoCommentCreateNestedManyWithoutUserInput
+  videoCommentLikes?: Prisma.VideoCommentLikeCreateNestedManyWithoutUserInput
   blogs?: Prisma.BlogCreateNestedManyWithoutAuthorInput
   blogLikes?: Prisma.BlogLikeCreateNestedManyWithoutUserInput
   albums?: Prisma.AlbumCreateNestedManyWithoutUserInput
@@ -7249,6 +7331,7 @@ export type UserUncheckedCreateWithoutEventPostCommentsInput = {
   videos?: Prisma.VideoUncheckedCreateNestedManyWithoutAuthorInput
   videoLikes?: Prisma.VideoLikeUncheckedCreateNestedManyWithoutUserInput
   videoComments?: Prisma.VideoCommentUncheckedCreateNestedManyWithoutUserInput
+  videoCommentLikes?: Prisma.VideoCommentLikeUncheckedCreateNestedManyWithoutUserInput
   blogs?: Prisma.BlogUncheckedCreateNestedManyWithoutAuthorInput
   blogLikes?: Prisma.BlogLikeUncheckedCreateNestedManyWithoutUserInput
   albums?: Prisma.AlbumUncheckedCreateNestedManyWithoutUserInput
@@ -7346,6 +7429,7 @@ export type UserUpdateWithoutEventPostCommentsInput = {
   videos?: Prisma.VideoUpdateManyWithoutAuthorNestedInput
   videoLikes?: Prisma.VideoLikeUpdateManyWithoutUserNestedInput
   videoComments?: Prisma.VideoCommentUpdateManyWithoutUserNestedInput
+  videoCommentLikes?: Prisma.VideoCommentLikeUpdateManyWithoutUserNestedInput
   blogs?: Prisma.BlogUpdateManyWithoutAuthorNestedInput
   blogLikes?: Prisma.BlogLikeUpdateManyWithoutUserNestedInput
   albums?: Prisma.AlbumUpdateManyWithoutUserNestedInput
@@ -7428,6 +7512,7 @@ export type UserUncheckedUpdateWithoutEventPostCommentsInput = {
   videos?: Prisma.VideoUncheckedUpdateManyWithoutAuthorNestedInput
   videoLikes?: Prisma.VideoLikeUncheckedUpdateManyWithoutUserNestedInput
   videoComments?: Prisma.VideoCommentUncheckedUpdateManyWithoutUserNestedInput
+  videoCommentLikes?: Prisma.VideoCommentLikeUncheckedUpdateManyWithoutUserNestedInput
   blogs?: Prisma.BlogUncheckedUpdateManyWithoutAuthorNestedInput
   blogLikes?: Prisma.BlogLikeUncheckedUpdateManyWithoutUserNestedInput
   albums?: Prisma.AlbumUncheckedUpdateManyWithoutUserNestedInput
@@ -7509,6 +7594,7 @@ export type UserCreateWithoutEventPostCommentLikesInput = {
   videos?: Prisma.VideoCreateNestedManyWithoutAuthorInput
   videoLikes?: Prisma.VideoLikeCreateNestedManyWithoutUserInput
   videoComments?: Prisma.VideoCommentCreateNestedManyWithoutUserInput
+  videoCommentLikes?: Prisma.VideoCommentLikeCreateNestedManyWithoutUserInput
   blogs?: Prisma.BlogCreateNestedManyWithoutAuthorInput
   blogLikes?: Prisma.BlogLikeCreateNestedManyWithoutUserInput
   albums?: Prisma.AlbumCreateNestedManyWithoutUserInput
@@ -7591,6 +7677,7 @@ export type UserUncheckedCreateWithoutEventPostCommentLikesInput = {
   videos?: Prisma.VideoUncheckedCreateNestedManyWithoutAuthorInput
   videoLikes?: Prisma.VideoLikeUncheckedCreateNestedManyWithoutUserInput
   videoComments?: Prisma.VideoCommentUncheckedCreateNestedManyWithoutUserInput
+  videoCommentLikes?: Prisma.VideoCommentLikeUncheckedCreateNestedManyWithoutUserInput
   blogs?: Prisma.BlogUncheckedCreateNestedManyWithoutAuthorInput
   blogLikes?: Prisma.BlogLikeUncheckedCreateNestedManyWithoutUserInput
   albums?: Prisma.AlbumUncheckedCreateNestedManyWithoutUserInput
@@ -7688,6 +7775,7 @@ export type UserUpdateWithoutEventPostCommentLikesInput = {
   videos?: Prisma.VideoUpdateManyWithoutAuthorNestedInput
   videoLikes?: Prisma.VideoLikeUpdateManyWithoutUserNestedInput
   videoComments?: Prisma.VideoCommentUpdateManyWithoutUserNestedInput
+  videoCommentLikes?: Prisma.VideoCommentLikeUpdateManyWithoutUserNestedInput
   blogs?: Prisma.BlogUpdateManyWithoutAuthorNestedInput
   blogLikes?: Prisma.BlogLikeUpdateManyWithoutUserNestedInput
   albums?: Prisma.AlbumUpdateManyWithoutUserNestedInput
@@ -7770,6 +7858,7 @@ export type UserUncheckedUpdateWithoutEventPostCommentLikesInput = {
   videos?: Prisma.VideoUncheckedUpdateManyWithoutAuthorNestedInput
   videoLikes?: Prisma.VideoLikeUncheckedUpdateManyWithoutUserNestedInput
   videoComments?: Prisma.VideoCommentUncheckedUpdateManyWithoutUserNestedInput
+  videoCommentLikes?: Prisma.VideoCommentLikeUncheckedUpdateManyWithoutUserNestedInput
   blogs?: Prisma.BlogUncheckedUpdateManyWithoutAuthorNestedInput
   blogLikes?: Prisma.BlogLikeUncheckedUpdateManyWithoutUserNestedInput
   albums?: Prisma.AlbumUncheckedUpdateManyWithoutUserNestedInput
@@ -7851,6 +7940,7 @@ export type UserCreateWithoutOwnedGroupsInput = {
   videos?: Prisma.VideoCreateNestedManyWithoutAuthorInput
   videoLikes?: Prisma.VideoLikeCreateNestedManyWithoutUserInput
   videoComments?: Prisma.VideoCommentCreateNestedManyWithoutUserInput
+  videoCommentLikes?: Prisma.VideoCommentLikeCreateNestedManyWithoutUserInput
   blogs?: Prisma.BlogCreateNestedManyWithoutAuthorInput
   blogLikes?: Prisma.BlogLikeCreateNestedManyWithoutUserInput
   albums?: Prisma.AlbumCreateNestedManyWithoutUserInput
@@ -7933,6 +8023,7 @@ export type UserUncheckedCreateWithoutOwnedGroupsInput = {
   videos?: Prisma.VideoUncheckedCreateNestedManyWithoutAuthorInput
   videoLikes?: Prisma.VideoLikeUncheckedCreateNestedManyWithoutUserInput
   videoComments?: Prisma.VideoCommentUncheckedCreateNestedManyWithoutUserInput
+  videoCommentLikes?: Prisma.VideoCommentLikeUncheckedCreateNestedManyWithoutUserInput
   blogs?: Prisma.BlogUncheckedCreateNestedManyWithoutAuthorInput
   blogLikes?: Prisma.BlogLikeUncheckedCreateNestedManyWithoutUserInput
   albums?: Prisma.AlbumUncheckedCreateNestedManyWithoutUserInput
@@ -8030,6 +8121,7 @@ export type UserUpdateWithoutOwnedGroupsInput = {
   videos?: Prisma.VideoUpdateManyWithoutAuthorNestedInput
   videoLikes?: Prisma.VideoLikeUpdateManyWithoutUserNestedInput
   videoComments?: Prisma.VideoCommentUpdateManyWithoutUserNestedInput
+  videoCommentLikes?: Prisma.VideoCommentLikeUpdateManyWithoutUserNestedInput
   blogs?: Prisma.BlogUpdateManyWithoutAuthorNestedInput
   blogLikes?: Prisma.BlogLikeUpdateManyWithoutUserNestedInput
   albums?: Prisma.AlbumUpdateManyWithoutUserNestedInput
@@ -8112,6 +8204,7 @@ export type UserUncheckedUpdateWithoutOwnedGroupsInput = {
   videos?: Prisma.VideoUncheckedUpdateManyWithoutAuthorNestedInput
   videoLikes?: Prisma.VideoLikeUncheckedUpdateManyWithoutUserNestedInput
   videoComments?: Prisma.VideoCommentUncheckedUpdateManyWithoutUserNestedInput
+  videoCommentLikes?: Prisma.VideoCommentLikeUncheckedUpdateManyWithoutUserNestedInput
   blogs?: Prisma.BlogUncheckedUpdateManyWithoutAuthorNestedInput
   blogLikes?: Prisma.BlogLikeUncheckedUpdateManyWithoutUserNestedInput
   albums?: Prisma.AlbumUncheckedUpdateManyWithoutUserNestedInput
@@ -8193,6 +8286,7 @@ export type UserCreateWithoutGroupMembershipsInput = {
   videos?: Prisma.VideoCreateNestedManyWithoutAuthorInput
   videoLikes?: Prisma.VideoLikeCreateNestedManyWithoutUserInput
   videoComments?: Prisma.VideoCommentCreateNestedManyWithoutUserInput
+  videoCommentLikes?: Prisma.VideoCommentLikeCreateNestedManyWithoutUserInput
   blogs?: Prisma.BlogCreateNestedManyWithoutAuthorInput
   blogLikes?: Prisma.BlogLikeCreateNestedManyWithoutUserInput
   albums?: Prisma.AlbumCreateNestedManyWithoutUserInput
@@ -8275,6 +8369,7 @@ export type UserUncheckedCreateWithoutGroupMembershipsInput = {
   videos?: Prisma.VideoUncheckedCreateNestedManyWithoutAuthorInput
   videoLikes?: Prisma.VideoLikeUncheckedCreateNestedManyWithoutUserInput
   videoComments?: Prisma.VideoCommentUncheckedCreateNestedManyWithoutUserInput
+  videoCommentLikes?: Prisma.VideoCommentLikeUncheckedCreateNestedManyWithoutUserInput
   blogs?: Prisma.BlogUncheckedCreateNestedManyWithoutAuthorInput
   blogLikes?: Prisma.BlogLikeUncheckedCreateNestedManyWithoutUserInput
   albums?: Prisma.AlbumUncheckedCreateNestedManyWithoutUserInput
@@ -8372,6 +8467,7 @@ export type UserUpdateWithoutGroupMembershipsInput = {
   videos?: Prisma.VideoUpdateManyWithoutAuthorNestedInput
   videoLikes?: Prisma.VideoLikeUpdateManyWithoutUserNestedInput
   videoComments?: Prisma.VideoCommentUpdateManyWithoutUserNestedInput
+  videoCommentLikes?: Prisma.VideoCommentLikeUpdateManyWithoutUserNestedInput
   blogs?: Prisma.BlogUpdateManyWithoutAuthorNestedInput
   blogLikes?: Prisma.BlogLikeUpdateManyWithoutUserNestedInput
   albums?: Prisma.AlbumUpdateManyWithoutUserNestedInput
@@ -8454,6 +8550,7 @@ export type UserUncheckedUpdateWithoutGroupMembershipsInput = {
   videos?: Prisma.VideoUncheckedUpdateManyWithoutAuthorNestedInput
   videoLikes?: Prisma.VideoLikeUncheckedUpdateManyWithoutUserNestedInput
   videoComments?: Prisma.VideoCommentUncheckedUpdateManyWithoutUserNestedInput
+  videoCommentLikes?: Prisma.VideoCommentLikeUncheckedUpdateManyWithoutUserNestedInput
   blogs?: Prisma.BlogUncheckedUpdateManyWithoutAuthorNestedInput
   blogLikes?: Prisma.BlogLikeUncheckedUpdateManyWithoutUserNestedInput
   albums?: Prisma.AlbumUncheckedUpdateManyWithoutUserNestedInput
@@ -8535,6 +8632,7 @@ export type UserCreateWithoutGroupPostsInput = {
   videos?: Prisma.VideoCreateNestedManyWithoutAuthorInput
   videoLikes?: Prisma.VideoLikeCreateNestedManyWithoutUserInput
   videoComments?: Prisma.VideoCommentCreateNestedManyWithoutUserInput
+  videoCommentLikes?: Prisma.VideoCommentLikeCreateNestedManyWithoutUserInput
   blogs?: Prisma.BlogCreateNestedManyWithoutAuthorInput
   blogLikes?: Prisma.BlogLikeCreateNestedManyWithoutUserInput
   albums?: Prisma.AlbumCreateNestedManyWithoutUserInput
@@ -8617,6 +8715,7 @@ export type UserUncheckedCreateWithoutGroupPostsInput = {
   videos?: Prisma.VideoUncheckedCreateNestedManyWithoutAuthorInput
   videoLikes?: Prisma.VideoLikeUncheckedCreateNestedManyWithoutUserInput
   videoComments?: Prisma.VideoCommentUncheckedCreateNestedManyWithoutUserInput
+  videoCommentLikes?: Prisma.VideoCommentLikeUncheckedCreateNestedManyWithoutUserInput
   blogs?: Prisma.BlogUncheckedCreateNestedManyWithoutAuthorInput
   blogLikes?: Prisma.BlogLikeUncheckedCreateNestedManyWithoutUserInput
   albums?: Prisma.AlbumUncheckedCreateNestedManyWithoutUserInput
@@ -8714,6 +8813,7 @@ export type UserUpdateWithoutGroupPostsInput = {
   videos?: Prisma.VideoUpdateManyWithoutAuthorNestedInput
   videoLikes?: Prisma.VideoLikeUpdateManyWithoutUserNestedInput
   videoComments?: Prisma.VideoCommentUpdateManyWithoutUserNestedInput
+  videoCommentLikes?: Prisma.VideoCommentLikeUpdateManyWithoutUserNestedInput
   blogs?: Prisma.BlogUpdateManyWithoutAuthorNestedInput
   blogLikes?: Prisma.BlogLikeUpdateManyWithoutUserNestedInput
   albums?: Prisma.AlbumUpdateManyWithoutUserNestedInput
@@ -8796,6 +8896,7 @@ export type UserUncheckedUpdateWithoutGroupPostsInput = {
   videos?: Prisma.VideoUncheckedUpdateManyWithoutAuthorNestedInput
   videoLikes?: Prisma.VideoLikeUncheckedUpdateManyWithoutUserNestedInput
   videoComments?: Prisma.VideoCommentUncheckedUpdateManyWithoutUserNestedInput
+  videoCommentLikes?: Prisma.VideoCommentLikeUncheckedUpdateManyWithoutUserNestedInput
   blogs?: Prisma.BlogUncheckedUpdateManyWithoutAuthorNestedInput
   blogLikes?: Prisma.BlogLikeUncheckedUpdateManyWithoutUserNestedInput
   albums?: Prisma.AlbumUncheckedUpdateManyWithoutUserNestedInput
@@ -8877,6 +8978,7 @@ export type UserCreateWithoutGroupPostLikesInput = {
   videos?: Prisma.VideoCreateNestedManyWithoutAuthorInput
   videoLikes?: Prisma.VideoLikeCreateNestedManyWithoutUserInput
   videoComments?: Prisma.VideoCommentCreateNestedManyWithoutUserInput
+  videoCommentLikes?: Prisma.VideoCommentLikeCreateNestedManyWithoutUserInput
   blogs?: Prisma.BlogCreateNestedManyWithoutAuthorInput
   blogLikes?: Prisma.BlogLikeCreateNestedManyWithoutUserInput
   albums?: Prisma.AlbumCreateNestedManyWithoutUserInput
@@ -8959,6 +9061,7 @@ export type UserUncheckedCreateWithoutGroupPostLikesInput = {
   videos?: Prisma.VideoUncheckedCreateNestedManyWithoutAuthorInput
   videoLikes?: Prisma.VideoLikeUncheckedCreateNestedManyWithoutUserInput
   videoComments?: Prisma.VideoCommentUncheckedCreateNestedManyWithoutUserInput
+  videoCommentLikes?: Prisma.VideoCommentLikeUncheckedCreateNestedManyWithoutUserInput
   blogs?: Prisma.BlogUncheckedCreateNestedManyWithoutAuthorInput
   blogLikes?: Prisma.BlogLikeUncheckedCreateNestedManyWithoutUserInput
   albums?: Prisma.AlbumUncheckedCreateNestedManyWithoutUserInput
@@ -9056,6 +9159,7 @@ export type UserUpdateWithoutGroupPostLikesInput = {
   videos?: Prisma.VideoUpdateManyWithoutAuthorNestedInput
   videoLikes?: Prisma.VideoLikeUpdateManyWithoutUserNestedInput
   videoComments?: Prisma.VideoCommentUpdateManyWithoutUserNestedInput
+  videoCommentLikes?: Prisma.VideoCommentLikeUpdateManyWithoutUserNestedInput
   blogs?: Prisma.BlogUpdateManyWithoutAuthorNestedInput
   blogLikes?: Prisma.BlogLikeUpdateManyWithoutUserNestedInput
   albums?: Prisma.AlbumUpdateManyWithoutUserNestedInput
@@ -9138,6 +9242,7 @@ export type UserUncheckedUpdateWithoutGroupPostLikesInput = {
   videos?: Prisma.VideoUncheckedUpdateManyWithoutAuthorNestedInput
   videoLikes?: Prisma.VideoLikeUncheckedUpdateManyWithoutUserNestedInput
   videoComments?: Prisma.VideoCommentUncheckedUpdateManyWithoutUserNestedInput
+  videoCommentLikes?: Prisma.VideoCommentLikeUncheckedUpdateManyWithoutUserNestedInput
   blogs?: Prisma.BlogUncheckedUpdateManyWithoutAuthorNestedInput
   blogLikes?: Prisma.BlogLikeUncheckedUpdateManyWithoutUserNestedInput
   albums?: Prisma.AlbumUncheckedUpdateManyWithoutUserNestedInput
@@ -9219,6 +9324,7 @@ export type UserCreateWithoutGroupPostCommentsInput = {
   videos?: Prisma.VideoCreateNestedManyWithoutAuthorInput
   videoLikes?: Prisma.VideoLikeCreateNestedManyWithoutUserInput
   videoComments?: Prisma.VideoCommentCreateNestedManyWithoutUserInput
+  videoCommentLikes?: Prisma.VideoCommentLikeCreateNestedManyWithoutUserInput
   blogs?: Prisma.BlogCreateNestedManyWithoutAuthorInput
   blogLikes?: Prisma.BlogLikeCreateNestedManyWithoutUserInput
   albums?: Prisma.AlbumCreateNestedManyWithoutUserInput
@@ -9301,6 +9407,7 @@ export type UserUncheckedCreateWithoutGroupPostCommentsInput = {
   videos?: Prisma.VideoUncheckedCreateNestedManyWithoutAuthorInput
   videoLikes?: Prisma.VideoLikeUncheckedCreateNestedManyWithoutUserInput
   videoComments?: Prisma.VideoCommentUncheckedCreateNestedManyWithoutUserInput
+  videoCommentLikes?: Prisma.VideoCommentLikeUncheckedCreateNestedManyWithoutUserInput
   blogs?: Prisma.BlogUncheckedCreateNestedManyWithoutAuthorInput
   blogLikes?: Prisma.BlogLikeUncheckedCreateNestedManyWithoutUserInput
   albums?: Prisma.AlbumUncheckedCreateNestedManyWithoutUserInput
@@ -9398,6 +9505,7 @@ export type UserUpdateWithoutGroupPostCommentsInput = {
   videos?: Prisma.VideoUpdateManyWithoutAuthorNestedInput
   videoLikes?: Prisma.VideoLikeUpdateManyWithoutUserNestedInput
   videoComments?: Prisma.VideoCommentUpdateManyWithoutUserNestedInput
+  videoCommentLikes?: Prisma.VideoCommentLikeUpdateManyWithoutUserNestedInput
   blogs?: Prisma.BlogUpdateManyWithoutAuthorNestedInput
   blogLikes?: Prisma.BlogLikeUpdateManyWithoutUserNestedInput
   albums?: Prisma.AlbumUpdateManyWithoutUserNestedInput
@@ -9480,6 +9588,7 @@ export type UserUncheckedUpdateWithoutGroupPostCommentsInput = {
   videos?: Prisma.VideoUncheckedUpdateManyWithoutAuthorNestedInput
   videoLikes?: Prisma.VideoLikeUncheckedUpdateManyWithoutUserNestedInput
   videoComments?: Prisma.VideoCommentUncheckedUpdateManyWithoutUserNestedInput
+  videoCommentLikes?: Prisma.VideoCommentLikeUncheckedUpdateManyWithoutUserNestedInput
   blogs?: Prisma.BlogUncheckedUpdateManyWithoutAuthorNestedInput
   blogLikes?: Prisma.BlogLikeUncheckedUpdateManyWithoutUserNestedInput
   albums?: Prisma.AlbumUncheckedUpdateManyWithoutUserNestedInput
@@ -9561,6 +9670,7 @@ export type UserCreateWithoutGroupPostCommentLikesInput = {
   videos?: Prisma.VideoCreateNestedManyWithoutAuthorInput
   videoLikes?: Prisma.VideoLikeCreateNestedManyWithoutUserInput
   videoComments?: Prisma.VideoCommentCreateNestedManyWithoutUserInput
+  videoCommentLikes?: Prisma.VideoCommentLikeCreateNestedManyWithoutUserInput
   blogs?: Prisma.BlogCreateNestedManyWithoutAuthorInput
   blogLikes?: Prisma.BlogLikeCreateNestedManyWithoutUserInput
   albums?: Prisma.AlbumCreateNestedManyWithoutUserInput
@@ -9643,6 +9753,7 @@ export type UserUncheckedCreateWithoutGroupPostCommentLikesInput = {
   videos?: Prisma.VideoUncheckedCreateNestedManyWithoutAuthorInput
   videoLikes?: Prisma.VideoLikeUncheckedCreateNestedManyWithoutUserInput
   videoComments?: Prisma.VideoCommentUncheckedCreateNestedManyWithoutUserInput
+  videoCommentLikes?: Prisma.VideoCommentLikeUncheckedCreateNestedManyWithoutUserInput
   blogs?: Prisma.BlogUncheckedCreateNestedManyWithoutAuthorInput
   blogLikes?: Prisma.BlogLikeUncheckedCreateNestedManyWithoutUserInput
   albums?: Prisma.AlbumUncheckedCreateNestedManyWithoutUserInput
@@ -9740,6 +9851,7 @@ export type UserUpdateWithoutGroupPostCommentLikesInput = {
   videos?: Prisma.VideoUpdateManyWithoutAuthorNestedInput
   videoLikes?: Prisma.VideoLikeUpdateManyWithoutUserNestedInput
   videoComments?: Prisma.VideoCommentUpdateManyWithoutUserNestedInput
+  videoCommentLikes?: Prisma.VideoCommentLikeUpdateManyWithoutUserNestedInput
   blogs?: Prisma.BlogUpdateManyWithoutAuthorNestedInput
   blogLikes?: Prisma.BlogLikeUpdateManyWithoutUserNestedInput
   albums?: Prisma.AlbumUpdateManyWithoutUserNestedInput
@@ -9822,6 +9934,7 @@ export type UserUncheckedUpdateWithoutGroupPostCommentLikesInput = {
   videos?: Prisma.VideoUncheckedUpdateManyWithoutAuthorNestedInput
   videoLikes?: Prisma.VideoLikeUncheckedUpdateManyWithoutUserNestedInput
   videoComments?: Prisma.VideoCommentUncheckedUpdateManyWithoutUserNestedInput
+  videoCommentLikes?: Prisma.VideoCommentLikeUncheckedUpdateManyWithoutUserNestedInput
   blogs?: Prisma.BlogUncheckedUpdateManyWithoutAuthorNestedInput
   blogLikes?: Prisma.BlogLikeUncheckedUpdateManyWithoutUserNestedInput
   albums?: Prisma.AlbumUncheckedUpdateManyWithoutUserNestedInput
@@ -9903,6 +10016,7 @@ export type UserCreateWithoutListingsInput = {
   videos?: Prisma.VideoCreateNestedManyWithoutAuthorInput
   videoLikes?: Prisma.VideoLikeCreateNestedManyWithoutUserInput
   videoComments?: Prisma.VideoCommentCreateNestedManyWithoutUserInput
+  videoCommentLikes?: Prisma.VideoCommentLikeCreateNestedManyWithoutUserInput
   blogs?: Prisma.BlogCreateNestedManyWithoutAuthorInput
   blogLikes?: Prisma.BlogLikeCreateNestedManyWithoutUserInput
   albums?: Prisma.AlbumCreateNestedManyWithoutUserInput
@@ -9985,6 +10099,7 @@ export type UserUncheckedCreateWithoutListingsInput = {
   videos?: Prisma.VideoUncheckedCreateNestedManyWithoutAuthorInput
   videoLikes?: Prisma.VideoLikeUncheckedCreateNestedManyWithoutUserInput
   videoComments?: Prisma.VideoCommentUncheckedCreateNestedManyWithoutUserInput
+  videoCommentLikes?: Prisma.VideoCommentLikeUncheckedCreateNestedManyWithoutUserInput
   blogs?: Prisma.BlogUncheckedCreateNestedManyWithoutAuthorInput
   blogLikes?: Prisma.BlogLikeUncheckedCreateNestedManyWithoutUserInput
   albums?: Prisma.AlbumUncheckedCreateNestedManyWithoutUserInput
@@ -10082,6 +10197,7 @@ export type UserUpdateWithoutListingsInput = {
   videos?: Prisma.VideoUpdateManyWithoutAuthorNestedInput
   videoLikes?: Prisma.VideoLikeUpdateManyWithoutUserNestedInput
   videoComments?: Prisma.VideoCommentUpdateManyWithoutUserNestedInput
+  videoCommentLikes?: Prisma.VideoCommentLikeUpdateManyWithoutUserNestedInput
   blogs?: Prisma.BlogUpdateManyWithoutAuthorNestedInput
   blogLikes?: Prisma.BlogLikeUpdateManyWithoutUserNestedInput
   albums?: Prisma.AlbumUpdateManyWithoutUserNestedInput
@@ -10164,6 +10280,7 @@ export type UserUncheckedUpdateWithoutListingsInput = {
   videos?: Prisma.VideoUncheckedUpdateManyWithoutAuthorNestedInput
   videoLikes?: Prisma.VideoLikeUncheckedUpdateManyWithoutUserNestedInput
   videoComments?: Prisma.VideoCommentUncheckedUpdateManyWithoutUserNestedInput
+  videoCommentLikes?: Prisma.VideoCommentLikeUncheckedUpdateManyWithoutUserNestedInput
   blogs?: Prisma.BlogUncheckedUpdateManyWithoutAuthorNestedInput
   blogLikes?: Prisma.BlogLikeUncheckedUpdateManyWithoutUserNestedInput
   albums?: Prisma.AlbumUncheckedUpdateManyWithoutUserNestedInput
@@ -10245,6 +10362,7 @@ export type UserCreateWithoutListingSavesInput = {
   videos?: Prisma.VideoCreateNestedManyWithoutAuthorInput
   videoLikes?: Prisma.VideoLikeCreateNestedManyWithoutUserInput
   videoComments?: Prisma.VideoCommentCreateNestedManyWithoutUserInput
+  videoCommentLikes?: Prisma.VideoCommentLikeCreateNestedManyWithoutUserInput
   blogs?: Prisma.BlogCreateNestedManyWithoutAuthorInput
   blogLikes?: Prisma.BlogLikeCreateNestedManyWithoutUserInput
   albums?: Prisma.AlbumCreateNestedManyWithoutUserInput
@@ -10327,6 +10445,7 @@ export type UserUncheckedCreateWithoutListingSavesInput = {
   videos?: Prisma.VideoUncheckedCreateNestedManyWithoutAuthorInput
   videoLikes?: Prisma.VideoLikeUncheckedCreateNestedManyWithoutUserInput
   videoComments?: Prisma.VideoCommentUncheckedCreateNestedManyWithoutUserInput
+  videoCommentLikes?: Prisma.VideoCommentLikeUncheckedCreateNestedManyWithoutUserInput
   blogs?: Prisma.BlogUncheckedCreateNestedManyWithoutAuthorInput
   blogLikes?: Prisma.BlogLikeUncheckedCreateNestedManyWithoutUserInput
   albums?: Prisma.AlbumUncheckedCreateNestedManyWithoutUserInput
@@ -10424,6 +10543,7 @@ export type UserUpdateWithoutListingSavesInput = {
   videos?: Prisma.VideoUpdateManyWithoutAuthorNestedInput
   videoLikes?: Prisma.VideoLikeUpdateManyWithoutUserNestedInput
   videoComments?: Prisma.VideoCommentUpdateManyWithoutUserNestedInput
+  videoCommentLikes?: Prisma.VideoCommentLikeUpdateManyWithoutUserNestedInput
   blogs?: Prisma.BlogUpdateManyWithoutAuthorNestedInput
   blogLikes?: Prisma.BlogLikeUpdateManyWithoutUserNestedInput
   albums?: Prisma.AlbumUpdateManyWithoutUserNestedInput
@@ -10506,6 +10626,7 @@ export type UserUncheckedUpdateWithoutListingSavesInput = {
   videos?: Prisma.VideoUncheckedUpdateManyWithoutAuthorNestedInput
   videoLikes?: Prisma.VideoLikeUncheckedUpdateManyWithoutUserNestedInput
   videoComments?: Prisma.VideoCommentUncheckedUpdateManyWithoutUserNestedInput
+  videoCommentLikes?: Prisma.VideoCommentLikeUncheckedUpdateManyWithoutUserNestedInput
   blogs?: Prisma.BlogUncheckedUpdateManyWithoutAuthorNestedInput
   blogLikes?: Prisma.BlogLikeUncheckedUpdateManyWithoutUserNestedInput
   albums?: Prisma.AlbumUncheckedUpdateManyWithoutUserNestedInput
@@ -10587,6 +10708,7 @@ export type UserCreateWithoutListingOffersInput = {
   videos?: Prisma.VideoCreateNestedManyWithoutAuthorInput
   videoLikes?: Prisma.VideoLikeCreateNestedManyWithoutUserInput
   videoComments?: Prisma.VideoCommentCreateNestedManyWithoutUserInput
+  videoCommentLikes?: Prisma.VideoCommentLikeCreateNestedManyWithoutUserInput
   blogs?: Prisma.BlogCreateNestedManyWithoutAuthorInput
   blogLikes?: Prisma.BlogLikeCreateNestedManyWithoutUserInput
   albums?: Prisma.AlbumCreateNestedManyWithoutUserInput
@@ -10669,6 +10791,7 @@ export type UserUncheckedCreateWithoutListingOffersInput = {
   videos?: Prisma.VideoUncheckedCreateNestedManyWithoutAuthorInput
   videoLikes?: Prisma.VideoLikeUncheckedCreateNestedManyWithoutUserInput
   videoComments?: Prisma.VideoCommentUncheckedCreateNestedManyWithoutUserInput
+  videoCommentLikes?: Prisma.VideoCommentLikeUncheckedCreateNestedManyWithoutUserInput
   blogs?: Prisma.BlogUncheckedCreateNestedManyWithoutAuthorInput
   blogLikes?: Prisma.BlogLikeUncheckedCreateNestedManyWithoutUserInput
   albums?: Prisma.AlbumUncheckedCreateNestedManyWithoutUserInput
@@ -10766,6 +10889,7 @@ export type UserUpdateWithoutListingOffersInput = {
   videos?: Prisma.VideoUpdateManyWithoutAuthorNestedInput
   videoLikes?: Prisma.VideoLikeUpdateManyWithoutUserNestedInput
   videoComments?: Prisma.VideoCommentUpdateManyWithoutUserNestedInput
+  videoCommentLikes?: Prisma.VideoCommentLikeUpdateManyWithoutUserNestedInput
   blogs?: Prisma.BlogUpdateManyWithoutAuthorNestedInput
   blogLikes?: Prisma.BlogLikeUpdateManyWithoutUserNestedInput
   albums?: Prisma.AlbumUpdateManyWithoutUserNestedInput
@@ -10848,6 +10972,7 @@ export type UserUncheckedUpdateWithoutListingOffersInput = {
   videos?: Prisma.VideoUncheckedUpdateManyWithoutAuthorNestedInput
   videoLikes?: Prisma.VideoLikeUncheckedUpdateManyWithoutUserNestedInput
   videoComments?: Prisma.VideoCommentUncheckedUpdateManyWithoutUserNestedInput
+  videoCommentLikes?: Prisma.VideoCommentLikeUncheckedUpdateManyWithoutUserNestedInput
   blogs?: Prisma.BlogUncheckedUpdateManyWithoutAuthorNestedInput
   blogLikes?: Prisma.BlogLikeUncheckedUpdateManyWithoutUserNestedInput
   albums?: Prisma.AlbumUncheckedUpdateManyWithoutUserNestedInput
@@ -10929,6 +11054,7 @@ export type UserCreateWithoutListingMessagesInput = {
   videos?: Prisma.VideoCreateNestedManyWithoutAuthorInput
   videoLikes?: Prisma.VideoLikeCreateNestedManyWithoutUserInput
   videoComments?: Prisma.VideoCommentCreateNestedManyWithoutUserInput
+  videoCommentLikes?: Prisma.VideoCommentLikeCreateNestedManyWithoutUserInput
   blogs?: Prisma.BlogCreateNestedManyWithoutAuthorInput
   blogLikes?: Prisma.BlogLikeCreateNestedManyWithoutUserInput
   albums?: Prisma.AlbumCreateNestedManyWithoutUserInput
@@ -11011,6 +11137,7 @@ export type UserUncheckedCreateWithoutListingMessagesInput = {
   videos?: Prisma.VideoUncheckedCreateNestedManyWithoutAuthorInput
   videoLikes?: Prisma.VideoLikeUncheckedCreateNestedManyWithoutUserInput
   videoComments?: Prisma.VideoCommentUncheckedCreateNestedManyWithoutUserInput
+  videoCommentLikes?: Prisma.VideoCommentLikeUncheckedCreateNestedManyWithoutUserInput
   blogs?: Prisma.BlogUncheckedCreateNestedManyWithoutAuthorInput
   blogLikes?: Prisma.BlogLikeUncheckedCreateNestedManyWithoutUserInput
   albums?: Prisma.AlbumUncheckedCreateNestedManyWithoutUserInput
@@ -11108,6 +11235,7 @@ export type UserUpdateWithoutListingMessagesInput = {
   videos?: Prisma.VideoUpdateManyWithoutAuthorNestedInput
   videoLikes?: Prisma.VideoLikeUpdateManyWithoutUserNestedInput
   videoComments?: Prisma.VideoCommentUpdateManyWithoutUserNestedInput
+  videoCommentLikes?: Prisma.VideoCommentLikeUpdateManyWithoutUserNestedInput
   blogs?: Prisma.BlogUpdateManyWithoutAuthorNestedInput
   blogLikes?: Prisma.BlogLikeUpdateManyWithoutUserNestedInput
   albums?: Prisma.AlbumUpdateManyWithoutUserNestedInput
@@ -11190,6 +11318,7 @@ export type UserUncheckedUpdateWithoutListingMessagesInput = {
   videos?: Prisma.VideoUncheckedUpdateManyWithoutAuthorNestedInput
   videoLikes?: Prisma.VideoLikeUncheckedUpdateManyWithoutUserNestedInput
   videoComments?: Prisma.VideoCommentUncheckedUpdateManyWithoutUserNestedInput
+  videoCommentLikes?: Prisma.VideoCommentLikeUncheckedUpdateManyWithoutUserNestedInput
   blogs?: Prisma.BlogUncheckedUpdateManyWithoutAuthorNestedInput
   blogLikes?: Prisma.BlogLikeUncheckedUpdateManyWithoutUserNestedInput
   albums?: Prisma.AlbumUncheckedUpdateManyWithoutUserNestedInput
@@ -11271,6 +11400,7 @@ export type UserCreateWithoutListingMessageLikesInput = {
   videos?: Prisma.VideoCreateNestedManyWithoutAuthorInput
   videoLikes?: Prisma.VideoLikeCreateNestedManyWithoutUserInput
   videoComments?: Prisma.VideoCommentCreateNestedManyWithoutUserInput
+  videoCommentLikes?: Prisma.VideoCommentLikeCreateNestedManyWithoutUserInput
   blogs?: Prisma.BlogCreateNestedManyWithoutAuthorInput
   blogLikes?: Prisma.BlogLikeCreateNestedManyWithoutUserInput
   albums?: Prisma.AlbumCreateNestedManyWithoutUserInput
@@ -11353,6 +11483,7 @@ export type UserUncheckedCreateWithoutListingMessageLikesInput = {
   videos?: Prisma.VideoUncheckedCreateNestedManyWithoutAuthorInput
   videoLikes?: Prisma.VideoLikeUncheckedCreateNestedManyWithoutUserInput
   videoComments?: Prisma.VideoCommentUncheckedCreateNestedManyWithoutUserInput
+  videoCommentLikes?: Prisma.VideoCommentLikeUncheckedCreateNestedManyWithoutUserInput
   blogs?: Prisma.BlogUncheckedCreateNestedManyWithoutAuthorInput
   blogLikes?: Prisma.BlogLikeUncheckedCreateNestedManyWithoutUserInput
   albums?: Prisma.AlbumUncheckedCreateNestedManyWithoutUserInput
@@ -11450,6 +11581,7 @@ export type UserUpdateWithoutListingMessageLikesInput = {
   videos?: Prisma.VideoUpdateManyWithoutAuthorNestedInput
   videoLikes?: Prisma.VideoLikeUpdateManyWithoutUserNestedInput
   videoComments?: Prisma.VideoCommentUpdateManyWithoutUserNestedInput
+  videoCommentLikes?: Prisma.VideoCommentLikeUpdateManyWithoutUserNestedInput
   blogs?: Prisma.BlogUpdateManyWithoutAuthorNestedInput
   blogLikes?: Prisma.BlogLikeUpdateManyWithoutUserNestedInput
   albums?: Prisma.AlbumUpdateManyWithoutUserNestedInput
@@ -11532,6 +11664,7 @@ export type UserUncheckedUpdateWithoutListingMessageLikesInput = {
   videos?: Prisma.VideoUncheckedUpdateManyWithoutAuthorNestedInput
   videoLikes?: Prisma.VideoLikeUncheckedUpdateManyWithoutUserNestedInput
   videoComments?: Prisma.VideoCommentUncheckedUpdateManyWithoutUserNestedInput
+  videoCommentLikes?: Prisma.VideoCommentLikeUncheckedUpdateManyWithoutUserNestedInput
   blogs?: Prisma.BlogUncheckedUpdateManyWithoutAuthorNestedInput
   blogLikes?: Prisma.BlogLikeUncheckedUpdateManyWithoutUserNestedInput
   albums?: Prisma.AlbumUncheckedUpdateManyWithoutUserNestedInput
@@ -11613,6 +11746,7 @@ export type UserCreateWithoutMemoriesInput = {
   videos?: Prisma.VideoCreateNestedManyWithoutAuthorInput
   videoLikes?: Prisma.VideoLikeCreateNestedManyWithoutUserInput
   videoComments?: Prisma.VideoCommentCreateNestedManyWithoutUserInput
+  videoCommentLikes?: Prisma.VideoCommentLikeCreateNestedManyWithoutUserInput
   blogs?: Prisma.BlogCreateNestedManyWithoutAuthorInput
   blogLikes?: Prisma.BlogLikeCreateNestedManyWithoutUserInput
   albums?: Prisma.AlbumCreateNestedManyWithoutUserInput
@@ -11695,6 +11829,7 @@ export type UserUncheckedCreateWithoutMemoriesInput = {
   videos?: Prisma.VideoUncheckedCreateNestedManyWithoutAuthorInput
   videoLikes?: Prisma.VideoLikeUncheckedCreateNestedManyWithoutUserInput
   videoComments?: Prisma.VideoCommentUncheckedCreateNestedManyWithoutUserInput
+  videoCommentLikes?: Prisma.VideoCommentLikeUncheckedCreateNestedManyWithoutUserInput
   blogs?: Prisma.BlogUncheckedCreateNestedManyWithoutAuthorInput
   blogLikes?: Prisma.BlogLikeUncheckedCreateNestedManyWithoutUserInput
   albums?: Prisma.AlbumUncheckedCreateNestedManyWithoutUserInput
@@ -11792,6 +11927,7 @@ export type UserUpdateWithoutMemoriesInput = {
   videos?: Prisma.VideoUpdateManyWithoutAuthorNestedInput
   videoLikes?: Prisma.VideoLikeUpdateManyWithoutUserNestedInput
   videoComments?: Prisma.VideoCommentUpdateManyWithoutUserNestedInput
+  videoCommentLikes?: Prisma.VideoCommentLikeUpdateManyWithoutUserNestedInput
   blogs?: Prisma.BlogUpdateManyWithoutAuthorNestedInput
   blogLikes?: Prisma.BlogLikeUpdateManyWithoutUserNestedInput
   albums?: Prisma.AlbumUpdateManyWithoutUserNestedInput
@@ -11874,6 +12010,7 @@ export type UserUncheckedUpdateWithoutMemoriesInput = {
   videos?: Prisma.VideoUncheckedUpdateManyWithoutAuthorNestedInput
   videoLikes?: Prisma.VideoLikeUncheckedUpdateManyWithoutUserNestedInput
   videoComments?: Prisma.VideoCommentUncheckedUpdateManyWithoutUserNestedInput
+  videoCommentLikes?: Prisma.VideoCommentLikeUncheckedUpdateManyWithoutUserNestedInput
   blogs?: Prisma.BlogUncheckedUpdateManyWithoutAuthorNestedInput
   blogLikes?: Prisma.BlogLikeUncheckedUpdateManyWithoutUserNestedInput
   albums?: Prisma.AlbumUncheckedUpdateManyWithoutUserNestedInput
@@ -11955,6 +12092,7 @@ export type UserCreateWithoutConversationsInput = {
   videos?: Prisma.VideoCreateNestedManyWithoutAuthorInput
   videoLikes?: Prisma.VideoLikeCreateNestedManyWithoutUserInput
   videoComments?: Prisma.VideoCommentCreateNestedManyWithoutUserInput
+  videoCommentLikes?: Prisma.VideoCommentLikeCreateNestedManyWithoutUserInput
   blogs?: Prisma.BlogCreateNestedManyWithoutAuthorInput
   blogLikes?: Prisma.BlogLikeCreateNestedManyWithoutUserInput
   albums?: Prisma.AlbumCreateNestedManyWithoutUserInput
@@ -12037,6 +12175,7 @@ export type UserUncheckedCreateWithoutConversationsInput = {
   videos?: Prisma.VideoUncheckedCreateNestedManyWithoutAuthorInput
   videoLikes?: Prisma.VideoLikeUncheckedCreateNestedManyWithoutUserInput
   videoComments?: Prisma.VideoCommentUncheckedCreateNestedManyWithoutUserInput
+  videoCommentLikes?: Prisma.VideoCommentLikeUncheckedCreateNestedManyWithoutUserInput
   blogs?: Prisma.BlogUncheckedCreateNestedManyWithoutAuthorInput
   blogLikes?: Prisma.BlogLikeUncheckedCreateNestedManyWithoutUserInput
   albums?: Prisma.AlbumUncheckedCreateNestedManyWithoutUserInput
@@ -12134,6 +12273,7 @@ export type UserUpdateWithoutConversationsInput = {
   videos?: Prisma.VideoUpdateManyWithoutAuthorNestedInput
   videoLikes?: Prisma.VideoLikeUpdateManyWithoutUserNestedInput
   videoComments?: Prisma.VideoCommentUpdateManyWithoutUserNestedInput
+  videoCommentLikes?: Prisma.VideoCommentLikeUpdateManyWithoutUserNestedInput
   blogs?: Prisma.BlogUpdateManyWithoutAuthorNestedInput
   blogLikes?: Prisma.BlogLikeUpdateManyWithoutUserNestedInput
   albums?: Prisma.AlbumUpdateManyWithoutUserNestedInput
@@ -12216,6 +12356,7 @@ export type UserUncheckedUpdateWithoutConversationsInput = {
   videos?: Prisma.VideoUncheckedUpdateManyWithoutAuthorNestedInput
   videoLikes?: Prisma.VideoLikeUncheckedUpdateManyWithoutUserNestedInput
   videoComments?: Prisma.VideoCommentUncheckedUpdateManyWithoutUserNestedInput
+  videoCommentLikes?: Prisma.VideoCommentLikeUncheckedUpdateManyWithoutUserNestedInput
   blogs?: Prisma.BlogUncheckedUpdateManyWithoutAuthorNestedInput
   blogLikes?: Prisma.BlogLikeUncheckedUpdateManyWithoutUserNestedInput
   albums?: Prisma.AlbumUncheckedUpdateManyWithoutUserNestedInput
@@ -12297,6 +12438,7 @@ export type UserCreateWithoutMessagesSentInput = {
   videos?: Prisma.VideoCreateNestedManyWithoutAuthorInput
   videoLikes?: Prisma.VideoLikeCreateNestedManyWithoutUserInput
   videoComments?: Prisma.VideoCommentCreateNestedManyWithoutUserInput
+  videoCommentLikes?: Prisma.VideoCommentLikeCreateNestedManyWithoutUserInput
   blogs?: Prisma.BlogCreateNestedManyWithoutAuthorInput
   blogLikes?: Prisma.BlogLikeCreateNestedManyWithoutUserInput
   albums?: Prisma.AlbumCreateNestedManyWithoutUserInput
@@ -12379,6 +12521,7 @@ export type UserUncheckedCreateWithoutMessagesSentInput = {
   videos?: Prisma.VideoUncheckedCreateNestedManyWithoutAuthorInput
   videoLikes?: Prisma.VideoLikeUncheckedCreateNestedManyWithoutUserInput
   videoComments?: Prisma.VideoCommentUncheckedCreateNestedManyWithoutUserInput
+  videoCommentLikes?: Prisma.VideoCommentLikeUncheckedCreateNestedManyWithoutUserInput
   blogs?: Prisma.BlogUncheckedCreateNestedManyWithoutAuthorInput
   blogLikes?: Prisma.BlogLikeUncheckedCreateNestedManyWithoutUserInput
   albums?: Prisma.AlbumUncheckedCreateNestedManyWithoutUserInput
@@ -12476,6 +12619,7 @@ export type UserUpdateWithoutMessagesSentInput = {
   videos?: Prisma.VideoUpdateManyWithoutAuthorNestedInput
   videoLikes?: Prisma.VideoLikeUpdateManyWithoutUserNestedInput
   videoComments?: Prisma.VideoCommentUpdateManyWithoutUserNestedInput
+  videoCommentLikes?: Prisma.VideoCommentLikeUpdateManyWithoutUserNestedInput
   blogs?: Prisma.BlogUpdateManyWithoutAuthorNestedInput
   blogLikes?: Prisma.BlogLikeUpdateManyWithoutUserNestedInput
   albums?: Prisma.AlbumUpdateManyWithoutUserNestedInput
@@ -12558,6 +12702,7 @@ export type UserUncheckedUpdateWithoutMessagesSentInput = {
   videos?: Prisma.VideoUncheckedUpdateManyWithoutAuthorNestedInput
   videoLikes?: Prisma.VideoLikeUncheckedUpdateManyWithoutUserNestedInput
   videoComments?: Prisma.VideoCommentUncheckedUpdateManyWithoutUserNestedInput
+  videoCommentLikes?: Prisma.VideoCommentLikeUncheckedUpdateManyWithoutUserNestedInput
   blogs?: Prisma.BlogUncheckedUpdateManyWithoutAuthorNestedInput
   blogLikes?: Prisma.BlogLikeUncheckedUpdateManyWithoutUserNestedInput
   albums?: Prisma.AlbumUncheckedUpdateManyWithoutUserNestedInput
@@ -12639,6 +12784,7 @@ export type UserCreateWithoutMessageReactionsInput = {
   videos?: Prisma.VideoCreateNestedManyWithoutAuthorInput
   videoLikes?: Prisma.VideoLikeCreateNestedManyWithoutUserInput
   videoComments?: Prisma.VideoCommentCreateNestedManyWithoutUserInput
+  videoCommentLikes?: Prisma.VideoCommentLikeCreateNestedManyWithoutUserInput
   blogs?: Prisma.BlogCreateNestedManyWithoutAuthorInput
   blogLikes?: Prisma.BlogLikeCreateNestedManyWithoutUserInput
   albums?: Prisma.AlbumCreateNestedManyWithoutUserInput
@@ -12721,6 +12867,7 @@ export type UserUncheckedCreateWithoutMessageReactionsInput = {
   videos?: Prisma.VideoUncheckedCreateNestedManyWithoutAuthorInput
   videoLikes?: Prisma.VideoLikeUncheckedCreateNestedManyWithoutUserInput
   videoComments?: Prisma.VideoCommentUncheckedCreateNestedManyWithoutUserInput
+  videoCommentLikes?: Prisma.VideoCommentLikeUncheckedCreateNestedManyWithoutUserInput
   blogs?: Prisma.BlogUncheckedCreateNestedManyWithoutAuthorInput
   blogLikes?: Prisma.BlogLikeUncheckedCreateNestedManyWithoutUserInput
   albums?: Prisma.AlbumUncheckedCreateNestedManyWithoutUserInput
@@ -12818,6 +12965,7 @@ export type UserUpdateWithoutMessageReactionsInput = {
   videos?: Prisma.VideoUpdateManyWithoutAuthorNestedInput
   videoLikes?: Prisma.VideoLikeUpdateManyWithoutUserNestedInput
   videoComments?: Prisma.VideoCommentUpdateManyWithoutUserNestedInput
+  videoCommentLikes?: Prisma.VideoCommentLikeUpdateManyWithoutUserNestedInput
   blogs?: Prisma.BlogUpdateManyWithoutAuthorNestedInput
   blogLikes?: Prisma.BlogLikeUpdateManyWithoutUserNestedInput
   albums?: Prisma.AlbumUpdateManyWithoutUserNestedInput
@@ -12900,6 +13048,7 @@ export type UserUncheckedUpdateWithoutMessageReactionsInput = {
   videos?: Prisma.VideoUncheckedUpdateManyWithoutAuthorNestedInput
   videoLikes?: Prisma.VideoLikeUncheckedUpdateManyWithoutUserNestedInput
   videoComments?: Prisma.VideoCommentUncheckedUpdateManyWithoutUserNestedInput
+  videoCommentLikes?: Prisma.VideoCommentLikeUncheckedUpdateManyWithoutUserNestedInput
   blogs?: Prisma.BlogUncheckedUpdateManyWithoutAuthorNestedInput
   blogLikes?: Prisma.BlogLikeUncheckedUpdateManyWithoutUserNestedInput
   albums?: Prisma.AlbumUncheckedUpdateManyWithoutUserNestedInput
@@ -12981,6 +13130,7 @@ export type UserCreateWithoutReportedContentCreatedInput = {
   videos?: Prisma.VideoCreateNestedManyWithoutAuthorInput
   videoLikes?: Prisma.VideoLikeCreateNestedManyWithoutUserInput
   videoComments?: Prisma.VideoCommentCreateNestedManyWithoutUserInput
+  videoCommentLikes?: Prisma.VideoCommentLikeCreateNestedManyWithoutUserInput
   blogs?: Prisma.BlogCreateNestedManyWithoutAuthorInput
   blogLikes?: Prisma.BlogLikeCreateNestedManyWithoutUserInput
   albums?: Prisma.AlbumCreateNestedManyWithoutUserInput
@@ -13063,6 +13213,7 @@ export type UserUncheckedCreateWithoutReportedContentCreatedInput = {
   videos?: Prisma.VideoUncheckedCreateNestedManyWithoutAuthorInput
   videoLikes?: Prisma.VideoLikeUncheckedCreateNestedManyWithoutUserInput
   videoComments?: Prisma.VideoCommentUncheckedCreateNestedManyWithoutUserInput
+  videoCommentLikes?: Prisma.VideoCommentLikeUncheckedCreateNestedManyWithoutUserInput
   blogs?: Prisma.BlogUncheckedCreateNestedManyWithoutAuthorInput
   blogLikes?: Prisma.BlogLikeUncheckedCreateNestedManyWithoutUserInput
   albums?: Prisma.AlbumUncheckedCreateNestedManyWithoutUserInput
@@ -13149,6 +13300,7 @@ export type UserCreateWithoutReportedContentReceivedInput = {
   videos?: Prisma.VideoCreateNestedManyWithoutAuthorInput
   videoLikes?: Prisma.VideoLikeCreateNestedManyWithoutUserInput
   videoComments?: Prisma.VideoCommentCreateNestedManyWithoutUserInput
+  videoCommentLikes?: Prisma.VideoCommentLikeCreateNestedManyWithoutUserInput
   blogs?: Prisma.BlogCreateNestedManyWithoutAuthorInput
   blogLikes?: Prisma.BlogLikeCreateNestedManyWithoutUserInput
   albums?: Prisma.AlbumCreateNestedManyWithoutUserInput
@@ -13231,6 +13383,7 @@ export type UserUncheckedCreateWithoutReportedContentReceivedInput = {
   videos?: Prisma.VideoUncheckedCreateNestedManyWithoutAuthorInput
   videoLikes?: Prisma.VideoLikeUncheckedCreateNestedManyWithoutUserInput
   videoComments?: Prisma.VideoCommentUncheckedCreateNestedManyWithoutUserInput
+  videoCommentLikes?: Prisma.VideoCommentLikeUncheckedCreateNestedManyWithoutUserInput
   blogs?: Prisma.BlogUncheckedCreateNestedManyWithoutAuthorInput
   blogLikes?: Prisma.BlogLikeUncheckedCreateNestedManyWithoutUserInput
   albums?: Prisma.AlbumUncheckedCreateNestedManyWithoutUserInput
@@ -13328,6 +13481,7 @@ export type UserUpdateWithoutReportedContentCreatedInput = {
   videos?: Prisma.VideoUpdateManyWithoutAuthorNestedInput
   videoLikes?: Prisma.VideoLikeUpdateManyWithoutUserNestedInput
   videoComments?: Prisma.VideoCommentUpdateManyWithoutUserNestedInput
+  videoCommentLikes?: Prisma.VideoCommentLikeUpdateManyWithoutUserNestedInput
   blogs?: Prisma.BlogUpdateManyWithoutAuthorNestedInput
   blogLikes?: Prisma.BlogLikeUpdateManyWithoutUserNestedInput
   albums?: Prisma.AlbumUpdateManyWithoutUserNestedInput
@@ -13410,6 +13564,7 @@ export type UserUncheckedUpdateWithoutReportedContentCreatedInput = {
   videos?: Prisma.VideoUncheckedUpdateManyWithoutAuthorNestedInput
   videoLikes?: Prisma.VideoLikeUncheckedUpdateManyWithoutUserNestedInput
   videoComments?: Prisma.VideoCommentUncheckedUpdateManyWithoutUserNestedInput
+  videoCommentLikes?: Prisma.VideoCommentLikeUncheckedUpdateManyWithoutUserNestedInput
   blogs?: Prisma.BlogUncheckedUpdateManyWithoutAuthorNestedInput
   blogLikes?: Prisma.BlogLikeUncheckedUpdateManyWithoutUserNestedInput
   albums?: Prisma.AlbumUncheckedUpdateManyWithoutUserNestedInput
@@ -13502,6 +13657,7 @@ export type UserUpdateWithoutReportedContentReceivedInput = {
   videos?: Prisma.VideoUpdateManyWithoutAuthorNestedInput
   videoLikes?: Prisma.VideoLikeUpdateManyWithoutUserNestedInput
   videoComments?: Prisma.VideoCommentUpdateManyWithoutUserNestedInput
+  videoCommentLikes?: Prisma.VideoCommentLikeUpdateManyWithoutUserNestedInput
   blogs?: Prisma.BlogUpdateManyWithoutAuthorNestedInput
   blogLikes?: Prisma.BlogLikeUpdateManyWithoutUserNestedInput
   albums?: Prisma.AlbumUpdateManyWithoutUserNestedInput
@@ -13584,6 +13740,7 @@ export type UserUncheckedUpdateWithoutReportedContentReceivedInput = {
   videos?: Prisma.VideoUncheckedUpdateManyWithoutAuthorNestedInput
   videoLikes?: Prisma.VideoLikeUncheckedUpdateManyWithoutUserNestedInput
   videoComments?: Prisma.VideoCommentUncheckedUpdateManyWithoutUserNestedInput
+  videoCommentLikes?: Prisma.VideoCommentLikeUncheckedUpdateManyWithoutUserNestedInput
   blogs?: Prisma.BlogUncheckedUpdateManyWithoutAuthorNestedInput
   blogLikes?: Prisma.BlogLikeUncheckedUpdateManyWithoutUserNestedInput
   albums?: Prisma.AlbumUncheckedUpdateManyWithoutUserNestedInput
@@ -13665,6 +13822,7 @@ export type UserCreateWithoutModerationLogsCreatedInput = {
   videos?: Prisma.VideoCreateNestedManyWithoutAuthorInput
   videoLikes?: Prisma.VideoLikeCreateNestedManyWithoutUserInput
   videoComments?: Prisma.VideoCommentCreateNestedManyWithoutUserInput
+  videoCommentLikes?: Prisma.VideoCommentLikeCreateNestedManyWithoutUserInput
   blogs?: Prisma.BlogCreateNestedManyWithoutAuthorInput
   blogLikes?: Prisma.BlogLikeCreateNestedManyWithoutUserInput
   albums?: Prisma.AlbumCreateNestedManyWithoutUserInput
@@ -13747,6 +13905,7 @@ export type UserUncheckedCreateWithoutModerationLogsCreatedInput = {
   videos?: Prisma.VideoUncheckedCreateNestedManyWithoutAuthorInput
   videoLikes?: Prisma.VideoLikeUncheckedCreateNestedManyWithoutUserInput
   videoComments?: Prisma.VideoCommentUncheckedCreateNestedManyWithoutUserInput
+  videoCommentLikes?: Prisma.VideoCommentLikeUncheckedCreateNestedManyWithoutUserInput
   blogs?: Prisma.BlogUncheckedCreateNestedManyWithoutAuthorInput
   blogLikes?: Prisma.BlogLikeUncheckedCreateNestedManyWithoutUserInput
   albums?: Prisma.AlbumUncheckedCreateNestedManyWithoutUserInput
@@ -13833,6 +13992,7 @@ export type UserCreateWithoutModerationLogsTargetedInput = {
   videos?: Prisma.VideoCreateNestedManyWithoutAuthorInput
   videoLikes?: Prisma.VideoLikeCreateNestedManyWithoutUserInput
   videoComments?: Prisma.VideoCommentCreateNestedManyWithoutUserInput
+  videoCommentLikes?: Prisma.VideoCommentLikeCreateNestedManyWithoutUserInput
   blogs?: Prisma.BlogCreateNestedManyWithoutAuthorInput
   blogLikes?: Prisma.BlogLikeCreateNestedManyWithoutUserInput
   albums?: Prisma.AlbumCreateNestedManyWithoutUserInput
@@ -13915,6 +14075,7 @@ export type UserUncheckedCreateWithoutModerationLogsTargetedInput = {
   videos?: Prisma.VideoUncheckedCreateNestedManyWithoutAuthorInput
   videoLikes?: Prisma.VideoLikeUncheckedCreateNestedManyWithoutUserInput
   videoComments?: Prisma.VideoCommentUncheckedCreateNestedManyWithoutUserInput
+  videoCommentLikes?: Prisma.VideoCommentLikeUncheckedCreateNestedManyWithoutUserInput
   blogs?: Prisma.BlogUncheckedCreateNestedManyWithoutAuthorInput
   blogLikes?: Prisma.BlogLikeUncheckedCreateNestedManyWithoutUserInput
   albums?: Prisma.AlbumUncheckedCreateNestedManyWithoutUserInput
@@ -14012,6 +14173,7 @@ export type UserUpdateWithoutModerationLogsCreatedInput = {
   videos?: Prisma.VideoUpdateManyWithoutAuthorNestedInput
   videoLikes?: Prisma.VideoLikeUpdateManyWithoutUserNestedInput
   videoComments?: Prisma.VideoCommentUpdateManyWithoutUserNestedInput
+  videoCommentLikes?: Prisma.VideoCommentLikeUpdateManyWithoutUserNestedInput
   blogs?: Prisma.BlogUpdateManyWithoutAuthorNestedInput
   blogLikes?: Prisma.BlogLikeUpdateManyWithoutUserNestedInput
   albums?: Prisma.AlbumUpdateManyWithoutUserNestedInput
@@ -14094,6 +14256,7 @@ export type UserUncheckedUpdateWithoutModerationLogsCreatedInput = {
   videos?: Prisma.VideoUncheckedUpdateManyWithoutAuthorNestedInput
   videoLikes?: Prisma.VideoLikeUncheckedUpdateManyWithoutUserNestedInput
   videoComments?: Prisma.VideoCommentUncheckedUpdateManyWithoutUserNestedInput
+  videoCommentLikes?: Prisma.VideoCommentLikeUncheckedUpdateManyWithoutUserNestedInput
   blogs?: Prisma.BlogUncheckedUpdateManyWithoutAuthorNestedInput
   blogLikes?: Prisma.BlogLikeUncheckedUpdateManyWithoutUserNestedInput
   albums?: Prisma.AlbumUncheckedUpdateManyWithoutUserNestedInput
@@ -14186,6 +14349,7 @@ export type UserUpdateWithoutModerationLogsTargetedInput = {
   videos?: Prisma.VideoUpdateManyWithoutAuthorNestedInput
   videoLikes?: Prisma.VideoLikeUpdateManyWithoutUserNestedInput
   videoComments?: Prisma.VideoCommentUpdateManyWithoutUserNestedInput
+  videoCommentLikes?: Prisma.VideoCommentLikeUpdateManyWithoutUserNestedInput
   blogs?: Prisma.BlogUpdateManyWithoutAuthorNestedInput
   blogLikes?: Prisma.BlogLikeUpdateManyWithoutUserNestedInput
   albums?: Prisma.AlbumUpdateManyWithoutUserNestedInput
@@ -14268,6 +14432,7 @@ export type UserUncheckedUpdateWithoutModerationLogsTargetedInput = {
   videos?: Prisma.VideoUncheckedUpdateManyWithoutAuthorNestedInput
   videoLikes?: Prisma.VideoLikeUncheckedUpdateManyWithoutUserNestedInput
   videoComments?: Prisma.VideoCommentUncheckedUpdateManyWithoutUserNestedInput
+  videoCommentLikes?: Prisma.VideoCommentLikeUncheckedUpdateManyWithoutUserNestedInput
   blogs?: Prisma.BlogUncheckedUpdateManyWithoutAuthorNestedInput
   blogLikes?: Prisma.BlogLikeUncheckedUpdateManyWithoutUserNestedInput
   albums?: Prisma.AlbumUncheckedUpdateManyWithoutUserNestedInput
@@ -14349,6 +14514,7 @@ export type UserCreateWithoutNotificationsReceivedInput = {
   videos?: Prisma.VideoCreateNestedManyWithoutAuthorInput
   videoLikes?: Prisma.VideoLikeCreateNestedManyWithoutUserInput
   videoComments?: Prisma.VideoCommentCreateNestedManyWithoutUserInput
+  videoCommentLikes?: Prisma.VideoCommentLikeCreateNestedManyWithoutUserInput
   blogs?: Prisma.BlogCreateNestedManyWithoutAuthorInput
   blogLikes?: Prisma.BlogLikeCreateNestedManyWithoutUserInput
   albums?: Prisma.AlbumCreateNestedManyWithoutUserInput
@@ -14431,6 +14597,7 @@ export type UserUncheckedCreateWithoutNotificationsReceivedInput = {
   videos?: Prisma.VideoUncheckedCreateNestedManyWithoutAuthorInput
   videoLikes?: Prisma.VideoLikeUncheckedCreateNestedManyWithoutUserInput
   videoComments?: Prisma.VideoCommentUncheckedCreateNestedManyWithoutUserInput
+  videoCommentLikes?: Prisma.VideoCommentLikeUncheckedCreateNestedManyWithoutUserInput
   blogs?: Prisma.BlogUncheckedCreateNestedManyWithoutAuthorInput
   blogLikes?: Prisma.BlogLikeUncheckedCreateNestedManyWithoutUserInput
   albums?: Prisma.AlbumUncheckedCreateNestedManyWithoutUserInput
@@ -14517,6 +14684,7 @@ export type UserCreateWithoutNotificationsSentInput = {
   videos?: Prisma.VideoCreateNestedManyWithoutAuthorInput
   videoLikes?: Prisma.VideoLikeCreateNestedManyWithoutUserInput
   videoComments?: Prisma.VideoCommentCreateNestedManyWithoutUserInput
+  videoCommentLikes?: Prisma.VideoCommentLikeCreateNestedManyWithoutUserInput
   blogs?: Prisma.BlogCreateNestedManyWithoutAuthorInput
   blogLikes?: Prisma.BlogLikeCreateNestedManyWithoutUserInput
   albums?: Prisma.AlbumCreateNestedManyWithoutUserInput
@@ -14599,6 +14767,7 @@ export type UserUncheckedCreateWithoutNotificationsSentInput = {
   videos?: Prisma.VideoUncheckedCreateNestedManyWithoutAuthorInput
   videoLikes?: Prisma.VideoLikeUncheckedCreateNestedManyWithoutUserInput
   videoComments?: Prisma.VideoCommentUncheckedCreateNestedManyWithoutUserInput
+  videoCommentLikes?: Prisma.VideoCommentLikeUncheckedCreateNestedManyWithoutUserInput
   blogs?: Prisma.BlogUncheckedCreateNestedManyWithoutAuthorInput
   blogLikes?: Prisma.BlogLikeUncheckedCreateNestedManyWithoutUserInput
   albums?: Prisma.AlbumUncheckedCreateNestedManyWithoutUserInput
@@ -14696,6 +14865,7 @@ export type UserUpdateWithoutNotificationsReceivedInput = {
   videos?: Prisma.VideoUpdateManyWithoutAuthorNestedInput
   videoLikes?: Prisma.VideoLikeUpdateManyWithoutUserNestedInput
   videoComments?: Prisma.VideoCommentUpdateManyWithoutUserNestedInput
+  videoCommentLikes?: Prisma.VideoCommentLikeUpdateManyWithoutUserNestedInput
   blogs?: Prisma.BlogUpdateManyWithoutAuthorNestedInput
   blogLikes?: Prisma.BlogLikeUpdateManyWithoutUserNestedInput
   albums?: Prisma.AlbumUpdateManyWithoutUserNestedInput
@@ -14778,6 +14948,7 @@ export type UserUncheckedUpdateWithoutNotificationsReceivedInput = {
   videos?: Prisma.VideoUncheckedUpdateManyWithoutAuthorNestedInput
   videoLikes?: Prisma.VideoLikeUncheckedUpdateManyWithoutUserNestedInput
   videoComments?: Prisma.VideoCommentUncheckedUpdateManyWithoutUserNestedInput
+  videoCommentLikes?: Prisma.VideoCommentLikeUncheckedUpdateManyWithoutUserNestedInput
   blogs?: Prisma.BlogUncheckedUpdateManyWithoutAuthorNestedInput
   blogLikes?: Prisma.BlogLikeUncheckedUpdateManyWithoutUserNestedInput
   albums?: Prisma.AlbumUncheckedUpdateManyWithoutUserNestedInput
@@ -14870,6 +15041,7 @@ export type UserUpdateWithoutNotificationsSentInput = {
   videos?: Prisma.VideoUpdateManyWithoutAuthorNestedInput
   videoLikes?: Prisma.VideoLikeUpdateManyWithoutUserNestedInput
   videoComments?: Prisma.VideoCommentUpdateManyWithoutUserNestedInput
+  videoCommentLikes?: Prisma.VideoCommentLikeUpdateManyWithoutUserNestedInput
   blogs?: Prisma.BlogUpdateManyWithoutAuthorNestedInput
   blogLikes?: Prisma.BlogLikeUpdateManyWithoutUserNestedInput
   albums?: Prisma.AlbumUpdateManyWithoutUserNestedInput
@@ -14952,6 +15124,7 @@ export type UserUncheckedUpdateWithoutNotificationsSentInput = {
   videos?: Prisma.VideoUncheckedUpdateManyWithoutAuthorNestedInput
   videoLikes?: Prisma.VideoLikeUncheckedUpdateManyWithoutUserNestedInput
   videoComments?: Prisma.VideoCommentUncheckedUpdateManyWithoutUserNestedInput
+  videoCommentLikes?: Prisma.VideoCommentLikeUncheckedUpdateManyWithoutUserNestedInput
   blogs?: Prisma.BlogUncheckedUpdateManyWithoutAuthorNestedInput
   blogLikes?: Prisma.BlogLikeUncheckedUpdateManyWithoutUserNestedInput
   albums?: Prisma.AlbumUncheckedUpdateManyWithoutUserNestedInput
@@ -15033,6 +15206,7 @@ export type UserCreateWithoutOwnedPagesInput = {
   videos?: Prisma.VideoCreateNestedManyWithoutAuthorInput
   videoLikes?: Prisma.VideoLikeCreateNestedManyWithoutUserInput
   videoComments?: Prisma.VideoCommentCreateNestedManyWithoutUserInput
+  videoCommentLikes?: Prisma.VideoCommentLikeCreateNestedManyWithoutUserInput
   blogs?: Prisma.BlogCreateNestedManyWithoutAuthorInput
   blogLikes?: Prisma.BlogLikeCreateNestedManyWithoutUserInput
   albums?: Prisma.AlbumCreateNestedManyWithoutUserInput
@@ -15115,6 +15289,7 @@ export type UserUncheckedCreateWithoutOwnedPagesInput = {
   videos?: Prisma.VideoUncheckedCreateNestedManyWithoutAuthorInput
   videoLikes?: Prisma.VideoLikeUncheckedCreateNestedManyWithoutUserInput
   videoComments?: Prisma.VideoCommentUncheckedCreateNestedManyWithoutUserInput
+  videoCommentLikes?: Prisma.VideoCommentLikeUncheckedCreateNestedManyWithoutUserInput
   blogs?: Prisma.BlogUncheckedCreateNestedManyWithoutAuthorInput
   blogLikes?: Prisma.BlogLikeUncheckedCreateNestedManyWithoutUserInput
   albums?: Prisma.AlbumUncheckedCreateNestedManyWithoutUserInput
@@ -15212,6 +15387,7 @@ export type UserUpdateWithoutOwnedPagesInput = {
   videos?: Prisma.VideoUpdateManyWithoutAuthorNestedInput
   videoLikes?: Prisma.VideoLikeUpdateManyWithoutUserNestedInput
   videoComments?: Prisma.VideoCommentUpdateManyWithoutUserNestedInput
+  videoCommentLikes?: Prisma.VideoCommentLikeUpdateManyWithoutUserNestedInput
   blogs?: Prisma.BlogUpdateManyWithoutAuthorNestedInput
   blogLikes?: Prisma.BlogLikeUpdateManyWithoutUserNestedInput
   albums?: Prisma.AlbumUpdateManyWithoutUserNestedInput
@@ -15294,6 +15470,7 @@ export type UserUncheckedUpdateWithoutOwnedPagesInput = {
   videos?: Prisma.VideoUncheckedUpdateManyWithoutAuthorNestedInput
   videoLikes?: Prisma.VideoLikeUncheckedUpdateManyWithoutUserNestedInput
   videoComments?: Prisma.VideoCommentUncheckedUpdateManyWithoutUserNestedInput
+  videoCommentLikes?: Prisma.VideoCommentLikeUncheckedUpdateManyWithoutUserNestedInput
   blogs?: Prisma.BlogUncheckedUpdateManyWithoutAuthorNestedInput
   blogLikes?: Prisma.BlogLikeUncheckedUpdateManyWithoutUserNestedInput
   albums?: Prisma.AlbumUncheckedUpdateManyWithoutUserNestedInput
@@ -15375,6 +15552,7 @@ export type UserCreateWithoutPageFollowsInput = {
   videos?: Prisma.VideoCreateNestedManyWithoutAuthorInput
   videoLikes?: Prisma.VideoLikeCreateNestedManyWithoutUserInput
   videoComments?: Prisma.VideoCommentCreateNestedManyWithoutUserInput
+  videoCommentLikes?: Prisma.VideoCommentLikeCreateNestedManyWithoutUserInput
   blogs?: Prisma.BlogCreateNestedManyWithoutAuthorInput
   blogLikes?: Prisma.BlogLikeCreateNestedManyWithoutUserInput
   albums?: Prisma.AlbumCreateNestedManyWithoutUserInput
@@ -15457,6 +15635,7 @@ export type UserUncheckedCreateWithoutPageFollowsInput = {
   videos?: Prisma.VideoUncheckedCreateNestedManyWithoutAuthorInput
   videoLikes?: Prisma.VideoLikeUncheckedCreateNestedManyWithoutUserInput
   videoComments?: Prisma.VideoCommentUncheckedCreateNestedManyWithoutUserInput
+  videoCommentLikes?: Prisma.VideoCommentLikeUncheckedCreateNestedManyWithoutUserInput
   blogs?: Prisma.BlogUncheckedCreateNestedManyWithoutAuthorInput
   blogLikes?: Prisma.BlogLikeUncheckedCreateNestedManyWithoutUserInput
   albums?: Prisma.AlbumUncheckedCreateNestedManyWithoutUserInput
@@ -15554,6 +15733,7 @@ export type UserUpdateWithoutPageFollowsInput = {
   videos?: Prisma.VideoUpdateManyWithoutAuthorNestedInput
   videoLikes?: Prisma.VideoLikeUpdateManyWithoutUserNestedInput
   videoComments?: Prisma.VideoCommentUpdateManyWithoutUserNestedInput
+  videoCommentLikes?: Prisma.VideoCommentLikeUpdateManyWithoutUserNestedInput
   blogs?: Prisma.BlogUpdateManyWithoutAuthorNestedInput
   blogLikes?: Prisma.BlogLikeUpdateManyWithoutUserNestedInput
   albums?: Prisma.AlbumUpdateManyWithoutUserNestedInput
@@ -15636,6 +15816,7 @@ export type UserUncheckedUpdateWithoutPageFollowsInput = {
   videos?: Prisma.VideoUncheckedUpdateManyWithoutAuthorNestedInput
   videoLikes?: Prisma.VideoLikeUncheckedUpdateManyWithoutUserNestedInput
   videoComments?: Prisma.VideoCommentUncheckedUpdateManyWithoutUserNestedInput
+  videoCommentLikes?: Prisma.VideoCommentLikeUncheckedUpdateManyWithoutUserNestedInput
   blogs?: Prisma.BlogUncheckedUpdateManyWithoutAuthorNestedInput
   blogLikes?: Prisma.BlogLikeUncheckedUpdateManyWithoutUserNestedInput
   albums?: Prisma.AlbumUncheckedUpdateManyWithoutUserNestedInput
@@ -15717,6 +15898,7 @@ export type UserCreateWithoutPagePostsInput = {
   videos?: Prisma.VideoCreateNestedManyWithoutAuthorInput
   videoLikes?: Prisma.VideoLikeCreateNestedManyWithoutUserInput
   videoComments?: Prisma.VideoCommentCreateNestedManyWithoutUserInput
+  videoCommentLikes?: Prisma.VideoCommentLikeCreateNestedManyWithoutUserInput
   blogs?: Prisma.BlogCreateNestedManyWithoutAuthorInput
   blogLikes?: Prisma.BlogLikeCreateNestedManyWithoutUserInput
   albums?: Prisma.AlbumCreateNestedManyWithoutUserInput
@@ -15799,6 +15981,7 @@ export type UserUncheckedCreateWithoutPagePostsInput = {
   videos?: Prisma.VideoUncheckedCreateNestedManyWithoutAuthorInput
   videoLikes?: Prisma.VideoLikeUncheckedCreateNestedManyWithoutUserInput
   videoComments?: Prisma.VideoCommentUncheckedCreateNestedManyWithoutUserInput
+  videoCommentLikes?: Prisma.VideoCommentLikeUncheckedCreateNestedManyWithoutUserInput
   blogs?: Prisma.BlogUncheckedCreateNestedManyWithoutAuthorInput
   blogLikes?: Prisma.BlogLikeUncheckedCreateNestedManyWithoutUserInput
   albums?: Prisma.AlbumUncheckedCreateNestedManyWithoutUserInput
@@ -15896,6 +16079,7 @@ export type UserUpdateWithoutPagePostsInput = {
   videos?: Prisma.VideoUpdateManyWithoutAuthorNestedInput
   videoLikes?: Prisma.VideoLikeUpdateManyWithoutUserNestedInput
   videoComments?: Prisma.VideoCommentUpdateManyWithoutUserNestedInput
+  videoCommentLikes?: Prisma.VideoCommentLikeUpdateManyWithoutUserNestedInput
   blogs?: Prisma.BlogUpdateManyWithoutAuthorNestedInput
   blogLikes?: Prisma.BlogLikeUpdateManyWithoutUserNestedInput
   albums?: Prisma.AlbumUpdateManyWithoutUserNestedInput
@@ -15978,6 +16162,7 @@ export type UserUncheckedUpdateWithoutPagePostsInput = {
   videos?: Prisma.VideoUncheckedUpdateManyWithoutAuthorNestedInput
   videoLikes?: Prisma.VideoLikeUncheckedUpdateManyWithoutUserNestedInput
   videoComments?: Prisma.VideoCommentUncheckedUpdateManyWithoutUserNestedInput
+  videoCommentLikes?: Prisma.VideoCommentLikeUncheckedUpdateManyWithoutUserNestedInput
   blogs?: Prisma.BlogUncheckedUpdateManyWithoutAuthorNestedInput
   blogLikes?: Prisma.BlogLikeUncheckedUpdateManyWithoutUserNestedInput
   albums?: Prisma.AlbumUncheckedUpdateManyWithoutUserNestedInput
@@ -16059,6 +16244,7 @@ export type UserCreateWithoutPagePostLikesInput = {
   videos?: Prisma.VideoCreateNestedManyWithoutAuthorInput
   videoLikes?: Prisma.VideoLikeCreateNestedManyWithoutUserInput
   videoComments?: Prisma.VideoCommentCreateNestedManyWithoutUserInput
+  videoCommentLikes?: Prisma.VideoCommentLikeCreateNestedManyWithoutUserInput
   blogs?: Prisma.BlogCreateNestedManyWithoutAuthorInput
   blogLikes?: Prisma.BlogLikeCreateNestedManyWithoutUserInput
   albums?: Prisma.AlbumCreateNestedManyWithoutUserInput
@@ -16141,6 +16327,7 @@ export type UserUncheckedCreateWithoutPagePostLikesInput = {
   videos?: Prisma.VideoUncheckedCreateNestedManyWithoutAuthorInput
   videoLikes?: Prisma.VideoLikeUncheckedCreateNestedManyWithoutUserInput
   videoComments?: Prisma.VideoCommentUncheckedCreateNestedManyWithoutUserInput
+  videoCommentLikes?: Prisma.VideoCommentLikeUncheckedCreateNestedManyWithoutUserInput
   blogs?: Prisma.BlogUncheckedCreateNestedManyWithoutAuthorInput
   blogLikes?: Prisma.BlogLikeUncheckedCreateNestedManyWithoutUserInput
   albums?: Prisma.AlbumUncheckedCreateNestedManyWithoutUserInput
@@ -16238,6 +16425,7 @@ export type UserUpdateWithoutPagePostLikesInput = {
   videos?: Prisma.VideoUpdateManyWithoutAuthorNestedInput
   videoLikes?: Prisma.VideoLikeUpdateManyWithoutUserNestedInput
   videoComments?: Prisma.VideoCommentUpdateManyWithoutUserNestedInput
+  videoCommentLikes?: Prisma.VideoCommentLikeUpdateManyWithoutUserNestedInput
   blogs?: Prisma.BlogUpdateManyWithoutAuthorNestedInput
   blogLikes?: Prisma.BlogLikeUpdateManyWithoutUserNestedInput
   albums?: Prisma.AlbumUpdateManyWithoutUserNestedInput
@@ -16320,6 +16508,7 @@ export type UserUncheckedUpdateWithoutPagePostLikesInput = {
   videos?: Prisma.VideoUncheckedUpdateManyWithoutAuthorNestedInput
   videoLikes?: Prisma.VideoLikeUncheckedUpdateManyWithoutUserNestedInput
   videoComments?: Prisma.VideoCommentUncheckedUpdateManyWithoutUserNestedInput
+  videoCommentLikes?: Prisma.VideoCommentLikeUncheckedUpdateManyWithoutUserNestedInput
   blogs?: Prisma.BlogUncheckedUpdateManyWithoutAuthorNestedInput
   blogLikes?: Prisma.BlogLikeUncheckedUpdateManyWithoutUserNestedInput
   albums?: Prisma.AlbumUncheckedUpdateManyWithoutUserNestedInput
@@ -16401,6 +16590,7 @@ export type UserCreateWithoutPagePostCommentsInput = {
   videos?: Prisma.VideoCreateNestedManyWithoutAuthorInput
   videoLikes?: Prisma.VideoLikeCreateNestedManyWithoutUserInput
   videoComments?: Prisma.VideoCommentCreateNestedManyWithoutUserInput
+  videoCommentLikes?: Prisma.VideoCommentLikeCreateNestedManyWithoutUserInput
   blogs?: Prisma.BlogCreateNestedManyWithoutAuthorInput
   blogLikes?: Prisma.BlogLikeCreateNestedManyWithoutUserInput
   albums?: Prisma.AlbumCreateNestedManyWithoutUserInput
@@ -16483,6 +16673,7 @@ export type UserUncheckedCreateWithoutPagePostCommentsInput = {
   videos?: Prisma.VideoUncheckedCreateNestedManyWithoutAuthorInput
   videoLikes?: Prisma.VideoLikeUncheckedCreateNestedManyWithoutUserInput
   videoComments?: Prisma.VideoCommentUncheckedCreateNestedManyWithoutUserInput
+  videoCommentLikes?: Prisma.VideoCommentLikeUncheckedCreateNestedManyWithoutUserInput
   blogs?: Prisma.BlogUncheckedCreateNestedManyWithoutAuthorInput
   blogLikes?: Prisma.BlogLikeUncheckedCreateNestedManyWithoutUserInput
   albums?: Prisma.AlbumUncheckedCreateNestedManyWithoutUserInput
@@ -16580,6 +16771,7 @@ export type UserUpdateWithoutPagePostCommentsInput = {
   videos?: Prisma.VideoUpdateManyWithoutAuthorNestedInput
   videoLikes?: Prisma.VideoLikeUpdateManyWithoutUserNestedInput
   videoComments?: Prisma.VideoCommentUpdateManyWithoutUserNestedInput
+  videoCommentLikes?: Prisma.VideoCommentLikeUpdateManyWithoutUserNestedInput
   blogs?: Prisma.BlogUpdateManyWithoutAuthorNestedInput
   blogLikes?: Prisma.BlogLikeUpdateManyWithoutUserNestedInput
   albums?: Prisma.AlbumUpdateManyWithoutUserNestedInput
@@ -16662,6 +16854,7 @@ export type UserUncheckedUpdateWithoutPagePostCommentsInput = {
   videos?: Prisma.VideoUncheckedUpdateManyWithoutAuthorNestedInput
   videoLikes?: Prisma.VideoLikeUncheckedUpdateManyWithoutUserNestedInput
   videoComments?: Prisma.VideoCommentUncheckedUpdateManyWithoutUserNestedInput
+  videoCommentLikes?: Prisma.VideoCommentLikeUncheckedUpdateManyWithoutUserNestedInput
   blogs?: Prisma.BlogUncheckedUpdateManyWithoutAuthorNestedInput
   blogLikes?: Prisma.BlogLikeUncheckedUpdateManyWithoutUserNestedInput
   albums?: Prisma.AlbumUncheckedUpdateManyWithoutUserNestedInput
@@ -16743,6 +16936,7 @@ export type UserCreateWithoutPagePostCommentLikesInput = {
   videos?: Prisma.VideoCreateNestedManyWithoutAuthorInput
   videoLikes?: Prisma.VideoLikeCreateNestedManyWithoutUserInput
   videoComments?: Prisma.VideoCommentCreateNestedManyWithoutUserInput
+  videoCommentLikes?: Prisma.VideoCommentLikeCreateNestedManyWithoutUserInput
   blogs?: Prisma.BlogCreateNestedManyWithoutAuthorInput
   blogLikes?: Prisma.BlogLikeCreateNestedManyWithoutUserInput
   albums?: Prisma.AlbumCreateNestedManyWithoutUserInput
@@ -16825,6 +17019,7 @@ export type UserUncheckedCreateWithoutPagePostCommentLikesInput = {
   videos?: Prisma.VideoUncheckedCreateNestedManyWithoutAuthorInput
   videoLikes?: Prisma.VideoLikeUncheckedCreateNestedManyWithoutUserInput
   videoComments?: Prisma.VideoCommentUncheckedCreateNestedManyWithoutUserInput
+  videoCommentLikes?: Prisma.VideoCommentLikeUncheckedCreateNestedManyWithoutUserInput
   blogs?: Prisma.BlogUncheckedCreateNestedManyWithoutAuthorInput
   blogLikes?: Prisma.BlogLikeUncheckedCreateNestedManyWithoutUserInput
   albums?: Prisma.AlbumUncheckedCreateNestedManyWithoutUserInput
@@ -16922,6 +17117,7 @@ export type UserUpdateWithoutPagePostCommentLikesInput = {
   videos?: Prisma.VideoUpdateManyWithoutAuthorNestedInput
   videoLikes?: Prisma.VideoLikeUpdateManyWithoutUserNestedInput
   videoComments?: Prisma.VideoCommentUpdateManyWithoutUserNestedInput
+  videoCommentLikes?: Prisma.VideoCommentLikeUpdateManyWithoutUserNestedInput
   blogs?: Prisma.BlogUpdateManyWithoutAuthorNestedInput
   blogLikes?: Prisma.BlogLikeUpdateManyWithoutUserNestedInput
   albums?: Prisma.AlbumUpdateManyWithoutUserNestedInput
@@ -17004,6 +17200,7 @@ export type UserUncheckedUpdateWithoutPagePostCommentLikesInput = {
   videos?: Prisma.VideoUncheckedUpdateManyWithoutAuthorNestedInput
   videoLikes?: Prisma.VideoLikeUncheckedUpdateManyWithoutUserNestedInput
   videoComments?: Prisma.VideoCommentUncheckedUpdateManyWithoutUserNestedInput
+  videoCommentLikes?: Prisma.VideoCommentLikeUncheckedUpdateManyWithoutUserNestedInput
   blogs?: Prisma.BlogUncheckedUpdateManyWithoutAuthorNestedInput
   blogLikes?: Prisma.BlogLikeUncheckedUpdateManyWithoutUserNestedInput
   albums?: Prisma.AlbumUncheckedUpdateManyWithoutUserNestedInput
@@ -17085,6 +17282,7 @@ export type UserCreateWithoutPostsInput = {
   videos?: Prisma.VideoCreateNestedManyWithoutAuthorInput
   videoLikes?: Prisma.VideoLikeCreateNestedManyWithoutUserInput
   videoComments?: Prisma.VideoCommentCreateNestedManyWithoutUserInput
+  videoCommentLikes?: Prisma.VideoCommentLikeCreateNestedManyWithoutUserInput
   blogs?: Prisma.BlogCreateNestedManyWithoutAuthorInput
   blogLikes?: Prisma.BlogLikeCreateNestedManyWithoutUserInput
   albums?: Prisma.AlbumCreateNestedManyWithoutUserInput
@@ -17167,6 +17365,7 @@ export type UserUncheckedCreateWithoutPostsInput = {
   videos?: Prisma.VideoUncheckedCreateNestedManyWithoutAuthorInput
   videoLikes?: Prisma.VideoLikeUncheckedCreateNestedManyWithoutUserInput
   videoComments?: Prisma.VideoCommentUncheckedCreateNestedManyWithoutUserInput
+  videoCommentLikes?: Prisma.VideoCommentLikeUncheckedCreateNestedManyWithoutUserInput
   blogs?: Prisma.BlogUncheckedCreateNestedManyWithoutAuthorInput
   blogLikes?: Prisma.BlogLikeUncheckedCreateNestedManyWithoutUserInput
   albums?: Prisma.AlbumUncheckedCreateNestedManyWithoutUserInput
@@ -17264,6 +17463,7 @@ export type UserUpdateWithoutPostsInput = {
   videos?: Prisma.VideoUpdateManyWithoutAuthorNestedInput
   videoLikes?: Prisma.VideoLikeUpdateManyWithoutUserNestedInput
   videoComments?: Prisma.VideoCommentUpdateManyWithoutUserNestedInput
+  videoCommentLikes?: Prisma.VideoCommentLikeUpdateManyWithoutUserNestedInput
   blogs?: Prisma.BlogUpdateManyWithoutAuthorNestedInput
   blogLikes?: Prisma.BlogLikeUpdateManyWithoutUserNestedInput
   albums?: Prisma.AlbumUpdateManyWithoutUserNestedInput
@@ -17346,6 +17546,7 @@ export type UserUncheckedUpdateWithoutPostsInput = {
   videos?: Prisma.VideoUncheckedUpdateManyWithoutAuthorNestedInput
   videoLikes?: Prisma.VideoLikeUncheckedUpdateManyWithoutUserNestedInput
   videoComments?: Prisma.VideoCommentUncheckedUpdateManyWithoutUserNestedInput
+  videoCommentLikes?: Prisma.VideoCommentLikeUncheckedUpdateManyWithoutUserNestedInput
   blogs?: Prisma.BlogUncheckedUpdateManyWithoutAuthorNestedInput
   blogLikes?: Prisma.BlogLikeUncheckedUpdateManyWithoutUserNestedInput
   albums?: Prisma.AlbumUncheckedUpdateManyWithoutUserNestedInput
@@ -17427,6 +17628,7 @@ export type UserCreateWithoutPostLikesInput = {
   videos?: Prisma.VideoCreateNestedManyWithoutAuthorInput
   videoLikes?: Prisma.VideoLikeCreateNestedManyWithoutUserInput
   videoComments?: Prisma.VideoCommentCreateNestedManyWithoutUserInput
+  videoCommentLikes?: Prisma.VideoCommentLikeCreateNestedManyWithoutUserInput
   blogs?: Prisma.BlogCreateNestedManyWithoutAuthorInput
   blogLikes?: Prisma.BlogLikeCreateNestedManyWithoutUserInput
   albums?: Prisma.AlbumCreateNestedManyWithoutUserInput
@@ -17509,6 +17711,7 @@ export type UserUncheckedCreateWithoutPostLikesInput = {
   videos?: Prisma.VideoUncheckedCreateNestedManyWithoutAuthorInput
   videoLikes?: Prisma.VideoLikeUncheckedCreateNestedManyWithoutUserInput
   videoComments?: Prisma.VideoCommentUncheckedCreateNestedManyWithoutUserInput
+  videoCommentLikes?: Prisma.VideoCommentLikeUncheckedCreateNestedManyWithoutUserInput
   blogs?: Prisma.BlogUncheckedCreateNestedManyWithoutAuthorInput
   blogLikes?: Prisma.BlogLikeUncheckedCreateNestedManyWithoutUserInput
   albums?: Prisma.AlbumUncheckedCreateNestedManyWithoutUserInput
@@ -17606,6 +17809,7 @@ export type UserUpdateWithoutPostLikesInput = {
   videos?: Prisma.VideoUpdateManyWithoutAuthorNestedInput
   videoLikes?: Prisma.VideoLikeUpdateManyWithoutUserNestedInput
   videoComments?: Prisma.VideoCommentUpdateManyWithoutUserNestedInput
+  videoCommentLikes?: Prisma.VideoCommentLikeUpdateManyWithoutUserNestedInput
   blogs?: Prisma.BlogUpdateManyWithoutAuthorNestedInput
   blogLikes?: Prisma.BlogLikeUpdateManyWithoutUserNestedInput
   albums?: Prisma.AlbumUpdateManyWithoutUserNestedInput
@@ -17688,6 +17892,7 @@ export type UserUncheckedUpdateWithoutPostLikesInput = {
   videos?: Prisma.VideoUncheckedUpdateManyWithoutAuthorNestedInput
   videoLikes?: Prisma.VideoLikeUncheckedUpdateManyWithoutUserNestedInput
   videoComments?: Prisma.VideoCommentUncheckedUpdateManyWithoutUserNestedInput
+  videoCommentLikes?: Prisma.VideoCommentLikeUncheckedUpdateManyWithoutUserNestedInput
   blogs?: Prisma.BlogUncheckedUpdateManyWithoutAuthorNestedInput
   blogLikes?: Prisma.BlogLikeUncheckedUpdateManyWithoutUserNestedInput
   albums?: Prisma.AlbumUncheckedUpdateManyWithoutUserNestedInput
@@ -17769,6 +17974,7 @@ export type UserCreateWithoutPostSavesInput = {
   videos?: Prisma.VideoCreateNestedManyWithoutAuthorInput
   videoLikes?: Prisma.VideoLikeCreateNestedManyWithoutUserInput
   videoComments?: Prisma.VideoCommentCreateNestedManyWithoutUserInput
+  videoCommentLikes?: Prisma.VideoCommentLikeCreateNestedManyWithoutUserInput
   blogs?: Prisma.BlogCreateNestedManyWithoutAuthorInput
   blogLikes?: Prisma.BlogLikeCreateNestedManyWithoutUserInput
   albums?: Prisma.AlbumCreateNestedManyWithoutUserInput
@@ -17851,6 +18057,7 @@ export type UserUncheckedCreateWithoutPostSavesInput = {
   videos?: Prisma.VideoUncheckedCreateNestedManyWithoutAuthorInput
   videoLikes?: Prisma.VideoLikeUncheckedCreateNestedManyWithoutUserInput
   videoComments?: Prisma.VideoCommentUncheckedCreateNestedManyWithoutUserInput
+  videoCommentLikes?: Prisma.VideoCommentLikeUncheckedCreateNestedManyWithoutUserInput
   blogs?: Prisma.BlogUncheckedCreateNestedManyWithoutAuthorInput
   blogLikes?: Prisma.BlogLikeUncheckedCreateNestedManyWithoutUserInput
   albums?: Prisma.AlbumUncheckedCreateNestedManyWithoutUserInput
@@ -17948,6 +18155,7 @@ export type UserUpdateWithoutPostSavesInput = {
   videos?: Prisma.VideoUpdateManyWithoutAuthorNestedInput
   videoLikes?: Prisma.VideoLikeUpdateManyWithoutUserNestedInput
   videoComments?: Prisma.VideoCommentUpdateManyWithoutUserNestedInput
+  videoCommentLikes?: Prisma.VideoCommentLikeUpdateManyWithoutUserNestedInput
   blogs?: Prisma.BlogUpdateManyWithoutAuthorNestedInput
   blogLikes?: Prisma.BlogLikeUpdateManyWithoutUserNestedInput
   albums?: Prisma.AlbumUpdateManyWithoutUserNestedInput
@@ -18030,6 +18238,7 @@ export type UserUncheckedUpdateWithoutPostSavesInput = {
   videos?: Prisma.VideoUncheckedUpdateManyWithoutAuthorNestedInput
   videoLikes?: Prisma.VideoLikeUncheckedUpdateManyWithoutUserNestedInput
   videoComments?: Prisma.VideoCommentUncheckedUpdateManyWithoutUserNestedInput
+  videoCommentLikes?: Prisma.VideoCommentLikeUncheckedUpdateManyWithoutUserNestedInput
   blogs?: Prisma.BlogUncheckedUpdateManyWithoutAuthorNestedInput
   blogLikes?: Prisma.BlogLikeUncheckedUpdateManyWithoutUserNestedInput
   albums?: Prisma.AlbumUncheckedUpdateManyWithoutUserNestedInput
@@ -18111,6 +18320,7 @@ export type UserCreateWithoutPostSharesInput = {
   videos?: Prisma.VideoCreateNestedManyWithoutAuthorInput
   videoLikes?: Prisma.VideoLikeCreateNestedManyWithoutUserInput
   videoComments?: Prisma.VideoCommentCreateNestedManyWithoutUserInput
+  videoCommentLikes?: Prisma.VideoCommentLikeCreateNestedManyWithoutUserInput
   blogs?: Prisma.BlogCreateNestedManyWithoutAuthorInput
   blogLikes?: Prisma.BlogLikeCreateNestedManyWithoutUserInput
   albums?: Prisma.AlbumCreateNestedManyWithoutUserInput
@@ -18193,6 +18403,7 @@ export type UserUncheckedCreateWithoutPostSharesInput = {
   videos?: Prisma.VideoUncheckedCreateNestedManyWithoutAuthorInput
   videoLikes?: Prisma.VideoLikeUncheckedCreateNestedManyWithoutUserInput
   videoComments?: Prisma.VideoCommentUncheckedCreateNestedManyWithoutUserInput
+  videoCommentLikes?: Prisma.VideoCommentLikeUncheckedCreateNestedManyWithoutUserInput
   blogs?: Prisma.BlogUncheckedCreateNestedManyWithoutAuthorInput
   blogLikes?: Prisma.BlogLikeUncheckedCreateNestedManyWithoutUserInput
   albums?: Prisma.AlbumUncheckedCreateNestedManyWithoutUserInput
@@ -18290,6 +18501,7 @@ export type UserUpdateWithoutPostSharesInput = {
   videos?: Prisma.VideoUpdateManyWithoutAuthorNestedInput
   videoLikes?: Prisma.VideoLikeUpdateManyWithoutUserNestedInput
   videoComments?: Prisma.VideoCommentUpdateManyWithoutUserNestedInput
+  videoCommentLikes?: Prisma.VideoCommentLikeUpdateManyWithoutUserNestedInput
   blogs?: Prisma.BlogUpdateManyWithoutAuthorNestedInput
   blogLikes?: Prisma.BlogLikeUpdateManyWithoutUserNestedInput
   albums?: Prisma.AlbumUpdateManyWithoutUserNestedInput
@@ -18372,6 +18584,7 @@ export type UserUncheckedUpdateWithoutPostSharesInput = {
   videos?: Prisma.VideoUncheckedUpdateManyWithoutAuthorNestedInput
   videoLikes?: Prisma.VideoLikeUncheckedUpdateManyWithoutUserNestedInput
   videoComments?: Prisma.VideoCommentUncheckedUpdateManyWithoutUserNestedInput
+  videoCommentLikes?: Prisma.VideoCommentLikeUncheckedUpdateManyWithoutUserNestedInput
   blogs?: Prisma.BlogUncheckedUpdateManyWithoutAuthorNestedInput
   blogLikes?: Prisma.BlogLikeUncheckedUpdateManyWithoutUserNestedInput
   albums?: Prisma.AlbumUncheckedUpdateManyWithoutUserNestedInput
@@ -18453,6 +18666,7 @@ export type UserCreateWithoutPostsEditedInput = {
   videos?: Prisma.VideoCreateNestedManyWithoutAuthorInput
   videoLikes?: Prisma.VideoLikeCreateNestedManyWithoutUserInput
   videoComments?: Prisma.VideoCommentCreateNestedManyWithoutUserInput
+  videoCommentLikes?: Prisma.VideoCommentLikeCreateNestedManyWithoutUserInput
   blogs?: Prisma.BlogCreateNestedManyWithoutAuthorInput
   blogLikes?: Prisma.BlogLikeCreateNestedManyWithoutUserInput
   albums?: Prisma.AlbumCreateNestedManyWithoutUserInput
@@ -18535,6 +18749,7 @@ export type UserUncheckedCreateWithoutPostsEditedInput = {
   videos?: Prisma.VideoUncheckedCreateNestedManyWithoutAuthorInput
   videoLikes?: Prisma.VideoLikeUncheckedCreateNestedManyWithoutUserInput
   videoComments?: Prisma.VideoCommentUncheckedCreateNestedManyWithoutUserInput
+  videoCommentLikes?: Prisma.VideoCommentLikeUncheckedCreateNestedManyWithoutUserInput
   blogs?: Prisma.BlogUncheckedCreateNestedManyWithoutAuthorInput
   blogLikes?: Prisma.BlogLikeUncheckedCreateNestedManyWithoutUserInput
   albums?: Prisma.AlbumUncheckedCreateNestedManyWithoutUserInput
@@ -18632,6 +18847,7 @@ export type UserUpdateWithoutPostsEditedInput = {
   videos?: Prisma.VideoUpdateManyWithoutAuthorNestedInput
   videoLikes?: Prisma.VideoLikeUpdateManyWithoutUserNestedInput
   videoComments?: Prisma.VideoCommentUpdateManyWithoutUserNestedInput
+  videoCommentLikes?: Prisma.VideoCommentLikeUpdateManyWithoutUserNestedInput
   blogs?: Prisma.BlogUpdateManyWithoutAuthorNestedInput
   blogLikes?: Prisma.BlogLikeUpdateManyWithoutUserNestedInput
   albums?: Prisma.AlbumUpdateManyWithoutUserNestedInput
@@ -18714,6 +18930,7 @@ export type UserUncheckedUpdateWithoutPostsEditedInput = {
   videos?: Prisma.VideoUncheckedUpdateManyWithoutAuthorNestedInput
   videoLikes?: Prisma.VideoLikeUncheckedUpdateManyWithoutUserNestedInput
   videoComments?: Prisma.VideoCommentUncheckedUpdateManyWithoutUserNestedInput
+  videoCommentLikes?: Prisma.VideoCommentLikeUncheckedUpdateManyWithoutUserNestedInput
   blogs?: Prisma.BlogUncheckedUpdateManyWithoutAuthorNestedInput
   blogLikes?: Prisma.BlogLikeUncheckedUpdateManyWithoutUserNestedInput
   albums?: Prisma.AlbumUncheckedUpdateManyWithoutUserNestedInput
@@ -18795,6 +19012,7 @@ export type UserCreateWithoutStoriesInput = {
   videos?: Prisma.VideoCreateNestedManyWithoutAuthorInput
   videoLikes?: Prisma.VideoLikeCreateNestedManyWithoutUserInput
   videoComments?: Prisma.VideoCommentCreateNestedManyWithoutUserInput
+  videoCommentLikes?: Prisma.VideoCommentLikeCreateNestedManyWithoutUserInput
   blogs?: Prisma.BlogCreateNestedManyWithoutAuthorInput
   blogLikes?: Prisma.BlogLikeCreateNestedManyWithoutUserInput
   albums?: Prisma.AlbumCreateNestedManyWithoutUserInput
@@ -18877,6 +19095,7 @@ export type UserUncheckedCreateWithoutStoriesInput = {
   videos?: Prisma.VideoUncheckedCreateNestedManyWithoutAuthorInput
   videoLikes?: Prisma.VideoLikeUncheckedCreateNestedManyWithoutUserInput
   videoComments?: Prisma.VideoCommentUncheckedCreateNestedManyWithoutUserInput
+  videoCommentLikes?: Prisma.VideoCommentLikeUncheckedCreateNestedManyWithoutUserInput
   blogs?: Prisma.BlogUncheckedCreateNestedManyWithoutAuthorInput
   blogLikes?: Prisma.BlogLikeUncheckedCreateNestedManyWithoutUserInput
   albums?: Prisma.AlbumUncheckedCreateNestedManyWithoutUserInput
@@ -18974,6 +19193,7 @@ export type UserUpdateWithoutStoriesInput = {
   videos?: Prisma.VideoUpdateManyWithoutAuthorNestedInput
   videoLikes?: Prisma.VideoLikeUpdateManyWithoutUserNestedInput
   videoComments?: Prisma.VideoCommentUpdateManyWithoutUserNestedInput
+  videoCommentLikes?: Prisma.VideoCommentLikeUpdateManyWithoutUserNestedInput
   blogs?: Prisma.BlogUpdateManyWithoutAuthorNestedInput
   blogLikes?: Prisma.BlogLikeUpdateManyWithoutUserNestedInput
   albums?: Prisma.AlbumUpdateManyWithoutUserNestedInput
@@ -19056,6 +19276,7 @@ export type UserUncheckedUpdateWithoutStoriesInput = {
   videos?: Prisma.VideoUncheckedUpdateManyWithoutAuthorNestedInput
   videoLikes?: Prisma.VideoLikeUncheckedUpdateManyWithoutUserNestedInput
   videoComments?: Prisma.VideoCommentUncheckedUpdateManyWithoutUserNestedInput
+  videoCommentLikes?: Prisma.VideoCommentLikeUncheckedUpdateManyWithoutUserNestedInput
   blogs?: Prisma.BlogUncheckedUpdateManyWithoutAuthorNestedInput
   blogLikes?: Prisma.BlogLikeUncheckedUpdateManyWithoutUserNestedInput
   albums?: Prisma.AlbumUncheckedUpdateManyWithoutUserNestedInput
@@ -19137,6 +19358,7 @@ export type UserCreateWithoutStoryViewsInput = {
   videos?: Prisma.VideoCreateNestedManyWithoutAuthorInput
   videoLikes?: Prisma.VideoLikeCreateNestedManyWithoutUserInput
   videoComments?: Prisma.VideoCommentCreateNestedManyWithoutUserInput
+  videoCommentLikes?: Prisma.VideoCommentLikeCreateNestedManyWithoutUserInput
   blogs?: Prisma.BlogCreateNestedManyWithoutAuthorInput
   blogLikes?: Prisma.BlogLikeCreateNestedManyWithoutUserInput
   albums?: Prisma.AlbumCreateNestedManyWithoutUserInput
@@ -19219,6 +19441,7 @@ export type UserUncheckedCreateWithoutStoryViewsInput = {
   videos?: Prisma.VideoUncheckedCreateNestedManyWithoutAuthorInput
   videoLikes?: Prisma.VideoLikeUncheckedCreateNestedManyWithoutUserInput
   videoComments?: Prisma.VideoCommentUncheckedCreateNestedManyWithoutUserInput
+  videoCommentLikes?: Prisma.VideoCommentLikeUncheckedCreateNestedManyWithoutUserInput
   blogs?: Prisma.BlogUncheckedCreateNestedManyWithoutAuthorInput
   blogLikes?: Prisma.BlogLikeUncheckedCreateNestedManyWithoutUserInput
   albums?: Prisma.AlbumUncheckedCreateNestedManyWithoutUserInput
@@ -19316,6 +19539,7 @@ export type UserUpdateWithoutStoryViewsInput = {
   videos?: Prisma.VideoUpdateManyWithoutAuthorNestedInput
   videoLikes?: Prisma.VideoLikeUpdateManyWithoutUserNestedInput
   videoComments?: Prisma.VideoCommentUpdateManyWithoutUserNestedInput
+  videoCommentLikes?: Prisma.VideoCommentLikeUpdateManyWithoutUserNestedInput
   blogs?: Prisma.BlogUpdateManyWithoutAuthorNestedInput
   blogLikes?: Prisma.BlogLikeUpdateManyWithoutUserNestedInput
   albums?: Prisma.AlbumUpdateManyWithoutUserNestedInput
@@ -19398,6 +19622,7 @@ export type UserUncheckedUpdateWithoutStoryViewsInput = {
   videos?: Prisma.VideoUncheckedUpdateManyWithoutAuthorNestedInput
   videoLikes?: Prisma.VideoLikeUncheckedUpdateManyWithoutUserNestedInput
   videoComments?: Prisma.VideoCommentUncheckedUpdateManyWithoutUserNestedInput
+  videoCommentLikes?: Prisma.VideoCommentLikeUncheckedUpdateManyWithoutUserNestedInput
   blogs?: Prisma.BlogUncheckedUpdateManyWithoutAuthorNestedInput
   blogLikes?: Prisma.BlogLikeUncheckedUpdateManyWithoutUserNestedInput
   albums?: Prisma.AlbumUncheckedUpdateManyWithoutUserNestedInput
@@ -19479,6 +19704,7 @@ export type UserCreateWithoutStoryReactionsInput = {
   videos?: Prisma.VideoCreateNestedManyWithoutAuthorInput
   videoLikes?: Prisma.VideoLikeCreateNestedManyWithoutUserInput
   videoComments?: Prisma.VideoCommentCreateNestedManyWithoutUserInput
+  videoCommentLikes?: Prisma.VideoCommentLikeCreateNestedManyWithoutUserInput
   blogs?: Prisma.BlogCreateNestedManyWithoutAuthorInput
   blogLikes?: Prisma.BlogLikeCreateNestedManyWithoutUserInput
   albums?: Prisma.AlbumCreateNestedManyWithoutUserInput
@@ -19561,6 +19787,7 @@ export type UserUncheckedCreateWithoutStoryReactionsInput = {
   videos?: Prisma.VideoUncheckedCreateNestedManyWithoutAuthorInput
   videoLikes?: Prisma.VideoLikeUncheckedCreateNestedManyWithoutUserInput
   videoComments?: Prisma.VideoCommentUncheckedCreateNestedManyWithoutUserInput
+  videoCommentLikes?: Prisma.VideoCommentLikeUncheckedCreateNestedManyWithoutUserInput
   blogs?: Prisma.BlogUncheckedCreateNestedManyWithoutAuthorInput
   blogLikes?: Prisma.BlogLikeUncheckedCreateNestedManyWithoutUserInput
   albums?: Prisma.AlbumUncheckedCreateNestedManyWithoutUserInput
@@ -19658,6 +19885,7 @@ export type UserUpdateWithoutStoryReactionsInput = {
   videos?: Prisma.VideoUpdateManyWithoutAuthorNestedInput
   videoLikes?: Prisma.VideoLikeUpdateManyWithoutUserNestedInput
   videoComments?: Prisma.VideoCommentUpdateManyWithoutUserNestedInput
+  videoCommentLikes?: Prisma.VideoCommentLikeUpdateManyWithoutUserNestedInput
   blogs?: Prisma.BlogUpdateManyWithoutAuthorNestedInput
   blogLikes?: Prisma.BlogLikeUpdateManyWithoutUserNestedInput
   albums?: Prisma.AlbumUpdateManyWithoutUserNestedInput
@@ -19740,6 +19968,7 @@ export type UserUncheckedUpdateWithoutStoryReactionsInput = {
   videos?: Prisma.VideoUncheckedUpdateManyWithoutAuthorNestedInput
   videoLikes?: Prisma.VideoLikeUncheckedUpdateManyWithoutUserNestedInput
   videoComments?: Prisma.VideoCommentUncheckedUpdateManyWithoutUserNestedInput
+  videoCommentLikes?: Prisma.VideoCommentLikeUncheckedUpdateManyWithoutUserNestedInput
   blogs?: Prisma.BlogUncheckedUpdateManyWithoutAuthorNestedInput
   blogLikes?: Prisma.BlogLikeUncheckedUpdateManyWithoutUserNestedInput
   albums?: Prisma.AlbumUncheckedUpdateManyWithoutUserNestedInput
@@ -19821,6 +20050,7 @@ export type UserCreateWithoutAvatarInput = {
   videos?: Prisma.VideoCreateNestedManyWithoutAuthorInput
   videoLikes?: Prisma.VideoLikeCreateNestedManyWithoutUserInput
   videoComments?: Prisma.VideoCommentCreateNestedManyWithoutUserInput
+  videoCommentLikes?: Prisma.VideoCommentLikeCreateNestedManyWithoutUserInput
   blogs?: Prisma.BlogCreateNestedManyWithoutAuthorInput
   blogLikes?: Prisma.BlogLikeCreateNestedManyWithoutUserInput
   albums?: Prisma.AlbumCreateNestedManyWithoutUserInput
@@ -19903,6 +20133,7 @@ export type UserUncheckedCreateWithoutAvatarInput = {
   videos?: Prisma.VideoUncheckedCreateNestedManyWithoutAuthorInput
   videoLikes?: Prisma.VideoLikeUncheckedCreateNestedManyWithoutUserInput
   videoComments?: Prisma.VideoCommentUncheckedCreateNestedManyWithoutUserInput
+  videoCommentLikes?: Prisma.VideoCommentLikeUncheckedCreateNestedManyWithoutUserInput
   blogs?: Prisma.BlogUncheckedCreateNestedManyWithoutAuthorInput
   blogLikes?: Prisma.BlogLikeUncheckedCreateNestedManyWithoutUserInput
   albums?: Prisma.AlbumUncheckedCreateNestedManyWithoutUserInput
@@ -20000,6 +20231,7 @@ export type UserUpdateWithoutAvatarInput = {
   videos?: Prisma.VideoUpdateManyWithoutAuthorNestedInput
   videoLikes?: Prisma.VideoLikeUpdateManyWithoutUserNestedInput
   videoComments?: Prisma.VideoCommentUpdateManyWithoutUserNestedInput
+  videoCommentLikes?: Prisma.VideoCommentLikeUpdateManyWithoutUserNestedInput
   blogs?: Prisma.BlogUpdateManyWithoutAuthorNestedInput
   blogLikes?: Prisma.BlogLikeUpdateManyWithoutUserNestedInput
   albums?: Prisma.AlbumUpdateManyWithoutUserNestedInput
@@ -20082,6 +20314,7 @@ export type UserUncheckedUpdateWithoutAvatarInput = {
   videos?: Prisma.VideoUncheckedUpdateManyWithoutAuthorNestedInput
   videoLikes?: Prisma.VideoLikeUncheckedUpdateManyWithoutUserNestedInput
   videoComments?: Prisma.VideoCommentUncheckedUpdateManyWithoutUserNestedInput
+  videoCommentLikes?: Prisma.VideoCommentLikeUncheckedUpdateManyWithoutUserNestedInput
   blogs?: Prisma.BlogUncheckedUpdateManyWithoutAuthorNestedInput
   blogLikes?: Prisma.BlogLikeUncheckedUpdateManyWithoutUserNestedInput
   albums?: Prisma.AlbumUncheckedUpdateManyWithoutUserNestedInput
@@ -20163,6 +20396,7 @@ export type UserCreateWithoutCoverPhotoInput = {
   videos?: Prisma.VideoCreateNestedManyWithoutAuthorInput
   videoLikes?: Prisma.VideoLikeCreateNestedManyWithoutUserInput
   videoComments?: Prisma.VideoCommentCreateNestedManyWithoutUserInput
+  videoCommentLikes?: Prisma.VideoCommentLikeCreateNestedManyWithoutUserInput
   blogs?: Prisma.BlogCreateNestedManyWithoutAuthorInput
   blogLikes?: Prisma.BlogLikeCreateNestedManyWithoutUserInput
   albums?: Prisma.AlbumCreateNestedManyWithoutUserInput
@@ -20245,6 +20479,7 @@ export type UserUncheckedCreateWithoutCoverPhotoInput = {
   videos?: Prisma.VideoUncheckedCreateNestedManyWithoutAuthorInput
   videoLikes?: Prisma.VideoLikeUncheckedCreateNestedManyWithoutUserInput
   videoComments?: Prisma.VideoCommentUncheckedCreateNestedManyWithoutUserInput
+  videoCommentLikes?: Prisma.VideoCommentLikeUncheckedCreateNestedManyWithoutUserInput
   blogs?: Prisma.BlogUncheckedCreateNestedManyWithoutAuthorInput
   blogLikes?: Prisma.BlogLikeUncheckedCreateNestedManyWithoutUserInput
   albums?: Prisma.AlbumUncheckedCreateNestedManyWithoutUserInput
@@ -20342,6 +20577,7 @@ export type UserUpdateWithoutCoverPhotoInput = {
   videos?: Prisma.VideoUpdateManyWithoutAuthorNestedInput
   videoLikes?: Prisma.VideoLikeUpdateManyWithoutUserNestedInput
   videoComments?: Prisma.VideoCommentUpdateManyWithoutUserNestedInput
+  videoCommentLikes?: Prisma.VideoCommentLikeUpdateManyWithoutUserNestedInput
   blogs?: Prisma.BlogUpdateManyWithoutAuthorNestedInput
   blogLikes?: Prisma.BlogLikeUpdateManyWithoutUserNestedInput
   albums?: Prisma.AlbumUpdateManyWithoutUserNestedInput
@@ -20424,6 +20660,7 @@ export type UserUncheckedUpdateWithoutCoverPhotoInput = {
   videos?: Prisma.VideoUncheckedUpdateManyWithoutAuthorNestedInput
   videoLikes?: Prisma.VideoLikeUncheckedUpdateManyWithoutUserNestedInput
   videoComments?: Prisma.VideoCommentUncheckedUpdateManyWithoutUserNestedInput
+  videoCommentLikes?: Prisma.VideoCommentLikeUncheckedUpdateManyWithoutUserNestedInput
   blogs?: Prisma.BlogUncheckedUpdateManyWithoutAuthorNestedInput
   blogLikes?: Prisma.BlogLikeUncheckedUpdateManyWithoutUserNestedInput
   albums?: Prisma.AlbumUncheckedUpdateManyWithoutUserNestedInput
@@ -20505,6 +20742,7 @@ export type UserCreateWithoutFollowingInput = {
   videos?: Prisma.VideoCreateNestedManyWithoutAuthorInput
   videoLikes?: Prisma.VideoLikeCreateNestedManyWithoutUserInput
   videoComments?: Prisma.VideoCommentCreateNestedManyWithoutUserInput
+  videoCommentLikes?: Prisma.VideoCommentLikeCreateNestedManyWithoutUserInput
   blogs?: Prisma.BlogCreateNestedManyWithoutAuthorInput
   blogLikes?: Prisma.BlogLikeCreateNestedManyWithoutUserInput
   albums?: Prisma.AlbumCreateNestedManyWithoutUserInput
@@ -20587,6 +20825,7 @@ export type UserUncheckedCreateWithoutFollowingInput = {
   videos?: Prisma.VideoUncheckedCreateNestedManyWithoutAuthorInput
   videoLikes?: Prisma.VideoLikeUncheckedCreateNestedManyWithoutUserInput
   videoComments?: Prisma.VideoCommentUncheckedCreateNestedManyWithoutUserInput
+  videoCommentLikes?: Prisma.VideoCommentLikeUncheckedCreateNestedManyWithoutUserInput
   blogs?: Prisma.BlogUncheckedCreateNestedManyWithoutAuthorInput
   blogLikes?: Prisma.BlogLikeUncheckedCreateNestedManyWithoutUserInput
   albums?: Prisma.AlbumUncheckedCreateNestedManyWithoutUserInput
@@ -20673,6 +20912,7 @@ export type UserCreateWithoutFollowersInput = {
   videos?: Prisma.VideoCreateNestedManyWithoutAuthorInput
   videoLikes?: Prisma.VideoLikeCreateNestedManyWithoutUserInput
   videoComments?: Prisma.VideoCommentCreateNestedManyWithoutUserInput
+  videoCommentLikes?: Prisma.VideoCommentLikeCreateNestedManyWithoutUserInput
   blogs?: Prisma.BlogCreateNestedManyWithoutAuthorInput
   blogLikes?: Prisma.BlogLikeCreateNestedManyWithoutUserInput
   albums?: Prisma.AlbumCreateNestedManyWithoutUserInput
@@ -20755,6 +20995,7 @@ export type UserUncheckedCreateWithoutFollowersInput = {
   videos?: Prisma.VideoUncheckedCreateNestedManyWithoutAuthorInput
   videoLikes?: Prisma.VideoLikeUncheckedCreateNestedManyWithoutUserInput
   videoComments?: Prisma.VideoCommentUncheckedCreateNestedManyWithoutUserInput
+  videoCommentLikes?: Prisma.VideoCommentLikeUncheckedCreateNestedManyWithoutUserInput
   blogs?: Prisma.BlogUncheckedCreateNestedManyWithoutAuthorInput
   blogLikes?: Prisma.BlogLikeUncheckedCreateNestedManyWithoutUserInput
   albums?: Prisma.AlbumUncheckedCreateNestedManyWithoutUserInput
@@ -20852,6 +21093,7 @@ export type UserUpdateWithoutFollowingInput = {
   videos?: Prisma.VideoUpdateManyWithoutAuthorNestedInput
   videoLikes?: Prisma.VideoLikeUpdateManyWithoutUserNestedInput
   videoComments?: Prisma.VideoCommentUpdateManyWithoutUserNestedInput
+  videoCommentLikes?: Prisma.VideoCommentLikeUpdateManyWithoutUserNestedInput
   blogs?: Prisma.BlogUpdateManyWithoutAuthorNestedInput
   blogLikes?: Prisma.BlogLikeUpdateManyWithoutUserNestedInput
   albums?: Prisma.AlbumUpdateManyWithoutUserNestedInput
@@ -20934,6 +21176,7 @@ export type UserUncheckedUpdateWithoutFollowingInput = {
   videos?: Prisma.VideoUncheckedUpdateManyWithoutAuthorNestedInput
   videoLikes?: Prisma.VideoLikeUncheckedUpdateManyWithoutUserNestedInput
   videoComments?: Prisma.VideoCommentUncheckedUpdateManyWithoutUserNestedInput
+  videoCommentLikes?: Prisma.VideoCommentLikeUncheckedUpdateManyWithoutUserNestedInput
   blogs?: Prisma.BlogUncheckedUpdateManyWithoutAuthorNestedInput
   blogLikes?: Prisma.BlogLikeUncheckedUpdateManyWithoutUserNestedInput
   albums?: Prisma.AlbumUncheckedUpdateManyWithoutUserNestedInput
@@ -21026,6 +21269,7 @@ export type UserUpdateWithoutFollowersInput = {
   videos?: Prisma.VideoUpdateManyWithoutAuthorNestedInput
   videoLikes?: Prisma.VideoLikeUpdateManyWithoutUserNestedInput
   videoComments?: Prisma.VideoCommentUpdateManyWithoutUserNestedInput
+  videoCommentLikes?: Prisma.VideoCommentLikeUpdateManyWithoutUserNestedInput
   blogs?: Prisma.BlogUpdateManyWithoutAuthorNestedInput
   blogLikes?: Prisma.BlogLikeUpdateManyWithoutUserNestedInput
   albums?: Prisma.AlbumUpdateManyWithoutUserNestedInput
@@ -21108,6 +21352,7 @@ export type UserUncheckedUpdateWithoutFollowersInput = {
   videos?: Prisma.VideoUncheckedUpdateManyWithoutAuthorNestedInput
   videoLikes?: Prisma.VideoLikeUncheckedUpdateManyWithoutUserNestedInput
   videoComments?: Prisma.VideoCommentUncheckedUpdateManyWithoutUserNestedInput
+  videoCommentLikes?: Prisma.VideoCommentLikeUncheckedUpdateManyWithoutUserNestedInput
   blogs?: Prisma.BlogUncheckedUpdateManyWithoutAuthorNestedInput
   blogLikes?: Prisma.BlogLikeUncheckedUpdateManyWithoutUserNestedInput
   albums?: Prisma.AlbumUncheckedUpdateManyWithoutUserNestedInput
@@ -21189,6 +21434,7 @@ export type UserCreateWithoutBlockingInput = {
   videos?: Prisma.VideoCreateNestedManyWithoutAuthorInput
   videoLikes?: Prisma.VideoLikeCreateNestedManyWithoutUserInput
   videoComments?: Prisma.VideoCommentCreateNestedManyWithoutUserInput
+  videoCommentLikes?: Prisma.VideoCommentLikeCreateNestedManyWithoutUserInput
   blogs?: Prisma.BlogCreateNestedManyWithoutAuthorInput
   blogLikes?: Prisma.BlogLikeCreateNestedManyWithoutUserInput
   albums?: Prisma.AlbumCreateNestedManyWithoutUserInput
@@ -21271,6 +21517,7 @@ export type UserUncheckedCreateWithoutBlockingInput = {
   videos?: Prisma.VideoUncheckedCreateNestedManyWithoutAuthorInput
   videoLikes?: Prisma.VideoLikeUncheckedCreateNestedManyWithoutUserInput
   videoComments?: Prisma.VideoCommentUncheckedCreateNestedManyWithoutUserInput
+  videoCommentLikes?: Prisma.VideoCommentLikeUncheckedCreateNestedManyWithoutUserInput
   blogs?: Prisma.BlogUncheckedCreateNestedManyWithoutAuthorInput
   blogLikes?: Prisma.BlogLikeUncheckedCreateNestedManyWithoutUserInput
   albums?: Prisma.AlbumUncheckedCreateNestedManyWithoutUserInput
@@ -21357,6 +21604,7 @@ export type UserCreateWithoutBlockedByInput = {
   videos?: Prisma.VideoCreateNestedManyWithoutAuthorInput
   videoLikes?: Prisma.VideoLikeCreateNestedManyWithoutUserInput
   videoComments?: Prisma.VideoCommentCreateNestedManyWithoutUserInput
+  videoCommentLikes?: Prisma.VideoCommentLikeCreateNestedManyWithoutUserInput
   blogs?: Prisma.BlogCreateNestedManyWithoutAuthorInput
   blogLikes?: Prisma.BlogLikeCreateNestedManyWithoutUserInput
   albums?: Prisma.AlbumCreateNestedManyWithoutUserInput
@@ -21439,6 +21687,7 @@ export type UserUncheckedCreateWithoutBlockedByInput = {
   videos?: Prisma.VideoUncheckedCreateNestedManyWithoutAuthorInput
   videoLikes?: Prisma.VideoLikeUncheckedCreateNestedManyWithoutUserInput
   videoComments?: Prisma.VideoCommentUncheckedCreateNestedManyWithoutUserInput
+  videoCommentLikes?: Prisma.VideoCommentLikeUncheckedCreateNestedManyWithoutUserInput
   blogs?: Prisma.BlogUncheckedCreateNestedManyWithoutAuthorInput
   blogLikes?: Prisma.BlogLikeUncheckedCreateNestedManyWithoutUserInput
   albums?: Prisma.AlbumUncheckedCreateNestedManyWithoutUserInput
@@ -21536,6 +21785,7 @@ export type UserUpdateWithoutBlockingInput = {
   videos?: Prisma.VideoUpdateManyWithoutAuthorNestedInput
   videoLikes?: Prisma.VideoLikeUpdateManyWithoutUserNestedInput
   videoComments?: Prisma.VideoCommentUpdateManyWithoutUserNestedInput
+  videoCommentLikes?: Prisma.VideoCommentLikeUpdateManyWithoutUserNestedInput
   blogs?: Prisma.BlogUpdateManyWithoutAuthorNestedInput
   blogLikes?: Prisma.BlogLikeUpdateManyWithoutUserNestedInput
   albums?: Prisma.AlbumUpdateManyWithoutUserNestedInput
@@ -21618,6 +21868,7 @@ export type UserUncheckedUpdateWithoutBlockingInput = {
   videos?: Prisma.VideoUncheckedUpdateManyWithoutAuthorNestedInput
   videoLikes?: Prisma.VideoLikeUncheckedUpdateManyWithoutUserNestedInput
   videoComments?: Prisma.VideoCommentUncheckedUpdateManyWithoutUserNestedInput
+  videoCommentLikes?: Prisma.VideoCommentLikeUncheckedUpdateManyWithoutUserNestedInput
   blogs?: Prisma.BlogUncheckedUpdateManyWithoutAuthorNestedInput
   blogLikes?: Prisma.BlogLikeUncheckedUpdateManyWithoutUserNestedInput
   albums?: Prisma.AlbumUncheckedUpdateManyWithoutUserNestedInput
@@ -21710,6 +21961,7 @@ export type UserUpdateWithoutBlockedByInput = {
   videos?: Prisma.VideoUpdateManyWithoutAuthorNestedInput
   videoLikes?: Prisma.VideoLikeUpdateManyWithoutUserNestedInput
   videoComments?: Prisma.VideoCommentUpdateManyWithoutUserNestedInput
+  videoCommentLikes?: Prisma.VideoCommentLikeUpdateManyWithoutUserNestedInput
   blogs?: Prisma.BlogUpdateManyWithoutAuthorNestedInput
   blogLikes?: Prisma.BlogLikeUpdateManyWithoutUserNestedInput
   albums?: Prisma.AlbumUpdateManyWithoutUserNestedInput
@@ -21792,6 +22044,7 @@ export type UserUncheckedUpdateWithoutBlockedByInput = {
   videos?: Prisma.VideoUncheckedUpdateManyWithoutAuthorNestedInput
   videoLikes?: Prisma.VideoLikeUncheckedUpdateManyWithoutUserNestedInput
   videoComments?: Prisma.VideoCommentUncheckedUpdateManyWithoutUserNestedInput
+  videoCommentLikes?: Prisma.VideoCommentLikeUncheckedUpdateManyWithoutUserNestedInput
   blogs?: Prisma.BlogUncheckedUpdateManyWithoutAuthorNestedInput
   blogLikes?: Prisma.BlogLikeUncheckedUpdateManyWithoutUserNestedInput
   albums?: Prisma.AlbumUncheckedUpdateManyWithoutUserNestedInput
@@ -21873,6 +22126,7 @@ export type UserCreateWithoutVideosInput = {
   listingMessageLikes?: Prisma.ListingMessageLikeCreateNestedManyWithoutUserInput
   videoLikes?: Prisma.VideoLikeCreateNestedManyWithoutUserInput
   videoComments?: Prisma.VideoCommentCreateNestedManyWithoutUserInput
+  videoCommentLikes?: Prisma.VideoCommentLikeCreateNestedManyWithoutUserInput
   blogs?: Prisma.BlogCreateNestedManyWithoutAuthorInput
   blogLikes?: Prisma.BlogLikeCreateNestedManyWithoutUserInput
   albums?: Prisma.AlbumCreateNestedManyWithoutUserInput
@@ -21955,6 +22209,7 @@ export type UserUncheckedCreateWithoutVideosInput = {
   listingMessageLikes?: Prisma.ListingMessageLikeUncheckedCreateNestedManyWithoutUserInput
   videoLikes?: Prisma.VideoLikeUncheckedCreateNestedManyWithoutUserInput
   videoComments?: Prisma.VideoCommentUncheckedCreateNestedManyWithoutUserInput
+  videoCommentLikes?: Prisma.VideoCommentLikeUncheckedCreateNestedManyWithoutUserInput
   blogs?: Prisma.BlogUncheckedCreateNestedManyWithoutAuthorInput
   blogLikes?: Prisma.BlogLikeUncheckedCreateNestedManyWithoutUserInput
   albums?: Prisma.AlbumUncheckedCreateNestedManyWithoutUserInput
@@ -22052,6 +22307,7 @@ export type UserUpdateWithoutVideosInput = {
   listingMessageLikes?: Prisma.ListingMessageLikeUpdateManyWithoutUserNestedInput
   videoLikes?: Prisma.VideoLikeUpdateManyWithoutUserNestedInput
   videoComments?: Prisma.VideoCommentUpdateManyWithoutUserNestedInput
+  videoCommentLikes?: Prisma.VideoCommentLikeUpdateManyWithoutUserNestedInput
   blogs?: Prisma.BlogUpdateManyWithoutAuthorNestedInput
   blogLikes?: Prisma.BlogLikeUpdateManyWithoutUserNestedInput
   albums?: Prisma.AlbumUpdateManyWithoutUserNestedInput
@@ -22134,6 +22390,7 @@ export type UserUncheckedUpdateWithoutVideosInput = {
   listingMessageLikes?: Prisma.ListingMessageLikeUncheckedUpdateManyWithoutUserNestedInput
   videoLikes?: Prisma.VideoLikeUncheckedUpdateManyWithoutUserNestedInput
   videoComments?: Prisma.VideoCommentUncheckedUpdateManyWithoutUserNestedInput
+  videoCommentLikes?: Prisma.VideoCommentLikeUncheckedUpdateManyWithoutUserNestedInput
   blogs?: Prisma.BlogUncheckedUpdateManyWithoutAuthorNestedInput
   blogLikes?: Prisma.BlogLikeUncheckedUpdateManyWithoutUserNestedInput
   albums?: Prisma.AlbumUncheckedUpdateManyWithoutUserNestedInput
@@ -22215,6 +22472,7 @@ export type UserCreateWithoutVideoLikesInput = {
   listingMessageLikes?: Prisma.ListingMessageLikeCreateNestedManyWithoutUserInput
   videos?: Prisma.VideoCreateNestedManyWithoutAuthorInput
   videoComments?: Prisma.VideoCommentCreateNestedManyWithoutUserInput
+  videoCommentLikes?: Prisma.VideoCommentLikeCreateNestedManyWithoutUserInput
   blogs?: Prisma.BlogCreateNestedManyWithoutAuthorInput
   blogLikes?: Prisma.BlogLikeCreateNestedManyWithoutUserInput
   albums?: Prisma.AlbumCreateNestedManyWithoutUserInput
@@ -22297,6 +22555,7 @@ export type UserUncheckedCreateWithoutVideoLikesInput = {
   listingMessageLikes?: Prisma.ListingMessageLikeUncheckedCreateNestedManyWithoutUserInput
   videos?: Prisma.VideoUncheckedCreateNestedManyWithoutAuthorInput
   videoComments?: Prisma.VideoCommentUncheckedCreateNestedManyWithoutUserInput
+  videoCommentLikes?: Prisma.VideoCommentLikeUncheckedCreateNestedManyWithoutUserInput
   blogs?: Prisma.BlogUncheckedCreateNestedManyWithoutAuthorInput
   blogLikes?: Prisma.BlogLikeUncheckedCreateNestedManyWithoutUserInput
   albums?: Prisma.AlbumUncheckedCreateNestedManyWithoutUserInput
@@ -22394,6 +22653,7 @@ export type UserUpdateWithoutVideoLikesInput = {
   listingMessageLikes?: Prisma.ListingMessageLikeUpdateManyWithoutUserNestedInput
   videos?: Prisma.VideoUpdateManyWithoutAuthorNestedInput
   videoComments?: Prisma.VideoCommentUpdateManyWithoutUserNestedInput
+  videoCommentLikes?: Prisma.VideoCommentLikeUpdateManyWithoutUserNestedInput
   blogs?: Prisma.BlogUpdateManyWithoutAuthorNestedInput
   blogLikes?: Prisma.BlogLikeUpdateManyWithoutUserNestedInput
   albums?: Prisma.AlbumUpdateManyWithoutUserNestedInput
@@ -22476,6 +22736,7 @@ export type UserUncheckedUpdateWithoutVideoLikesInput = {
   listingMessageLikes?: Prisma.ListingMessageLikeUncheckedUpdateManyWithoutUserNestedInput
   videos?: Prisma.VideoUncheckedUpdateManyWithoutAuthorNestedInput
   videoComments?: Prisma.VideoCommentUncheckedUpdateManyWithoutUserNestedInput
+  videoCommentLikes?: Prisma.VideoCommentLikeUncheckedUpdateManyWithoutUserNestedInput
   blogs?: Prisma.BlogUncheckedUpdateManyWithoutAuthorNestedInput
   blogLikes?: Prisma.BlogLikeUncheckedUpdateManyWithoutUserNestedInput
   albums?: Prisma.AlbumUncheckedUpdateManyWithoutUserNestedInput
@@ -22557,6 +22818,7 @@ export type UserCreateWithoutVideoCommentsInput = {
   listingMessageLikes?: Prisma.ListingMessageLikeCreateNestedManyWithoutUserInput
   videos?: Prisma.VideoCreateNestedManyWithoutAuthorInput
   videoLikes?: Prisma.VideoLikeCreateNestedManyWithoutUserInput
+  videoCommentLikes?: Prisma.VideoCommentLikeCreateNestedManyWithoutUserInput
   blogs?: Prisma.BlogCreateNestedManyWithoutAuthorInput
   blogLikes?: Prisma.BlogLikeCreateNestedManyWithoutUserInput
   albums?: Prisma.AlbumCreateNestedManyWithoutUserInput
@@ -22639,6 +22901,7 @@ export type UserUncheckedCreateWithoutVideoCommentsInput = {
   listingMessageLikes?: Prisma.ListingMessageLikeUncheckedCreateNestedManyWithoutUserInput
   videos?: Prisma.VideoUncheckedCreateNestedManyWithoutAuthorInput
   videoLikes?: Prisma.VideoLikeUncheckedCreateNestedManyWithoutUserInput
+  videoCommentLikes?: Prisma.VideoCommentLikeUncheckedCreateNestedManyWithoutUserInput
   blogs?: Prisma.BlogUncheckedCreateNestedManyWithoutAuthorInput
   blogLikes?: Prisma.BlogLikeUncheckedCreateNestedManyWithoutUserInput
   albums?: Prisma.AlbumUncheckedCreateNestedManyWithoutUserInput
@@ -22736,6 +22999,7 @@ export type UserUpdateWithoutVideoCommentsInput = {
   listingMessageLikes?: Prisma.ListingMessageLikeUpdateManyWithoutUserNestedInput
   videos?: Prisma.VideoUpdateManyWithoutAuthorNestedInput
   videoLikes?: Prisma.VideoLikeUpdateManyWithoutUserNestedInput
+  videoCommentLikes?: Prisma.VideoCommentLikeUpdateManyWithoutUserNestedInput
   blogs?: Prisma.BlogUpdateManyWithoutAuthorNestedInput
   blogLikes?: Prisma.BlogLikeUpdateManyWithoutUserNestedInput
   albums?: Prisma.AlbumUpdateManyWithoutUserNestedInput
@@ -22818,6 +23082,353 @@ export type UserUncheckedUpdateWithoutVideoCommentsInput = {
   listingMessageLikes?: Prisma.ListingMessageLikeUncheckedUpdateManyWithoutUserNestedInput
   videos?: Prisma.VideoUncheckedUpdateManyWithoutAuthorNestedInput
   videoLikes?: Prisma.VideoLikeUncheckedUpdateManyWithoutUserNestedInput
+  videoCommentLikes?: Prisma.VideoCommentLikeUncheckedUpdateManyWithoutUserNestedInput
+  blogs?: Prisma.BlogUncheckedUpdateManyWithoutAuthorNestedInput
+  blogLikes?: Prisma.BlogLikeUncheckedUpdateManyWithoutUserNestedInput
+  albums?: Prisma.AlbumUncheckedUpdateManyWithoutUserNestedInput
+}
+
+export type UserCreateWithoutVideoCommentLikesInput = {
+  userName: string
+  email: string
+  password?: string | null
+  role?: $Enums.UserRole
+  firstName?: string | null
+  lastName?: string | null
+  bio?: string | null
+  birthday?: Date | string | null
+  gender?: $Enums.Gender
+  phone?: string | null
+  website?: string | null
+  location?: string | null
+  profilePrivacy?: $Enums.ProfilePrivacy
+  active?: boolean
+  lastActiveAt?: Date | string | null
+  canResetPassword?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  resetPasswordTokens?: Prisma.ResetPasswordTokenCreateNestedManyWithoutUserInput
+  activateTokens?: Prisma.ActivateTokenCreateNestedManyWithoutUserInput
+  accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
+  sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
+  avatar?: Prisma.AvatarCreateNestedOneWithoutUserInput
+  coverPhoto?: Prisma.CoverPhotoCreateNestedOneWithoutUserInput
+  followers?: Prisma.UserFollowCreateNestedManyWithoutFollowingInput
+  following?: Prisma.UserFollowCreateNestedManyWithoutFollowerInput
+  blockedBy?: Prisma.UserBlockCreateNestedManyWithoutBlockedInput
+  blocking?: Prisma.UserBlockCreateNestedManyWithoutBlockerInput
+  posts?: Prisma.PostCreateNestedManyWithoutUserInput
+  postLikes?: Prisma.PostLikeCreateNestedManyWithoutUserInput
+  postSaves?: Prisma.PostSaveCreateNestedManyWithoutUserInput
+  postShares?: Prisma.PostShareCreateNestedManyWithoutUserInput
+  postComments?: Prisma.PostCommentCreateNestedManyWithoutUserInput
+  commentLikes?: Prisma.CommentLikeCreateNestedManyWithoutUserInput
+  commentReplies?: Prisma.CommentReplyCreateNestedManyWithoutUserInput
+  replyLikes?: Prisma.ReplyLikeCreateNestedManyWithoutUserInput
+  postsEdited?: Prisma.PostHistoryCreateNestedManyWithoutEditedByInput
+  stories?: Prisma.StoryCreateNestedManyWithoutUserInput
+  storyViews?: Prisma.StoryViewCreateNestedManyWithoutUserInput
+  storyReactions?: Prisma.StoryReactionCreateNestedManyWithoutUserInput
+  conversations?: Prisma.ConversationParticipantCreateNestedManyWithoutUserInput
+  messagesSent?: Prisma.MessageCreateNestedManyWithoutSenderInput
+  messageReactions?: Prisma.MessageReactionCreateNestedManyWithoutUserInput
+  ownedGroups?: Prisma.GroupCreateNestedManyWithoutOwnerInput
+  groupMemberships?: Prisma.GroupMemberCreateNestedManyWithoutUserInput
+  groupPosts?: Prisma.GroupPostCreateNestedManyWithoutUserInput
+  groupPostLikes?: Prisma.GroupPostLikeCreateNestedManyWithoutUserInput
+  groupPostComments?: Prisma.GroupPostCommentCreateNestedManyWithoutUserInput
+  ownedPages?: Prisma.PageCreateNestedManyWithoutOwnerInput
+  pageFollows?: Prisma.PageFollowerCreateNestedManyWithoutUserInput
+  pagePosts?: Prisma.PagePostCreateNestedManyWithoutUserInput
+  pagePostLikes?: Prisma.PagePostLikeCreateNestedManyWithoutUserInput
+  pagePostComments?: Prisma.PagePostCommentCreateNestedManyWithoutUserInput
+  createdEvents?: Prisma.EventCreateNestedManyWithoutCreatorInput
+  eventAttendances?: Prisma.EventAttendeeCreateNestedManyWithoutUserInput
+  eventPosts?: Prisma.EventPostCreateNestedManyWithoutUserInput
+  eventPostLikes?: Prisma.EventPostLikeCreateNestedManyWithoutUserInput
+  eventPostComments?: Prisma.EventPostCommentCreateNestedManyWithoutUserInput
+  eventPostCommentLikes?: Prisma.EventPostCommentLikeCreateNestedManyWithoutUserInput
+  memories?: Prisma.MemoryCreateNestedManyWithoutUserInput
+  pagePostCommentLikes?: Prisma.PagePostCommentLikeCreateNestedManyWithoutUserInput
+  groupPostCommentLikes?: Prisma.GroupPostCommentLikeCreateNestedManyWithoutUserInput
+  notificationsReceived?: Prisma.NotificationCreateNestedManyWithoutUserInput
+  notificationsSent?: Prisma.NotificationCreateNestedManyWithoutSenderInput
+  reportedContentCreated?: Prisma.ReportedContentCreateNestedManyWithoutReportingUserInput
+  reportedContentReceived?: Prisma.ReportedContentCreateNestedManyWithoutReportedUserInput
+  moderationLogsCreated?: Prisma.ModerationLogCreateNestedManyWithoutModeratorUserInput
+  moderationLogsTargeted?: Prisma.ModerationLogCreateNestedManyWithoutTargetUserInput
+  listings?: Prisma.MarketplaceListingCreateNestedManyWithoutSellerInput
+  listingSaves?: Prisma.ListingSaveCreateNestedManyWithoutUserInput
+  listingOffers?: Prisma.ListingOfferCreateNestedManyWithoutBuyerInput
+  listingMessages?: Prisma.ListingMessageCreateNestedManyWithoutSenderInput
+  listingMessageLikes?: Prisma.ListingMessageLikeCreateNestedManyWithoutUserInput
+  videos?: Prisma.VideoCreateNestedManyWithoutAuthorInput
+  videoLikes?: Prisma.VideoLikeCreateNestedManyWithoutUserInput
+  videoComments?: Prisma.VideoCommentCreateNestedManyWithoutUserInput
+  blogs?: Prisma.BlogCreateNestedManyWithoutAuthorInput
+  blogLikes?: Prisma.BlogLikeCreateNestedManyWithoutUserInput
+  albums?: Prisma.AlbumCreateNestedManyWithoutUserInput
+}
+
+export type UserUncheckedCreateWithoutVideoCommentLikesInput = {
+  id?: number
+  userName: string
+  email: string
+  password?: string | null
+  role?: $Enums.UserRole
+  firstName?: string | null
+  lastName?: string | null
+  bio?: string | null
+  birthday?: Date | string | null
+  gender?: $Enums.Gender
+  phone?: string | null
+  website?: string | null
+  location?: string | null
+  profilePrivacy?: $Enums.ProfilePrivacy
+  active?: boolean
+  lastActiveAt?: Date | string | null
+  canResetPassword?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  resetPasswordTokens?: Prisma.ResetPasswordTokenUncheckedCreateNestedManyWithoutUserInput
+  activateTokens?: Prisma.ActivateTokenUncheckedCreateNestedManyWithoutUserInput
+  accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
+  sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
+  avatar?: Prisma.AvatarUncheckedCreateNestedOneWithoutUserInput
+  coverPhoto?: Prisma.CoverPhotoUncheckedCreateNestedOneWithoutUserInput
+  followers?: Prisma.UserFollowUncheckedCreateNestedManyWithoutFollowingInput
+  following?: Prisma.UserFollowUncheckedCreateNestedManyWithoutFollowerInput
+  blockedBy?: Prisma.UserBlockUncheckedCreateNestedManyWithoutBlockedInput
+  blocking?: Prisma.UserBlockUncheckedCreateNestedManyWithoutBlockerInput
+  posts?: Prisma.PostUncheckedCreateNestedManyWithoutUserInput
+  postLikes?: Prisma.PostLikeUncheckedCreateNestedManyWithoutUserInput
+  postSaves?: Prisma.PostSaveUncheckedCreateNestedManyWithoutUserInput
+  postShares?: Prisma.PostShareUncheckedCreateNestedManyWithoutUserInput
+  postComments?: Prisma.PostCommentUncheckedCreateNestedManyWithoutUserInput
+  commentLikes?: Prisma.CommentLikeUncheckedCreateNestedManyWithoutUserInput
+  commentReplies?: Prisma.CommentReplyUncheckedCreateNestedManyWithoutUserInput
+  replyLikes?: Prisma.ReplyLikeUncheckedCreateNestedManyWithoutUserInput
+  postsEdited?: Prisma.PostHistoryUncheckedCreateNestedManyWithoutEditedByInput
+  stories?: Prisma.StoryUncheckedCreateNestedManyWithoutUserInput
+  storyViews?: Prisma.StoryViewUncheckedCreateNestedManyWithoutUserInput
+  storyReactions?: Prisma.StoryReactionUncheckedCreateNestedManyWithoutUserInput
+  conversations?: Prisma.ConversationParticipantUncheckedCreateNestedManyWithoutUserInput
+  messagesSent?: Prisma.MessageUncheckedCreateNestedManyWithoutSenderInput
+  messageReactions?: Prisma.MessageReactionUncheckedCreateNestedManyWithoutUserInput
+  ownedGroups?: Prisma.GroupUncheckedCreateNestedManyWithoutOwnerInput
+  groupMemberships?: Prisma.GroupMemberUncheckedCreateNestedManyWithoutUserInput
+  groupPosts?: Prisma.GroupPostUncheckedCreateNestedManyWithoutUserInput
+  groupPostLikes?: Prisma.GroupPostLikeUncheckedCreateNestedManyWithoutUserInput
+  groupPostComments?: Prisma.GroupPostCommentUncheckedCreateNestedManyWithoutUserInput
+  ownedPages?: Prisma.PageUncheckedCreateNestedManyWithoutOwnerInput
+  pageFollows?: Prisma.PageFollowerUncheckedCreateNestedManyWithoutUserInput
+  pagePosts?: Prisma.PagePostUncheckedCreateNestedManyWithoutUserInput
+  pagePostLikes?: Prisma.PagePostLikeUncheckedCreateNestedManyWithoutUserInput
+  pagePostComments?: Prisma.PagePostCommentUncheckedCreateNestedManyWithoutUserInput
+  createdEvents?: Prisma.EventUncheckedCreateNestedManyWithoutCreatorInput
+  eventAttendances?: Prisma.EventAttendeeUncheckedCreateNestedManyWithoutUserInput
+  eventPosts?: Prisma.EventPostUncheckedCreateNestedManyWithoutUserInput
+  eventPostLikes?: Prisma.EventPostLikeUncheckedCreateNestedManyWithoutUserInput
+  eventPostComments?: Prisma.EventPostCommentUncheckedCreateNestedManyWithoutUserInput
+  eventPostCommentLikes?: Prisma.EventPostCommentLikeUncheckedCreateNestedManyWithoutUserInput
+  memories?: Prisma.MemoryUncheckedCreateNestedManyWithoutUserInput
+  pagePostCommentLikes?: Prisma.PagePostCommentLikeUncheckedCreateNestedManyWithoutUserInput
+  groupPostCommentLikes?: Prisma.GroupPostCommentLikeUncheckedCreateNestedManyWithoutUserInput
+  notificationsReceived?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
+  notificationsSent?: Prisma.NotificationUncheckedCreateNestedManyWithoutSenderInput
+  reportedContentCreated?: Prisma.ReportedContentUncheckedCreateNestedManyWithoutReportingUserInput
+  reportedContentReceived?: Prisma.ReportedContentUncheckedCreateNestedManyWithoutReportedUserInput
+  moderationLogsCreated?: Prisma.ModerationLogUncheckedCreateNestedManyWithoutModeratorUserInput
+  moderationLogsTargeted?: Prisma.ModerationLogUncheckedCreateNestedManyWithoutTargetUserInput
+  listings?: Prisma.MarketplaceListingUncheckedCreateNestedManyWithoutSellerInput
+  listingSaves?: Prisma.ListingSaveUncheckedCreateNestedManyWithoutUserInput
+  listingOffers?: Prisma.ListingOfferUncheckedCreateNestedManyWithoutBuyerInput
+  listingMessages?: Prisma.ListingMessageUncheckedCreateNestedManyWithoutSenderInput
+  listingMessageLikes?: Prisma.ListingMessageLikeUncheckedCreateNestedManyWithoutUserInput
+  videos?: Prisma.VideoUncheckedCreateNestedManyWithoutAuthorInput
+  videoLikes?: Prisma.VideoLikeUncheckedCreateNestedManyWithoutUserInput
+  videoComments?: Prisma.VideoCommentUncheckedCreateNestedManyWithoutUserInput
+  blogs?: Prisma.BlogUncheckedCreateNestedManyWithoutAuthorInput
+  blogLikes?: Prisma.BlogLikeUncheckedCreateNestedManyWithoutUserInput
+  albums?: Prisma.AlbumUncheckedCreateNestedManyWithoutUserInput
+}
+
+export type UserCreateOrConnectWithoutVideoCommentLikesInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutVideoCommentLikesInput, Prisma.UserUncheckedCreateWithoutVideoCommentLikesInput>
+}
+
+export type UserUpsertWithoutVideoCommentLikesInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutVideoCommentLikesInput, Prisma.UserUncheckedUpdateWithoutVideoCommentLikesInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutVideoCommentLikesInput, Prisma.UserUncheckedCreateWithoutVideoCommentLikesInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutVideoCommentLikesInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutVideoCommentLikesInput, Prisma.UserUncheckedUpdateWithoutVideoCommentLikesInput>
+}
+
+export type UserUpdateWithoutVideoCommentLikesInput = {
+  userName?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  password?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+  firstName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  lastName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  birthday?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  gender?: Prisma.EnumGenderFieldUpdateOperationsInput | $Enums.Gender
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  website?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  location?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  profilePrivacy?: Prisma.EnumProfilePrivacyFieldUpdateOperationsInput | $Enums.ProfilePrivacy
+  active?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  lastActiveAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  canResetPassword?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  resetPasswordTokens?: Prisma.ResetPasswordTokenUpdateManyWithoutUserNestedInput
+  activateTokens?: Prisma.ActivateTokenUpdateManyWithoutUserNestedInput
+  accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
+  sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
+  avatar?: Prisma.AvatarUpdateOneWithoutUserNestedInput
+  coverPhoto?: Prisma.CoverPhotoUpdateOneWithoutUserNestedInput
+  followers?: Prisma.UserFollowUpdateManyWithoutFollowingNestedInput
+  following?: Prisma.UserFollowUpdateManyWithoutFollowerNestedInput
+  blockedBy?: Prisma.UserBlockUpdateManyWithoutBlockedNestedInput
+  blocking?: Prisma.UserBlockUpdateManyWithoutBlockerNestedInput
+  posts?: Prisma.PostUpdateManyWithoutUserNestedInput
+  postLikes?: Prisma.PostLikeUpdateManyWithoutUserNestedInput
+  postSaves?: Prisma.PostSaveUpdateManyWithoutUserNestedInput
+  postShares?: Prisma.PostShareUpdateManyWithoutUserNestedInput
+  postComments?: Prisma.PostCommentUpdateManyWithoutUserNestedInput
+  commentLikes?: Prisma.CommentLikeUpdateManyWithoutUserNestedInput
+  commentReplies?: Prisma.CommentReplyUpdateManyWithoutUserNestedInput
+  replyLikes?: Prisma.ReplyLikeUpdateManyWithoutUserNestedInput
+  postsEdited?: Prisma.PostHistoryUpdateManyWithoutEditedByNestedInput
+  stories?: Prisma.StoryUpdateManyWithoutUserNestedInput
+  storyViews?: Prisma.StoryViewUpdateManyWithoutUserNestedInput
+  storyReactions?: Prisma.StoryReactionUpdateManyWithoutUserNestedInput
+  conversations?: Prisma.ConversationParticipantUpdateManyWithoutUserNestedInput
+  messagesSent?: Prisma.MessageUpdateManyWithoutSenderNestedInput
+  messageReactions?: Prisma.MessageReactionUpdateManyWithoutUserNestedInput
+  ownedGroups?: Prisma.GroupUpdateManyWithoutOwnerNestedInput
+  groupMemberships?: Prisma.GroupMemberUpdateManyWithoutUserNestedInput
+  groupPosts?: Prisma.GroupPostUpdateManyWithoutUserNestedInput
+  groupPostLikes?: Prisma.GroupPostLikeUpdateManyWithoutUserNestedInput
+  groupPostComments?: Prisma.GroupPostCommentUpdateManyWithoutUserNestedInput
+  ownedPages?: Prisma.PageUpdateManyWithoutOwnerNestedInput
+  pageFollows?: Prisma.PageFollowerUpdateManyWithoutUserNestedInput
+  pagePosts?: Prisma.PagePostUpdateManyWithoutUserNestedInput
+  pagePostLikes?: Prisma.PagePostLikeUpdateManyWithoutUserNestedInput
+  pagePostComments?: Prisma.PagePostCommentUpdateManyWithoutUserNestedInput
+  createdEvents?: Prisma.EventUpdateManyWithoutCreatorNestedInput
+  eventAttendances?: Prisma.EventAttendeeUpdateManyWithoutUserNestedInput
+  eventPosts?: Prisma.EventPostUpdateManyWithoutUserNestedInput
+  eventPostLikes?: Prisma.EventPostLikeUpdateManyWithoutUserNestedInput
+  eventPostComments?: Prisma.EventPostCommentUpdateManyWithoutUserNestedInput
+  eventPostCommentLikes?: Prisma.EventPostCommentLikeUpdateManyWithoutUserNestedInput
+  memories?: Prisma.MemoryUpdateManyWithoutUserNestedInput
+  pagePostCommentLikes?: Prisma.PagePostCommentLikeUpdateManyWithoutUserNestedInput
+  groupPostCommentLikes?: Prisma.GroupPostCommentLikeUpdateManyWithoutUserNestedInput
+  notificationsReceived?: Prisma.NotificationUpdateManyWithoutUserNestedInput
+  notificationsSent?: Prisma.NotificationUpdateManyWithoutSenderNestedInput
+  reportedContentCreated?: Prisma.ReportedContentUpdateManyWithoutReportingUserNestedInput
+  reportedContentReceived?: Prisma.ReportedContentUpdateManyWithoutReportedUserNestedInput
+  moderationLogsCreated?: Prisma.ModerationLogUpdateManyWithoutModeratorUserNestedInput
+  moderationLogsTargeted?: Prisma.ModerationLogUpdateManyWithoutTargetUserNestedInput
+  listings?: Prisma.MarketplaceListingUpdateManyWithoutSellerNestedInput
+  listingSaves?: Prisma.ListingSaveUpdateManyWithoutUserNestedInput
+  listingOffers?: Prisma.ListingOfferUpdateManyWithoutBuyerNestedInput
+  listingMessages?: Prisma.ListingMessageUpdateManyWithoutSenderNestedInput
+  listingMessageLikes?: Prisma.ListingMessageLikeUpdateManyWithoutUserNestedInput
+  videos?: Prisma.VideoUpdateManyWithoutAuthorNestedInput
+  videoLikes?: Prisma.VideoLikeUpdateManyWithoutUserNestedInput
+  videoComments?: Prisma.VideoCommentUpdateManyWithoutUserNestedInput
+  blogs?: Prisma.BlogUpdateManyWithoutAuthorNestedInput
+  blogLikes?: Prisma.BlogLikeUpdateManyWithoutUserNestedInput
+  albums?: Prisma.AlbumUpdateManyWithoutUserNestedInput
+}
+
+export type UserUncheckedUpdateWithoutVideoCommentLikesInput = {
+  id?: Prisma.IntFieldUpdateOperationsInput | number
+  userName?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  password?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+  firstName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  lastName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  birthday?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  gender?: Prisma.EnumGenderFieldUpdateOperationsInput | $Enums.Gender
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  website?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  location?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  profilePrivacy?: Prisma.EnumProfilePrivacyFieldUpdateOperationsInput | $Enums.ProfilePrivacy
+  active?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  lastActiveAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  canResetPassword?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  resetPasswordTokens?: Prisma.ResetPasswordTokenUncheckedUpdateManyWithoutUserNestedInput
+  activateTokens?: Prisma.ActivateTokenUncheckedUpdateManyWithoutUserNestedInput
+  accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
+  sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
+  avatar?: Prisma.AvatarUncheckedUpdateOneWithoutUserNestedInput
+  coverPhoto?: Prisma.CoverPhotoUncheckedUpdateOneWithoutUserNestedInput
+  followers?: Prisma.UserFollowUncheckedUpdateManyWithoutFollowingNestedInput
+  following?: Prisma.UserFollowUncheckedUpdateManyWithoutFollowerNestedInput
+  blockedBy?: Prisma.UserBlockUncheckedUpdateManyWithoutBlockedNestedInput
+  blocking?: Prisma.UserBlockUncheckedUpdateManyWithoutBlockerNestedInput
+  posts?: Prisma.PostUncheckedUpdateManyWithoutUserNestedInput
+  postLikes?: Prisma.PostLikeUncheckedUpdateManyWithoutUserNestedInput
+  postSaves?: Prisma.PostSaveUncheckedUpdateManyWithoutUserNestedInput
+  postShares?: Prisma.PostShareUncheckedUpdateManyWithoutUserNestedInput
+  postComments?: Prisma.PostCommentUncheckedUpdateManyWithoutUserNestedInput
+  commentLikes?: Prisma.CommentLikeUncheckedUpdateManyWithoutUserNestedInput
+  commentReplies?: Prisma.CommentReplyUncheckedUpdateManyWithoutUserNestedInput
+  replyLikes?: Prisma.ReplyLikeUncheckedUpdateManyWithoutUserNestedInput
+  postsEdited?: Prisma.PostHistoryUncheckedUpdateManyWithoutEditedByNestedInput
+  stories?: Prisma.StoryUncheckedUpdateManyWithoutUserNestedInput
+  storyViews?: Prisma.StoryViewUncheckedUpdateManyWithoutUserNestedInput
+  storyReactions?: Prisma.StoryReactionUncheckedUpdateManyWithoutUserNestedInput
+  conversations?: Prisma.ConversationParticipantUncheckedUpdateManyWithoutUserNestedInput
+  messagesSent?: Prisma.MessageUncheckedUpdateManyWithoutSenderNestedInput
+  messageReactions?: Prisma.MessageReactionUncheckedUpdateManyWithoutUserNestedInput
+  ownedGroups?: Prisma.GroupUncheckedUpdateManyWithoutOwnerNestedInput
+  groupMemberships?: Prisma.GroupMemberUncheckedUpdateManyWithoutUserNestedInput
+  groupPosts?: Prisma.GroupPostUncheckedUpdateManyWithoutUserNestedInput
+  groupPostLikes?: Prisma.GroupPostLikeUncheckedUpdateManyWithoutUserNestedInput
+  groupPostComments?: Prisma.GroupPostCommentUncheckedUpdateManyWithoutUserNestedInput
+  ownedPages?: Prisma.PageUncheckedUpdateManyWithoutOwnerNestedInput
+  pageFollows?: Prisma.PageFollowerUncheckedUpdateManyWithoutUserNestedInput
+  pagePosts?: Prisma.PagePostUncheckedUpdateManyWithoutUserNestedInput
+  pagePostLikes?: Prisma.PagePostLikeUncheckedUpdateManyWithoutUserNestedInput
+  pagePostComments?: Prisma.PagePostCommentUncheckedUpdateManyWithoutUserNestedInput
+  createdEvents?: Prisma.EventUncheckedUpdateManyWithoutCreatorNestedInput
+  eventAttendances?: Prisma.EventAttendeeUncheckedUpdateManyWithoutUserNestedInput
+  eventPosts?: Prisma.EventPostUncheckedUpdateManyWithoutUserNestedInput
+  eventPostLikes?: Prisma.EventPostLikeUncheckedUpdateManyWithoutUserNestedInput
+  eventPostComments?: Prisma.EventPostCommentUncheckedUpdateManyWithoutUserNestedInput
+  eventPostCommentLikes?: Prisma.EventPostCommentLikeUncheckedUpdateManyWithoutUserNestedInput
+  memories?: Prisma.MemoryUncheckedUpdateManyWithoutUserNestedInput
+  pagePostCommentLikes?: Prisma.PagePostCommentLikeUncheckedUpdateManyWithoutUserNestedInput
+  groupPostCommentLikes?: Prisma.GroupPostCommentLikeUncheckedUpdateManyWithoutUserNestedInput
+  notificationsReceived?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
+  notificationsSent?: Prisma.NotificationUncheckedUpdateManyWithoutSenderNestedInput
+  reportedContentCreated?: Prisma.ReportedContentUncheckedUpdateManyWithoutReportingUserNestedInput
+  reportedContentReceived?: Prisma.ReportedContentUncheckedUpdateManyWithoutReportedUserNestedInput
+  moderationLogsCreated?: Prisma.ModerationLogUncheckedUpdateManyWithoutModeratorUserNestedInput
+  moderationLogsTargeted?: Prisma.ModerationLogUncheckedUpdateManyWithoutTargetUserNestedInput
+  listings?: Prisma.MarketplaceListingUncheckedUpdateManyWithoutSellerNestedInput
+  listingSaves?: Prisma.ListingSaveUncheckedUpdateManyWithoutUserNestedInput
+  listingOffers?: Prisma.ListingOfferUncheckedUpdateManyWithoutBuyerNestedInput
+  listingMessages?: Prisma.ListingMessageUncheckedUpdateManyWithoutSenderNestedInput
+  listingMessageLikes?: Prisma.ListingMessageLikeUncheckedUpdateManyWithoutUserNestedInput
+  videos?: Prisma.VideoUncheckedUpdateManyWithoutAuthorNestedInput
+  videoLikes?: Prisma.VideoLikeUncheckedUpdateManyWithoutUserNestedInput
+  videoComments?: Prisma.VideoCommentUncheckedUpdateManyWithoutUserNestedInput
   blogs?: Prisma.BlogUncheckedUpdateManyWithoutAuthorNestedInput
   blogLikes?: Prisma.BlogLikeUncheckedUpdateManyWithoutUserNestedInput
   albums?: Prisma.AlbumUncheckedUpdateManyWithoutUserNestedInput
@@ -22885,6 +23496,7 @@ export type UserCountOutputType = {
   videos: number
   videoLikes: number
   videoComments: number
+  videoCommentLikes: number
   blogs: number
   blogLikes: number
   albums: number
@@ -22947,6 +23559,7 @@ export type UserCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.I
   videos?: boolean | UserCountOutputTypeCountVideosArgs
   videoLikes?: boolean | UserCountOutputTypeCountVideoLikesArgs
   videoComments?: boolean | UserCountOutputTypeCountVideoCommentsArgs
+  videoCommentLikes?: boolean | UserCountOutputTypeCountVideoCommentLikesArgs
   blogs?: boolean | UserCountOutputTypeCountBlogsArgs
   blogLikes?: boolean | UserCountOutputTypeCountBlogLikesArgs
   albums?: boolean | UserCountOutputTypeCountAlbumsArgs
@@ -23357,6 +23970,13 @@ export type UserCountOutputTypeCountVideoCommentsArgs<ExtArgs extends runtime.Ty
 /**
  * UserCountOutputType without action
  */
+export type UserCountOutputTypeCountVideoCommentLikesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.VideoCommentLikeWhereInput
+}
+
+/**
+ * UserCountOutputType without action
+ */
 export type UserCountOutputTypeCountBlogsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   where?: Prisma.BlogWhereInput
 }
@@ -23454,6 +24074,7 @@ export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   videos?: boolean | Prisma.User$videosArgs<ExtArgs>
   videoLikes?: boolean | Prisma.User$videoLikesArgs<ExtArgs>
   videoComments?: boolean | Prisma.User$videoCommentsArgs<ExtArgs>
+  videoCommentLikes?: boolean | Prisma.User$videoCommentLikesArgs<ExtArgs>
   blogs?: boolean | Prisma.User$blogsArgs<ExtArgs>
   blogLikes?: boolean | Prisma.User$blogLikesArgs<ExtArgs>
   albums?: boolean | Prisma.User$albumsArgs<ExtArgs>
@@ -23586,6 +24207,7 @@ export type UserInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = 
   videos?: boolean | Prisma.User$videosArgs<ExtArgs>
   videoLikes?: boolean | Prisma.User$videoLikesArgs<ExtArgs>
   videoComments?: boolean | Prisma.User$videoCommentsArgs<ExtArgs>
+  videoCommentLikes?: boolean | Prisma.User$videoCommentLikesArgs<ExtArgs>
   blogs?: boolean | Prisma.User$blogsArgs<ExtArgs>
   blogLikes?: boolean | Prisma.User$blogLikesArgs<ExtArgs>
   albums?: boolean | Prisma.User$albumsArgs<ExtArgs>
@@ -23655,6 +24277,7 @@ export type $UserPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     videos: Prisma.$VideoPayload<ExtArgs>[]
     videoLikes: Prisma.$VideoLikePayload<ExtArgs>[]
     videoComments: Prisma.$VideoCommentPayload<ExtArgs>[]
+    videoCommentLikes: Prisma.$VideoCommentLikePayload<ExtArgs>[]
     blogs: Prisma.$BlogPayload<ExtArgs>[]
     blogLikes: Prisma.$BlogLikePayload<ExtArgs>[]
     albums: Prisma.$AlbumPayload<ExtArgs>[]
@@ -24131,6 +24754,7 @@ export interface Prisma__UserClient<T, Null = never, ExtArgs extends runtime.Typ
   videos<T extends Prisma.User$videosArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$videosArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$VideoPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   videoLikes<T extends Prisma.User$videoLikesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$videoLikesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$VideoLikePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   videoComments<T extends Prisma.User$videoCommentsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$videoCommentsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$VideoCommentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  videoCommentLikes<T extends Prisma.User$videoCommentLikesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$videoCommentLikesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$VideoCommentLikePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   blogs<T extends Prisma.User$blogsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$blogsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$BlogPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   blogLikes<T extends Prisma.User$blogLikesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$blogLikesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$BlogLikePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   albums<T extends Prisma.User$albumsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$albumsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$AlbumPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
@@ -25952,6 +26576,30 @@ export type User$videoCommentsArgs<ExtArgs extends runtime.Types.Extensions.Inte
   take?: number
   skip?: number
   distinct?: Prisma.VideoCommentScalarFieldEnum | Prisma.VideoCommentScalarFieldEnum[]
+}
+
+/**
+ * User.videoCommentLikes
+ */
+export type User$videoCommentLikesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the VideoCommentLike
+   */
+  select?: Prisma.VideoCommentLikeSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the VideoCommentLike
+   */
+  omit?: Prisma.VideoCommentLikeOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.VideoCommentLikeInclude<ExtArgs> | null
+  where?: Prisma.VideoCommentLikeWhereInput
+  orderBy?: Prisma.VideoCommentLikeOrderByWithRelationInput | Prisma.VideoCommentLikeOrderByWithRelationInput[]
+  cursor?: Prisma.VideoCommentLikeWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.VideoCommentLikeScalarFieldEnum | Prisma.VideoCommentLikeScalarFieldEnum[]
 }
 
 /**
