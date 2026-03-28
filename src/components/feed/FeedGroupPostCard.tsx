@@ -18,7 +18,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import {
 	MessageCircle,
 	Send,
-	Heart,
+	ThumbsUp,
 	Trash2,
 	Users,
 	ImagePlus,
@@ -82,78 +82,91 @@ function ReactionsModal({
 	open: boolean;
 	onClose: () => void;
 }) {
-	const [reactions, setReactions] = useState<ReactionUser[]>([]);
-	const [loaded, setLoaded] = useState(false);
+	const [reactions, setReactions] = useState<ReactionUser[] | null>(null);
 
 	useEffect(() => {
-		if (open && !loaded) {
-			getGroupPostReactions(postId).then((r) => {
-				setReactions(r as ReactionUser[]);
-				setLoaded(true);
-			});
+		if (open && reactions === null) {
+			getGroupPostReactions(postId).then((r) => setReactions(r as ReactionUser[]));
 		}
-	}, [open, loaded, postId]);
+		if (!open) setReactions(null);
+	}, [open, postId]);
 
-	if (!open) return null;
-
-	const tabs = ["All", ...Object.keys(REACTIONS)];
-	const grouped = Object.fromEntries(
-		Object.keys(REACTIONS).map((key) => [
-			key,
-			reactions.filter((r) => r.reactionType === key),
-		]),
+	const data = reactions ?? [];
+	const grouped = data.reduce<Record<string, ReactionUser[]>>(
+		(acc, r) => {
+			(acc[r.reactionType] ??= []).push(r);
+			return acc;
+		},
+		{},
 	);
+	const tabs = ["All", ...Object.keys(grouped)];
 
 	return (
-		<Dialog open={open} onOpenChange={(v) => !v && onClose()}>
-			<DialogContent className="max-w-md">
+		<Dialog open={open} onOpenChange={(o) => { if (!o) onClose(); }}>
+			<DialogContent className="max-w-sm">
 				<DialogHeader>
 					<DialogTitle>Reactions</DialogTitle>
 				</DialogHeader>
-				<Tabs defaultValue="All">
-					<TabsList className="flex-wrap h-auto gap-1 mb-2">
-						{tabs.map((tab) => {
-							const count =
-								tab === "All"
-									? reactions.length
-									: (grouped[tab]?.length ?? 0);
-							if (tab !== "All" && count === 0) return null;
-							return (
+				{!reactions ? (
+					<p className="text-sm text-muted-foreground py-4 text-center">Loading…</p>
+				) : (
+					<Tabs defaultValue="All">
+						<TabsList className="w-full flex-wrap h-auto gap-1 mb-2">
+							{tabs.map((tab) => (
 								<TabsTrigger key={tab} value={tab} className="text-xs px-2 py-1">
-									{tab === "All" ? `All ${count}` : `${REACTIONS[tab].emoji} ${count}`}
+									{tab === "All"
+										? `All ${data.length}`
+										: `${REACTIONS[tab]?.emoji} ${grouped[tab]?.length}`}
 								</TabsTrigger>
-							);
-						})}
-					</TabsList>
-					{tabs.map((tab) => (
-						<TabsContent key={tab} value={tab} className="max-h-72 overflow-y-auto space-y-2">
-							{(tab === "All" ? reactions : (grouped[tab] ?? [])).map((r) => (
-								<div key={r.id} className="flex items-center gap-3">
-									<div className="relative">
-										<Avatar className="h-9 w-9">
-											<AvatarImage src={r.user.avatar?.photoSrc ?? undefined} />
-											<AvatarFallback className="bg-primary text-primary-foreground text-xs">
-												{((r.user.firstName || r.user.userName)[0] ?? "?").toUpperCase()}
-											</AvatarFallback>
-										</Avatar>
-										<span className="absolute -bottom-0.5 -right-0.5 text-sm leading-none">
-											{REACTIONS[r.reactionType]?.emoji}
-										</span>
-									</div>
-									<Link
-										href={`/profile/${r.user.userName}`}
-										className="text-sm font-medium hover:underline"
-										onClick={() => onClose()}
-									>
-										{[r.user.firstName, r.user.lastName].filter(Boolean).join(" ") || r.user.userName}
-									</Link>
-								</div>
 							))}
+						</TabsList>
+						<TabsContent value="All">
+							<ReactionList items={data} onClose={onClose} />
 						</TabsContent>
-					))}
-				</Tabs>
+						{Object.entries(grouped).map(([type, items]) => (
+							<TabsContent key={type} value={type}>
+								<ReactionList items={items} onClose={onClose} />
+							</TabsContent>
+						))}
+					</Tabs>
+				)}
 			</DialogContent>
 		</Dialog>
+	);
+}
+
+function ReactionList({ items, onClose }: { items: ReactionUser[]; onClose: () => void }) {
+	return (
+		<div className="space-y-3 max-h-72 overflow-y-auto pr-1">
+			{items.map((r) => {
+				const n = [r.user.firstName, r.user.lastName].filter(Boolean).join(" ") || r.user.userName;
+				return (
+					<div key={r.id} className="flex items-center gap-3">
+						<div className="relative">
+							<Avatar className="h-9 w-9">
+								<AvatarImage src={r.user.avatar?.photoSrc ?? undefined} />
+								<AvatarFallback className="bg-primary text-primary-foreground text-sm font-semibold">
+									{n[0]?.toUpperCase()}
+								</AvatarFallback>
+							</Avatar>
+							<span className="absolute -bottom-0.5 -right-0.5 text-sm leading-none">
+								{REACTIONS[r.reactionType]?.emoji}
+							</span>
+						</div>
+						<div>
+							<Link
+								href={`/profile/${r.user.userName}`}
+								className="text-sm font-semibold hover:underline"
+								onClick={() => onClose()}
+							>
+								{n}
+							</Link>
+							<p className="text-xs text-muted-foreground">@{r.user.userName}</p>
+						</div>
+					</div>
+				);
+			})}
+		</div>
 	);
 }
 
@@ -210,6 +223,15 @@ export function FeedGroupPostCard({
 	const hoverTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
 	const [showPicker, setShowPicker] = useState(false);
 	const [showReactionsModal, setShowReactionsModal] = useState(false);
+
+	const reactionCounts: Record<string, number> = {};
+	post.likes.forEach((l) => {
+		reactionCounts[l.reactionType] = (reactionCounts[l.reactionType] || 0) + 1;
+	});
+	const topReactions = Object.entries(reactionCounts)
+		.sort((a, b) => b[1] - a[1])
+		.slice(0, 3)
+		.map(([t]) => t);
 
 	const name = displayName(post.user);
 
@@ -307,6 +329,7 @@ export function FeedGroupPostCard({
 	};
 
 	return (
+	<>
 		<Card className="shadow-sm hover:shadow-md transition-shadow duration-200">
 			<CardContent className="pt-4 pb-0">
 				<div className="flex items-center gap-2 mb-3 text-xs text-muted-foreground">
@@ -375,9 +398,21 @@ export function FeedGroupPostCard({
 			<CardContent className="pt-2 pb-2">
 				{likeCount > 0 && (
 					<>
-						<p className="text-sm text-muted-foreground mb-2">
-							{likeCount} reaction{likeCount !== 1 ? "s" : ""}
-						</p>
+						<div className="flex items-center gap-1.5 text-sm text-muted-foreground mb-2">
+							<div className="flex -space-x-1">
+								{topReactions.map((r) => (
+									<span key={r} className="text-base leading-none">
+										{REACTIONS[r]?.emoji}
+									</span>
+								))}
+							</div>
+							<button
+								onClick={() => setShowReactionsModal(true)}
+								className="hover:underline"
+							>
+								{likeCount.toLocaleString()}
+							</button>
+						</div>
 						<Separator className="mb-1" />
 					</>
 				)}
@@ -440,9 +475,9 @@ export function FeedGroupPostCard({
 									{REACTIONS[myReaction]?.emoji}
 								</span>
 							) : (
-								<Heart className="h-[18px] w-[18px]" />
+								<ThumbsUp className="h-[18px] w-[18px]" />
 							)}
-							{myReaction ? REACTIONS[myReaction]?.label : "Like"}
+							{!myReaction && "Like"}
 						</Button>
 					</div>
 					<Button
@@ -496,6 +531,14 @@ export function FeedGroupPostCard({
 												/>
 											</div>
 										)}
+									</div>
+									<div className="flex items-center gap-3 px-1 mt-1">
+										<button
+											onClick={() => handleCommentLike(c.id)}
+											className={`text-xs font-semibold transition-colors ${c.isLikedByMe ? "text-primary" : "text-muted-foreground hover:text-foreground"}`}
+										>
+											Like{c.likeCount && c.likeCount > 0 ? ` · ${c.likeCount}` : ""}
+										</button>
 									</div>
 								</div>
 								{c.user.id === currentUserId && (
@@ -592,12 +635,12 @@ export function FeedGroupPostCard({
 					</div>
 				</CardContent>
 			)}
-
+		</Card>
 		<ReactionsModal
 			postId={post.id}
 			open={showReactionsModal}
 			onClose={() => setShowReactionsModal(false)}
 		/>
-	</Card>
+	</>
 	);
 }

@@ -1,9 +1,16 @@
 ﻿"use client";
 
-import { useState, useTransition } from "react";
+import { useState, useTransition, useMemo } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
+import {
+	Select,
+	SelectContent,
+	SelectItem,
+	SelectTrigger,
+	SelectValue,
+} from "@/components/ui/select";
 import { CalendarDays, ChevronRight, Loader2, Share2 } from "lucide-react";
 import { format } from "date-fns";
 import { rsvpEvent, fetchEvents, fetchPopularEvents, fetchMyEvents } from "@/actions/event.actions";
@@ -162,13 +169,28 @@ export function EventsClient({
 	const [myEvents, setMyEvents] = useState(initialMyEvents);
 	const [myEventsTotal] = useState(initialMyEventsTotal);
 	const [loadingMore, setLoadingMore] = useState(false);
+	const [sortBy, setSortBy] = useState<"date_asc" | "date_desc" | "most_attendees" | "a_z">("date_asc");
 
-	const events =
+	const rawEvents =
 		tab === "suggestions"
 			? suggestions
 			: tab === "popular"
 				? popular
 				: myEvents;
+
+	const events = useMemo(() => {
+		const sorted = [...rawEvents];
+		switch (sortBy) {
+			case "date_desc":
+				return sorted.sort((a, b) => new Date(b.startDate).getTime() - new Date(a.startDate).getTime());
+			case "most_attendees":
+				return sorted.sort((a, b) => b._count.attendees - a._count.attendees);
+			case "a_z":
+				return sorted.sort((a, b) => a.title.localeCompare(b.title));
+			default:
+				return sorted.sort((a, b) => new Date(a.startDate).getTime() - new Date(b.startDate).getTime());
+		}
+	}, [rawEvents, sortBy]);
 
 	const total =
 		tab === "suggestions"
@@ -216,23 +238,36 @@ export function EventsClient({
 	return (
 		<>
 			{/* Tabs */}
-			<div className="flex gap-0 border-b border-border mb-6">
-				{TABS.map(({ key, label }) => (
-					<button
-						key={key}
-						onClick={() => setTab(key)}
-						className={`relative px-4 py-3 text-sm font-semibold transition-colors ${
-							tab === key
-								? "text-foreground"
-								: "text-muted-foreground hover:text-foreground"
-						}`}
-					>
-						{label}
-						{tab === key && (
-							<span className="absolute bottom-0 left-0 right-0 h-[3px] bg-foreground rounded-t-full" />
-						)}
-					</button>
-				))}
+			<div className="flex items-center justify-between border-b border-border mb-6">
+				<div className="flex gap-0">
+					{TABS.map(({ key, label }) => (
+						<button
+							key={key}
+							onClick={() => setTab(key)}
+							className={`relative px-4 py-3 text-sm font-semibold transition-colors ${
+								tab === key
+									? "text-foreground"
+									: "text-muted-foreground hover:text-foreground"
+							}`}
+						>
+							{label}
+							{tab === key && (
+								<span className="absolute bottom-0 left-0 right-0 h-[3px] bg-foreground rounded-t-full" />
+							)}
+						</button>
+					))}
+				</div>
+				<Select value={sortBy} onValueChange={(v) => setSortBy(v as typeof sortBy)}>
+					<SelectTrigger className="w-44 h-9 text-sm mb-1">
+						<SelectValue />
+					</SelectTrigger>
+					<SelectContent>
+						<SelectItem value="date_asc">Soonest first</SelectItem>
+						<SelectItem value="date_desc">Latest first</SelectItem>
+						<SelectItem value="most_attendees">Most popular</SelectItem>
+						<SelectItem value="a_z">A → Z</SelectItem>
+					</SelectContent>
+				</Select>
 			</div>
 
 			{events.length === 0 ? (

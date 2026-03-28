@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useTransition } from "react";
+import { useState, useTransition, useMemo } from "react";
 import { formatDistanceToNow } from "date-fns";
 import Link from "next/link";
 import Image from "next/image";
@@ -8,6 +8,13 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
+import {
+	Select,
+	SelectContent,
+	SelectItem,
+	SelectTrigger,
+	SelectValue,
+} from "@/components/ui/select";
 import { BookOpen, Heart, Loader2, PenLine } from "lucide-react";
 import { getAllBlogs } from "@/actions/blog.actions";
 import { useInfiniteScroll } from "@/hooks/use-infinite-scroll";
@@ -43,6 +50,19 @@ export function BlogListClient({
 	const [hasMore, setHasMore] = useState(initialHasMore);
 	const [page, setPage] = useState(1);
 	const [isPending, startTransition] = useTransition();
+	const [sortBy, setSortBy] = useState<"newest" | "most_liked" | "a_z">("newest");
+
+	const sortedBlogs = useMemo(() => {
+		const sorted = [...blogs];
+		switch (sortBy) {
+			case "most_liked":
+				return sorted.sort((a, b) => b._count.likes - a._count.likes);
+			case "a_z":
+				return sorted.sort((a, b) => a.title.localeCompare(b.title));
+			default:
+				return sorted.sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
+		}
+	}, [blogs, sortBy]);
 
 	function handleLoadMore() {
 		const nextPage = page + 1;
@@ -75,8 +95,21 @@ export function BlogListClient({
 
 	return (
 		<>
+			<div className="flex items-center justify-between mb-4">
+				<p className="text-sm text-muted-foreground">{blogs.length} blog{blogs.length !== 1 ? "s" : ""}</p>
+				<Select value={sortBy} onValueChange={(v) => setSortBy(v as typeof sortBy)}>
+					<SelectTrigger className="w-40 h-9 text-sm">
+						<SelectValue />
+					</SelectTrigger>
+					<SelectContent>
+						<SelectItem value="newest">Newest first</SelectItem>
+						<SelectItem value="most_liked">Most liked</SelectItem>
+						<SelectItem value="a_z">A → Z</SelectItem>
+					</SelectContent>
+				</Select>
+			</div>
 			<div className="space-y-6">
-				{blogs.map((blog) => {
+				{sortedBlogs.map((blog) => {
 					const authorName =
 						[blog.author.firstName, blog.author.lastName]
 							.filter(Boolean)

@@ -1,8 +1,15 @@
 "use client";
 
-import { useState, useTransition, useRef, useEffect } from "react";
+import { useState, useTransition, useRef, useEffect, useMemo } from "react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
+import {
+	Select,
+	SelectContent,
+	SelectItem,
+	SelectTrigger,
+	SelectValue,
+} from "@/components/ui/select";
 import { Search, Users, Loader2 } from "lucide-react";
 import { PersonCard } from "@/components/people/PersonCard";
 import { fetchMorePeople } from "@/actions/follow.actions";
@@ -42,7 +49,26 @@ export function PeopleClient({
 	const [query, setQuery] = useState(initialQuery);
 	const [skip, setSkip] = useState(initialPeople.length);
 	const [isPending, startTransition] = useTransition();
+	const [sortBy, setSortBy] = useState<"newest" | "most_followed" | "most_posts" | "a_z">("newest");
 	const debounceRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+	const sortedPeople = useMemo(() => {
+		const sorted = [...people];
+		switch (sortBy) {
+			case "most_followed":
+				return sorted.sort((a, b) => b._count.following - a._count.following);
+			case "most_posts":
+				return sorted.sort((a, b) => b._count.posts - a._count.posts);
+			case "a_z":
+				return sorted.sort((a, b) => {
+					const nameA = [a.firstName, a.lastName].filter(Boolean).join(" ") || a.userName;
+					const nameB = [b.firstName, b.lastName].filter(Boolean).join(" ") || b.userName;
+					return nameA.localeCompare(nameB);
+				});
+			default:
+				return sorted;
+		}
+	}, [people, sortBy]);
 
 	useEffect(() => {
 		if (debounceRef.current) clearTimeout(debounceRef.current);
@@ -91,6 +117,20 @@ export function PeopleClient({
 					/>
 				</div>
 			</div>
+			<div className="flex items-center justify-between mb-4">
+				<p className="text-sm text-muted-foreground">{total} people</p>
+				<Select value={sortBy} onValueChange={(v) => setSortBy(v as typeof sortBy)}>
+					<SelectTrigger className="w-40 h-9 text-sm">
+						<SelectValue />
+					</SelectTrigger>
+					<SelectContent>
+						<SelectItem value="newest">Newest</SelectItem>
+						<SelectItem value="most_followed">Most followed</SelectItem>
+						<SelectItem value="most_posts">Most posts</SelectItem>
+						<SelectItem value="a_z">A → Z</SelectItem>
+					</SelectContent>
+				</Select>
+			</div>
 
 			{isPending && people.length === 0 ? (
 				<div className="flex justify-center py-20">
@@ -105,7 +145,7 @@ export function PeopleClient({
 			) : (
 				<>
 					<div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3">
-						{people.map((person) => (
+						{sortedPeople.map((person) => (
 							<PersonCard
 								key={person.id}
 								person={person}

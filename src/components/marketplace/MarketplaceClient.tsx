@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useTransition, useEffect, useCallback } from "react";
+import { useState, useTransition, useEffect, useCallback, useMemo } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -9,6 +9,13 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
+import {
+	Select,
+	SelectContent,
+	SelectItem,
+	SelectTrigger,
+	SelectValue,
+} from "@/components/ui/select";
 import {
 	Search,
 	Plus,
@@ -413,6 +420,7 @@ export function MarketplaceClient({
 	const [savedListings, setSavedListings] =
 		useState<Listing[]>(initialSavedListings);
 	const [createOpen, setCreateOpen] = useState(false);
+	const [sortBy, setSortBy] = useState<"newest" | "price_low" | "price_high" | "most_saved">("newest");
 	const [hasMore, setHasMore] = useState(initialListings.length >= 24);
 	const [loadingMore, setLoadingMore] = useState(false);
 	const [cursor, setCursor] = useState<number | null>(
@@ -439,6 +447,20 @@ export function MarketplaceClient({
 	}, [loadingMore, hasMore, cursor, category, search]);
 
 	const sentinelRef = useInfiniteScroll(loadMore, { hasMore, loading: loadingMore });
+
+	const sortedListings = useMemo(() => {
+		const sorted = [...listings];
+		switch (sortBy) {
+			case "price_low":
+				return sorted.sort((a, b) => a.price - b.price);
+			case "price_high":
+				return sorted.sort((a, b) => b.price - a.price);
+			case "most_saved":
+				return sorted.sort((a, b) => b._count.saves - a._count.saves);
+			default:
+				return sorted.sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
+		}
+	}, [listings, sortBy]);
 
 	// Sync state when server re-renders with new filtered props
 	useEffect(() => {
@@ -549,8 +571,9 @@ export function MarketplaceClient({
 					</form>
 
 					{/* Category pills */}
-					<div className="flex gap-2 overflow-x-auto pb-1 scrollbar-none">
-						{CATEGORIES.map((cat) => (
+					<div className="flex items-center justify-between gap-3">
+						<div className="flex gap-2 overflow-x-auto pb-1 scrollbar-none flex-1">
+							{CATEGORIES.map((cat) => (
 							<button
 								key={cat}
 								onClick={() => handleCategoryChange(cat)}
@@ -568,10 +591,22 @@ export function MarketplaceClient({
 								</span>
 							</button>
 						))}
+						</div>
+						<Select value={sortBy} onValueChange={(v) => setSortBy(v as typeof sortBy)}>
+							<SelectTrigger className="w-40 h-9 text-sm shrink-0">
+								<SelectValue />
+							</SelectTrigger>
+							<SelectContent>
+								<SelectItem value="newest">Newest first</SelectItem>
+								<SelectItem value="price_low">Price: low → high</SelectItem>
+								<SelectItem value="price_high">Price: high → low</SelectItem>
+								<SelectItem value="most_saved">Most saved</SelectItem>
+							</SelectContent>
+						</Select>
 					</div>
 
 					{/* Listings grid */}
-					{listings.length === 0 ? (
+					{sortedListings.length === 0 ? (
 						<div className="text-center py-20 text-muted-foreground">
 							<ShoppingBag className="h-12 w-12 mx-auto mb-4 opacity-30" />
 							<p className="font-semibold text-base">
@@ -593,7 +628,7 @@ export function MarketplaceClient({
 					) : (
 						<>
 							<div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-3">
-								{listings.map((listing) => (
+								{sortedListings.map((listing) => (
 									<ListingCard
 										key={listing.id}
 										listing={listing}

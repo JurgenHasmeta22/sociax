@@ -1,8 +1,15 @@
 "use client";
 
-import { useState, useTransition } from "react";
+import { useState, useTransition, useMemo } from "react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
+import {
+	Select,
+	SelectContent,
+	SelectItem,
+	SelectTrigger,
+	SelectValue,
+} from "@/components/ui/select";
 import { VideoCard } from "./VideoCard";
 import { UploadVideoDialog } from "./UploadVideoDialog";
 import { Video, Upload, Loader2 } from "lucide-react";
@@ -51,6 +58,19 @@ export function VideosPageClient({
 	const [hasMore, setHasMore] = useState(initialHasMore);
 	const [page, setPage] = useState(1);
 	const [isPending, startTransition] = useTransition();
+	const [sortBy, setSortBy] = useState<"newest" | "most_viewed" | "most_liked">("newest");
+
+	const sortedVideos = useMemo(() => {
+		const sorted = [...videos];
+		switch (sortBy) {
+			case "most_viewed":
+				return sorted.sort((a, b) => b.views - a.views);
+			case "most_liked":
+				return sorted.sort((a, b) => b._count.likes - a._count.likes);
+			default:
+				return sorted.sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
+		}
+	}, [videos, sortBy]);
 
 	function handleLoadMore() {
 		const nextPage = page + 1;
@@ -81,20 +101,32 @@ export function VideosPageClient({
 			</div>
 
 			{/* Filter tabs */}
-			<div className="flex gap-1 border-b mb-6 overflow-x-auto">
-				{FILTER_TABS.map(({ id, label }) => (
-					<Link
-						key={id}
-						href={`/videos?filter=${id}`}
-						className={`px-4 py-2.5 text-sm font-medium whitespace-nowrap border-b-2 transition-colors -mb-px ${
-							currentFilter === id
-								? "border-primary text-primary"
-								: "border-transparent text-muted-foreground hover:text-foreground"
-						}`}
-					>
-						{label}
-					</Link>
-				))}
+			<div className="flex items-center justify-between mb-6">
+				<div className="flex gap-1 border-b overflow-x-auto">
+					{FILTER_TABS.map(({ id, label }) => (
+						<Link
+							key={id}
+							href={`/videos?filter=${id}`}
+							className={`px-4 py-2.5 text-sm font-medium whitespace-nowrap border-b-2 transition-colors -mb-px ${
+								currentFilter === id
+									? "border-primary text-primary"
+									: "border-transparent text-muted-foreground hover:text-foreground"
+							}`}
+						>
+							{label}
+						</Link>
+					))}
+				</div>
+				<Select value={sortBy} onValueChange={(v) => setSortBy(v as typeof sortBy)}>
+					<SelectTrigger className="w-40 h-9 text-sm">
+						<SelectValue />
+					</SelectTrigger>
+					<SelectContent>
+						<SelectItem value="newest">Newest first</SelectItem>
+						<SelectItem value="most_viewed">Most viewed</SelectItem>
+						<SelectItem value="most_liked">Most liked</SelectItem>
+					</SelectContent>
+				</Select>
 			</div>
 
 			{/* Grid */}
@@ -117,7 +149,7 @@ export function VideosPageClient({
 			) : (
 				<>
 					<div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
-						{videos.map((video) => (
+						{sortedVideos.map((video) => (
 							<VideoCard
 								key={video.id}
 								video={video}
