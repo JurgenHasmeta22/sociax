@@ -34,7 +34,7 @@ export function AddPhotoDialog({
 	onClose: () => void;
 	albums: AlbumOption[];
 	defaultAlbumId?: number | null;
-	onAdded?: () => void;
+	onAdded?: (photo: { id: number; photoUrl: string; caption: string | null } | null) => void;
 }) {
 	const [isPending, startTransition] = useTransition();
 	const [photoUrl, setPhotoUrl] = useState("");
@@ -70,13 +70,13 @@ export function AddPhotoDialog({
 		if (!photoUrl) { toast.warning("Please upload a photo"); return; }
 		startTransition(async () => {
 			try {
-				await addPhotoToAlbum({
+				const result = await addPhotoToAlbum({
 					albumId: albumId === "none" ? null : parseInt(albumId),
 					photoUrl,
 					caption: caption || undefined,
 				});
 				toast.success(albumId === "none" ? "Photo added to your posts!" : "Photo added to album!");
-				onAdded?.();
+				onAdded?.(result ? { id: result.id, photoUrl: result.photoUrl, caption: result.caption } : null);
 				handleClose();
 			} catch {
 				toast.error("Failed to add photo");

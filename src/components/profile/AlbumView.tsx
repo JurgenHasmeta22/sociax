@@ -1,11 +1,10 @@
 "use client";
 
-import { useState, useTransition } from "react";
-import { useRouter } from "next/navigation";
+import { useState, useTransition, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { ArrowLeft, Plus, Trash2, X } from "lucide-react";
-import { removePhotoFromAlbum } from "@/actions/album.actions";
+import { ArrowLeft, Plus, Trash2, X, Loader2 } from "lucide-react";
+import { removePhotoFromAlbum, getAlbumById } from "@/actions/album.actions";
 import { toast } from "sonner";
 import { AddPhotoDialog } from "@/components/profile/AddPhotoDialog";
 
@@ -21,36 +20,58 @@ type AlbumOption = {
 };
 
 type AlbumViewProps = {
-  album: {
-    id: number;
+  albumId: number;
+  albumMeta: {
     name: string;
     description: string | null;
     privacy: string;
-    photos: AlbumPhoto[];
     isOwner: boolean;
   };
   allAlbums?: AlbumOption[];
   onBack: () => void;
+  onPhotosChanged?: (albumId: number, count: number, firstPhotoUrl: string | null) => void;
 };
 
-export function AlbumView({ album, allAlbums = [], onBack }: AlbumViewProps) {
-  const router = useRouter();
-  const [photos, setPhotos] = useState<AlbumPhoto[]>(album.photos);
+export function AlbumView({ albumId, albumMeta, allAlbums = [], onBack, onPhotosChanged }: AlbumViewProps) {
+  const [photos, setPhotos] = useState<AlbumPhoto[]>([]);
+  const [loading, setLoading] = useState(true);
   const [hovered, setHovered] = useState<number | null>(null);
   const [lightbox, setLightbox] = useState<AlbumPhoto | null>(null);
   const [addPhotoOpen, setAddPhotoOpen] = useState(false);
   const [isPending, startTransition] = useTransition();
 
+  // Fetch all photos (with real IDs) when the album is opened
+  useEffect(() => {
+    setLoading(true);
+    getAlbumById(albumId)
+      .then((album) => {
+        if (album) setPhotos(album.photos);
+      })
+      .catch(() => toast.error("Failed to load album photos"))
+      .finally(() => setLoading(false));
+  }, [albumId]);
+
   const handleRemovePhoto = (photoId: number) => {
     startTransition(async () => {
       try {
         await removePhotoFromAlbum(photoId);
-        setPhotos((prev) => prev.filter((p) => p.id !== photoId));
+        const next = photos.filter((p) => p.id !== photoId);
+        setPhotos(next);
+        onPhotosChanged?.(albumId, next.length, next[0]?.photoUrl ?? null);
         toast.success("Photo removed");
       } catch {
         toast.error("Failed to remove photo");
       }
     });
+  };
+
+  const handlePhotoAdded = (photo: { id: number; photoUrl: string; caption: string | null } | null) => {
+    if (photo) {
+      const next = [...photos, photo];
+      setPhotos(next);
+      onPhotosChanged?.(albumId, next.length, next[0]?.photoUrl ?? null);
+    }
+    setAddPhotoOpen(false);
   };
 
   return (
@@ -61,15 +82,15 @@ export function AlbumView({ album, allAlbums = [], onBack }: AlbumViewProps) {
           <ArrowLeft className="h-4 w-4" />
         </Button>
         <div className="flex-1">
-          <h2 className="font-semibold text-lg">{album.name}</h2>
-          {album.description && (
-            <p className="text-sm text-muted-foreground">{album.description}</p>
+          <h2 className="font-semibold text-lg">{albumMeta.name}</h2>
+          {albumMeta.description && (
+            <p className="text-sm text-muted-foreground">{albumMeta.description}</p>
           )}
         </div>
         <Badge variant="secondary" className="capitalize text-xs">
-          {album.privacy === "FriendsOnly" ? "Friends" : album.privacy}
+          {albumMeta.privacy === "FriendsOnly" ? "Friends" : albumMeta.privacy}
         </Badge>
-        {album.isOwner && (
+        {albumMeta.isOwner && (
           <>
             <Button size="sm" className="gap-1.5" onClick={() => setAddPhotoOpen(true)}>
               <Plus className="h-4 w-4" />
@@ -78,19 +99,23 @@ export function AlbumView({ album, allAlbums = [], onBack }: AlbumViewProps) {
             <AddPhotoDialog
               open={addPhotoOpen}
               onClose={() => setAddPhotoOpen(false)}
-              albums={[{ id: album.id, name: album.name }, ...allAlbums.filter((a) => a.id !== album.id)]}
-              defaultAlbumId={album.id}
-              onAdded={() => { setAddPhotoOpen(false); router.refresh(); }}
+              albums={[{ id: albumId, name: albumMeta.name }, ...allAlbums.filter((a) => a.id !== albumId)]}
+              defaultAlbumId={albumId}
+              onAdded={handlePhotoAdded}
             />
           </>
         )}
       </div>
 
       {/* Photo grid */}
-      {photos.length === 0 ? (
+      {loading ? (
+        <div className="flex items-center justify-center py-16">
+          <Loader2 className="h-8 w-8 animate-spin text-muted-foreground" />
+        </div>
+      ) : photos.length === 0 ? (
         <div className="text-center py-16 text-muted-foreground">
           <p className="font-medium">No photos in this album yet</p>
-          {album.isOwner && (
+          {albumMeta.isOwner && (
             <p className="text-sm mt-1">Click &ldquo;Add Photo&rdquo; to upload your first photo</p>
           )}
         </div>
@@ -116,7 +141,7 @@ export function AlbumView({ album, allAlbums = [], onBack }: AlbumViewProps) {
                 </div>
               )}
               {/* Delete button for owner */}
-              {album.isOwner && hovered === photo.id && (
+              {albumMeta.isOwner && hovered === photo.id && (
                 <button
                   className="absolute top-2 right-2 bg-black/60 hover:bg-destructive text-white rounded-full p-1 transition-colors"
                   onClick={(e) => {

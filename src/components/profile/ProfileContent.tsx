@@ -926,16 +926,22 @@ const selAlbum = albumsList.find((a) => a.id === selectedAlbumId);
 if (!selAlbum) return null;
 return (
 <AlbumView
-album={{
-id: selAlbum.id,
+albumId={selAlbum.id}
+albumMeta={{
 name: selAlbum.name,
 description: selAlbum.description,
 privacy: selAlbum.privacy,
-photos: selAlbum.photos.map((p, i) => ({ id: i, photoUrl: p.photoUrl, caption: null })),
 isOwner: isOwnProfile,
 }}
 allAlbums={albumsList.map((a) => ({ id: a.id, name: a.name }))}
 onBack={() => setSelectedAlbumId(null)}
+onPhotosChanged={(aid, count, firstPhotoUrl) => {
+setAlbumsList((prev) => prev.map((a) =>
+a.id === aid
+? { ...a, _count: { photos: count }, photos: firstPhotoUrl ? [{ photoUrl: firstPhotoUrl }] : [] }
+: a
+));
+}}
 /> 
 );
 })()
