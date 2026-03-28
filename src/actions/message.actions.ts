@@ -528,7 +528,9 @@ export async function getUnreadConversations(take = 6) {
 		orderBy: { _count: { id: "desc" } },
 	});
 
-	const unreadConvIds = unreadConvs.slice(0, take).map((c) => c.conversationId);
+	const unreadConvIds = unreadConvs
+		.slice(0, take)
+		.map((c) => c.conversationId);
 	if (unreadConvIds.length === 0) return [];
 
 	// Fetch last message + sender for each unread conv

@@ -56,7 +56,10 @@ export function PageFollowersModal({
 		loadFollowers(followers.length);
 	}, [loadFollowers, followers.length]);
 
-	const sentinelRef = useInfiniteScroll(loadMoreFollowers, { hasMore, loading: isPending });
+	const sentinelRef = useInfiniteScroll(loadMoreFollowers, {
+		hasMore,
+		loading: isPending,
+	});
 
 	const handleOpen = () => {
 		setOpen(true);
@@ -121,8 +124,13 @@ export function PageFollowersModal({
 					</div>
 
 					{hasMore && (
-						<div ref={sentinelRef} className="flex justify-center py-3">
-							{isPending && <Loader2 className="h-4 w-4 animate-spin text-muted-foreground" />}
+						<div
+							ref={sentinelRef}
+							className="flex justify-center py-3"
+						>
+							{isPending && (
+								<Loader2 className="h-4 w-4 animate-spin text-muted-foreground" />
+							)}
 						</div>
 					)}
 				</DialogContent>

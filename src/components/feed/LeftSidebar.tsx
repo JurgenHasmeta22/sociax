@@ -185,7 +185,9 @@ export function LeftSidebar({
 						)}
 					/>
 				</div>
-				<span className="sidebar-label">{showMore ? "See Less" : "See More"}</span>
+				<span className="sidebar-label">
+					{showMore ? "See Less" : "See More"}
+				</span>
 			</button>
 
 			{/* Shortcut friends */}
@@ -219,7 +221,7 @@ export function LeftSidebar({
 									</Avatar>
 									<span className="absolute bottom-0 right-0 w-2.5 h-2.5 rounded-full bg-green-500 border-2 border-background" />
 								</div>
-							<span className="text-sm font-medium truncate text-foreground/80 sidebar-label">
+								<span className="text-sm font-medium truncate text-foreground/80 sidebar-label">
 									{friendName}
 								</span>
 							</Link>

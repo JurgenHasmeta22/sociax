@@ -239,6 +239,7 @@ export type StoryWhereInput = {
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
   views?: Prisma.StoryViewListRelationFilter
   reactions?: Prisma.StoryReactionListRelationFilter
+  comments?: Prisma.StoryCommentListRelationFilter
 }
 
 export type StoryOrderByWithRelationInput = {
@@ -252,6 +253,7 @@ export type StoryOrderByWithRelationInput = {
   user?: Prisma.UserOrderByWithRelationInput
   views?: Prisma.StoryViewOrderByRelationAggregateInput
   reactions?: Prisma.StoryReactionOrderByRelationAggregateInput
+  comments?: Prisma.StoryCommentOrderByRelationAggregateInput
 }
 
 export type StoryWhereUniqueInput = Prisma.AtLeast<{
@@ -268,6 +270,7 @@ export type StoryWhereUniqueInput = Prisma.AtLeast<{
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
   views?: Prisma.StoryViewListRelationFilter
   reactions?: Prisma.StoryReactionListRelationFilter
+  comments?: Prisma.StoryCommentListRelationFilter
 }, "id">
 
 export type StoryOrderByWithAggregationInput = {
@@ -307,6 +310,7 @@ export type StoryCreateInput = {
   user: Prisma.UserCreateNestedOneWithoutStoriesInput
   views?: Prisma.StoryViewCreateNestedManyWithoutStoryInput
   reactions?: Prisma.StoryReactionCreateNestedManyWithoutStoryInput
+  comments?: Prisma.StoryCommentCreateNestedManyWithoutStoryInput
 }
 
 export type StoryUncheckedCreateInput = {
@@ -319,6 +323,7 @@ export type StoryUncheckedCreateInput = {
   userId: number
   views?: Prisma.StoryViewUncheckedCreateNestedManyWithoutStoryInput
   reactions?: Prisma.StoryReactionUncheckedCreateNestedManyWithoutStoryInput
+  comments?: Prisma.StoryCommentUncheckedCreateNestedManyWithoutStoryInput
 }
 
 export type StoryUpdateInput = {
@@ -330,6 +335,7 @@ export type StoryUpdateInput = {
   user?: Prisma.UserUpdateOneRequiredWithoutStoriesNestedInput
   views?: Prisma.StoryViewUpdateManyWithoutStoryNestedInput
   reactions?: Prisma.StoryReactionUpdateManyWithoutStoryNestedInput
+  comments?: Prisma.StoryCommentUpdateManyWithoutStoryNestedInput
 }
 
 export type StoryUncheckedUpdateInput = {
@@ -342,6 +348,7 @@ export type StoryUncheckedUpdateInput = {
   userId?: Prisma.IntFieldUpdateOperationsInput | number
   views?: Prisma.StoryViewUncheckedUpdateManyWithoutStoryNestedInput
   reactions?: Prisma.StoryReactionUncheckedUpdateManyWithoutStoryNestedInput
+  comments?: Prisma.StoryCommentUncheckedUpdateManyWithoutStoryNestedInput
 }
 
 export type StoryCreateManyInput = {
@@ -459,6 +466,20 @@ export type StoryUpdateOneRequiredWithoutReactionsNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.StoryUpdateToOneWithWhereWithoutReactionsInput, Prisma.StoryUpdateWithoutReactionsInput>, Prisma.StoryUncheckedUpdateWithoutReactionsInput>
 }
 
+export type StoryCreateNestedOneWithoutCommentsInput = {
+  create?: Prisma.XOR<Prisma.StoryCreateWithoutCommentsInput, Prisma.StoryUncheckedCreateWithoutCommentsInput>
+  connectOrCreate?: Prisma.StoryCreateOrConnectWithoutCommentsInput
+  connect?: Prisma.StoryWhereUniqueInput
+}
+
+export type StoryUpdateOneRequiredWithoutCommentsNestedInput = {
+  create?: Prisma.XOR<Prisma.StoryCreateWithoutCommentsInput, Prisma.StoryUncheckedCreateWithoutCommentsInput>
+  connectOrCreate?: Prisma.StoryCreateOrConnectWithoutCommentsInput
+  upsert?: Prisma.StoryUpsertWithoutCommentsInput
+  connect?: Prisma.StoryWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.StoryUpdateToOneWithWhereWithoutCommentsInput, Prisma.StoryUpdateWithoutCommentsInput>, Prisma.StoryUncheckedUpdateWithoutCommentsInput>
+}
+
 export type StoryCreateNestedManyWithoutUserInput = {
   create?: Prisma.XOR<Prisma.StoryCreateWithoutUserInput, Prisma.StoryUncheckedCreateWithoutUserInput> | Prisma.StoryCreateWithoutUserInput[] | Prisma.StoryUncheckedCreateWithoutUserInput[]
   connectOrCreate?: Prisma.StoryCreateOrConnectWithoutUserInput | Prisma.StoryCreateOrConnectWithoutUserInput[]
@@ -509,6 +530,7 @@ export type StoryCreateWithoutViewsInput = {
   createdAt?: Date | string
   user: Prisma.UserCreateNestedOneWithoutStoriesInput
   reactions?: Prisma.StoryReactionCreateNestedManyWithoutStoryInput
+  comments?: Prisma.StoryCommentCreateNestedManyWithoutStoryInput
 }
 
 export type StoryUncheckedCreateWithoutViewsInput = {
@@ -520,6 +542,7 @@ export type StoryUncheckedCreateWithoutViewsInput = {
   createdAt?: Date | string
   userId: number
   reactions?: Prisma.StoryReactionUncheckedCreateNestedManyWithoutStoryInput
+  comments?: Prisma.StoryCommentUncheckedCreateNestedManyWithoutStoryInput
 }
 
 export type StoryCreateOrConnectWithoutViewsInput = {
@@ -546,6 +569,7 @@ export type StoryUpdateWithoutViewsInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   user?: Prisma.UserUpdateOneRequiredWithoutStoriesNestedInput
   reactions?: Prisma.StoryReactionUpdateManyWithoutStoryNestedInput
+  comments?: Prisma.StoryCommentUpdateManyWithoutStoryNestedInput
 }
 
 export type StoryUncheckedUpdateWithoutViewsInput = {
@@ -557,6 +581,7 @@ export type StoryUncheckedUpdateWithoutViewsInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   userId?: Prisma.IntFieldUpdateOperationsInput | number
   reactions?: Prisma.StoryReactionUncheckedUpdateManyWithoutStoryNestedInput
+  comments?: Prisma.StoryCommentUncheckedUpdateManyWithoutStoryNestedInput
 }
 
 export type StoryCreateWithoutReactionsInput = {
@@ -567,6 +592,7 @@ export type StoryCreateWithoutReactionsInput = {
   createdAt?: Date | string
   user: Prisma.UserCreateNestedOneWithoutStoriesInput
   views?: Prisma.StoryViewCreateNestedManyWithoutStoryInput
+  comments?: Prisma.StoryCommentCreateNestedManyWithoutStoryInput
 }
 
 export type StoryUncheckedCreateWithoutReactionsInput = {
@@ -578,6 +604,7 @@ export type StoryUncheckedCreateWithoutReactionsInput = {
   createdAt?: Date | string
   userId: number
   views?: Prisma.StoryViewUncheckedCreateNestedManyWithoutStoryInput
+  comments?: Prisma.StoryCommentUncheckedCreateNestedManyWithoutStoryInput
 }
 
 export type StoryCreateOrConnectWithoutReactionsInput = {
@@ -604,6 +631,7 @@ export type StoryUpdateWithoutReactionsInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   user?: Prisma.UserUpdateOneRequiredWithoutStoriesNestedInput
   views?: Prisma.StoryViewUpdateManyWithoutStoryNestedInput
+  comments?: Prisma.StoryCommentUpdateManyWithoutStoryNestedInput
 }
 
 export type StoryUncheckedUpdateWithoutReactionsInput = {
@@ -615,6 +643,69 @@ export type StoryUncheckedUpdateWithoutReactionsInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   userId?: Prisma.IntFieldUpdateOperationsInput | number
   views?: Prisma.StoryViewUncheckedUpdateManyWithoutStoryNestedInput
+  comments?: Prisma.StoryCommentUncheckedUpdateManyWithoutStoryNestedInput
+}
+
+export type StoryCreateWithoutCommentsInput = {
+  mediaUrl: string
+  caption?: string | null
+  privacy?: $Enums.StoryPrivacy
+  expiresAt: Date | string
+  createdAt?: Date | string
+  user: Prisma.UserCreateNestedOneWithoutStoriesInput
+  views?: Prisma.StoryViewCreateNestedManyWithoutStoryInput
+  reactions?: Prisma.StoryReactionCreateNestedManyWithoutStoryInput
+}
+
+export type StoryUncheckedCreateWithoutCommentsInput = {
+  id?: number
+  mediaUrl: string
+  caption?: string | null
+  privacy?: $Enums.StoryPrivacy
+  expiresAt: Date | string
+  createdAt?: Date | string
+  userId: number
+  views?: Prisma.StoryViewUncheckedCreateNestedManyWithoutStoryInput
+  reactions?: Prisma.StoryReactionUncheckedCreateNestedManyWithoutStoryInput
+}
+
+export type StoryCreateOrConnectWithoutCommentsInput = {
+  where: Prisma.StoryWhereUniqueInput
+  create: Prisma.XOR<Prisma.StoryCreateWithoutCommentsInput, Prisma.StoryUncheckedCreateWithoutCommentsInput>
+}
+
+export type StoryUpsertWithoutCommentsInput = {
+  update: Prisma.XOR<Prisma.StoryUpdateWithoutCommentsInput, Prisma.StoryUncheckedUpdateWithoutCommentsInput>
+  create: Prisma.XOR<Prisma.StoryCreateWithoutCommentsInput, Prisma.StoryUncheckedCreateWithoutCommentsInput>
+  where?: Prisma.StoryWhereInput
+}
+
+export type StoryUpdateToOneWithWhereWithoutCommentsInput = {
+  where?: Prisma.StoryWhereInput
+  data: Prisma.XOR<Prisma.StoryUpdateWithoutCommentsInput, Prisma.StoryUncheckedUpdateWithoutCommentsInput>
+}
+
+export type StoryUpdateWithoutCommentsInput = {
+  mediaUrl?: Prisma.StringFieldUpdateOperationsInput | string
+  caption?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  privacy?: Prisma.EnumStoryPrivacyFieldUpdateOperationsInput | $Enums.StoryPrivacy
+  expiresAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  user?: Prisma.UserUpdateOneRequiredWithoutStoriesNestedInput
+  views?: Prisma.StoryViewUpdateManyWithoutStoryNestedInput
+  reactions?: Prisma.StoryReactionUpdateManyWithoutStoryNestedInput
+}
+
+export type StoryUncheckedUpdateWithoutCommentsInput = {
+  id?: Prisma.IntFieldUpdateOperationsInput | number
+  mediaUrl?: Prisma.StringFieldUpdateOperationsInput | string
+  caption?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  privacy?: Prisma.EnumStoryPrivacyFieldUpdateOperationsInput | $Enums.StoryPrivacy
+  expiresAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  userId?: Prisma.IntFieldUpdateOperationsInput | number
+  views?: Prisma.StoryViewUncheckedUpdateManyWithoutStoryNestedInput
+  reactions?: Prisma.StoryReactionUncheckedUpdateManyWithoutStoryNestedInput
 }
 
 export type StoryCreateWithoutUserInput = {
@@ -625,6 +716,7 @@ export type StoryCreateWithoutUserInput = {
   createdAt?: Date | string
   views?: Prisma.StoryViewCreateNestedManyWithoutStoryInput
   reactions?: Prisma.StoryReactionCreateNestedManyWithoutStoryInput
+  comments?: Prisma.StoryCommentCreateNestedManyWithoutStoryInput
 }
 
 export type StoryUncheckedCreateWithoutUserInput = {
@@ -636,6 +728,7 @@ export type StoryUncheckedCreateWithoutUserInput = {
   createdAt?: Date | string
   views?: Prisma.StoryViewUncheckedCreateNestedManyWithoutStoryInput
   reactions?: Prisma.StoryReactionUncheckedCreateNestedManyWithoutStoryInput
+  comments?: Prisma.StoryCommentUncheckedCreateNestedManyWithoutStoryInput
 }
 
 export type StoryCreateOrConnectWithoutUserInput = {
@@ -693,6 +786,7 @@ export type StoryUpdateWithoutUserInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   views?: Prisma.StoryViewUpdateManyWithoutStoryNestedInput
   reactions?: Prisma.StoryReactionUpdateManyWithoutStoryNestedInput
+  comments?: Prisma.StoryCommentUpdateManyWithoutStoryNestedInput
 }
 
 export type StoryUncheckedUpdateWithoutUserInput = {
@@ -704,6 +798,7 @@ export type StoryUncheckedUpdateWithoutUserInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   views?: Prisma.StoryViewUncheckedUpdateManyWithoutStoryNestedInput
   reactions?: Prisma.StoryReactionUncheckedUpdateManyWithoutStoryNestedInput
+  comments?: Prisma.StoryCommentUncheckedUpdateManyWithoutStoryNestedInput
 }
 
 export type StoryUncheckedUpdateManyWithoutUserInput = {
@@ -723,11 +818,13 @@ export type StoryUncheckedUpdateManyWithoutUserInput = {
 export type StoryCountOutputType = {
   views: number
   reactions: number
+  comments: number
 }
 
 export type StoryCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   views?: boolean | StoryCountOutputTypeCountViewsArgs
   reactions?: boolean | StoryCountOutputTypeCountReactionsArgs
+  comments?: boolean | StoryCountOutputTypeCountCommentsArgs
 }
 
 /**
@@ -754,6 +851,13 @@ export type StoryCountOutputTypeCountReactionsArgs<ExtArgs extends runtime.Types
   where?: Prisma.StoryReactionWhereInput
 }
 
+/**
+ * StoryCountOutputType without action
+ */
+export type StoryCountOutputTypeCountCommentsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.StoryCommentWhereInput
+}
+
 
 export type StorySelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -766,6 +870,7 @@ export type StorySelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = 
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   views?: boolean | Prisma.Story$viewsArgs<ExtArgs>
   reactions?: boolean | Prisma.Story$reactionsArgs<ExtArgs>
+  comments?: boolean | Prisma.Story$commentsArgs<ExtArgs>
   _count?: boolean | Prisma.StoryCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["story"]>
 
@@ -806,6 +911,7 @@ export type StoryInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs =
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   views?: boolean | Prisma.Story$viewsArgs<ExtArgs>
   reactions?: boolean | Prisma.Story$reactionsArgs<ExtArgs>
+  comments?: boolean | Prisma.Story$commentsArgs<ExtArgs>
   _count?: boolean | Prisma.StoryCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type StoryIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -821,6 +927,7 @@ export type $StoryPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs 
     user: Prisma.$UserPayload<ExtArgs>
     views: Prisma.$StoryViewPayload<ExtArgs>[]
     reactions: Prisma.$StoryReactionPayload<ExtArgs>[]
+    comments: Prisma.$StoryCommentPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: number
@@ -1227,6 +1334,7 @@ export interface Prisma__StoryClient<T, Null = never, ExtArgs extends runtime.Ty
   user<T extends Prisma.UserDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.UserDefaultArgs<ExtArgs>>): Prisma.Prisma__UserClient<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   views<T extends Prisma.Story$viewsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Story$viewsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$StoryViewPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   reactions<T extends Prisma.Story$reactionsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Story$reactionsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$StoryReactionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  comments<T extends Prisma.Story$commentsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Story$commentsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$StoryCommentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1707,6 +1815,30 @@ export type Story$reactionsArgs<ExtArgs extends runtime.Types.Extensions.Interna
   take?: number
   skip?: number
   distinct?: Prisma.StoryReactionScalarFieldEnum | Prisma.StoryReactionScalarFieldEnum[]
+}
+
+/**
+ * Story.comments
+ */
+export type Story$commentsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the StoryComment
+   */
+  select?: Prisma.StoryCommentSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the StoryComment
+   */
+  omit?: Prisma.StoryCommentOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.StoryCommentInclude<ExtArgs> | null
+  where?: Prisma.StoryCommentWhereInput
+  orderBy?: Prisma.StoryCommentOrderByWithRelationInput | Prisma.StoryCommentOrderByWithRelationInput[]
+  cursor?: Prisma.StoryCommentWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.StoryCommentScalarFieldEnum | Prisma.StoryCommentScalarFieldEnum[]
 }
 
 /**

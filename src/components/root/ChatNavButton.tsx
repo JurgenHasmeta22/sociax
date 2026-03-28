@@ -23,12 +23,23 @@ type NavData = Awaited<ReturnType<typeof getChatNavData>>;
 type Friend = NavData["onlineFriends"][number];
 type UnreadConv = Awaited<ReturnType<typeof getUnreadConversations>>[number];
 
-function friendName(f: { firstName: string | null; lastName: string | null; userName: string }) {
+function friendName(f: {
+	firstName: string | null;
+	lastName: string | null;
+	userName: string;
+}) {
 	return [f.firstName, f.lastName].filter(Boolean).join(" ") || f.userName;
 }
 
-function senderName(sender: { firstName: string | null; lastName: string | null; userName: string }) {
-	return [sender.firstName, sender.lastName].filter(Boolean).join(" ") || sender.userName;
+function senderName(sender: {
+	firstName: string | null;
+	lastName: string | null;
+	userName: string;
+}) {
+	return (
+		[sender.firstName, sender.lastName].filter(Boolean).join(" ") ||
+		sender.userName
+	);
 }
 
 function FriendRow({
@@ -183,7 +194,8 @@ export function ChatNavButton() {
 					<div className="flex items-center justify-center py-10">
 						<Loader2 className="h-5 w-5 animate-spin text-muted-foreground" />
 					</div>
-				) : data.onlineFriends.length === 0 && unreadConvs.length === 0 ? (
+				) : data.onlineFriends.length === 0 &&
+				  unreadConvs.length === 0 ? (
 					<div className="text-center py-10 text-muted-foreground px-4">
 						<MessageCircle className="h-9 w-9 mx-auto mb-2 opacity-30" />
 						<p className="text-sm font-medium">No friends yet</p>
@@ -206,7 +218,8 @@ export function ChatNavButton() {
 										const preview =
 											msg.type === "Text"
 												? msg.content?.slice(0, 50) +
-													(msg.content && msg.content.length > 50
+													(msg.content &&
+													msg.content.length > 50
 														? "…"
 														: "")
 												: msg.type === "Image"
@@ -228,7 +241,8 @@ export function ChatNavButton() {
 													<Avatar className="h-9 w-9">
 														<AvatarImage
 															src={
-																msg.sender.avatar
+																msg.sender
+																	.avatar
 																	?.photoSrc ??
 																undefined
 															}
@@ -252,7 +266,9 @@ export function ChatNavButton() {
 													</span>
 													<span className="text-[10px] text-muted-foreground">
 														{formatDistanceToNow(
-															new Date(msg.createdAt),
+															new Date(
+																msg.createdAt,
+															),
 															{ addSuffix: true },
 														).replace("about ", "")}
 													</span>
@@ -289,7 +305,9 @@ export function ChatNavButton() {
 									<p
 										className={cn(
 											"px-4 py-1 text-[11px] font-semibold text-muted-foreground uppercase tracking-wide",
-											(onlineFriends.length > 0 || unreadConvs.length > 0) && "mt-2",
+											(onlineFriends.length > 0 ||
+												unreadConvs.length > 0) &&
+												"mt-2",
 										)}
 									>
 										Friends

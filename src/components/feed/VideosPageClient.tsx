@@ -58,7 +58,9 @@ export function VideosPageClient({
 	const [hasMore, setHasMore] = useState(initialHasMore);
 	const [page, setPage] = useState(1);
 	const [isPending, startTransition] = useTransition();
-	const [sortBy, setSortBy] = useState<"newest" | "most_viewed" | "most_liked">("newest");
+	const [sortBy, setSortBy] = useState<
+		"newest" | "most_viewed" | "most_liked"
+	>("newest");
 
 	const sortedVideos = useMemo(() => {
 		const sorted = [...videos];
@@ -68,21 +70,31 @@ export function VideosPageClient({
 			case "most_liked":
 				return sorted.sort((a, b) => b._count.likes - a._count.likes);
 			default:
-				return sorted.sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
+				return sorted.sort(
+					(a, b) =>
+						new Date(b.createdAt).getTime() -
+						new Date(a.createdAt).getTime(),
+				);
 		}
 	}, [videos, sortBy]);
 
 	function handleLoadMore() {
 		const nextPage = page + 1;
 		startTransition(async () => {
-			const result = await getVideos({ filter: currentFilter, page: nextPage });
+			const result = await getVideos({
+				filter: currentFilter,
+				page: nextPage,
+			});
 			setVideos((prev) => [...prev, ...(result.videos as VideoItem[])]);
 			setHasMore(result.hasMore);
 			setPage(nextPage);
 		});
 	}
 
-	const sentinelRef = useInfiniteScroll(handleLoadMore, { hasMore, loading: isPending });
+	const sentinelRef = useInfiniteScroll(handleLoadMore, {
+		hasMore,
+		loading: isPending,
+	});
 
 	return (
 		<div className="max-w-6xl mx-auto px-4 py-8">
@@ -117,7 +129,10 @@ export function VideosPageClient({
 						</Link>
 					))}
 				</div>
-				<Select value={sortBy} onValueChange={(v) => setSortBy(v as typeof sortBy)}>
+				<Select
+					value={sortBy}
+					onValueChange={(v) => setSortBy(v as typeof sortBy)}
+				>
 					<SelectTrigger className="w-40 h-9 text-sm">
 						<SelectValue />
 					</SelectTrigger>
@@ -141,7 +156,10 @@ export function VideosPageClient({
 								? "Your friends haven't posted any videos yet."
 								: "Be the first to upload a video!"}
 					</p>
-					<Button onClick={() => setUploadOpen(true)} className="gap-2">
+					<Button
+						onClick={() => setUploadOpen(true)}
+						className="gap-2"
+					>
 						<Upload className="h-4 w-4" />
 						Upload Video
 					</Button>
@@ -158,8 +176,13 @@ export function VideosPageClient({
 						))}
 					</div>
 					{hasMore && (
-						<div ref={sentinelRef} className="flex justify-center py-6 col-span-full">
-							{isPending && <Loader2 className="h-5 w-5 animate-spin text-muted-foreground" />}
+						<div
+							ref={sentinelRef}
+							className="flex justify-center py-6 col-span-full"
+						>
+							{isPending && (
+								<Loader2 className="h-5 w-5 animate-spin text-muted-foreground" />
+							)}
 						</div>
 					)}
 				</>

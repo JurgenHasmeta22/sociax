@@ -6,7 +6,11 @@ import { PostCard } from "@/components/feed/PostCard";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Card, CardContent } from "@/components/ui/card";
-import { removeMemory, updateMemoryNote, getUserMemories } from "@/actions/memory.actions";
+import {
+	removeMemory,
+	updateMemoryNote,
+	getUserMemories,
+} from "@/actions/memory.actions";
 import { NotebookPen, Trash2, Pencil, Check, X, Loader2 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useInfiniteScroll } from "@/hooks/use-infinite-scroll";

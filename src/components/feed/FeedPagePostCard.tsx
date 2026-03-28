@@ -231,7 +231,8 @@ export function FeedPagePostCard({
 
 	const reactionCounts: Record<string, number> = {};
 	post.likes.forEach((l) => {
-		reactionCounts[l.reactionType] = (reactionCounts[l.reactionType] || 0) + 1;
+		reactionCounts[l.reactionType] =
+			(reactionCounts[l.reactionType] || 0) + 1;
 	});
 	const topReactions = Object.entries(reactionCounts)
 		.sort((a, b) => b[1] - a[1])
@@ -258,7 +259,10 @@ export function FeedPagePostCard({
 		setShowComments(true);
 		if (comments.length === 0) {
 			startTransition(async () => {
-				const fetched = await getPagePostComments(post.id, currentUserId);
+				const fetched = await getPagePostComments(
+					post.id,
+					currentUserId,
+				);
 				setComments(fetched as PageComment[]);
 			});
 		}
@@ -530,9 +534,8 @@ export function FeedPagePostCard({
 											}
 										/>
 										<AvatarFallback className="bg-primary text-primary-foreground text-xs font-semibold">
-											{(
-												displayName(c.user) || "?"
-											)[0]?.toUpperCase()}
+											{(displayName(c.user) ||
+												"?")[0]?.toUpperCase()}
 										</AvatarFallback>
 									</Avatar>
 									<div className="flex-1 min-w-0">
@@ -581,7 +584,9 @@ export function FeedPagePostCard({
 											{c.user.id === currentUserId && (
 												<button
 													onClick={() =>
-														handleDeleteComment(c.id)
+														handleDeleteComment(
+															c.id,
+														)
 													}
 													className="opacity-0 group-hover:opacity-100 transition-opacity hover:text-destructive"
 												>

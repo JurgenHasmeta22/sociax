@@ -95,8 +95,8 @@ export function RightSidebar({
 										</p>
 									</Link>
 									<p className="text-xs text-muted-foreground mt-0.5">
-									{formatCount(user._count.followers)}{" "}
-									followers
+										{formatCount(user._count.followers)}{" "}
+										followers
 									</p>
 								</div>
 								<SidebarFollowButton
@@ -190,8 +190,8 @@ export function RightSidebar({
 											{displayName}
 										</p>
 										<p className="text-[11px] text-muted-foreground">
-										{formatCount(user._count.followers)}{" "}
-										followers
+											{formatCount(user._count.followers)}{" "}
+											followers
 										</p>
 									</div>
 									<SidebarFollowButton

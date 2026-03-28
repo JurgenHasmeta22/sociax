@@ -203,7 +203,43 @@ export default async function FeedPage() {
 			include: {
 				user: { include: { avatar: true } },
 				views: { where: { userId }, select: { id: true } },
-				_count: { select: { views: true } },
+				reactions: {
+					select: {
+						id: true,
+						reaction: true,
+						userId: true,
+						user: {
+							select: {
+								id: true,
+								userName: true,
+								firstName: true,
+								lastName: true,
+								avatar: { select: { photoSrc: true } },
+							},
+						},
+					},
+				},
+				comments: {
+					orderBy: { createdAt: "asc" },
+					select: {
+						id: true,
+						content: true,
+						createdAt: true,
+						userId: true,
+						user: {
+							select: {
+								id: true,
+								userName: true,
+								firstName: true,
+								lastName: true,
+								avatar: { select: { photoSrc: true } },
+							},
+						},
+					},
+				},
+				_count: {
+					select: { views: true, reactions: true, comments: true },
+				},
 			},
 		}),
 		prisma.user.findMany({

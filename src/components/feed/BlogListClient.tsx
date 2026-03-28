@@ -50,7 +50,9 @@ export function BlogListClient({
 	const [hasMore, setHasMore] = useState(initialHasMore);
 	const [page, setPage] = useState(1);
 	const [isPending, startTransition] = useTransition();
-	const [sortBy, setSortBy] = useState<"newest" | "most_liked" | "a_z">("newest");
+	const [sortBy, setSortBy] = useState<"newest" | "most_liked" | "a_z">(
+		"newest",
+	);
 
 	const sortedBlogs = useMemo(() => {
 		const sorted = [...blogs];
@@ -60,7 +62,11 @@ export function BlogListClient({
 			case "a_z":
 				return sorted.sort((a, b) => a.title.localeCompare(b.title));
 			default:
-				return sorted.sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
+				return sorted.sort(
+					(a, b) =>
+						new Date(b.createdAt).getTime() -
+						new Date(a.createdAt).getTime(),
+				);
 		}
 	}, [blogs, sortBy]);
 
@@ -74,7 +80,10 @@ export function BlogListClient({
 		});
 	}
 
-	const sentinelRef = useInfiniteScroll(handleLoadMore, { hasMore, loading: isPending });
+	const sentinelRef = useInfiniteScroll(handleLoadMore, {
+		hasMore,
+		loading: isPending,
+	});
 
 	if (blogs.length === 0) {
 		return (
@@ -96,8 +105,13 @@ export function BlogListClient({
 	return (
 		<>
 			<div className="flex items-center justify-between mb-4">
-				<p className="text-sm text-muted-foreground">{blogs.length} blog{blogs.length !== 1 ? "s" : ""}</p>
-				<Select value={sortBy} onValueChange={(v) => setSortBy(v as typeof sortBy)}>
+				<p className="text-sm text-muted-foreground">
+					{blogs.length} blog{blogs.length !== 1 ? "s" : ""}
+				</p>
+				<Select
+					value={sortBy}
+					onValueChange={(v) => setSortBy(v as typeof sortBy)}
+				>
 					<SelectTrigger className="w-40 h-9 text-sm">
 						<SelectValue />
 					</SelectTrigger>
@@ -136,7 +150,9 @@ export function BlogListClient({
 											<Avatar className="h-6 w-6">
 												<AvatarImage
 													src={
-														blog.author.avatar?.photoSrc ?? undefined
+														blog.author.avatar
+															?.photoSrc ??
+														undefined
 													}
 												/>
 												<AvatarFallback className="bg-primary text-primary-foreground text-xs font-semibold">
@@ -147,9 +163,12 @@ export function BlogListClient({
 												{authorName}
 											</span>
 											<span className="text-xs text-muted-foreground ml-auto">
-												{formatDistanceToNow(new Date(blog.createdAt), {
-													addSuffix: true,
-												})}
+												{formatDistanceToNow(
+													new Date(blog.createdAt),
+													{
+														addSuffix: true,
+													},
+												)}
 											</span>
 										</div>
 										<h2 className="font-semibold text-base line-clamp-2 leading-snug">
@@ -162,15 +181,17 @@ export function BlogListClient({
 										)}
 										{blog.hashtags.length > 0 && (
 											<div className="flex flex-wrap gap-1 mt-2">
-												{blog.hashtags.slice(0, 4).map(({ hashtag }) => (
-													<Badge
-														key={hashtag.id}
-														variant="secondary"
-														className="text-xs font-normal"
-													>
-														#{hashtag.name}
-													</Badge>
-												))}
+												{blog.hashtags
+													.slice(0, 4)
+													.map(({ hashtag }) => (
+														<Badge
+															key={hashtag.id}
+															variant="secondary"
+															className="text-xs font-normal"
+														>
+															#{hashtag.name}
+														</Badge>
+													))}
 											</div>
 										)}
 										<div className="flex items-center gap-1 mt-2 text-xs text-muted-foreground">
@@ -186,7 +207,9 @@ export function BlogListClient({
 			</div>
 			{hasMore && (
 				<div ref={sentinelRef} className="flex justify-center py-6">
-					{isPending && <Loader2 className="h-5 w-5 animate-spin text-muted-foreground" />}
+					{isPending && (
+						<Loader2 className="h-5 w-5 animate-spin text-muted-foreground" />
+					)}
 				</div>
 			)}
 		</>

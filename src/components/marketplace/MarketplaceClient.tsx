@@ -1,6 +1,12 @@
 "use client";
 
-import { useState, useTransition, useEffect, useCallback, useMemo } from "react";
+import {
+	useState,
+	useTransition,
+	useEffect,
+	useCallback,
+	useMemo,
+} from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -420,11 +426,15 @@ export function MarketplaceClient({
 	const [savedListings, setSavedListings] =
 		useState<Listing[]>(initialSavedListings);
 	const [createOpen, setCreateOpen] = useState(false);
-	const [sortBy, setSortBy] = useState<"newest" | "price_low" | "price_high" | "most_saved">("newest");
+	const [sortBy, setSortBy] = useState<
+		"newest" | "price_low" | "price_high" | "most_saved"
+	>("newest");
 	const [hasMore, setHasMore] = useState(initialListings.length >= 24);
 	const [loadingMore, setLoadingMore] = useState(false);
 	const [cursor, setCursor] = useState<number | null>(
-		initialListings.length > 0 ? initialListings[initialListings.length - 1].id : null,
+		initialListings.length > 0
+			? initialListings[initialListings.length - 1].id
+			: null,
 	);
 
 	const loadMore = useCallback(async () => {
@@ -446,7 +456,10 @@ export function MarketplaceClient({
 		}
 	}, [loadingMore, hasMore, cursor, category, search]);
 
-	const sentinelRef = useInfiniteScroll(loadMore, { hasMore, loading: loadingMore });
+	const sentinelRef = useInfiniteScroll(loadMore, {
+		hasMore,
+		loading: loadingMore,
+	});
 
 	const sortedListings = useMemo(() => {
 		const sorted = [...listings];
@@ -458,7 +471,11 @@ export function MarketplaceClient({
 			case "most_saved":
 				return sorted.sort((a, b) => b._count.saves - a._count.saves);
 			default:
-				return sorted.sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
+				return sorted.sort(
+					(a, b) =>
+						new Date(b.createdAt).getTime() -
+						new Date(a.createdAt).getTime(),
+				);
 		}
 	}, [listings, sortBy]);
 
@@ -466,7 +483,11 @@ export function MarketplaceClient({
 	useEffect(() => {
 		setListings(initialListings);
 		setHasMore(initialListings.length >= 24);
-		setCursor(initialListings.length > 0 ? initialListings[initialListings.length - 1].id : null);
+		setCursor(
+			initialListings.length > 0
+				? initialListings[initialListings.length - 1].id
+				: null,
+		);
 	}, [initialListings]);
 
 	useEffect(() => {
@@ -574,33 +595,44 @@ export function MarketplaceClient({
 					<div className="flex items-center justify-between gap-3">
 						<div className="flex gap-2 overflow-x-auto pb-1 scrollbar-none flex-1">
 							{CATEGORIES.map((cat) => (
-							<button
-								key={cat}
-								onClick={() => handleCategoryChange(cat)}
-								className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full text-sm whitespace-nowrap transition-colors border ${
-									category === cat
-										? "bg-primary text-primary-foreground border-primary"
-										: "bg-background text-muted-foreground border-border hover:border-primary/50 hover:text-foreground"
-								}`}
-							>
-								<span>{CATEGORY_ICONS[cat]}</span>
-								<span>
-									{cat === "HomeGarden"
-										? "Home & Garden"
-										: cat}
-								</span>
-							</button>
-						))}
+								<button
+									key={cat}
+									onClick={() => handleCategoryChange(cat)}
+									className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full text-sm whitespace-nowrap transition-colors border ${
+										category === cat
+											? "bg-primary text-primary-foreground border-primary"
+											: "bg-background text-muted-foreground border-border hover:border-primary/50 hover:text-foreground"
+									}`}
+								>
+									<span>{CATEGORY_ICONS[cat]}</span>
+									<span>
+										{cat === "HomeGarden"
+											? "Home & Garden"
+											: cat}
+									</span>
+								</button>
+							))}
 						</div>
-						<Select value={sortBy} onValueChange={(v) => setSortBy(v as typeof sortBy)}>
+						<Select
+							value={sortBy}
+							onValueChange={(v) => setSortBy(v as typeof sortBy)}
+						>
 							<SelectTrigger className="w-40 h-9 text-sm shrink-0">
 								<SelectValue />
 							</SelectTrigger>
 							<SelectContent>
-								<SelectItem value="newest">Newest first</SelectItem>
-								<SelectItem value="price_low">Price: low → high</SelectItem>
-								<SelectItem value="price_high">Price: high → low</SelectItem>
-								<SelectItem value="most_saved">Most saved</SelectItem>
+								<SelectItem value="newest">
+									Newest first
+								</SelectItem>
+								<SelectItem value="price_low">
+									Price: low → high
+								</SelectItem>
+								<SelectItem value="price_high">
+									Price: high → low
+								</SelectItem>
+								<SelectItem value="most_saved">
+									Most saved
+								</SelectItem>
 							</SelectContent>
 						</Select>
 					</div>
@@ -638,8 +670,13 @@ export function MarketplaceClient({
 								))}
 							</div>
 							{hasMore && (
-								<div ref={sentinelRef} className="flex justify-center py-6">
-									{loadingMore && <Loader2 className="h-6 w-6 animate-spin text-muted-foreground" />}
+								<div
+									ref={sentinelRef}
+									className="flex justify-center py-6"
+								>
+									{loadingMore && (
+										<Loader2 className="h-6 w-6 animate-spin text-muted-foreground" />
+									)}
 								</div>
 							)}
 						</>

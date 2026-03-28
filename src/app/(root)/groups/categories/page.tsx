@@ -24,7 +24,8 @@ export default async function GroupCategoriesPage({
 	const session = await getServerSession(authOptions);
 	const userId = session ? parseInt(session.user.id) : null;
 	const { cat } = await searchParams;
-	const selectedCategory = cat && STATIC_CATEGORIES.includes(cat) ? cat : null;
+	const selectedCategory =
+		cat && STATIC_CATEGORIES.includes(cat) ? cat : null;
 
 	const TAKE = 20;
 
@@ -40,13 +41,12 @@ export default async function GroupCategoriesPage({
 		},
 	});
 
-	const memberships =
-		userId
-			? await prisma.groupMember.findMany({
-					where: { userId },
-					select: { groupId: true, status: true },
-				})
-			: [];
+	const memberships = userId
+		? await prisma.groupMember.findMany({
+				where: { userId },
+				select: { groupId: true, status: true },
+			})
+		: [];
 
 	const membershipMap: Record<number, string> = {};
 	for (const m of memberships) membershipMap[m.groupId] = m.status;
@@ -60,4 +60,3 @@ export default async function GroupCategoriesPage({
 		/>
 	);
 }
-

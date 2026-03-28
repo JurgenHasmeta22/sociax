@@ -333,7 +333,10 @@ export async function fetchMyEvents(skip = 0) {
 								avatar: { select: { photoSrc: true } },
 							},
 						},
-						attendees: { where: { userId }, select: { status: true } },
+						attendees: {
+							where: { userId },
+							select: { status: true },
+						},
 						_count: { select: { attendees: true } },
 					},
 				},

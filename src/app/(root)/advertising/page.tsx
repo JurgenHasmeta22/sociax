@@ -93,9 +93,7 @@ export default function AdvertisingPage() {
 
 			{/* Pricing teaser */}
 			<section className="rounded-xl bg-muted/50 border p-6 mb-8">
-				<h2 className="text-xl font-semibold mb-3">
-					Flexible Pricing
-				</h2>
+				<h2 className="text-xl font-semibold mb-3">Flexible Pricing</h2>
 				<p className="text-sm text-muted-foreground leading-relaxed mb-4">
 					Whether you&apos;re a small business or a large enterprise,
 					we have advertising solutions that fit your budget. Start
@@ -135,9 +133,7 @@ export default function AdvertisingPage() {
 
 			<p className="text-center text-sm text-muted-foreground">
 				Contact us at{" "}
-				<span className="text-primary font-medium">
-					ads@sociax.com
-				</span>{" "}
+				<span className="text-primary font-medium">ads@sociax.com</span>{" "}
 				for custom advertising solutions.
 			</p>
 		</div>

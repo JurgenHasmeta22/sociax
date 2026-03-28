@@ -594,7 +594,9 @@ export function ProfileContent({
 	const [createAlbumOpen, setCreateAlbumOpen] = useState(false);
 	const [addPhotoOpen, setAddPhotoOpen] = useState(false);
 	const [albumsList, setAlbumsList] = useState<AlbumItem[]>(albums);
-	const [standalonePhotos, setStandalonePhotos] = useState<{ id: number; url: string }[]>([]);
+	const [standalonePhotos, setStandalonePhotos] = useState<
+		{ id: number; url: string }[]
+	>([]);
 	const [createStoryOpen, setCreateStoryOpen] = useState(false);
 	const [photoConfirm, setPhotoConfirm] = useState<{
 		action: () => Promise<void>;
@@ -610,15 +612,27 @@ export function ProfileContent({
 	const [groupsSubTab, setGroupsSubTab] = useState<"mine" | "joined">("mine");
 
 	// Sort states for tabs
-	const [postSort, setPostSort] = useState<"newest" | "oldest" | "most_liked" | "most_commented">("newest");
-	const [blogSort, setBlogSort] = useState<"newest" | "oldest" | "most_liked">("newest");
-	const [blogPublishFilter, setBlogPublishFilter] = useState<"all" | "published" | "drafts">("all");
+	const [postSort, setPostSort] = useState<
+		"newest" | "oldest" | "most_liked" | "most_commented"
+	>("newest");
+	const [blogSort, setBlogSort] = useState<
+		"newest" | "oldest" | "most_liked"
+	>("newest");
+	const [blogPublishFilter, setBlogPublishFilter] = useState<
+		"all" | "published" | "drafts"
+	>("all");
 	const [photoSort, setPhotoSort] = useState<"newest" | "oldest">("newest");
 	const [videoSort, setVideoSort] = useState<"newest" | "oldest">("newest");
-	const [marketSort, setMarketSort] = useState<"newest" | "oldest" | "price_asc" | "price_desc">("newest");
-	const [marketStatusFilter, setMarketStatusFilter] = useState<"all" | "Active" | "Sold">("all");
+	const [marketSort, setMarketSort] = useState<
+		"newest" | "oldest" | "price_asc" | "price_desc"
+	>("newest");
+	const [marketStatusFilter, setMarketStatusFilter] = useState<
+		"all" | "Active" | "Sold"
+	>("all");
 	const [friendSearch, setFriendSearch] = useState("");
-	const [groupSort, setGroupSort] = useState<"default" | "most_members" | "alphabetical">("default");
+	const [groupSort, setGroupSort] = useState<
+		"default" | "most_members" | "alphabetical"
+	>("default");
 
 	const handleBlock = async () => {
 		setBlockPending(true);
@@ -780,10 +794,17 @@ export function ProfileContent({
 
 	// Sorted posts
 	const sortedPosts = [...posts].sort((a, b) => {
-		if (postSort === "oldest") return new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime();
+		if (postSort === "oldest")
+			return (
+				new Date(a.createdAt).getTime() -
+				new Date(b.createdAt).getTime()
+			);
 		if (postSort === "most_liked") return b.likes.length - a.likes.length;
-		if (postSort === "most_commented") return b._count.comments - a._count.comments;
-		return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime();
+		if (postSort === "most_commented")
+			return b._count.comments - a._count.comments;
+		return (
+			new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+		);
 	});
 
 	// Sorted + filtered blogs
@@ -794,9 +815,15 @@ export function ProfileContent({
 		return true;
 	});
 	const sortedBlogs = [...filteredBlogs].sort((a, b) => {
-		if (blogSort === "oldest") return new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime();
+		if (blogSort === "oldest")
+			return (
+				new Date(a.createdAt).getTime() -
+				new Date(b.createdAt).getTime()
+			);
 		if (blogSort === "most_liked") return b._count.likes - a._count.likes;
-		return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime();
+		return (
+			new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+		);
 	});
 
 	// Sorted + filtered market listings
@@ -804,23 +831,35 @@ export function ProfileContent({
 		marketStatusFilter === "all" ? true : m.status === marketStatusFilter,
 	);
 	const sortedMarket = [...filteredMarket].sort((a, b) => {
-		if (marketSort === "oldest") return new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime();
+		if (marketSort === "oldest")
+			return (
+				new Date(a.createdAt).getTime() -
+				new Date(b.createdAt).getTime()
+			);
 		if (marketSort === "price_asc") return a.price - b.price;
 		if (marketSort === "price_desc") return b.price - a.price;
-		return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime();
+		return (
+			new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+		);
 	});
 
 	// Filtered friends
 	const filteredFriends = friendSearch.trim()
-		? friends.filter((f) =>
-				displayName(f).toLowerCase().includes(friendSearch.toLowerCase()) ||
-				f.userName.toLowerCase().includes(friendSearch.toLowerCase()),
+		? friends.filter(
+				(f) =>
+					displayName(f)
+						.toLowerCase()
+						.includes(friendSearch.toLowerCase()) ||
+					f.userName
+						.toLowerCase()
+						.includes(friendSearch.toLowerCase()),
 			)
 		: friends;
 
 	// Sorted groups
 	const sortedAllGroups = [...allGroups].sort((a, b) => {
-		if (groupSort === "most_members") return b._count.members - a._count.members;
+		if (groupSort === "most_members")
+			return b._count.members - a._count.members;
 		if (groupSort === "alphabetical") return a.name.localeCompare(b.name);
 		return 0;
 	});
@@ -1030,7 +1069,8 @@ export function ProfileContent({
 				<div className="flex items-center justify-between mt-1">
 					<div className="flex gap-0.5 overflow-x-auto scrollbar-hide">
 						{TABS.filter((tab) => {
-							if (tab === "Memories" || tab === "Saved") return isOwnProfile;
+							if (tab === "Memories" || tab === "Saved")
+								return isOwnProfile;
 							return true;
 						}).map((tab) => (
 							<button
@@ -1256,17 +1296,34 @@ export function ProfileContent({
 							) : (
 								<div className="space-y-4">
 									<div className="flex items-center justify-between">
-										<p className="text-sm text-muted-foreground">{posts.length} posts</p>
-										<Select value={postSort} onValueChange={(v) => setPostSort(v as typeof postSort)}>
+										<p className="text-sm text-muted-foreground">
+											{posts.length} posts
+										</p>
+										<Select
+											value={postSort}
+											onValueChange={(v) =>
+												setPostSort(
+													v as typeof postSort,
+												)
+											}
+										>
 											<SelectTrigger className="w-48 h-8 text-xs">
 												<SlidersHorizontal className="h-3.5 w-3.5 mr-1.5" />
 												<SelectValue />
 											</SelectTrigger>
 											<SelectContent>
-												<SelectItem value="newest">Newest first</SelectItem>
-												<SelectItem value="oldest">Oldest first</SelectItem>
-												<SelectItem value="most_liked">Most liked</SelectItem>
-												<SelectItem value="most_commented">Most commented</SelectItem>
+												<SelectItem value="newest">
+													Newest first
+												</SelectItem>
+												<SelectItem value="oldest">
+													Oldest first
+												</SelectItem>
+												<SelectItem value="most_liked">
+													Most liked
+												</SelectItem>
+												<SelectItem value="most_commented">
+													Most commented
+												</SelectItem>
 											</SelectContent>
 										</Select>
 									</div>
@@ -1295,12 +1352,16 @@ export function ProfileContent({
 										<Input
 											placeholder="Search friends…"
 											value={friendSearch}
-											onChange={(e) => setFriendSearch(e.target.value)}
+											onChange={(e) =>
+												setFriendSearch(e.target.value)
+											}
 											className="pl-9 h-9 text-sm"
 										/>
 									</div>
 									<p className="text-sm text-muted-foreground shrink-0">
-										{filteredFriends.length} / {user._count.followers.toLocaleString()} friends
+										{filteredFriends.length} /{" "}
+										{user._count.followers.toLocaleString()}{" "}
+										friends
 									</p>
 								</div>
 								<FriendGrid people={filteredFriends} />
@@ -1315,62 +1376,89 @@ export function ProfileContent({
 							<PrivacyGate privacy={user.profilePrivacy} />
 						) : activeTab === "Videos" ? (
 							<>
-							<div className="flex items-center justify-between mb-4">
-								<Select value={videoSort} onValueChange={(v) => setVideoSort(v as typeof videoSort)}>
-									<SelectTrigger className="w-40 h-8 text-xs">
-										<SlidersHorizontal className="h-3.5 w-3.5 mr-1.5" />
-										<SelectValue />
-									</SelectTrigger>
-									<SelectContent>
-										<SelectItem value="newest">Newest first</SelectItem>
-										<SelectItem value="oldest">Oldest first</SelectItem>
-									</SelectContent>
-								</Select>
-								{isOwnProfile && (
-									<Button size="sm" className="gap-2" asChild>
+								<div className="flex items-center justify-between mb-4">
+									<Select
+										value={videoSort}
+										onValueChange={(v) =>
+											setVideoSort(v as typeof videoSort)
+										}
+									>
+										<SelectTrigger className="w-40 h-8 text-xs">
+											<SlidersHorizontal className="h-3.5 w-3.5 mr-1.5" />
+											<SelectValue />
+										</SelectTrigger>
+										<SelectContent>
+											<SelectItem value="newest">
+												Newest first
+											</SelectItem>
+											<SelectItem value="oldest">
+												Oldest first
+											</SelectItem>
+										</SelectContent>
+									</Select>
+									{isOwnProfile && (
+										<Button
+											size="sm"
+											className="gap-2"
+											asChild
+										>
+											<Link href="/videos">
+												<Video className="h-4 w-4" />
+												Upload Video
+											</Link>
+										</Button>
+									)}
+								</div>
+								<div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-2">
+									{[...posts]
+										.sort((a, b) =>
+											videoSort === "oldest"
+												? new Date(
+														a.createdAt,
+													).getTime() -
+													new Date(
+														b.createdAt,
+													).getTime()
+												: new Date(
+														b.createdAt,
+													).getTime() -
+													new Date(
+														a.createdAt,
+													).getTime(),
+										)
+										.flatMap((p) => p.media)
+										.filter((m) => m.type === "video")
+										.map((m) => (
+											<div
+												key={m.id}
+												className="aspect-square rounded-lg overflow-hidden bg-muted"
+											>
+												<video
+													src={m.url}
+													className="w-full h-full object-cover"
+												/>
+											</div>
+										))}
+									{posts
+										.flatMap((p) => p.media)
+										.filter((m) => m.type === "video")
+										.length === 0 && (
+										<div className="col-span-4 text-center py-16 text-muted-foreground">
+											<p className="font-medium">
+												No videos yet
+											</p>
+										</div>
+									)}
+								</div>
+								<div className="flex justify-center mt-4">
+									<Button variant="outline" size="sm" asChild>
 										<Link href="/videos">
-											<Video className="h-4 w-4" />
-											Upload Video
+											Browse all videos
 										</Link>
 									</Button>
-								)}
-							</div>
-							<div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-2">
-								{[...posts]
-									.sort((a, b) => videoSort === "oldest"
-										? new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime()
-										: new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())
-									.flatMap((p) => p.media)
-									.filter((m) => m.type === "video")
-									.map((m) => (
-										<div
-											key={m.id}
-											className="aspect-square rounded-lg overflow-hidden bg-muted"
-										>
-											<video
-												src={m.url}
-												className="w-full h-full object-cover"
-											/>
-										</div>
-									))}
-								{posts
-									.flatMap((p) => p.media)
-									.filter((m) => m.type === "video")
-									.length === 0 && (
-									<div className="col-span-4 text-center py-16 text-muted-foreground">
-										<p className="font-medium">
-											No videos yet
-										</p>
-									</div>
-								)}
-							</div>
-						<div className="flex justify-center mt-4">
-							<Button variant="outline" size="sm" asChild>
-								<Link href="/videos">Browse all videos</Link>
-							</Button>
-						</div>
-						</>
-					) : selectedAlbumId !== null ? (
+								</div>
+							</>
+						) : selectedAlbumId !== null ? (
 							(() => {
 								const selAlbum = albumsList.find(
 									(a) => a.id === selectedAlbumId,
@@ -1417,7 +1505,11 @@ export function ProfileContent({
 											);
 										}}
 										onAlbumDeleted={(aid) => {
-											setAlbumsList((prev) => prev.filter((a) => a.id !== aid));
+											setAlbumsList((prev) =>
+												prev.filter(
+													(a) => a.id !== aid,
+												),
+											);
 											setSelectedAlbumId(null);
 										}}
 									/>
@@ -1427,29 +1519,53 @@ export function ProfileContent({
 							<div className="space-y-6">
 								{/* Sort + Albums section */}
 								<div className="flex items-center justify-between">
-									<Select value={photoSort} onValueChange={(v) => setPhotoSort(v as typeof photoSort)}>
+									<Select
+										value={photoSort}
+										onValueChange={(v) =>
+											setPhotoSort(v as typeof photoSort)
+										}
+									>
 										<SelectTrigger className="w-40 h-8 text-xs">
 											<SlidersHorizontal className="h-3.5 w-3.5 mr-1.5" />
 											<SelectValue />
 										</SelectTrigger>
 										<SelectContent>
-											<SelectItem value="newest">Newest first</SelectItem>
-											<SelectItem value="oldest">Oldest first</SelectItem>
+											<SelectItem value="newest">
+												Newest first
+											</SelectItem>
+											<SelectItem value="oldest">
+												Oldest first
+											</SelectItem>
 										</SelectContent>
 									</Select>
 									{isOwnProfile && (
 										<div className="flex gap-2">
-											<Button size="sm" variant="outline" className="gap-1.5" onClick={() => setAddPhotoOpen(true)}>
+											<Button
+												size="sm"
+												variant="outline"
+												className="gap-1.5"
+												onClick={() =>
+													setAddPhotoOpen(true)
+												}
+											>
 												+ Add Photo
 											</Button>
-											<Button size="sm" className="gap-1.5" onClick={() => setCreateAlbumOpen(true)}>
+											<Button
+												size="sm"
+												className="gap-1.5"
+												onClick={() =>
+													setCreateAlbumOpen(true)
+												}
+											>
 												+ Create Album
 											</Button>
 										</div>
 									)}
 								</div>
 								<div>
-									<h3 className="font-semibold text-base mb-3">Albums</h3>
+									<h3 className="font-semibold text-base mb-3">
+										Albums
+									</h3>
 									{albumsList.length === 0 ? (
 										<div className="text-center py-10 text-muted-foreground border border-dashed rounded-lg">
 											<p className="font-medium">
@@ -1485,7 +1601,9 @@ export function ProfileContent({
 																			.photos[0]
 																			.photoUrl
 																	}
-																	alt={album.name}
+																	alt={
+																		album.name
+																	}
 																	className="w-full h-full object-cover group-hover:opacity-90 transition-opacity"
 																/>
 															) : (
@@ -1499,11 +1617,13 @@ export function ProfileContent({
 																</p>
 																<p className="text-white/70 text-[10px]">
 																	{
-																		album._count
+																		album
+																			._count
 																			.photos
 																	}{" "}
 																	photo
-																	{album._count
+																	{album
+																		._count
 																		.photos !==
 																	1
 																		? "s"
@@ -1516,15 +1636,33 @@ export function ProfileContent({
 														<button
 															onClick={(e) => {
 																e.stopPropagation();
-																setPhotoConfirm({
-																	title: `Delete album "${album.name}"?`,
-																	description: "This will permanently delete the album and all its photos.",
-																	action: async () => {
-																		await deleteAlbum(album.id);
-																		setAlbumsList((prev) => prev.filter((a) => a.id !== album.id));
-																		toast.success("Album deleted");
+																setPhotoConfirm(
+																	{
+																		title: `Delete album "${album.name}"?`,
+																		description:
+																			"This will permanently delete the album and all its photos.",
+																		action: async () => {
+																			await deleteAlbum(
+																				album.id,
+																			);
+																			setAlbumsList(
+																				(
+																					prev,
+																				) =>
+																					prev.filter(
+																						(
+																							a,
+																						) =>
+																							a.id !==
+																							album.id,
+																					),
+																			);
+																			toast.success(
+																				"Album deleted",
+																			);
+																		},
 																	},
-																});
+																);
 															}}
 															className="absolute top-1.5 right-1.5 p-1 rounded-full bg-black/60 text-white opacity-0 group-hover:opacity-100 transition-opacity hover:bg-red-600"
 														>
@@ -1543,21 +1681,55 @@ export function ProfileContent({
 										Photos
 									</h3>
 									{(() => {
-										const postPhotos = posts
-											.flatMap((p) => p.media.filter((m) => m.type === "image").map((m) => ({ id: m.id, url: m.url, postId: p.id })));
-										const standaloneIds = new Set(standalonePhotos.map((sp) => sp.id));
-										const allPhotos: { id: number; url: string; postId?: number; isStandalone: boolean }[] = [
-											...standalonePhotos.map((sp) => ({ ...sp, postId: sp.id, isStandalone: true })),
+										const postPhotos = posts.flatMap((p) =>
+											p.media
+												.filter(
+													(m) => m.type === "image",
+												)
+												.map((m) => ({
+													id: m.id,
+													url: m.url,
+													postId: p.id,
+												})),
+										);
+										const standaloneIds = new Set(
+											standalonePhotos.map((sp) => sp.id),
+										);
+										const allPhotos: {
+											id: number;
+											url: string;
+											postId?: number;
+											isStandalone: boolean;
+										}[] = [
+											...standalonePhotos.map((sp) => ({
+												...sp,
+												postId: sp.id,
+												isStandalone: true,
+											})),
 											...postPhotos
-												.filter((p) => !standaloneIds.has(p.id))
-												.map((p) => ({ ...p, isStandalone: false })),
+												.filter(
+													(p) =>
+														!standaloneIds.has(
+															p.id,
+														),
+												)
+												.map((p) => ({
+													...p,
+													isStandalone: false,
+												})),
 										];
 										if (allPhotos.length === 0) {
 											return (
 												<div className="col-span-4 text-center py-10 text-muted-foreground border border-dashed rounded-lg">
-													<p className="text-sm">No individual photos yet</p>
+													<p className="text-sm">
+														No individual photos yet
+													</p>
 													{isOwnProfile && (
-														<p className="text-sm mt-1">Use &ldquo;Add Photo&rdquo; to upload photos here</p>
+														<p className="text-sm mt-1">
+															Use &ldquo;Add
+															Photo&rdquo; to
+															upload photos here
+														</p>
 													)}
 												</div>
 											);
@@ -1577,20 +1749,53 @@ export function ProfileContent({
 														{isOwnProfile && (
 															<button
 																onClick={() => {
-																	setPhotoConfirm({
-																		title: "Delete this photo?",
-																		description: "This photo will be permanently removed and cannot be recovered.",
-																		action: async () => {
-																			if (photo.isStandalone) {
-																				await deleteStandalonePhoto(photo.postId!);
-																				setStandalonePhotos((prev) => prev.filter((sp) => sp.id !== photo.id));
-																			} else {
-																				await deleteStandalonePhoto(photo.postId!);
-																				setPosts((prev) => prev.filter((p) => p.id !== photo.postId));
-																			}
-																			toast.success("Photo deleted");
+																	setPhotoConfirm(
+																		{
+																			title: "Delete this photo?",
+																			description:
+																				"This photo will be permanently removed and cannot be recovered.",
+																			action: async () => {
+																				if (
+																					photo.isStandalone
+																				) {
+																					await deleteStandalonePhoto(
+																						photo.postId!,
+																					);
+																					setStandalonePhotos(
+																						(
+																							prev,
+																						) =>
+																							prev.filter(
+																								(
+																									sp,
+																								) =>
+																									sp.id !==
+																									photo.id,
+																							),
+																					);
+																				} else {
+																					await deleteStandalonePhoto(
+																						photo.postId!,
+																					);
+																					setPosts(
+																						(
+																							prev,
+																						) =>
+																							prev.filter(
+																								(
+																									p,
+																								) =>
+																									p.id !==
+																									photo.postId,
+																							),
+																					);
+																				}
+																				toast.success(
+																					"Photo deleted",
+																				);
+																			},
 																		},
-																	});
+																	);
 																}}
 																className="absolute top-1.5 right-1.5 p-1 rounded-full bg-black/60 text-white opacity-0 group-hover:opacity-100 transition-opacity hover:bg-red-600"
 															>
@@ -1660,7 +1865,10 @@ export function ProfileContent({
 										} else {
 											// Added without an album – show in Individual Photos
 											setStandalonePhotos((prev) => [
-												{ id: photo.id, url: photo.photoUrl },
+												{
+													id: photo.id,
+													url: photo.photoUrl,
+												},
 												...prev,
 											]);
 										}
@@ -1669,9 +1877,13 @@ export function ProfileContent({
 								<ConfirmDeleteDialog
 									open={!!photoConfirm}
 									onClose={() => setPhotoConfirm(null)}
-									onConfirm={photoConfirm?.action ?? (() => {})}
+									onConfirm={
+										photoConfirm?.action ?? (() => {})
+									}
 									title={photoConfirm?.title ?? ""}
-									description={photoConfirm?.description ?? ""}
+									description={
+										photoConfirm?.description ?? ""
+									}
 								/>
 							</div>
 						)}
@@ -1686,17 +1898,28 @@ export function ProfileContent({
 							<>
 								<div className="flex items-center justify-between gap-3 flex-wrap">
 									<div className="flex items-center gap-2">
-										<h2 className="font-semibold text-base">Groups</h2>
-										{(ownedGroups.length > 0 || groups.length > 0) && (
+										<h2 className="font-semibold text-base">
+											Groups
+										</h2>
+										{(ownedGroups.length > 0 ||
+											groups.length > 0) && (
 											<div className="flex rounded-lg border overflow-hidden text-sm">
 												<button
-													onClick={() => setGroupsSubTab("mine")}
+													onClick={() =>
+														setGroupsSubTab("mine")
+													}
 													className={`px-3 py-1 font-medium transition-colors ${groupsSubTab === "mine" ? "bg-primary text-primary-foreground" : "text-muted-foreground hover:bg-muted"}`}
 												>
-													{isOwnProfile ? "My Groups" : "Created"}
+													{isOwnProfile
+														? "My Groups"
+														: "Created"}
 												</button>
 												<button
-													onClick={() => setGroupsSubTab("joined")}
+													onClick={() =>
+														setGroupsSubTab(
+															"joined",
+														)
+													}
 													className={`px-3 py-1 font-medium transition-colors ${groupsSubTab === "joined" ? "bg-primary text-primary-foreground" : "text-muted-foreground hover:bg-muted"}`}
 												>
 													Joined
@@ -1704,32 +1927,49 @@ export function ProfileContent({
 											</div>
 										)}
 									</div>
-									<Select value={groupSort} onValueChange={(v) => setGroupSort(v as typeof groupSort)}>
+									<Select
+										value={groupSort}
+										onValueChange={(v) =>
+											setGroupSort(v as typeof groupSort)
+										}
+									>
 										<SelectTrigger className="w-44 h-8 text-xs">
 											<SlidersHorizontal className="h-3.5 w-3.5 mr-1.5" />
 											<SelectValue />
 										</SelectTrigger>
 										<SelectContent>
-											<SelectItem value="default">Default order</SelectItem>
-											<SelectItem value="most_members">Most members</SelectItem>
-											<SelectItem value="alphabetical">A → Z</SelectItem>
+											<SelectItem value="default">
+												Default order
+											</SelectItem>
+											<SelectItem value="most_members">
+												Most members
+											</SelectItem>
+											<SelectItem value="alphabetical">
+												A → Z
+											</SelectItem>
 										</SelectContent>
 									</Select>
 								</div>
 								{groupsSubTab === "mine" ? (
 									ownedGroups.length === 0 ? (
 										<div className="text-center py-8 text-muted-foreground border border-dashed rounded-lg">
-											<p className="text-sm">No groups created yet</p>
+											<p className="text-sm">
+												No groups created yet
+											</p>
 										</div>
 									) : (
 										<GroupGrid
-											groups={sortedAllGroups.filter((g) => g.isOwned)}
+											groups={sortedAllGroups.filter(
+												(g) => g.isOwned,
+											)}
 											emptyLabel="No groups created"
 										/>
 									)
 								) : (
 									<GroupGrid
-										groups={sortedAllGroups.filter((g) => !g.isOwned)}
+										groups={sortedAllGroups.filter(
+											(g) => !g.isOwned,
+										)}
 										emptyLabel="Not a member of any groups"
 									/>
 								)}
@@ -1761,33 +2001,63 @@ export function ProfileContent({
 									{isOwnProfile ? (
 										<div className="flex items-center gap-2">
 											<Link href="/blog/new">
-												<Button size="sm" className="gap-1.5">
+												<Button
+													size="sm"
+													className="gap-1.5"
+												>
 													<BookOpen className="h-3.5 w-3.5" />
 													Write New Blog
 												</Button>
 											</Link>
 											<div className="flex rounded-lg border overflow-hidden text-xs">
-												{(["all", "published", "drafts"] as const).map((f) => (
+												{(
+													[
+														"all",
+														"published",
+														"drafts",
+													] as const
+												).map((f) => (
 													<button
 														key={f}
-														onClick={() => setBlogPublishFilter(f)}
+														onClick={() =>
+															setBlogPublishFilter(
+																f,
+															)
+														}
 														className={`px-2.5 py-1.5 font-medium capitalize transition-colors ${blogPublishFilter === f ? "bg-primary text-primary-foreground" : "text-muted-foreground hover:bg-muted"}`}
 													>
-														{f === "all" ? `All (${blogs.length})` : f === "published" ? `Published` : `Drafts`}
+														{f === "all"
+															? `All (${blogs.length})`
+															: f === "published"
+																? `Published`
+																: `Drafts`}
 													</button>
 												))}
 											</div>
 										</div>
-									) : <span />}
-									<Select value={blogSort} onValueChange={(v) => setBlogSort(v as typeof blogSort)}>
+									) : (
+										<span />
+									)}
+									<Select
+										value={blogSort}
+										onValueChange={(v) =>
+											setBlogSort(v as typeof blogSort)
+										}
+									>
 										<SelectTrigger className="w-44 h-8 text-xs">
 											<SlidersHorizontal className="h-3.5 w-3.5 mr-1.5" />
 											<SelectValue />
 										</SelectTrigger>
 										<SelectContent>
-											<SelectItem value="newest">Newest first</SelectItem>
-											<SelectItem value="oldest">Oldest first</SelectItem>
-											<SelectItem value="most_liked">Most liked</SelectItem>
+											<SelectItem value="newest">
+												Newest first
+											</SelectItem>
+											<SelectItem value="oldest">
+												Oldest first
+											</SelectItem>
+											<SelectItem value="most_liked">
+												Most liked
+											</SelectItem>
 										</SelectContent>
 									</Select>
 								</div>
@@ -1801,7 +2071,9 @@ export function ProfileContent({
 												{blog.coverImageUrl && (
 													<div className="relative sm:w-36 w-full h-28 sm:h-auto shrink-0 bg-muted">
 														<Image
-															src={blog.coverImageUrl}
+															src={
+																blog.coverImageUrl
+															}
 															alt={blog.title}
 															fill
 															className="object-cover"
@@ -1813,24 +2085,44 @@ export function ProfileContent({
 														<h3 className="font-semibold text-sm line-clamp-2 leading-snug flex-1">
 															{blog.title}
 														</h3>
-														{!blog.published && isOwnProfile && (
-															<Badge variant="outline" className="text-[10px] shrink-0">
-																Draft
-															</Badge>
-														)}
+														{!blog.published &&
+															isOwnProfile && (
+																<Badge
+																	variant="outline"
+																	className="text-[10px] shrink-0"
+																>
+																	Draft
+																</Badge>
+															)}
 													</div>
 													{blog.excerpt && (
 														<p className="text-sm text-muted-foreground line-clamp-2 mt-1">
 															{blog.excerpt}
 														</p>
 													)}
-													{blog.hashtags.length > 0 && (
+													{blog.hashtags.length >
+														0 && (
 														<div className="flex flex-wrap gap-1 mt-2">
-															{blog.hashtags.slice(0, 4).map(({ hashtag }) => (
-																<Badge key={hashtag.id} variant="secondary" className="text-xs font-normal">
-																	#{hashtag.name}
-																</Badge>
-															))}
+															{blog.hashtags
+																.slice(0, 4)
+																.map(
+																	({
+																		hashtag,
+																	}) => (
+																		<Badge
+																			key={
+																				hashtag.id
+																			}
+																			variant="secondary"
+																			className="text-xs font-normal"
+																		>
+																			#
+																			{
+																				hashtag.name
+																			}
+																		</Badge>
+																	),
+																)}
 														</div>
 													)}
 													<p className="text-xs text-muted-foreground mt-1.5">
@@ -1852,8 +2144,13 @@ export function ProfileContent({
 							initialMemories.length === 0 ? (
 								<div className="text-center py-16 text-muted-foreground">
 									<NotebookPen className="h-10 w-10 mx-auto mb-3 opacity-30" />
-									<p className="font-medium">No memories saved yet</p>
-									<p className="text-sm mt-1">Save posts to your memories to revisit them later.</p>
+									<p className="font-medium">
+										No memories saved yet
+									</p>
+									<p className="text-sm mt-1">
+										Save posts to your memories to revisit
+										them later.
+									</p>
 								</div>
 							) : (
 								<MemoriesClient
@@ -1887,9 +2184,14 @@ export function ProfileContent({
 						) : marketListings.length === 0 ? (
 							<div className="text-center py-16 text-muted-foreground">
 								<ShoppingBag className="h-10 w-10 mx-auto mb-3 opacity-30" />
-								<p className="font-medium">No marketplace listings</p>
+								<p className="font-medium">
+									No marketplace listings
+								</p>
 								{isOwnProfile && (
-									<Link href="/marketplace/sell" className="text-primary text-sm hover:underline mt-1 block">
+									<Link
+										href="/marketplace/sell"
+										className="text-primary text-sm hover:underline mt-1 block"
+									>
 										Create your first listing →
 									</Link>
 								)}
@@ -1899,39 +2201,74 @@ export function ProfileContent({
 								<div className="flex items-center justify-between gap-2 mb-2 flex-wrap">
 									<div className="flex items-center gap-2">
 										<div className="flex rounded-lg border overflow-hidden text-xs">
-											{(["all", "Active", "Sold"] as const).map((s) => (
+											{(
+												[
+													"all",
+													"Active",
+													"Sold",
+												] as const
+											).map((s) => (
 												<button
 													key={s}
-													onClick={() => setMarketStatusFilter(s)}
+													onClick={() =>
+														setMarketStatusFilter(s)
+													}
 													className={`px-3 py-1.5 font-medium transition-colors ${marketStatusFilter === s ? "bg-primary text-primary-foreground" : "text-muted-foreground hover:bg-muted"}`}
 												>
-													{s === "all" ? `All (${marketListings.length})` : s}
+													{s === "all"
+														? `All (${marketListings.length})`
+														: s}
 												</button>
 											))}
 										</div>
-										<span className="text-xs text-muted-foreground">{sortedMarket.length} listings</span>
+										<span className="text-xs text-muted-foreground">
+											{sortedMarket.length} listings
+										</span>
 									</div>
-									<Select value={marketSort} onValueChange={(v) => setMarketSort(v as typeof marketSort)}>
+									<Select
+										value={marketSort}
+										onValueChange={(v) =>
+											setMarketSort(
+												v as typeof marketSort,
+											)
+										}
+									>
 										<SelectTrigger className="w-48 h-8 text-xs">
 											<SlidersHorizontal className="h-3.5 w-3.5 mr-1.5" />
 											<SelectValue />
 										</SelectTrigger>
 										<SelectContent>
-											<SelectItem value="newest">Newest first</SelectItem>
-											<SelectItem value="oldest">Oldest first</SelectItem>
-											<SelectItem value="price_asc">Price: Low → High</SelectItem>
-											<SelectItem value="price_desc">Price: High → Low</SelectItem>
+											<SelectItem value="newest">
+												Newest first
+											</SelectItem>
+											<SelectItem value="oldest">
+												Oldest first
+											</SelectItem>
+											<SelectItem value="price_asc">
+												Price: Low → High
+											</SelectItem>
+											<SelectItem value="price_desc">
+												Price: High → Low
+											</SelectItem>
 										</SelectContent>
 									</Select>
 								</div>
 								<div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3">
 									{sortedMarket.map((listing) => (
-										<Link key={listing.id} href={`/marketplace/${listing.slug}`} className="group block">
+										<Link
+											key={listing.id}
+											href={`/marketplace/${listing.slug}`}
+											className="group block"
+										>
 											<Card className="overflow-hidden hover:shadow-md transition-shadow duration-200">
 												<div className="relative aspect-square bg-muted">
 													{listing.images[0] ? (
 														<img
-															src={listing.images[0].url}
+															src={
+																listing
+																	.images[0]
+																	.url
+															}
 															alt={listing.title}
 															className="w-full h-full object-cover group-hover:opacity-90 transition-opacity"
 														/>
@@ -1940,18 +2277,28 @@ export function ProfileContent({
 															<ShoppingBag className="h-8 w-8 text-muted-foreground/30" />
 														</div>
 													)}
-													{listing.status === "Sold" && (
+													{listing.status ===
+														"Sold" && (
 														<div className="absolute inset-0 bg-black/50 flex items-center justify-center">
-															<Badge className="bg-destructive text-white">Sold</Badge>
+															<Badge className="bg-destructive text-white">
+																Sold
+															</Badge>
 														</div>
 													)}
 													<Badge className="absolute top-2 left-2 text-xs bg-background/90 text-foreground font-semibold">
-														{listing.isFree ? "Free" : `$${listing.price}`}
+														{listing.isFree
+															? "Free"
+															: `$${listing.price}`}
 													</Badge>
 												</div>
 												<CardContent className="p-2.5">
-													<p className="font-semibold text-xs truncate group-hover:underline">{listing.title}</p>
-													<p className="text-[10px] text-muted-foreground mt-0.5">{listing.category} · {listing.condition}</p>
+													<p className="font-semibold text-xs truncate group-hover:underline">
+														{listing.title}
+													</p>
+													<p className="text-[10px] text-muted-foreground mt-0.5">
+														{listing.category} ·{" "}
+														{listing.condition}
+													</p>
 												</CardContent>
 											</Card>
 										</Link>

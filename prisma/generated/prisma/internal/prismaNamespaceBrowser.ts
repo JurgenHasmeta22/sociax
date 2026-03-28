@@ -109,6 +109,7 @@ export const ModelName = {
   Story: 'Story',
   StoryView: 'StoryView',
   StoryReaction: 'StoryReaction',
+  StoryComment: 'StoryComment',
   User: 'User',
   Avatar: 'Avatar',
   CoverPhoto: 'CoverPhoto',
@@ -860,6 +861,17 @@ export const StoryReactionScalarFieldEnum = {
 } as const
 
 export type StoryReactionScalarFieldEnum = (typeof StoryReactionScalarFieldEnum)[keyof typeof StoryReactionScalarFieldEnum]
+
+
+export const StoryCommentScalarFieldEnum = {
+  id: 'id',
+  content: 'content',
+  createdAt: 'createdAt',
+  storyId: 'storyId',
+  userId: 'userId'
+} as const
+
+export type StoryCommentScalarFieldEnum = (typeof StoryCommentScalarFieldEnum)[keyof typeof StoryCommentScalarFieldEnum]
 
 
 export const UserScalarFieldEnum = {

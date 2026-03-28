@@ -80,7 +80,6 @@ export function Navbar() {
 								Sociax
 							</span>
 						</Link>
-	
 					</div>
 
 					{/* Center: Search bar */}
@@ -241,18 +240,24 @@ export function Navbar() {
 				<nav className="fixed bottom-0 left-0 right-0 z-50 md:hidden bg-background/95 backdrop-blur border-t border-border safe-area-pb">
 					<div className="flex items-center justify-around h-14">
 						{MOBILE_NAV_LINKS.map(({ href, icon: Icon, label }) => {
-							const isActive = pathname === href || pathname.startsWith(href + "/");
+							const isActive =
+								pathname === href ||
+								pathname.startsWith(href + "/");
 							return (
 								<Link
 									key={href}
 									href={href}
 									className={cn(
 										"flex flex-col items-center justify-center gap-0.5 flex-1 h-full transition-colors",
-										isActive ? "text-primary" : "text-muted-foreground",
+										isActive
+											? "text-primary"
+											: "text-muted-foreground",
 									)}
 								>
 									<Icon className="h-5 w-5" />
-									<span className="text-[10px] font-medium">{label}</span>
+									<span className="text-[10px] font-medium">
+										{label}
+									</span>
 								</Link>
 							);
 						})}

@@ -23,8 +23,8 @@ export default function AboutPage() {
 					<p className="text-muted-foreground leading-relaxed">
 						Sociax is a next-generation social platform built to
 						bring people together. We believe in creating meaningful
-						connections through shared experiences, open communities,
-						and genuine interactions.
+						connections through shared experiences, open
+						communities, and genuine interactions.
 					</p>
 				</section>
 

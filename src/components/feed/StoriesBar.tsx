@@ -21,7 +21,32 @@ type Story = {
 		avatar: { photoSrc: string } | null;
 	};
 	views: { id: number }[];
-	_count: { views: number };
+	reactions: {
+		id: number;
+		reaction: string;
+		userId: number;
+		user: {
+			id: number;
+			userName: string;
+			firstName: string | null;
+			lastName: string | null;
+			avatar: { photoSrc: string } | null;
+		};
+	}[];
+	comments: {
+		id: number;
+		content: string;
+		createdAt: Date;
+		userId: number;
+		user: {
+			id: number;
+			userName: string;
+			firstName: string | null;
+			lastName: string | null;
+			avatar: { photoSrc: string } | null;
+		};
+	}[];
+	_count: { views: number; reactions: number; comments: number };
 };
 
 type CurrentUser = {

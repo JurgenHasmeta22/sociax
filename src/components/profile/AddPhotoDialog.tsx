@@ -131,7 +131,9 @@ export function AddPhotoDialog({
 					<div className="space-y-1.5">
 						<Label>
 							Photo{" "}
-							<span className="text-destructive text-xs">*required</span>
+							<span className="text-destructive text-xs">
+								*required
+							</span>
 						</Label>
 						{photoUrl ? (
 							<div className="relative rounded-lg overflow-hidden bg-muted aspect-video">

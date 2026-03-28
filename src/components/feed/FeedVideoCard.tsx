@@ -57,7 +57,10 @@ export function FeedVideoCard({
 						<Link href={`/profile/${video.author.userName}`}>
 							<Avatar className="h-10 w-10">
 								<AvatarImage
-									src={video.author.avatar?.photoSrc ?? undefined}
+									src={
+										video.author.avatar?.photoSrc ??
+										undefined
+									}
 								/>
 								<AvatarFallback className="bg-primary text-primary-foreground font-semibold">
 									{authorName[0]?.toUpperCase()}
@@ -74,7 +77,10 @@ export function FeedVideoCard({
 							<div className="flex items-center gap-1.5 text-xs text-muted-foreground mt-0.5">
 								<span>{timeAgo}</span>
 								<span>·</span>
-								<Badge variant="secondary" className="text-[10px] px-1.5 py-0.5">
+								<Badge
+									variant="secondary"
+									className="text-[10px] px-1.5 py-0.5"
+								>
 									<Play className="h-2.5 w-2.5 mr-0.5" />
 									Video
 								</Badge>

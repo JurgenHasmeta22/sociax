@@ -459,7 +459,10 @@ function PagePostCard({
 									className="flex items-center gap-1 hover:text-foreground transition-colors"
 								>
 									{topReactions.map((type) => (
-										<span key={type} className="text-base leading-none">
+										<span
+											key={type}
+											className="text-base leading-none"
+										>
 											{REACTIONS[type]?.emoji}
 										</span>
 									))}

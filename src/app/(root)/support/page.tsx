@@ -76,9 +76,7 @@ export default function SupportPage() {
 							>
 								<item.icon className="h-5 w-5" />
 							</div>
-							<h3 className="font-semibold mb-1">
-								{item.title}
-							</h3>
+							<h3 className="font-semibold mb-1">{item.title}</h3>
 							<p className="text-sm text-muted-foreground">
 								{item.desc}
 							</p>
@@ -104,7 +102,7 @@ export default function SupportPage() {
 						},
 						{
 							q: "How do I report inappropriate content?",
-							a: "Click the three dots (⋯) on any post, comment, or message and select \"Report\". Our moderation team reviews all reports.",
+							a: 'Click the three dots (⋯) on any post, comment, or message and select "Report". Our moderation team reviews all reports.',
 						},
 						{
 							q: "Can I make my profile private?",
@@ -112,7 +110,7 @@ export default function SupportPage() {
 						},
 						{
 							q: "How do I block someone?",
-							a: "Visit their profile, click the three dots, and select \"Block\". Blocked users cannot see your profile or interact with your content.",
+							a: 'Visit their profile, click the three dots, and select "Block". Blocked users cannot see your profile or interact with your content.',
 						},
 					].map((faq, i) => (
 						<div
@@ -133,16 +131,12 @@ export default function SupportPage() {
 			{/* Contact */}
 			<section className="rounded-2xl bg-gradient-to-br from-primary/10 via-primary/5 to-transparent border p-8 text-center">
 				<Mail className="h-8 w-8 text-primary mx-auto mb-3" />
-				<h2 className="text-xl font-bold mb-2">
-					Still need help?
-				</h2>
+				<h2 className="text-xl font-bold mb-2">Still need help?</h2>
 				<p className="text-sm text-muted-foreground mb-4 max-w-md mx-auto">
-					Our support team is available 24/7 to assist you with
-					any questions or concerns.
+					Our support team is available 24/7 to assist you with any
+					questions or concerns.
 				</p>
-				<p className="text-primary font-semibold">
-					support@sociax.com
-				</p>
+				<p className="text-primary font-semibold">support@sociax.com</p>
 			</section>
 		</div>
 	);

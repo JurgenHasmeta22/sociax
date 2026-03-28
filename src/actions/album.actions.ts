@@ -86,7 +86,12 @@ export async function addPhotoToAlbum(data: {
 	});
 
 	revalidatePath("/profile");
-	return { id: post.id, photoUrl: data.photoUrl, caption: data.caption?.trim() || null, albumId: null };
+	return {
+		id: post.id,
+		photoUrl: data.photoUrl,
+		caption: data.caption?.trim() || null,
+		albumId: null,
+	};
 }
 
 export async function removePhotoFromAlbum(photoId: number) {

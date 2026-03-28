@@ -49,26 +49,43 @@ export function PeopleClient({
 	const [query, setQuery] = useState(initialQuery);
 	const [skip, setSkip] = useState(initialPeople.length);
 	const [isPending, startTransition] = useTransition();
-	const [sortBy, setSortBy] = useState<"newest" | "most_followed" | "most_posts" | "a_z">("newest");
+	const [sortBy, setSortBy] = useState<
+		"newest" | "most_followed" | "most_posts" | "a_z"
+	>("newest");
+	const [relationFilter, setRelationFilter] = useState<
+		"all" | "following" | "not_following"
+	>("all");
 	const debounceRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
 	const sortedPeople = useMemo(() => {
-		const sorted = [...people];
+		let list = [...people];
+		// Apply relationship filter
+		if (relationFilter === "following") {
+			list = list.filter((p) => followStates[p.id] === "accepted");
+		} else if (relationFilter === "not_following") {
+			list = list.filter((p) => followStates[p.id] !== "accepted");
+		}
 		switch (sortBy) {
 			case "most_followed":
-				return sorted.sort((a, b) => b._count.following - a._count.following);
+				return list.sort(
+					(a, b) => b._count.following - a._count.following,
+				);
 			case "most_posts":
-				return sorted.sort((a, b) => b._count.posts - a._count.posts);
+				return list.sort((a, b) => b._count.posts - a._count.posts);
 			case "a_z":
-				return sorted.sort((a, b) => {
-					const nameA = [a.firstName, a.lastName].filter(Boolean).join(" ") || a.userName;
-					const nameB = [b.firstName, b.lastName].filter(Boolean).join(" ") || b.userName;
+				return list.sort((a, b) => {
+					const nameA =
+						[a.firstName, a.lastName].filter(Boolean).join(" ") ||
+						a.userName;
+					const nameB =
+						[b.firstName, b.lastName].filter(Boolean).join(" ") ||
+						b.userName;
 					return nameA.localeCompare(nameB);
 				});
 			default:
-				return sorted;
+				return list;
 		}
-	}, [people, sortBy]);
+	}, [people, sortBy, relationFilter, followStates]);
 
 	useEffect(() => {
 		if (debounceRef.current) clearTimeout(debounceRef.current);
@@ -96,7 +113,10 @@ export function PeopleClient({
 	};
 
 	const hasMore = people.length < total;
-	const sentinelRef = useInfiniteScroll(handleLoadMore, { hasMore, loading: isPending });
+	const sentinelRef = useInfiniteScroll(handleLoadMore, {
+		hasMore,
+		loading: isPending,
+	});
 
 	return (
 		<div className="max-w-5xl mx-auto px-4 py-8">
@@ -117,19 +137,45 @@ export function PeopleClient({
 					/>
 				</div>
 			</div>
-			<div className="flex items-center justify-between mb-4">
+			<div className="flex items-center justify-between gap-2 mb-4 flex-wrap">
 				<p className="text-sm text-muted-foreground">{total} people</p>
-				<Select value={sortBy} onValueChange={(v) => setSortBy(v as typeof sortBy)}>
-					<SelectTrigger className="w-40 h-9 text-sm">
-						<SelectValue />
-					</SelectTrigger>
-					<SelectContent>
-						<SelectItem value="newest">Newest</SelectItem>
-						<SelectItem value="most_followed">Most followed</SelectItem>
-						<SelectItem value="most_posts">Most posts</SelectItem>
-						<SelectItem value="a_z">A → Z</SelectItem>
-					</SelectContent>
-				</Select>
+				<div className="flex gap-2">
+					<Select
+						value={relationFilter}
+						onValueChange={(v) =>
+							setRelationFilter(v as typeof relationFilter)
+						}
+					>
+						<SelectTrigger className="w-36 h-9 text-sm">
+							<SelectValue />
+						</SelectTrigger>
+						<SelectContent>
+							<SelectItem value="all">All people</SelectItem>
+							<SelectItem value="following">Following</SelectItem>
+							<SelectItem value="not_following">
+								Not following
+							</SelectItem>
+						</SelectContent>
+					</Select>
+					<Select
+						value={sortBy}
+						onValueChange={(v) => setSortBy(v as typeof sortBy)}
+					>
+						<SelectTrigger className="w-40 h-9 text-sm">
+							<SelectValue />
+						</SelectTrigger>
+						<SelectContent>
+							<SelectItem value="newest">Newest</SelectItem>
+							<SelectItem value="most_followed">
+								Most followed
+							</SelectItem>
+							<SelectItem value="most_posts">
+								Most posts
+							</SelectItem>
+							<SelectItem value="a_z">A → Z</SelectItem>
+						</SelectContent>
+					</Select>
+				</div>
 			</div>
 
 			{isPending && people.length === 0 ? (
@@ -157,8 +203,13 @@ export function PeopleClient({
 					</div>
 
 					{hasMore && (
-						<div ref={sentinelRef} className="flex justify-center py-6">
-							{isPending && <Loader2 className="h-5 w-5 animate-spin text-muted-foreground" />}
+						<div
+							ref={sentinelRef}
+							className="flex justify-center py-6"
+						>
+							{isPending && (
+								<Loader2 className="h-5 w-5 animate-spin text-muted-foreground" />
+							)}
 						</div>
 					)}
 				</>

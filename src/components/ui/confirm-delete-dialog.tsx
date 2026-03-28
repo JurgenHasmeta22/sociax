@@ -59,7 +59,9 @@ export function ConfirmDeleteDialog({
 					</div>
 				</AlertDialogHeader>
 				<AlertDialogFooter>
-					<AlertDialogCancel disabled={loading}>Cancel</AlertDialogCancel>
+					<AlertDialogCancel disabled={loading}>
+						Cancel
+					</AlertDialogCancel>
 					<AlertDialogAction
 						onClick={handleConfirm}
 						disabled={loading}

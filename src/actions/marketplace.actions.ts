@@ -245,7 +245,8 @@ export async function fetchListingsPage(opts: {
 	const userId = await getSessionUserId();
 	const take = opts.take ?? 24;
 	const where: Record<string, unknown> = { status: "Active" };
-	if (opts.category && opts.category !== "All") where.category = opts.category;
+	if (opts.category && opts.category !== "All")
+		where.category = opts.category;
 	if (opts.search) {
 		where.OR = [
 			{ title: { contains: opts.search } },

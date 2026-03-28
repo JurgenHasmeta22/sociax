@@ -14,7 +14,11 @@ import {
 	DialogTitle,
 } from "@/components/ui/dialog";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { toggleBlogLike, deleteBlog, getBlogLikers } from "@/actions/blog.actions";
+import {
+	toggleBlogLike,
+	deleteBlog,
+	getBlogLikers,
+} from "@/actions/blog.actions";
 import { toast } from "sonner";
 import { Heart, PenLine, Trash2, ArrowLeft, Loader2 } from "lucide-react";
 import { useRouter } from "next/navigation";
@@ -69,8 +73,11 @@ function renderContent(jsonContent: string): string {
 	}
 }
 
-const displayName = (u: { firstName: string | null; lastName: string | null; userName: string }) =>
-	[u.firstName, u.lastName].filter(Boolean).join(" ") || u.userName;
+const displayName = (u: {
+	firstName: string | null;
+	lastName: string | null;
+	userName: string;
+}) => [u.firstName, u.lastName].filter(Boolean).join(" ") || u.userName;
 
 export function BlogDetailClient({ blog }: BlogDetailProps) {
 	const router = useRouter();
@@ -288,7 +295,8 @@ export function BlogDetailClient({ blog }: BlogDetailProps) {
 											<Avatar className="h-9 w-9 shrink-0">
 												<AvatarImage
 													src={
-														liker.avatar?.photoSrc ??
+														liker.avatar
+															?.photoSrc ??
 														undefined
 													}
 												/>

@@ -19,6 +19,7 @@ model Story {
     user      User            @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
     views     StoryView[]
     reactions StoryReaction[]
+    comments  StoryComment[]
 
     @@index([userId])
     @@index([expiresAt])
@@ -56,4 +57,21 @@ model StoryReaction {
 
     @@unique([storyId, userId])
     @@index([storyId])
+}
+
+model StoryComment {
+    id        Int      @id @default(autoincrement())
+    content   String
+    createdAt DateTime @default(now())
+
+    // FK Keys
+    storyId Int
+    userId  Int
+
+    // Relations
+    story Story @relation(fields: [storyId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+    user  User  @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+
+    @@index([storyId])
+    @@index([userId])
 }

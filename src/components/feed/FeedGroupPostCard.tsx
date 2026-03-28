@@ -86,34 +86,44 @@ function ReactionsModal({
 
 	useEffect(() => {
 		if (open && reactions === null) {
-			getGroupPostReactions(postId).then((r) => setReactions(r as ReactionUser[]));
+			getGroupPostReactions(postId).then((r) =>
+				setReactions(r as ReactionUser[]),
+			);
 		}
 		if (!open) setReactions(null);
 	}, [open, postId]);
 
 	const data = reactions ?? [];
-	const grouped = data.reduce<Record<string, ReactionUser[]>>(
-		(acc, r) => {
-			(acc[r.reactionType] ??= []).push(r);
-			return acc;
-		},
-		{},
-	);
+	const grouped = data.reduce<Record<string, ReactionUser[]>>((acc, r) => {
+		(acc[r.reactionType] ??= []).push(r);
+		return acc;
+	}, {});
 	const tabs = ["All", ...Object.keys(grouped)];
 
 	return (
-		<Dialog open={open} onOpenChange={(o) => { if (!o) onClose(); }}>
+		<Dialog
+			open={open}
+			onOpenChange={(o) => {
+				if (!o) onClose();
+			}}
+		>
 			<DialogContent className="max-w-sm">
 				<DialogHeader>
 					<DialogTitle>Reactions</DialogTitle>
 				</DialogHeader>
 				{!reactions ? (
-					<p className="text-sm text-muted-foreground py-4 text-center">Loading…</p>
+					<p className="text-sm text-muted-foreground py-4 text-center">
+						Loading…
+					</p>
 				) : (
 					<Tabs defaultValue="All">
 						<TabsList className="w-full flex-wrap h-auto gap-1 mb-2">
 							{tabs.map((tab) => (
-								<TabsTrigger key={tab} value={tab} className="text-xs px-2 py-1">
+								<TabsTrigger
+									key={tab}
+									value={tab}
+									className="text-xs px-2 py-1"
+								>
 									{tab === "All"
 										? `All ${data.length}`
 										: `${REACTIONS[tab]?.emoji} ${grouped[tab]?.length}`}
@@ -135,16 +145,27 @@ function ReactionsModal({
 	);
 }
 
-function ReactionList({ items, onClose }: { items: ReactionUser[]; onClose: () => void }) {
+function ReactionList({
+	items,
+	onClose,
+}: {
+	items: ReactionUser[];
+	onClose: () => void;
+}) {
 	return (
 		<div className="space-y-3 max-h-72 overflow-y-auto pr-1">
 			{items.map((r) => {
-				const n = [r.user.firstName, r.user.lastName].filter(Boolean).join(" ") || r.user.userName;
+				const n =
+					[r.user.firstName, r.user.lastName]
+						.filter(Boolean)
+						.join(" ") || r.user.userName;
 				return (
 					<div key={r.id} className="flex items-center gap-3">
 						<div className="relative">
 							<Avatar className="h-9 w-9">
-								<AvatarImage src={r.user.avatar?.photoSrc ?? undefined} />
+								<AvatarImage
+									src={r.user.avatar?.photoSrc ?? undefined}
+								/>
 								<AvatarFallback className="bg-primary text-primary-foreground text-sm font-semibold">
 									{n[0]?.toUpperCase()}
 								</AvatarFallback>
@@ -161,7 +182,9 @@ function ReactionList({ items, onClose }: { items: ReactionUser[]; onClose: () =
 							>
 								{n}
 							</Link>
-							<p className="text-xs text-muted-foreground">@{r.user.userName}</p>
+							<p className="text-xs text-muted-foreground">
+								@{r.user.userName}
+							</p>
 						</div>
 					</div>
 				);
@@ -226,7 +249,8 @@ export function FeedGroupPostCard({
 
 	const reactionCounts: Record<string, number> = {};
 	post.likes.forEach((l) => {
-		reactionCounts[l.reactionType] = (reactionCounts[l.reactionType] || 0) + 1;
+		reactionCounts[l.reactionType] =
+			(reactionCounts[l.reactionType] || 0) + 1;
 	});
 	const topReactions = Object.entries(reactionCounts)
 		.sort((a, b) => b[1] - a[1])
@@ -255,7 +279,10 @@ export function FeedGroupPostCard({
 		setShowComments(true);
 		if (comments.length === 0) {
 			startTransition(async () => {
-				const fetched = await getGroupPostComments(post.id, currentUserId);
+				const fetched = await getGroupPostComments(
+					post.id,
+					currentUserId,
+				);
 				setComments(fetched);
 			});
 		}
@@ -329,318 +356,336 @@ export function FeedGroupPostCard({
 	};
 
 	return (
-	<>
-		<Card className="shadow-sm hover:shadow-md transition-shadow duration-200">
-			<CardContent className="pt-4 pb-0">
-				<div className="flex items-center gap-2 mb-3 text-xs text-muted-foreground">
-					<div className="w-5 h-5 rounded bg-primary/10 flex items-center justify-center overflow-hidden shrink-0">
-						{post.group.avatarUrl ? (
-							<img
-								src={post.group.avatarUrl}
-								alt=""
-								className="w-full h-full object-cover"
-							/>
-						) : (
-							<Users className="h-3 w-3 text-primary" />
-						)}
-					</div>
-					<Link
-						href={`/groups/${post.group.slug}`}
-						className="font-semibold text-foreground hover:underline"
-					>
-						{post.group.name}
-					</Link>
-				</div>
-
-				<div className="flex items-center gap-3 mb-3">
-					<Link href={`/profile/${post.user.userName}`}>
-						<Avatar className="h-9 w-9">
-							<AvatarImage
-								src={post.user.avatar?.photoSrc ?? undefined}
-							/>
-							<AvatarFallback className="bg-primary text-primary-foreground font-semibold text-sm">
-								{name[0]?.toUpperCase()}
-							</AvatarFallback>
-						</Avatar>
-					</Link>
-					<div>
-						<Link
-							href={`/profile/${post.user.userName}`}
-							className="font-semibold text-sm hover:underline"
-						>
-							{name}
-						</Link>
-						<p className="text-xs text-muted-foreground">
-							{formatDistanceToNow(new Date(post.createdAt), {
-								addSuffix: true,
-							})}
-						</p>
-					</div>
-				</div>
-
-				{post.content && (
-					<p className="text-sm leading-relaxed mb-3">
-						{post.content}
-					</p>
-				)}
-
-				{post.mediaUrl && (
-					<div className="rounded-lg overflow-hidden bg-muted mb-3 max-h-72 flex items-center justify-center">
-						<img
-							src={post.mediaUrl}
-							alt=""
-							className="object-cover w-full"
-						/>
-					</div>
-				)}
-			</CardContent>
-
-			<CardContent className="pt-2 pb-2">
-				{likeCount > 0 && (
-					<>
-						<div className="flex items-center gap-1.5 text-sm text-muted-foreground mb-2">
-							<div className="flex -space-x-1">
-								{topReactions.map((r) => (
-									<span key={r} className="text-base leading-none">
-										{REACTIONS[r]?.emoji}
-									</span>
-								))}
-							</div>
-							<button
-								onClick={() => setShowReactionsModal(true)}
-								className="hover:underline"
-							>
-								{likeCount.toLocaleString()}
-							</button>
+		<>
+			<Card className="shadow-sm hover:shadow-md transition-shadow duration-200">
+				<CardContent className="pt-4 pb-0">
+					<div className="flex items-center gap-2 mb-3 text-xs text-muted-foreground">
+						<div className="w-5 h-5 rounded bg-primary/10 flex items-center justify-center overflow-hidden shrink-0">
+							{post.group.avatarUrl ? (
+								<img
+									src={post.group.avatarUrl}
+									alt=""
+									className="w-full h-full object-cover"
+								/>
+							) : (
+								<Users className="h-3 w-3 text-primary" />
+							)}
 						</div>
-						<Separator className="mb-1" />
-					</>
-				)}
-				<div className="flex items-center -mx-1 relative">
-					<div
-						className="flex-1 flex justify-center relative"
-						onMouseEnter={() => {
-							hoverTimer.current = setTimeout(
-								() => setShowPicker(true),
-								500,
-							);
-						}}
-						onMouseLeave={() => {
-							if (hoverTimer.current)
-								clearTimeout(hoverTimer.current);
-						}}
-					>
-						{showPicker && (
-							<div
-								className="absolute bottom-full mb-1 left-1/2 -translate-x-1/2 z-20 flex items-center gap-1 bg-background border border-border rounded-full shadow-lg px-2 py-1.5"
-								onMouseEnter={() => {
-									if (hoverTimer.current)
-										clearTimeout(hoverTimer.current);
-									setShowPicker(true);
-								}}
-								onMouseLeave={() => setShowPicker(false)}
+						<Link
+							href={`/groups/${post.group.slug}`}
+							className="font-semibold text-foreground hover:underline"
+						>
+							{post.group.name}
+						</Link>
+					</div>
+
+					<div className="flex items-center gap-3 mb-3">
+						<Link href={`/profile/${post.user.userName}`}>
+							<Avatar className="h-9 w-9">
+								<AvatarImage
+									src={
+										post.user.avatar?.photoSrc ?? undefined
+									}
+								/>
+								<AvatarFallback className="bg-primary text-primary-foreground font-semibold text-sm">
+									{name[0]?.toUpperCase()}
+								</AvatarFallback>
+							</Avatar>
+						</Link>
+						<div>
+							<Link
+								href={`/profile/${post.user.userName}`}
+								className="font-semibold text-sm hover:underline"
 							>
-								{Object.entries(REACTIONS).map(
-									([type, { emoji, label }]) => (
-										<button
-											key={type}
-											title={label}
-											onClick={() => handleReact(type)}
-											className="text-2xl leading-none hover:scale-125 transition-transform duration-150 px-0.5"
+								{name}
+							</Link>
+							<p className="text-xs text-muted-foreground">
+								{formatDistanceToNow(new Date(post.createdAt), {
+									addSuffix: true,
+								})}
+							</p>
+						</div>
+					</div>
+
+					{post.content && (
+						<p className="text-sm leading-relaxed mb-3">
+							{post.content}
+						</p>
+					)}
+
+					{post.mediaUrl && (
+						<div className="rounded-lg overflow-hidden bg-muted mb-3 max-h-72 flex items-center justify-center">
+							<img
+								src={post.mediaUrl}
+								alt=""
+								className="object-cover w-full"
+							/>
+						</div>
+					)}
+				</CardContent>
+
+				<CardContent className="pt-2 pb-2">
+					{likeCount > 0 && (
+						<>
+							<div className="flex items-center gap-1.5 text-sm text-muted-foreground mb-2">
+								<div className="flex -space-x-1">
+									{topReactions.map((r) => (
+										<span
+											key={r}
+											className="text-base leading-none"
 										>
-											{emoji}
-										</button>
-									),
-								)}
+											{REACTIONS[r]?.emoji}
+										</span>
+									))}
+								</div>
+								<button
+									onClick={() => setShowReactionsModal(true)}
+									className="hover:underline"
+								>
+									{likeCount.toLocaleString()}
+								</button>
 							</div>
-						)}
+							<Separator className="mb-1" />
+						</>
+					)}
+					<div className="flex items-center -mx-1 relative">
+						<div
+							className="flex-1 flex justify-center relative"
+							onMouseEnter={() => {
+								hoverTimer.current = setTimeout(
+									() => setShowPicker(true),
+									500,
+								);
+							}}
+							onMouseLeave={() => {
+								if (hoverTimer.current)
+									clearTimeout(hoverTimer.current);
+							}}
+						>
+							{showPicker && (
+								<div
+									className="absolute bottom-full mb-1 left-1/2 -translate-x-1/2 z-20 flex items-center gap-1 bg-background border border-border rounded-full shadow-lg px-2 py-1.5"
+									onMouseEnter={() => {
+										if (hoverTimer.current)
+											clearTimeout(hoverTimer.current);
+										setShowPicker(true);
+									}}
+									onMouseLeave={() => setShowPicker(false)}
+								>
+									{Object.entries(REACTIONS).map(
+										([type, { emoji, label }]) => (
+											<button
+												key={type}
+												title={label}
+												onClick={() =>
+													handleReact(type)
+												}
+												className="text-2xl leading-none hover:scale-125 transition-transform duration-150 px-0.5"
+											>
+												{emoji}
+											</button>
+										),
+									)}
+								</div>
+							)}
+							<Button
+								variant="ghost"
+								size="sm"
+								onClick={() =>
+									myReaction
+										? handleReact(myReaction)
+										: handleReact("Like")
+								}
+								disabled={isPending}
+								className={cn(
+									"w-full gap-2 rounded-lg font-semibold text-sm h-9",
+									myReaction
+										? "text-primary hover:text-primary"
+										: "text-muted-foreground hover:text-foreground",
+								)}
+							>
+								{myReaction ? (
+									<span className="text-lg leading-none">
+										{REACTIONS[myReaction]?.emoji}
+									</span>
+								) : (
+									<ThumbsUp className="h-[18px] w-[18px]" />
+								)}
+								{!myReaction && "Like"}
+							</Button>
+						</div>
 						<Button
 							variant="ghost"
 							size="sm"
-							onClick={() =>
-								myReaction
-									? handleReact(myReaction)
-									: handleReact("Like")
-							}
-							disabled={isPending}
-							className={cn(
-								"w-full gap-2 rounded-lg font-semibold text-sm h-9",
-								myReaction
-									? "text-primary hover:text-primary"
-									: "text-muted-foreground hover:text-foreground",
-							)}
+							onClick={handleOpenComments}
+							className="flex-1 gap-2 text-muted-foreground hover:text-foreground rounded-lg font-semibold text-sm h-9"
 						>
-							{myReaction ? (
-								<span className="text-lg leading-none">
-									{REACTIONS[myReaction]?.emoji}
-								</span>
-							) : (
-								<ThumbsUp className="h-[18px] w-[18px]" />
-							)}
-							{!myReaction && "Like"}
+							<MessageCircle className="h-[18px] w-[18px]" />
+							Comment
+						</Button>
+						<Button
+							variant="ghost"
+							size="sm"
+							className="flex-1 gap-2 text-muted-foreground hover:text-foreground rounded-lg font-semibold text-sm h-9"
+						>
+							<Share2 className="h-[18px] w-[18px]" />
+							Share
 						</Button>
 					</div>
-					<Button
-						variant="ghost"
-						size="sm"
-						onClick={handleOpenComments}
-						className="flex-1 gap-2 text-muted-foreground hover:text-foreground rounded-lg font-semibold text-sm h-9"
-					>
-						<MessageCircle className="h-[18px] w-[18px]" />
-						Comment
-					</Button>
-					<Button
-						variant="ghost"
-						size="sm"
-						className="flex-1 gap-2 text-muted-foreground hover:text-foreground rounded-lg font-semibold text-sm h-9"
-					>
-						<Share2 className="h-[18px] w-[18px]" />
-						Share
-					</Button>
-				</div>
-			</CardContent>
+				</CardContent>
 
-			{showComments && (
-				<CardContent className="pt-0 pb-4 border-t border-border/50 mt-1">
-					<div className="space-y-3 mt-3 max-h-80 overflow-y-auto">
-						{comments.map((c) => (
-							<div key={c.id} className="flex gap-2 group">
-								<Avatar className="h-7 w-7 shrink-0">
-									<AvatarImage
-										src={
-											c.user.avatar?.photoSrc ?? undefined
-										}
-									/>
-									<AvatarFallback className="bg-primary text-primary-foreground text-xs font-semibold">
-										{(displayName(c.user) ||
-											"?")[0]?.toUpperCase()}
-									</AvatarFallback>
-								</Avatar>
-								<div className="flex-1">
-									<div className="bg-muted rounded-2xl px-3 py-2 text-sm">
-										<span className="font-semibold text-xs block">
-											{displayName(c.user) || "You"}
-										</span>
-										{c.content}
-										{c.mediaUrl && (
-											<div className="mt-1.5">
-												<img
-													src={c.mediaUrl}
-													alt="media"
-													className="max-h-32 rounded-xl object-cover"
-												/>
-											</div>
-										)}
+				{showComments && (
+					<CardContent className="pt-0 pb-4 border-t border-border/50 mt-1">
+						<div className="space-y-3 mt-3 max-h-80 overflow-y-auto">
+							{comments.map((c) => (
+								<div key={c.id} className="flex gap-2 group">
+									<Avatar className="h-7 w-7 shrink-0">
+										<AvatarImage
+											src={
+												c.user.avatar?.photoSrc ??
+												undefined
+											}
+										/>
+										<AvatarFallback className="bg-primary text-primary-foreground text-xs font-semibold">
+											{(displayName(c.user) ||
+												"?")[0]?.toUpperCase()}
+										</AvatarFallback>
+									</Avatar>
+									<div className="flex-1">
+										<div className="bg-muted rounded-2xl px-3 py-2 text-sm">
+											<span className="font-semibold text-xs block">
+												{displayName(c.user) || "You"}
+											</span>
+											{c.content}
+											{c.mediaUrl && (
+												<div className="mt-1.5">
+													<img
+														src={c.mediaUrl}
+														alt="media"
+														className="max-h-32 rounded-xl object-cover"
+													/>
+												</div>
+											)}
+										</div>
+										<div className="flex items-center gap-3 px-1 mt-1">
+											<button
+												onClick={() =>
+													handleCommentLike(c.id)
+												}
+												className={`text-xs font-semibold transition-colors ${c.isLikedByMe ? "text-primary" : "text-muted-foreground hover:text-foreground"}`}
+											>
+												Like
+												{c.likeCount && c.likeCount > 0
+													? ` · ${c.likeCount}`
+													: ""}
+											</button>
+										</div>
 									</div>
-									<div className="flex items-center gap-3 px-1 mt-1">
+									{c.user.id === currentUserId && (
 										<button
-											onClick={() => handleCommentLike(c.id)}
-											className={`text-xs font-semibold transition-colors ${c.isLikedByMe ? "text-primary" : "text-muted-foreground hover:text-foreground"}`}
+											onClick={() =>
+												handleDeleteComment(c.id)
+											}
+											className="opacity-0 group-hover:opacity-100 text-muted-foreground hover:text-destructive transition-opacity"
 										>
-											Like{c.likeCount && c.likeCount > 0 ? ` · ${c.likeCount}` : ""}
+											<Trash2 className="h-3.5 w-3.5" />
+										</button>
+									)}
+								</div>
+							))}
+						</div>
+						<div className="flex gap-2 mt-3">
+							<div className="flex-1 flex flex-col gap-1.5 bg-muted rounded-2xl px-3 py-2">
+								{commentMediaPreview && (
+									<div className="relative inline-flex">
+										<img
+											src={commentMediaPreview}
+											alt="preview"
+											className="max-h-24 rounded-xl object-cover"
+										/>
+										<button
+											onClick={() => {
+												setCommentMedia(null);
+												setCommentMediaPreview(null);
+												if (commentFileRef.current)
+													commentFileRef.current.value =
+														"";
+											}}
+											className="absolute -top-1.5 -right-1.5 bg-background border rounded-full p-0.5"
+										>
+											<X className="h-3 w-3" />
 										</button>
 									</div>
-								</div>
-								{c.user.id === currentUserId && (
-									<button
-										onClick={() =>
-											handleDeleteComment(c.id)
-										}
-										className="opacity-0 group-hover:opacity-100 text-muted-foreground hover:text-destructive transition-opacity"
-									>
-										<Trash2 className="h-3.5 w-3.5" />
-									</button>
 								)}
-							</div>
-						))}
-					</div>
-					<div className="flex gap-2 mt-3">
-						<div className="flex-1 flex flex-col gap-1.5 bg-muted rounded-2xl px-3 py-2">
-							{commentMediaPreview && (
-								<div className="relative inline-flex">
-									<img
-										src={commentMediaPreview}
-										alt="preview"
-										className="max-h-24 rounded-xl object-cover"
-									/>
-									<button
-										onClick={() => {
-											setCommentMedia(null);
-											setCommentMediaPreview(null);
-											if (commentFileRef.current)
-												commentFileRef.current.value =
-													"";
-										}}
-										className="absolute -top-1.5 -right-1.5 bg-background border rounded-full p-0.5"
-									>
-										<X className="h-3 w-3" />
-									</button>
-								</div>
-							)}
-							<div className="flex items-end gap-2">
-								<Textarea
-									value={commentText}
-									onChange={(e) =>
-										setCommentText(e.target.value)
-									}
-									onKeyDown={(e) => {
-										if (e.key === "Enter" && !e.shiftKey) {
-											e.preventDefault();
-											void handleComment();
+								<div className="flex items-end gap-2">
+									<Textarea
+										value={commentText}
+										onChange={(e) =>
+											setCommentText(e.target.value)
 										}
-									}}
-									placeholder="Write a comment…"
-									className="min-h-0 h-8 resize-none text-sm border-0 bg-transparent p-0 shadow-none focus-visible:ring-0 flex-1"
-								/>
-								<input
-									ref={commentFileRef}
-									type="file"
-									accept="image/*,.gif"
-									className="hidden"
-									onChange={(e) => {
-										const file = e.target.files?.[0];
-										if (!file) return;
-										setCommentMedia(file);
-										setCommentMediaPreview(
-											URL.createObjectURL(file),
-										);
-									}}
-								/>
-								<Button
-									variant="ghost"
-									size="icon"
-									className="h-7 w-7 shrink-0 text-muted-foreground hover:text-foreground hover:bg-transparent"
-									onClick={() =>
-										commentFileRef.current?.click()
-									}
-									disabled={isPending || isUploadingComment}
-								>
-									<ImagePlus className="h-4 w-4" />
-								</Button>
-								<Button
-									size="icon"
-									className="h-7 w-7 rounded-full shrink-0"
-									onClick={() => void handleComment()}
-									disabled={
-										(!commentText.trim() &&
-											!commentMedia) ||
-										isPending ||
-										isUploadingComment
-									}
-								>
-									<Send className="h-4 w-4" />
-								</Button>
+										onKeyDown={(e) => {
+											if (
+												e.key === "Enter" &&
+												!e.shiftKey
+											) {
+												e.preventDefault();
+												void handleComment();
+											}
+										}}
+										placeholder="Write a comment…"
+										className="min-h-0 h-8 resize-none text-sm border-0 bg-transparent p-0 shadow-none focus-visible:ring-0 flex-1"
+									/>
+									<input
+										ref={commentFileRef}
+										type="file"
+										accept="image/*,.gif"
+										className="hidden"
+										onChange={(e) => {
+											const file = e.target.files?.[0];
+											if (!file) return;
+											setCommentMedia(file);
+											setCommentMediaPreview(
+												URL.createObjectURL(file),
+											);
+										}}
+									/>
+									<Button
+										variant="ghost"
+										size="icon"
+										className="h-7 w-7 shrink-0 text-muted-foreground hover:text-foreground hover:bg-transparent"
+										onClick={() =>
+											commentFileRef.current?.click()
+										}
+										disabled={
+											isPending || isUploadingComment
+										}
+									>
+										<ImagePlus className="h-4 w-4" />
+									</Button>
+									<Button
+										size="icon"
+										className="h-7 w-7 rounded-full shrink-0"
+										onClick={() => void handleComment()}
+										disabled={
+											(!commentText.trim() &&
+												!commentMedia) ||
+											isPending ||
+											isUploadingComment
+										}
+									>
+										<Send className="h-4 w-4" />
+									</Button>
+								</div>
 							</div>
 						</div>
-					</div>
-				</CardContent>
-			)}
-		</Card>
-		<ReactionsModal
-			postId={post.id}
-			open={showReactionsModal}
-			onClose={() => setShowReactionsModal(false)}
-		/>
-	</>
+					</CardContent>
+				)}
+			</Card>
+			<ReactionsModal
+				postId={post.id}
+				open={showReactionsModal}
+				onClose={() => setShowReactionsModal(false)}
+			/>
+		</>
 	);
 }

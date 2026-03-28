@@ -78,7 +78,10 @@ export function FeedBlogCard({ post }: { post: FeedBlogItem }) {
 						<div className="flex items-center gap-1.5 text-xs text-muted-foreground mt-0.5">
 							<span>{timeAgo}</span>
 							<span>·</span>
-							<Badge variant="secondary" className="text-[10px] px-1.5 py-0.5">
+							<Badge
+								variant="secondary"
+								className="text-[10px] px-1.5 py-0.5"
+							>
 								<BookOpen className="h-2.5 w-2.5 mr-0.5" />
 								Blog
 							</Badge>
@@ -128,7 +131,8 @@ export function FeedBlogCard({ post }: { post: FeedBlogItem }) {
 				{likeCount > 0 && (
 					<>
 						<p className="text-xs text-muted-foreground mb-2">
-							{likeCount.toLocaleString()} like{likeCount !== 1 ? "s" : ""}
+							{likeCount.toLocaleString()} like
+							{likeCount !== 1 ? "s" : ""}
 						</p>
 					</>
 				)}
@@ -149,7 +153,12 @@ export function FeedBlogCard({ post }: { post: FeedBlogItem }) {
 								: "text-muted-foreground hover:text-foreground",
 						)}
 					>
-						<Heart className={cn("h-[18px] w-[18px]", isLiked && "fill-current")} />
+						<Heart
+							className={cn(
+								"h-[18px] w-[18px]",
+								isLiked && "fill-current",
+							)}
+						/>
 						{isLiked ? "Liked" : "Like"}
 					</Button>
 					<Button

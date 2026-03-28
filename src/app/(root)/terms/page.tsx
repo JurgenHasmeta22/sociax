@@ -57,7 +57,7 @@ export default function TermsPage() {
 					{
 						title: "8. Limitation of Liability",
 						content:
-							"Sociax is provided \"as is\" without warranties. We are not liable for any indirect, incidental, or consequential damages arising from your use of the platform.",
+							'Sociax is provided "as is" without warranties. We are not liable for any indirect, incidental, or consequential damages arising from your use of the platform.',
 					},
 					{
 						title: "9. Governing Law",

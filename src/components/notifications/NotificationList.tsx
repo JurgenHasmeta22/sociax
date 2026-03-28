@@ -157,7 +157,10 @@ export function NotificationList({
 		setLoadingMore(true);
 		try {
 			const next = await fetchNotificationsPage(notifications.length, 20);
-			setNotifications((prev) => [...prev, ...(next as NotificationItem[])]);
+			setNotifications((prev) => [
+				...prev,
+				...(next as NotificationItem[]),
+			]);
 			if (next.length < 20) setHasMore(false);
 		} catch {
 			// ignore
@@ -166,7 +169,10 @@ export function NotificationList({
 		}
 	}, [loadingMore, hasMore, notifications.length]);
 
-	const sentinelRef = useInfiniteScroll(loadMore, { hasMore, loading: loadingMore });
+	const sentinelRef = useInfiniteScroll(loadMore, {
+		hasMore,
+		loading: loadingMore,
+	});
 
 	const unreadCount = notifications.filter(
 		(n) => n.status === "unread",

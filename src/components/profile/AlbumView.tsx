@@ -3,8 +3,21 @@
 import { useState, useTransition, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { ArrowLeft, Plus, Trash2, X, Loader2, CheckSquare, Square } from "lucide-react";
-import { removePhotoFromAlbum, removeMultiplePhotosFromAlbum, getAlbumById, deleteAlbum } from "@/actions/album.actions";
+import {
+	ArrowLeft,
+	Plus,
+	Trash2,
+	X,
+	Loader2,
+	CheckSquare,
+	Square,
+} from "lucide-react";
+import {
+	removePhotoFromAlbum,
+	removeMultiplePhotosFromAlbum,
+	getAlbumById,
+	deleteAlbum,
+} from "@/actions/album.actions";
 import { toast } from "sonner";
 import { AddPhotoDialog } from "@/components/profile/AddPhotoDialog";
 import { ConfirmDeleteDialog } from "@/components/ui/confirm-delete-dialog";
@@ -80,7 +93,11 @@ export function AlbumView({
 				await removePhotoFromAlbum(photoId);
 				const next = photos.filter((p) => p.id !== photoId);
 				setPhotos(next);
-				onPhotosChanged?.(albumId, next.length, next[0]?.photoUrl ?? null);
+				onPhotosChanged?.(
+					albumId,
+					next.length,
+					next[0]?.photoUrl ?? null,
+				);
 				toast.success("Photo removed");
 			} catch {
 				toast.error("Failed to remove photo");
@@ -93,7 +110,8 @@ export function AlbumView({
 		setConfirmAction({
 			type: "bulk",
 			title: `Delete ${selectedIds.size} photo${selectedIds.size > 1 ? "s" : ""}?`,
-			description: "This action cannot be undone. The selected photos will be permanently removed from this album.",
+			description:
+				"This action cannot be undone. The selected photos will be permanently removed from this album.",
 		});
 	};
 
@@ -102,7 +120,8 @@ export function AlbumView({
 		setConfirmAction({
 			type: "all",
 			title: `Delete all ${photos.length} photos?`,
-			description: "This will permanently remove every photo from this album. This cannot be undone.",
+			description:
+				"This will permanently remove every photo from this album. This cannot be undone.",
 		});
 	};
 
@@ -110,7 +129,8 @@ export function AlbumView({
 		setConfirmAction({
 			type: "album",
 			title: `Delete album "${albumMeta.name}"?`,
-			description: "This will permanently delete the album and all its photos. This action cannot be undone.",
+			description:
+				"This will permanently delete the album and all its photos. This action cannot be undone.",
 		});
 	};
 
@@ -124,7 +144,9 @@ export function AlbumView({
 			onPhotosChanged?.(albumId, next.length, next[0]?.photoUrl ?? null);
 			setSelectedIds(new Set());
 			setSelectMode(false);
-			toast.success(`${selectedIds.size} photo${selectedIds.size > 1 ? "s" : ""} deleted`);
+			toast.success(
+				`${selectedIds.size} photo${selectedIds.size > 1 ? "s" : ""} deleted`,
+			);
 		} else if (type === "all") {
 			await removeMultiplePhotosFromAlbum(photos.map((p) => p.id));
 			setPhotos([]);
@@ -168,17 +190,26 @@ export function AlbumView({
 		<div className="space-y-4">
 			{/* Header */}
 			<div className="flex items-center gap-3">
-				<Button variant="ghost" size="icon" onClick={onBack} className="h-8 w-8">
+				<Button
+					variant="ghost"
+					size="icon"
+					onClick={onBack}
+					className="h-8 w-8"
+				>
 					<ArrowLeft className="h-4 w-4" />
 				</Button>
 				<div className="flex-1">
 					<h2 className="font-semibold text-lg">{albumMeta.name}</h2>
 					{albumMeta.description && (
-						<p className="text-sm text-muted-foreground">{albumMeta.description}</p>
+						<p className="text-sm text-muted-foreground">
+							{albumMeta.description}
+						</p>
 					)}
 				</div>
 				<Badge variant="secondary" className="capitalize text-xs">
-					{albumMeta.privacy === "FriendsOnly" ? "Friends" : albumMeta.privacy}
+					{albumMeta.privacy === "FriendsOnly"
+						? "Friends"
+						: albumMeta.privacy}
 				</Badge>
 				{albumMeta.isOwner && (
 					<>
@@ -219,22 +250,44 @@ export function AlbumView({
 								<span className="text-xs text-muted-foreground">
 									{selectedIds.size} selected
 								</span>
-								<Button size="sm" variant="outline" onClick={selectAll}>
+								<Button
+									size="sm"
+									variant="outline"
+									onClick={selectAll}
+								>
 									Select All
 								</Button>
 								<Button
 									size="sm"
 									variant="destructive"
 									onClick={handleBulkDelete}
-									disabled={selectedIds.size === 0 || isPending}
+									disabled={
+										selectedIds.size === 0 || isPending
+									}
 								>
-									{isPending ? <Loader2 className="h-3.5 w-3.5 animate-spin mr-1" /> : <Trash2 className="h-3.5 w-3.5 mr-1" />}
+									{isPending ? (
+										<Loader2 className="h-3.5 w-3.5 animate-spin mr-1" />
+									) : (
+										<Trash2 className="h-3.5 w-3.5 mr-1" />
+									)}
 									Delete Selected
 								</Button>
-								<Button size="sm" variant="ghost" onClick={handleDeleteAll} disabled={isPending}>
+								<Button
+									size="sm"
+									variant="ghost"
+									onClick={handleDeleteAll}
+									disabled={isPending}
+								>
 									Delete All
 								</Button>
-								<Button size="sm" variant="ghost" onClick={() => { setSelectMode(false); setSelectedIds(new Set()); }}>
+								<Button
+									size="sm"
+									variant="ghost"
+									onClick={() => {
+										setSelectMode(false);
+										setSelectedIds(new Set());
+									}}
+								>
 									Cancel
 								</Button>
 							</>
@@ -262,7 +315,10 @@ export function AlbumView({
 				<div className="text-center py-16 text-muted-foreground">
 					<p className="font-medium">No photos in this album yet</p>
 					{albumMeta.isOwner && (
-						<p className="text-sm mt-1">Click &ldquo;Add Photo&rdquo; to upload your first photo</p>
+						<p className="text-sm mt-1">
+							Click &ldquo;Add Photo&rdquo; to upload your first
+							photo
+						</p>
 					)}
 				</div>
 			) : (
@@ -271,7 +327,9 @@ export function AlbumView({
 						<div
 							key={photo.id}
 							className={`relative aspect-square rounded-lg overflow-hidden bg-muted group cursor-pointer ${
-								selectMode && selectedIds.has(photo.id) ? "ring-2 ring-primary" : ""
+								selectMode && selectedIds.has(photo.id)
+									? "ring-2 ring-primary"
+									: ""
 							}`}
 							onMouseEnter={() => setHovered(photo.id)}
 							onMouseLeave={() => setHovered(null)}
@@ -299,25 +357,31 @@ export function AlbumView({
 								</div>
 							)}
 							{/* Caption overlay */}
-							{photo.caption && hovered === photo.id && !selectMode && (
-								<div className="absolute bottom-0 left-0 right-0 bg-black/60 px-2 py-1.5">
-									<p className="text-white text-xs truncate">{photo.caption}</p>
-								</div>
-							)}
+							{photo.caption &&
+								hovered === photo.id &&
+								!selectMode && (
+									<div className="absolute bottom-0 left-0 right-0 bg-black/60 px-2 py-1.5">
+										<p className="text-white text-xs truncate">
+											{photo.caption}
+										</p>
+									</div>
+								)}
 							{/* Delete button for owner */}
-							{albumMeta.isOwner && hovered === photo.id && !selectMode && (
-								<button
-									className="absolute top-2 right-2 bg-black/60 hover:bg-destructive text-white rounded-full p-1 transition-colors"
-									onClick={(e) => {
-										e.stopPropagation();
-										handleRemovePhoto(photo.id);
-									}}
-									disabled={isPending}
-									title="Remove photo"
-								>
-									<Trash2 className="h-3.5 w-3.5" />
-								</button>
-							)}
+							{albumMeta.isOwner &&
+								hovered === photo.id &&
+								!selectMode && (
+									<button
+										className="absolute top-2 right-2 bg-black/60 hover:bg-destructive text-white rounded-full p-1 transition-colors"
+										onClick={(e) => {
+											e.stopPropagation();
+											handleRemovePhoto(photo.id);
+										}}
+										disabled={isPending}
+										title="Remove photo"
+									>
+										<Trash2 className="h-3.5 w-3.5" />
+									</button>
+								)}
 						</div>
 					))}
 				</div>
@@ -345,7 +409,9 @@ export function AlbumView({
 							className="max-w-full max-h-[85vh] object-contain rounded-lg"
 						/>
 						{lightbox.caption && (
-							<p className="text-white/80 text-sm text-center mt-2">{lightbox.caption}</p>
+							<p className="text-white/80 text-sm text-center mt-2">
+								{lightbox.caption}
+							</p>
 						)}
 					</div>
 				</div>
@@ -358,7 +424,9 @@ export function AlbumView({
 				onConfirm={executeConfirmedAction}
 				title={confirmAction?.title ?? ""}
 				description={confirmAction?.description ?? ""}
-				confirmLabel={confirmAction?.type === "album" ? "Delete Album" : "Delete"}
+				confirmLabel={
+					confirmAction?.type === "album" ? "Delete Album" : "Delete"
+				}
 			/>
 		</div>
 	);

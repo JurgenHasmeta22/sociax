@@ -75,6 +75,7 @@ model User {
     stories        Story[]
     storyViews     StoryView[]
     storyReactions StoryReaction[]
+    storyComments  StoryComment[]
 
     // Messaging Relations
     conversations        ConversationParticipant[]

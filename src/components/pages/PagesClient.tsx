@@ -1,10 +1,17 @@
 ﻿"use client";
 
-import { useState, useEffect, useTransition } from "react";
+import { useState, useEffect, useTransition, useMemo } from "react";
 import Link from "next/link";
 import { formatCount } from "@/lib/utils";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
+import {
+	Select,
+	SelectContent,
+	SelectItem,
+	SelectTrigger,
+	SelectValue,
+} from "@/components/ui/select";
 import {
 	Flag,
 	Plus,
@@ -39,8 +46,6 @@ type OwnedPage = {
 	avatarUrl: string | null;
 	updatedAt: Date | string;
 };
-
-
 
 function timeAgo(date: Date | string) {
 	const now = new Date();
@@ -412,10 +417,27 @@ export function PagesClient({
 	const [createOpen, setCreateOpen] = useState(false);
 	const [isLoading, setIsLoading] = useState(false);
 	const [isLoadingMore, setIsLoadingMore] = useState(false);
+	const [sortBy, setSortBy] = useState<"newest" | "most_followers" | "a_z">(
+		"newest",
+	);
 	const [sidebarFollowed, setSidebarFollowed] = useState<Set<number>>(
 		() =>
 			new Set(initialPages.filter((p) => p.isFollowing).map((p) => p.id)),
 	);
+
+	const sortedPages = useMemo(() => {
+		const list = [...pages];
+		switch (sortBy) {
+			case "most_followers":
+				return list.sort(
+					(a, b) => b._count.followers - a._count.followers,
+				);
+			case "a_z":
+				return list.sort((a, b) => a.name.localeCompare(b.name));
+			default:
+				return list;
+		}
+	}, [pages, sortBy]);
 
 	useEffect(() => {
 		const timer = setTimeout(async () => {
@@ -438,7 +460,10 @@ export function PagesClient({
 		setIsLoadingMore(false);
 	};
 
-	const sentinelRef = useInfiniteScroll(loadMore, { hasMore, loading: isLoadingMore });
+	const sentinelRef = useInfiniteScroll(loadMore, {
+		hasMore,
+		loading: isLoadingMore,
+	});
 
 	const handleToggleFollow = (id: number, nowFollowing: boolean) => {
 		setPages((prev) =>
@@ -472,11 +497,11 @@ export function PagesClient({
 	};
 
 	// Featured: top 4 pages
-	const featured = pages.slice(0, 4);
+	const featured = sortedPages.slice(0, 4);
 	// Remaining
-	const contentPages = pages.slice(4);
+	const contentPages = sortedPages.slice(4);
 	// My followed pages
-	const myFollowedPages = pages.filter((p) => p.isFollowing);
+	const myFollowedPages = sortedPages.filter((p) => p.isFollowing);
 
 	const TABS: { key: Tab; label: string }[] = [
 		{ key: "suggestions", label: "Suggestions" },
@@ -500,24 +525,41 @@ export function PagesClient({
 						</Button>
 					</div>
 
-					{/* Tabs */}
-					<div className="flex gap-0 border-b border-border mb-6">
-						{TABS.map(({ key, label }) => (
-							<button
-								key={key}
-								onClick={() => setTab(key)}
-								className={`relative px-4 py-3 text-sm font-semibold transition-colors ${
-									tab === key
-										? "text-foreground"
-										: "text-muted-foreground hover:text-foreground"
-								}`}
-							>
-								{label}
-								{tab === key && (
-									<span className="absolute bottom-0 left-0 right-0 h-[3px] bg-foreground rounded-t-full" />
-								)}
-							</button>
-						))}
+					{/* Tabs + Sort */}
+					<div className="flex flex-wrap items-center gap-2 border-b border-border mb-4 pb-2">
+						<div className="flex gap-0 flex-1">
+							{TABS.map(({ key, label }) => (
+								<button
+									key={key}
+									onClick={() => setTab(key)}
+									className={`relative px-4 py-3 text-sm font-semibold transition-colors ${
+										tab === key
+											? "text-foreground"
+											: "text-muted-foreground hover:text-foreground"
+									}`}
+								>
+									{label}
+									{tab === key && (
+										<span className="absolute bottom-0 left-0 right-0 h-[3px] bg-foreground rounded-t-full" />
+									)}
+								</button>
+							))}
+						</div>
+						<Select
+							value={sortBy}
+							onValueChange={(v) => setSortBy(v as typeof sortBy)}
+						>
+							<SelectTrigger className="w-36 h-8 text-xs shrink-0">
+								<SelectValue />
+							</SelectTrigger>
+							<SelectContent>
+								<SelectItem value="newest">Newest</SelectItem>
+								<SelectItem value="most_followers">
+									Most followers
+								</SelectItem>
+								<SelectItem value="a_z">A → Z</SelectItem>
+							</SelectContent>
+						</Select>
 					</div>
 
 					{/* Featured carousel */}
@@ -614,8 +656,13 @@ export function PagesClient({
 							)}
 
 							{hasMore && tab !== "mypages" && (
-								<div ref={sentinelRef} className="flex justify-center py-6">
-									{isLoadingMore && <Loader2 className="h-5 w-5 animate-spin text-muted-foreground" />}
+								<div
+									ref={sentinelRef}
+									className="flex justify-center py-6"
+								>
+									{isLoadingMore && (
+										<Loader2 className="h-5 w-5 animate-spin text-muted-foreground" />
+									)}
 								</div>
 							)}
 						</>

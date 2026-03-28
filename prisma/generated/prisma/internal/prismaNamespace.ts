@@ -442,6 +442,7 @@ export const ModelName = {
   Story: 'Story',
   StoryView: 'StoryView',
   StoryReaction: 'StoryReaction',
+  StoryComment: 'StoryComment',
   User: 'User',
   Avatar: 'Avatar',
   CoverPhoto: 'CoverPhoto',
@@ -467,7 +468,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "album" | "albumPhoto" | "account" | "session" | "verificationToken" | "activateToken" | "resetPasswordToken" | "blog" | "blogLike" | "blogHashtag" | "postComment" | "commentLike" | "commentReply" | "replyLike" | "event" | "eventAttendee" | "eventPost" | "eventPostLike" | "eventPostComment" | "eventPostCommentLike" | "eventHashtag" | "group" | "groupMember" | "groupPost" | "groupPostLike" | "groupPostComment" | "groupPostCommentLike" | "marketplaceListing" | "listingImage" | "listingSave" | "listingOffer" | "listingMessage" | "listingMessageLike" | "memory" | "conversation" | "conversationParticipant" | "message" | "messageReaction" | "reportedContent" | "moderationLog" | "notification" | "page" | "pageFollower" | "pagePost" | "pagePostLike" | "pagePostComment" | "pagePostCommentLike" | "post" | "postMedia" | "postLike" | "postSave" | "postShare" | "postHistory" | "hashtag" | "postHashtag" | "story" | "storyView" | "storyReaction" | "user" | "avatar" | "coverPhoto" | "userFollow" | "userBlock" | "video" | "videoLike" | "videoComment" | "videoCommentLike" | "videoHashtag"
+    modelProps: "album" | "albumPhoto" | "account" | "session" | "verificationToken" | "activateToken" | "resetPasswordToken" | "blog" | "blogLike" | "blogHashtag" | "postComment" | "commentLike" | "commentReply" | "replyLike" | "event" | "eventAttendee" | "eventPost" | "eventPostLike" | "eventPostComment" | "eventPostCommentLike" | "eventHashtag" | "group" | "groupMember" | "groupPost" | "groupPostLike" | "groupPostComment" | "groupPostCommentLike" | "marketplaceListing" | "listingImage" | "listingSave" | "listingOffer" | "listingMessage" | "listingMessageLike" | "memory" | "conversation" | "conversationParticipant" | "message" | "messageReaction" | "reportedContent" | "moderationLog" | "notification" | "page" | "pageFollower" | "pagePost" | "pagePostLike" | "pagePostComment" | "pagePostCommentLike" | "post" | "postMedia" | "postLike" | "postSave" | "postShare" | "postHistory" | "hashtag" | "postHashtag" | "story" | "storyView" | "storyReaction" | "storyComment" | "user" | "avatar" | "coverPhoto" | "userFollow" | "userBlock" | "video" | "videoLike" | "videoComment" | "videoCommentLike" | "videoHashtag"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -4763,6 +4764,80 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
+    StoryComment: {
+      payload: Prisma.$StoryCommentPayload<ExtArgs>
+      fields: Prisma.StoryCommentFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.StoryCommentFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$StoryCommentPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.StoryCommentFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$StoryCommentPayload>
+        }
+        findFirst: {
+          args: Prisma.StoryCommentFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$StoryCommentPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.StoryCommentFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$StoryCommentPayload>
+        }
+        findMany: {
+          args: Prisma.StoryCommentFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$StoryCommentPayload>[]
+        }
+        create: {
+          args: Prisma.StoryCommentCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$StoryCommentPayload>
+        }
+        createMany: {
+          args: Prisma.StoryCommentCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.StoryCommentCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$StoryCommentPayload>[]
+        }
+        delete: {
+          args: Prisma.StoryCommentDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$StoryCommentPayload>
+        }
+        update: {
+          args: Prisma.StoryCommentUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$StoryCommentPayload>
+        }
+        deleteMany: {
+          args: Prisma.StoryCommentDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.StoryCommentUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.StoryCommentUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$StoryCommentPayload>[]
+        }
+        upsert: {
+          args: Prisma.StoryCommentUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$StoryCommentPayload>
+        }
+        aggregate: {
+          args: Prisma.StoryCommentAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateStoryComment>
+        }
+        groupBy: {
+          args: Prisma.StoryCommentGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.StoryCommentGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.StoryCommentCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.StoryCommentCountAggregateOutputType> | number
+        }
+      }
+    }
     User: {
       payload: Prisma.$UserPayload<ExtArgs>
       fields: Prisma.UserFieldRefs
@@ -6267,6 +6342,17 @@ export const StoryReactionScalarFieldEnum = {
 export type StoryReactionScalarFieldEnum = (typeof StoryReactionScalarFieldEnum)[keyof typeof StoryReactionScalarFieldEnum]
 
 
+export const StoryCommentScalarFieldEnum = {
+  id: 'id',
+  content: 'content',
+  createdAt: 'createdAt',
+  storyId: 'storyId',
+  userId: 'userId'
+} as const
+
+export type StoryCommentScalarFieldEnum = (typeof StoryCommentScalarFieldEnum)[keyof typeof StoryCommentScalarFieldEnum]
+
+
 export const UserScalarFieldEnum = {
   id: 'id',
   userName: 'userName',
@@ -6785,6 +6871,7 @@ export type GlobalOmitConfig = {
   story?: Prisma.StoryOmit
   storyView?: Prisma.StoryViewOmit
   storyReaction?: Prisma.StoryReactionOmit
+  storyComment?: Prisma.StoryCommentOmit
   user?: Prisma.UserOmit
   avatar?: Prisma.AvatarOmit
   coverPhoto?: Prisma.CoverPhotoOmit

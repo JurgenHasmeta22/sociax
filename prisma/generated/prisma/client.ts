@@ -332,6 +332,11 @@ export type StoryView = Prisma.StoryViewModel
  */
 export type StoryReaction = Prisma.StoryReactionModel
 /**
+ * Model StoryComment
+ * 
+ */
+export type StoryComment = Prisma.StoryCommentModel
+/**
  * Model User
  * 
  */

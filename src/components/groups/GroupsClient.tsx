@@ -1,12 +1,19 @@
 ﻿"use client";
 
-import { useState, useTransition, useRef, useEffect } from "react";
+import { useState, useTransition, useRef, useEffect, useMemo } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { formatCount } from "@/lib/utils";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
+import {
+	Select,
+	SelectContent,
+	SelectItem,
+	SelectTrigger,
+	SelectValue,
+} from "@/components/ui/select";
 import { Users, ChevronRight, ChevronLeft, Loader2 } from "lucide-react";
 import { GroupJoinButton } from "@/components/groups/GroupJoinButton";
 import { CreateGroupDialog } from "@/components/groups/CreateGroupDialog";
@@ -58,8 +65,6 @@ const STATIC_CATEGORIES = [
 	"Arts",
 	"Sports",
 ];
-
-
 
 function FeaturedGroupCard({
 	group,
@@ -237,9 +242,34 @@ export function GroupsClient({
 	const [skip, setSkip] = useState(initialSuggestions.length);
 	const [isPending, startTransition] = useTransition();
 	const [showCreate, setShowCreate] = useState(false);
+	const [sortBy, setSortBy] = useState<
+		"newest" | "most_members" | "most_posts" | "a_z"
+	>("newest");
+	const [privacyFilter, setPrivacyFilter] = useState<
+		"all" | "Public" | "Private"
+	>("all");
 	const debounceRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 	const carouselRef = useRef<HTMLDivElement>(null);
 	const router = useRouter();
+
+	const displayedGroups = useMemo(() => {
+		let list = [...groups];
+		if (privacyFilter !== "all") {
+			list = list.filter((g) => g.privacy === privacyFilter);
+		}
+		switch (sortBy) {
+			case "most_members":
+				list.sort((a, b) => b._count.members - a._count.members);
+				break;
+			case "most_posts":
+				list.sort((a, b) => b._count.posts - a._count.posts);
+				break;
+			case "a_z":
+				list.sort((a, b) => a.name.localeCompare(b.name));
+				break;
+		}
+		return list;
+	}, [groups, sortBy, privacyFilter]);
 
 	const scrollCarousel = (dir: "left" | "right") => {
 		if (carouselRef.current) {
@@ -310,9 +340,12 @@ export function GroupsClient({
 	};
 
 	const hasMore = groups.length < total;
-	const sentinelRef = useInfiniteScroll(handleLoadMore, { hasMore, loading: isPending });
-	const featured = groups.slice(0, 4);
-	const suggestionList = groups.slice(4);
+	const sentinelRef = useInfiniteScroll(handleLoadMore, {
+		hasMore,
+		loading: isPending,
+	});
+	const featured = displayedGroups.slice(0, 4);
+	const suggestionList = displayedGroups.slice(4);
 
 	const TABS: { key: Tab; label: string }[] = [
 		{ key: "suggestions", label: "Suggestions" },
@@ -334,30 +367,68 @@ export function GroupsClient({
 				)}
 			</div>
 
-			<div className="flex gap-0 border-b border-border mb-6">
-				{TABS.map(({ key, label }) => (
-					<button
-						key={key}
-						onClick={() => setTab(key)}
-						className={`relative px-4 py-3 text-sm font-semibold transition-colors ${
-							tab === key
-								? "text-foreground"
-								: "text-muted-foreground hover:text-foreground"
-						}`}
+			<div className="flex flex-wrap items-center gap-2 border-b border-border mb-4 pb-2">
+				<div className="flex gap-0 flex-1">
+					{TABS.map(({ key, label }) => (
+						<button
+							key={key}
+							onClick={() => setTab(key)}
+							className={`relative px-4 py-3 text-sm font-semibold transition-colors ${
+								tab === key
+									? "text-foreground"
+									: "text-muted-foreground hover:text-foreground"
+							}`}
+						>
+							{label}
+							{tab === key && (
+								<span className="absolute bottom-0 left-0 right-0 h-[3px] bg-foreground rounded-t-full" />
+							)}
+						</button>
+					))}
+				</div>
+				{/* Sort & Privacy filter */}
+				<div className="flex gap-2 shrink-0 items-center ml-auto">
+					<Select
+						value={privacyFilter}
+						onValueChange={(v) =>
+							setPrivacyFilter(v as typeof privacyFilter)
+						}
 					>
-						{label}
-						{tab === key && (
-							<span className="absolute bottom-0 left-0 right-0 h-[3px] bg-foreground rounded-t-full" />
-						)}
-					</button>
-				))}
+						<SelectTrigger className="w-28 h-8 text-xs">
+							<SelectValue />
+						</SelectTrigger>
+						<SelectContent>
+							<SelectItem value="all">All groups</SelectItem>
+							<SelectItem value="Public">Public</SelectItem>
+							<SelectItem value="Private">Private</SelectItem>
+						</SelectContent>
+					</Select>
+					<Select
+						value={sortBy}
+						onValueChange={(v) => setSortBy(v as typeof sortBy)}
+					>
+						<SelectTrigger className="w-36 h-8 text-xs">
+							<SelectValue />
+						</SelectTrigger>
+						<SelectContent>
+							<SelectItem value="newest">Newest</SelectItem>
+							<SelectItem value="most_members">
+								Most members
+							</SelectItem>
+							<SelectItem value="most_posts">
+								Most posts
+							</SelectItem>
+							<SelectItem value="a_z">A → Z</SelectItem>
+						</SelectContent>
+					</Select>
+				</div>
 			</div>
 
 			{isPending && groups.length === 0 ? (
 				<div className="flex justify-center py-20">
 					<Loader2 className="h-6 w-6 animate-spin text-muted-foreground" />
 				</div>
-			) : groups.length === 0 ? (
+			) : displayedGroups.length === 0 ? (
 				<div className="text-center py-20 text-muted-foreground">
 					<Users className="h-12 w-12 mx-auto mb-3 opacity-30" />
 					<p className="font-medium text-lg">No groups found</p>
@@ -393,48 +464,47 @@ export function GroupsClient({
 										Find a group by browsing top categories.
 									</p>
 								</div>
-							<Link
-								href="/groups/categories"
-								className="text-sm text-primary hover:underline font-medium"
-							>
-								See all
-							</Link>
-						</div>
-						<div className="relative mt-3">
-							<button
-								onClick={() => scrollCarousel("left")}
-								className="absolute left-0 top-1/2 -translate-y-1/2 z-10 w-8 h-8 rounded-full bg-background border border-border shadow-md flex items-center justify-center hover:bg-muted transition-colors"
-								aria-label="Scroll left"
-							>
-								<ChevronLeft className="h-4 w-4" />
-							</button>
-							<div
-								ref={carouselRef}
-								className="flex gap-3 overflow-x-auto pb-2 scrollbar-hide px-4"
-							>
-								{STATIC_CATEGORIES.map((cat) => (
-									<Link
-										key={cat}
-										href={`/groups/categories?cat=${encodeURIComponent(cat)}`}
-										className={`relative shrink-0 w-36 h-24 rounded-xl overflow-hidden bg-gradient-to-br ${
-											CATEGORY_COLORS[cat] ??
-											"from-gray-600 to-gray-800"
-										} hover:opacity-90 transition-opacity`}
-									>
-										<div className="absolute inset-0 flex items-end p-3">
-											<span className="text-white font-semibold text-sm drop-shadow">
-												{cat}
-											</span>
-										</div>
-									</Link>
-								))}
+								<Link
+									href="/groups/categories"
+									className="text-sm text-primary hover:underline font-medium"
+								>
+									See all
+								</Link>
 							</div>
-							<button
-								onClick={() => scrollCarousel("right")}
-								className="absolute right-0 top-1/2 -translate-y-1/2 z-10 w-8 h-8 rounded-full bg-background border border-border shadow-md flex items-center justify-center hover:bg-muted transition-colors"
-								aria-label="Scroll right"
-							>
+							<div className="relative mt-3">
+								<button
+									onClick={() => scrollCarousel("left")}
+									className="absolute left-0 top-1/2 -translate-y-1/2 z-10 w-8 h-8 rounded-full bg-background border border-border shadow-md flex items-center justify-center hover:bg-muted transition-colors"
+									aria-label="Scroll left"
+								>
+									<ChevronLeft className="h-4 w-4" />
 								</button>
+								<div
+									ref={carouselRef}
+									className="flex gap-3 overflow-x-auto pb-2 scrollbar-hide px-4"
+								>
+									{STATIC_CATEGORIES.map((cat) => (
+										<Link
+											key={cat}
+											href={`/groups/categories?cat=${encodeURIComponent(cat)}`}
+											className={`relative shrink-0 w-36 h-24 rounded-xl overflow-hidden bg-gradient-to-br ${
+												CATEGORY_COLORS[cat] ??
+												"from-gray-600 to-gray-800"
+											} hover:opacity-90 transition-opacity`}
+										>
+											<div className="absolute inset-0 flex items-end p-3">
+												<span className="text-white font-semibold text-sm drop-shadow">
+													{cat}
+												</span>
+											</div>
+										</Link>
+									))}
+								</div>
+								<button
+									onClick={() => scrollCarousel("right")}
+									className="absolute right-0 top-1/2 -translate-y-1/2 z-10 w-8 h-8 rounded-full bg-background border border-border shadow-md flex items-center justify-center hover:bg-muted transition-colors"
+									aria-label="Scroll right"
+								></button>
 							</div>
 						</div>
 					)}
@@ -454,13 +524,13 @@ export function GroupsClient({
 											: "Find a group you might be interested in."}
 									</p>
 								</div>
-							<button
-								onClick={() => handleLoadMore()}
-								className="text-sm text-primary hover:underline font-medium"
-							>
-								See all
-							</button>
-						</div>
+								<button
+									onClick={() => handleLoadMore()}
+									className="text-sm text-primary hover:underline font-medium"
+								>
+									See all
+								</button>
+							</div>
 							<div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mt-3">
 								{suggestionList.map((group) => (
 									<SuggestionGroupRow
@@ -475,8 +545,13 @@ export function GroupsClient({
 					)}
 
 					{hasMore && (
-						<div ref={sentinelRef} className="flex justify-center py-6">
-							{isPending && <Loader2 className="h-5 w-5 animate-spin text-muted-foreground" />}
+						<div
+							ref={sentinelRef}
+							className="flex justify-center py-6"
+						>
+							{isPending && (
+								<Loader2 className="h-5 w-5 animate-spin text-muted-foreground" />
+							)}
 						</div>
 					)}
 				</>

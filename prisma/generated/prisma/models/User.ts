@@ -350,6 +350,7 @@ export type UserWhereInput = {
   stories?: Prisma.StoryListRelationFilter
   storyViews?: Prisma.StoryViewListRelationFilter
   storyReactions?: Prisma.StoryReactionListRelationFilter
+  storyComments?: Prisma.StoryCommentListRelationFilter
   conversations?: Prisma.ConversationParticipantListRelationFilter
   messagesSent?: Prisma.MessageListRelationFilter
   messageReactions?: Prisma.MessageReactionListRelationFilter
@@ -434,6 +435,7 @@ export type UserOrderByWithRelationInput = {
   stories?: Prisma.StoryOrderByRelationAggregateInput
   storyViews?: Prisma.StoryViewOrderByRelationAggregateInput
   storyReactions?: Prisma.StoryReactionOrderByRelationAggregateInput
+  storyComments?: Prisma.StoryCommentOrderByRelationAggregateInput
   conversations?: Prisma.ConversationParticipantOrderByRelationAggregateInput
   messagesSent?: Prisma.MessageOrderByRelationAggregateInput
   messageReactions?: Prisma.MessageReactionOrderByRelationAggregateInput
@@ -521,6 +523,7 @@ export type UserWhereUniqueInput = Prisma.AtLeast<{
   stories?: Prisma.StoryListRelationFilter
   storyViews?: Prisma.StoryViewListRelationFilter
   storyReactions?: Prisma.StoryReactionListRelationFilter
+  storyComments?: Prisma.StoryCommentListRelationFilter
   conversations?: Prisma.ConversationParticipantListRelationFilter
   messagesSent?: Prisma.MessageListRelationFilter
   messageReactions?: Prisma.MessageReactionListRelationFilter
@@ -656,6 +659,7 @@ export type UserCreateInput = {
   stories?: Prisma.StoryCreateNestedManyWithoutUserInput
   storyViews?: Prisma.StoryViewCreateNestedManyWithoutUserInput
   storyReactions?: Prisma.StoryReactionCreateNestedManyWithoutUserInput
+  storyComments?: Prisma.StoryCommentCreateNestedManyWithoutUserInput
   conversations?: Prisma.ConversationParticipantCreateNestedManyWithoutUserInput
   messagesSent?: Prisma.MessageCreateNestedManyWithoutSenderInput
   messageReactions?: Prisma.MessageReactionCreateNestedManyWithoutUserInput
@@ -740,6 +744,7 @@ export type UserUncheckedCreateInput = {
   stories?: Prisma.StoryUncheckedCreateNestedManyWithoutUserInput
   storyViews?: Prisma.StoryViewUncheckedCreateNestedManyWithoutUserInput
   storyReactions?: Prisma.StoryReactionUncheckedCreateNestedManyWithoutUserInput
+  storyComments?: Prisma.StoryCommentUncheckedCreateNestedManyWithoutUserInput
   conversations?: Prisma.ConversationParticipantUncheckedCreateNestedManyWithoutUserInput
   messagesSent?: Prisma.MessageUncheckedCreateNestedManyWithoutSenderInput
   messageReactions?: Prisma.MessageReactionUncheckedCreateNestedManyWithoutUserInput
@@ -823,6 +828,7 @@ export type UserUpdateInput = {
   stories?: Prisma.StoryUpdateManyWithoutUserNestedInput
   storyViews?: Prisma.StoryViewUpdateManyWithoutUserNestedInput
   storyReactions?: Prisma.StoryReactionUpdateManyWithoutUserNestedInput
+  storyComments?: Prisma.StoryCommentUpdateManyWithoutUserNestedInput
   conversations?: Prisma.ConversationParticipantUpdateManyWithoutUserNestedInput
   messagesSent?: Prisma.MessageUpdateManyWithoutSenderNestedInput
   messageReactions?: Prisma.MessageReactionUpdateManyWithoutUserNestedInput
@@ -907,6 +913,7 @@ export type UserUncheckedUpdateInput = {
   stories?: Prisma.StoryUncheckedUpdateManyWithoutUserNestedInput
   storyViews?: Prisma.StoryViewUncheckedUpdateManyWithoutUserNestedInput
   storyReactions?: Prisma.StoryReactionUncheckedUpdateManyWithoutUserNestedInput
+  storyComments?: Prisma.StoryCommentUncheckedUpdateManyWithoutUserNestedInput
   conversations?: Prisma.ConversationParticipantUncheckedUpdateManyWithoutUserNestedInput
   messagesSent?: Prisma.MessageUncheckedUpdateManyWithoutSenderNestedInput
   messageReactions?: Prisma.MessageReactionUncheckedUpdateManyWithoutUserNestedInput
@@ -1830,6 +1837,20 @@ export type UserUpdateOneRequiredWithoutStoryReactionsNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutStoryReactionsInput, Prisma.UserUpdateWithoutStoryReactionsInput>, Prisma.UserUncheckedUpdateWithoutStoryReactionsInput>
 }
 
+export type UserCreateNestedOneWithoutStoryCommentsInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutStoryCommentsInput, Prisma.UserUncheckedCreateWithoutStoryCommentsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutStoryCommentsInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
+export type UserUpdateOneRequiredWithoutStoryCommentsNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutStoryCommentsInput, Prisma.UserUncheckedCreateWithoutStoryCommentsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutStoryCommentsInput
+  upsert?: Prisma.UserUpsertWithoutStoryCommentsInput
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutStoryCommentsInput, Prisma.UserUpdateWithoutStoryCommentsInput>, Prisma.UserUncheckedUpdateWithoutStoryCommentsInput>
+}
+
 export type EnumUserRoleFieldUpdateOperationsInput = {
   set?: $Enums.UserRole
 }
@@ -2023,6 +2044,7 @@ export type UserCreateWithoutAlbumsInput = {
   stories?: Prisma.StoryCreateNestedManyWithoutUserInput
   storyViews?: Prisma.StoryViewCreateNestedManyWithoutUserInput
   storyReactions?: Prisma.StoryReactionCreateNestedManyWithoutUserInput
+  storyComments?: Prisma.StoryCommentCreateNestedManyWithoutUserInput
   conversations?: Prisma.ConversationParticipantCreateNestedManyWithoutUserInput
   messagesSent?: Prisma.MessageCreateNestedManyWithoutSenderInput
   messageReactions?: Prisma.MessageReactionCreateNestedManyWithoutUserInput
@@ -2106,6 +2128,7 @@ export type UserUncheckedCreateWithoutAlbumsInput = {
   stories?: Prisma.StoryUncheckedCreateNestedManyWithoutUserInput
   storyViews?: Prisma.StoryViewUncheckedCreateNestedManyWithoutUserInput
   storyReactions?: Prisma.StoryReactionUncheckedCreateNestedManyWithoutUserInput
+  storyComments?: Prisma.StoryCommentUncheckedCreateNestedManyWithoutUserInput
   conversations?: Prisma.ConversationParticipantUncheckedCreateNestedManyWithoutUserInput
   messagesSent?: Prisma.MessageUncheckedCreateNestedManyWithoutSenderInput
   messageReactions?: Prisma.MessageReactionUncheckedCreateNestedManyWithoutUserInput
@@ -2204,6 +2227,7 @@ export type UserUpdateWithoutAlbumsInput = {
   stories?: Prisma.StoryUpdateManyWithoutUserNestedInput
   storyViews?: Prisma.StoryViewUpdateManyWithoutUserNestedInput
   storyReactions?: Prisma.StoryReactionUpdateManyWithoutUserNestedInput
+  storyComments?: Prisma.StoryCommentUpdateManyWithoutUserNestedInput
   conversations?: Prisma.ConversationParticipantUpdateManyWithoutUserNestedInput
   messagesSent?: Prisma.MessageUpdateManyWithoutSenderNestedInput
   messageReactions?: Prisma.MessageReactionUpdateManyWithoutUserNestedInput
@@ -2287,6 +2311,7 @@ export type UserUncheckedUpdateWithoutAlbumsInput = {
   stories?: Prisma.StoryUncheckedUpdateManyWithoutUserNestedInput
   storyViews?: Prisma.StoryViewUncheckedUpdateManyWithoutUserNestedInput
   storyReactions?: Prisma.StoryReactionUncheckedUpdateManyWithoutUserNestedInput
+  storyComments?: Prisma.StoryCommentUncheckedUpdateManyWithoutUserNestedInput
   conversations?: Prisma.ConversationParticipantUncheckedUpdateManyWithoutUserNestedInput
   messagesSent?: Prisma.MessageUncheckedUpdateManyWithoutSenderNestedInput
   messageReactions?: Prisma.MessageReactionUncheckedUpdateManyWithoutUserNestedInput
@@ -2368,6 +2393,7 @@ export type UserCreateWithoutAccountsInput = {
   stories?: Prisma.StoryCreateNestedManyWithoutUserInput
   storyViews?: Prisma.StoryViewCreateNestedManyWithoutUserInput
   storyReactions?: Prisma.StoryReactionCreateNestedManyWithoutUserInput
+  storyComments?: Prisma.StoryCommentCreateNestedManyWithoutUserInput
   conversations?: Prisma.ConversationParticipantCreateNestedManyWithoutUserInput
   messagesSent?: Prisma.MessageCreateNestedManyWithoutSenderInput
   messageReactions?: Prisma.MessageReactionCreateNestedManyWithoutUserInput
@@ -2451,6 +2477,7 @@ export type UserUncheckedCreateWithoutAccountsInput = {
   stories?: Prisma.StoryUncheckedCreateNestedManyWithoutUserInput
   storyViews?: Prisma.StoryViewUncheckedCreateNestedManyWithoutUserInput
   storyReactions?: Prisma.StoryReactionUncheckedCreateNestedManyWithoutUserInput
+  storyComments?: Prisma.StoryCommentUncheckedCreateNestedManyWithoutUserInput
   conversations?: Prisma.ConversationParticipantUncheckedCreateNestedManyWithoutUserInput
   messagesSent?: Prisma.MessageUncheckedCreateNestedManyWithoutSenderInput
   messageReactions?: Prisma.MessageReactionUncheckedCreateNestedManyWithoutUserInput
@@ -2549,6 +2576,7 @@ export type UserUpdateWithoutAccountsInput = {
   stories?: Prisma.StoryUpdateManyWithoutUserNestedInput
   storyViews?: Prisma.StoryViewUpdateManyWithoutUserNestedInput
   storyReactions?: Prisma.StoryReactionUpdateManyWithoutUserNestedInput
+  storyComments?: Prisma.StoryCommentUpdateManyWithoutUserNestedInput
   conversations?: Prisma.ConversationParticipantUpdateManyWithoutUserNestedInput
   messagesSent?: Prisma.MessageUpdateManyWithoutSenderNestedInput
   messageReactions?: Prisma.MessageReactionUpdateManyWithoutUserNestedInput
@@ -2632,6 +2660,7 @@ export type UserUncheckedUpdateWithoutAccountsInput = {
   stories?: Prisma.StoryUncheckedUpdateManyWithoutUserNestedInput
   storyViews?: Prisma.StoryViewUncheckedUpdateManyWithoutUserNestedInput
   storyReactions?: Prisma.StoryReactionUncheckedUpdateManyWithoutUserNestedInput
+  storyComments?: Prisma.StoryCommentUncheckedUpdateManyWithoutUserNestedInput
   conversations?: Prisma.ConversationParticipantUncheckedUpdateManyWithoutUserNestedInput
   messagesSent?: Prisma.MessageUncheckedUpdateManyWithoutSenderNestedInput
   messageReactions?: Prisma.MessageReactionUncheckedUpdateManyWithoutUserNestedInput
@@ -2714,6 +2743,7 @@ export type UserCreateWithoutSessionsInput = {
   stories?: Prisma.StoryCreateNestedManyWithoutUserInput
   storyViews?: Prisma.StoryViewCreateNestedManyWithoutUserInput
   storyReactions?: Prisma.StoryReactionCreateNestedManyWithoutUserInput
+  storyComments?: Prisma.StoryCommentCreateNestedManyWithoutUserInput
   conversations?: Prisma.ConversationParticipantCreateNestedManyWithoutUserInput
   messagesSent?: Prisma.MessageCreateNestedManyWithoutSenderInput
   messageReactions?: Prisma.MessageReactionCreateNestedManyWithoutUserInput
@@ -2797,6 +2827,7 @@ export type UserUncheckedCreateWithoutSessionsInput = {
   stories?: Prisma.StoryUncheckedCreateNestedManyWithoutUserInput
   storyViews?: Prisma.StoryViewUncheckedCreateNestedManyWithoutUserInput
   storyReactions?: Prisma.StoryReactionUncheckedCreateNestedManyWithoutUserInput
+  storyComments?: Prisma.StoryCommentUncheckedCreateNestedManyWithoutUserInput
   conversations?: Prisma.ConversationParticipantUncheckedCreateNestedManyWithoutUserInput
   messagesSent?: Prisma.MessageUncheckedCreateNestedManyWithoutSenderInput
   messageReactions?: Prisma.MessageReactionUncheckedCreateNestedManyWithoutUserInput
@@ -2895,6 +2926,7 @@ export type UserUpdateWithoutSessionsInput = {
   stories?: Prisma.StoryUpdateManyWithoutUserNestedInput
   storyViews?: Prisma.StoryViewUpdateManyWithoutUserNestedInput
   storyReactions?: Prisma.StoryReactionUpdateManyWithoutUserNestedInput
+  storyComments?: Prisma.StoryCommentUpdateManyWithoutUserNestedInput
   conversations?: Prisma.ConversationParticipantUpdateManyWithoutUserNestedInput
   messagesSent?: Prisma.MessageUpdateManyWithoutSenderNestedInput
   messageReactions?: Prisma.MessageReactionUpdateManyWithoutUserNestedInput
@@ -2978,6 +3010,7 @@ export type UserUncheckedUpdateWithoutSessionsInput = {
   stories?: Prisma.StoryUncheckedUpdateManyWithoutUserNestedInput
   storyViews?: Prisma.StoryViewUncheckedUpdateManyWithoutUserNestedInput
   storyReactions?: Prisma.StoryReactionUncheckedUpdateManyWithoutUserNestedInput
+  storyComments?: Prisma.StoryCommentUncheckedUpdateManyWithoutUserNestedInput
   conversations?: Prisma.ConversationParticipantUncheckedUpdateManyWithoutUserNestedInput
   messagesSent?: Prisma.MessageUncheckedUpdateManyWithoutSenderNestedInput
   messageReactions?: Prisma.MessageReactionUncheckedUpdateManyWithoutUserNestedInput
@@ -3060,6 +3093,7 @@ export type UserCreateWithoutActivateTokensInput = {
   stories?: Prisma.StoryCreateNestedManyWithoutUserInput
   storyViews?: Prisma.StoryViewCreateNestedManyWithoutUserInput
   storyReactions?: Prisma.StoryReactionCreateNestedManyWithoutUserInput
+  storyComments?: Prisma.StoryCommentCreateNestedManyWithoutUserInput
   conversations?: Prisma.ConversationParticipantCreateNestedManyWithoutUserInput
   messagesSent?: Prisma.MessageCreateNestedManyWithoutSenderInput
   messageReactions?: Prisma.MessageReactionCreateNestedManyWithoutUserInput
@@ -3143,6 +3177,7 @@ export type UserUncheckedCreateWithoutActivateTokensInput = {
   stories?: Prisma.StoryUncheckedCreateNestedManyWithoutUserInput
   storyViews?: Prisma.StoryViewUncheckedCreateNestedManyWithoutUserInput
   storyReactions?: Prisma.StoryReactionUncheckedCreateNestedManyWithoutUserInput
+  storyComments?: Prisma.StoryCommentUncheckedCreateNestedManyWithoutUserInput
   conversations?: Prisma.ConversationParticipantUncheckedCreateNestedManyWithoutUserInput
   messagesSent?: Prisma.MessageUncheckedCreateNestedManyWithoutSenderInput
   messageReactions?: Prisma.MessageReactionUncheckedCreateNestedManyWithoutUserInput
@@ -3241,6 +3276,7 @@ export type UserUpdateWithoutActivateTokensInput = {
   stories?: Prisma.StoryUpdateManyWithoutUserNestedInput
   storyViews?: Prisma.StoryViewUpdateManyWithoutUserNestedInput
   storyReactions?: Prisma.StoryReactionUpdateManyWithoutUserNestedInput
+  storyComments?: Prisma.StoryCommentUpdateManyWithoutUserNestedInput
   conversations?: Prisma.ConversationParticipantUpdateManyWithoutUserNestedInput
   messagesSent?: Prisma.MessageUpdateManyWithoutSenderNestedInput
   messageReactions?: Prisma.MessageReactionUpdateManyWithoutUserNestedInput
@@ -3324,6 +3360,7 @@ export type UserUncheckedUpdateWithoutActivateTokensInput = {
   stories?: Prisma.StoryUncheckedUpdateManyWithoutUserNestedInput
   storyViews?: Prisma.StoryViewUncheckedUpdateManyWithoutUserNestedInput
   storyReactions?: Prisma.StoryReactionUncheckedUpdateManyWithoutUserNestedInput
+  storyComments?: Prisma.StoryCommentUncheckedUpdateManyWithoutUserNestedInput
   conversations?: Prisma.ConversationParticipantUncheckedUpdateManyWithoutUserNestedInput
   messagesSent?: Prisma.MessageUncheckedUpdateManyWithoutSenderNestedInput
   messageReactions?: Prisma.MessageReactionUncheckedUpdateManyWithoutUserNestedInput
@@ -3406,6 +3443,7 @@ export type UserCreateWithoutResetPasswordTokensInput = {
   stories?: Prisma.StoryCreateNestedManyWithoutUserInput
   storyViews?: Prisma.StoryViewCreateNestedManyWithoutUserInput
   storyReactions?: Prisma.StoryReactionCreateNestedManyWithoutUserInput
+  storyComments?: Prisma.StoryCommentCreateNestedManyWithoutUserInput
   conversations?: Prisma.ConversationParticipantCreateNestedManyWithoutUserInput
   messagesSent?: Prisma.MessageCreateNestedManyWithoutSenderInput
   messageReactions?: Prisma.MessageReactionCreateNestedManyWithoutUserInput
@@ -3489,6 +3527,7 @@ export type UserUncheckedCreateWithoutResetPasswordTokensInput = {
   stories?: Prisma.StoryUncheckedCreateNestedManyWithoutUserInput
   storyViews?: Prisma.StoryViewUncheckedCreateNestedManyWithoutUserInput
   storyReactions?: Prisma.StoryReactionUncheckedCreateNestedManyWithoutUserInput
+  storyComments?: Prisma.StoryCommentUncheckedCreateNestedManyWithoutUserInput
   conversations?: Prisma.ConversationParticipantUncheckedCreateNestedManyWithoutUserInput
   messagesSent?: Prisma.MessageUncheckedCreateNestedManyWithoutSenderInput
   messageReactions?: Prisma.MessageReactionUncheckedCreateNestedManyWithoutUserInput
@@ -3587,6 +3626,7 @@ export type UserUpdateWithoutResetPasswordTokensInput = {
   stories?: Prisma.StoryUpdateManyWithoutUserNestedInput
   storyViews?: Prisma.StoryViewUpdateManyWithoutUserNestedInput
   storyReactions?: Prisma.StoryReactionUpdateManyWithoutUserNestedInput
+  storyComments?: Prisma.StoryCommentUpdateManyWithoutUserNestedInput
   conversations?: Prisma.ConversationParticipantUpdateManyWithoutUserNestedInput
   messagesSent?: Prisma.MessageUpdateManyWithoutSenderNestedInput
   messageReactions?: Prisma.MessageReactionUpdateManyWithoutUserNestedInput
@@ -3670,6 +3710,7 @@ export type UserUncheckedUpdateWithoutResetPasswordTokensInput = {
   stories?: Prisma.StoryUncheckedUpdateManyWithoutUserNestedInput
   storyViews?: Prisma.StoryViewUncheckedUpdateManyWithoutUserNestedInput
   storyReactions?: Prisma.StoryReactionUncheckedUpdateManyWithoutUserNestedInput
+  storyComments?: Prisma.StoryCommentUncheckedUpdateManyWithoutUserNestedInput
   conversations?: Prisma.ConversationParticipantUncheckedUpdateManyWithoutUserNestedInput
   messagesSent?: Prisma.MessageUncheckedUpdateManyWithoutSenderNestedInput
   messageReactions?: Prisma.MessageReactionUncheckedUpdateManyWithoutUserNestedInput
@@ -3753,6 +3794,7 @@ export type UserCreateWithoutBlogsInput = {
   stories?: Prisma.StoryCreateNestedManyWithoutUserInput
   storyViews?: Prisma.StoryViewCreateNestedManyWithoutUserInput
   storyReactions?: Prisma.StoryReactionCreateNestedManyWithoutUserInput
+  storyComments?: Prisma.StoryCommentCreateNestedManyWithoutUserInput
   conversations?: Prisma.ConversationParticipantCreateNestedManyWithoutUserInput
   messagesSent?: Prisma.MessageCreateNestedManyWithoutSenderInput
   messageReactions?: Prisma.MessageReactionCreateNestedManyWithoutUserInput
@@ -3836,6 +3878,7 @@ export type UserUncheckedCreateWithoutBlogsInput = {
   stories?: Prisma.StoryUncheckedCreateNestedManyWithoutUserInput
   storyViews?: Prisma.StoryViewUncheckedCreateNestedManyWithoutUserInput
   storyReactions?: Prisma.StoryReactionUncheckedCreateNestedManyWithoutUserInput
+  storyComments?: Prisma.StoryCommentUncheckedCreateNestedManyWithoutUserInput
   conversations?: Prisma.ConversationParticipantUncheckedCreateNestedManyWithoutUserInput
   messagesSent?: Prisma.MessageUncheckedCreateNestedManyWithoutSenderInput
   messageReactions?: Prisma.MessageReactionUncheckedCreateNestedManyWithoutUserInput
@@ -3934,6 +3977,7 @@ export type UserUpdateWithoutBlogsInput = {
   stories?: Prisma.StoryUpdateManyWithoutUserNestedInput
   storyViews?: Prisma.StoryViewUpdateManyWithoutUserNestedInput
   storyReactions?: Prisma.StoryReactionUpdateManyWithoutUserNestedInput
+  storyComments?: Prisma.StoryCommentUpdateManyWithoutUserNestedInput
   conversations?: Prisma.ConversationParticipantUpdateManyWithoutUserNestedInput
   messagesSent?: Prisma.MessageUpdateManyWithoutSenderNestedInput
   messageReactions?: Prisma.MessageReactionUpdateManyWithoutUserNestedInput
@@ -4017,6 +4061,7 @@ export type UserUncheckedUpdateWithoutBlogsInput = {
   stories?: Prisma.StoryUncheckedUpdateManyWithoutUserNestedInput
   storyViews?: Prisma.StoryViewUncheckedUpdateManyWithoutUserNestedInput
   storyReactions?: Prisma.StoryReactionUncheckedUpdateManyWithoutUserNestedInput
+  storyComments?: Prisma.StoryCommentUncheckedUpdateManyWithoutUserNestedInput
   conversations?: Prisma.ConversationParticipantUncheckedUpdateManyWithoutUserNestedInput
   messagesSent?: Prisma.MessageUncheckedUpdateManyWithoutSenderNestedInput
   messageReactions?: Prisma.MessageReactionUncheckedUpdateManyWithoutUserNestedInput
@@ -4099,6 +4144,7 @@ export type UserCreateWithoutBlogLikesInput = {
   stories?: Prisma.StoryCreateNestedManyWithoutUserInput
   storyViews?: Prisma.StoryViewCreateNestedManyWithoutUserInput
   storyReactions?: Prisma.StoryReactionCreateNestedManyWithoutUserInput
+  storyComments?: Prisma.StoryCommentCreateNestedManyWithoutUserInput
   conversations?: Prisma.ConversationParticipantCreateNestedManyWithoutUserInput
   messagesSent?: Prisma.MessageCreateNestedManyWithoutSenderInput
   messageReactions?: Prisma.MessageReactionCreateNestedManyWithoutUserInput
@@ -4182,6 +4228,7 @@ export type UserUncheckedCreateWithoutBlogLikesInput = {
   stories?: Prisma.StoryUncheckedCreateNestedManyWithoutUserInput
   storyViews?: Prisma.StoryViewUncheckedCreateNestedManyWithoutUserInput
   storyReactions?: Prisma.StoryReactionUncheckedCreateNestedManyWithoutUserInput
+  storyComments?: Prisma.StoryCommentUncheckedCreateNestedManyWithoutUserInput
   conversations?: Prisma.ConversationParticipantUncheckedCreateNestedManyWithoutUserInput
   messagesSent?: Prisma.MessageUncheckedCreateNestedManyWithoutSenderInput
   messageReactions?: Prisma.MessageReactionUncheckedCreateNestedManyWithoutUserInput
@@ -4280,6 +4327,7 @@ export type UserUpdateWithoutBlogLikesInput = {
   stories?: Prisma.StoryUpdateManyWithoutUserNestedInput
   storyViews?: Prisma.StoryViewUpdateManyWithoutUserNestedInput
   storyReactions?: Prisma.StoryReactionUpdateManyWithoutUserNestedInput
+  storyComments?: Prisma.StoryCommentUpdateManyWithoutUserNestedInput
   conversations?: Prisma.ConversationParticipantUpdateManyWithoutUserNestedInput
   messagesSent?: Prisma.MessageUpdateManyWithoutSenderNestedInput
   messageReactions?: Prisma.MessageReactionUpdateManyWithoutUserNestedInput
@@ -4363,6 +4411,7 @@ export type UserUncheckedUpdateWithoutBlogLikesInput = {
   stories?: Prisma.StoryUncheckedUpdateManyWithoutUserNestedInput
   storyViews?: Prisma.StoryViewUncheckedUpdateManyWithoutUserNestedInput
   storyReactions?: Prisma.StoryReactionUncheckedUpdateManyWithoutUserNestedInput
+  storyComments?: Prisma.StoryCommentUncheckedUpdateManyWithoutUserNestedInput
   conversations?: Prisma.ConversationParticipantUncheckedUpdateManyWithoutUserNestedInput
   messagesSent?: Prisma.MessageUncheckedUpdateManyWithoutSenderNestedInput
   messageReactions?: Prisma.MessageReactionUncheckedUpdateManyWithoutUserNestedInput
@@ -4444,6 +4493,7 @@ export type UserCreateWithoutPostCommentsInput = {
   stories?: Prisma.StoryCreateNestedManyWithoutUserInput
   storyViews?: Prisma.StoryViewCreateNestedManyWithoutUserInput
   storyReactions?: Prisma.StoryReactionCreateNestedManyWithoutUserInput
+  storyComments?: Prisma.StoryCommentCreateNestedManyWithoutUserInput
   conversations?: Prisma.ConversationParticipantCreateNestedManyWithoutUserInput
   messagesSent?: Prisma.MessageCreateNestedManyWithoutSenderInput
   messageReactions?: Prisma.MessageReactionCreateNestedManyWithoutUserInput
@@ -4527,6 +4577,7 @@ export type UserUncheckedCreateWithoutPostCommentsInput = {
   stories?: Prisma.StoryUncheckedCreateNestedManyWithoutUserInput
   storyViews?: Prisma.StoryViewUncheckedCreateNestedManyWithoutUserInput
   storyReactions?: Prisma.StoryReactionUncheckedCreateNestedManyWithoutUserInput
+  storyComments?: Prisma.StoryCommentUncheckedCreateNestedManyWithoutUserInput
   conversations?: Prisma.ConversationParticipantUncheckedCreateNestedManyWithoutUserInput
   messagesSent?: Prisma.MessageUncheckedCreateNestedManyWithoutSenderInput
   messageReactions?: Prisma.MessageReactionUncheckedCreateNestedManyWithoutUserInput
@@ -4625,6 +4676,7 @@ export type UserUpdateWithoutPostCommentsInput = {
   stories?: Prisma.StoryUpdateManyWithoutUserNestedInput
   storyViews?: Prisma.StoryViewUpdateManyWithoutUserNestedInput
   storyReactions?: Prisma.StoryReactionUpdateManyWithoutUserNestedInput
+  storyComments?: Prisma.StoryCommentUpdateManyWithoutUserNestedInput
   conversations?: Prisma.ConversationParticipantUpdateManyWithoutUserNestedInput
   messagesSent?: Prisma.MessageUpdateManyWithoutSenderNestedInput
   messageReactions?: Prisma.MessageReactionUpdateManyWithoutUserNestedInput
@@ -4708,6 +4760,7 @@ export type UserUncheckedUpdateWithoutPostCommentsInput = {
   stories?: Prisma.StoryUncheckedUpdateManyWithoutUserNestedInput
   storyViews?: Prisma.StoryViewUncheckedUpdateManyWithoutUserNestedInput
   storyReactions?: Prisma.StoryReactionUncheckedUpdateManyWithoutUserNestedInput
+  storyComments?: Prisma.StoryCommentUncheckedUpdateManyWithoutUserNestedInput
   conversations?: Prisma.ConversationParticipantUncheckedUpdateManyWithoutUserNestedInput
   messagesSent?: Prisma.MessageUncheckedUpdateManyWithoutSenderNestedInput
   messageReactions?: Prisma.MessageReactionUncheckedUpdateManyWithoutUserNestedInput
@@ -4790,6 +4843,7 @@ export type UserCreateWithoutCommentLikesInput = {
   stories?: Prisma.StoryCreateNestedManyWithoutUserInput
   storyViews?: Prisma.StoryViewCreateNestedManyWithoutUserInput
   storyReactions?: Prisma.StoryReactionCreateNestedManyWithoutUserInput
+  storyComments?: Prisma.StoryCommentCreateNestedManyWithoutUserInput
   conversations?: Prisma.ConversationParticipantCreateNestedManyWithoutUserInput
   messagesSent?: Prisma.MessageCreateNestedManyWithoutSenderInput
   messageReactions?: Prisma.MessageReactionCreateNestedManyWithoutUserInput
@@ -4873,6 +4927,7 @@ export type UserUncheckedCreateWithoutCommentLikesInput = {
   stories?: Prisma.StoryUncheckedCreateNestedManyWithoutUserInput
   storyViews?: Prisma.StoryViewUncheckedCreateNestedManyWithoutUserInput
   storyReactions?: Prisma.StoryReactionUncheckedCreateNestedManyWithoutUserInput
+  storyComments?: Prisma.StoryCommentUncheckedCreateNestedManyWithoutUserInput
   conversations?: Prisma.ConversationParticipantUncheckedCreateNestedManyWithoutUserInput
   messagesSent?: Prisma.MessageUncheckedCreateNestedManyWithoutSenderInput
   messageReactions?: Prisma.MessageReactionUncheckedCreateNestedManyWithoutUserInput
@@ -4971,6 +5026,7 @@ export type UserUpdateWithoutCommentLikesInput = {
   stories?: Prisma.StoryUpdateManyWithoutUserNestedInput
   storyViews?: Prisma.StoryViewUpdateManyWithoutUserNestedInput
   storyReactions?: Prisma.StoryReactionUpdateManyWithoutUserNestedInput
+  storyComments?: Prisma.StoryCommentUpdateManyWithoutUserNestedInput
   conversations?: Prisma.ConversationParticipantUpdateManyWithoutUserNestedInput
   messagesSent?: Prisma.MessageUpdateManyWithoutSenderNestedInput
   messageReactions?: Prisma.MessageReactionUpdateManyWithoutUserNestedInput
@@ -5054,6 +5110,7 @@ export type UserUncheckedUpdateWithoutCommentLikesInput = {
   stories?: Prisma.StoryUncheckedUpdateManyWithoutUserNestedInput
   storyViews?: Prisma.StoryViewUncheckedUpdateManyWithoutUserNestedInput
   storyReactions?: Prisma.StoryReactionUncheckedUpdateManyWithoutUserNestedInput
+  storyComments?: Prisma.StoryCommentUncheckedUpdateManyWithoutUserNestedInput
   conversations?: Prisma.ConversationParticipantUncheckedUpdateManyWithoutUserNestedInput
   messagesSent?: Prisma.MessageUncheckedUpdateManyWithoutSenderNestedInput
   messageReactions?: Prisma.MessageReactionUncheckedUpdateManyWithoutUserNestedInput
@@ -5136,6 +5193,7 @@ export type UserCreateWithoutCommentRepliesInput = {
   stories?: Prisma.StoryCreateNestedManyWithoutUserInput
   storyViews?: Prisma.StoryViewCreateNestedManyWithoutUserInput
   storyReactions?: Prisma.StoryReactionCreateNestedManyWithoutUserInput
+  storyComments?: Prisma.StoryCommentCreateNestedManyWithoutUserInput
   conversations?: Prisma.ConversationParticipantCreateNestedManyWithoutUserInput
   messagesSent?: Prisma.MessageCreateNestedManyWithoutSenderInput
   messageReactions?: Prisma.MessageReactionCreateNestedManyWithoutUserInput
@@ -5219,6 +5277,7 @@ export type UserUncheckedCreateWithoutCommentRepliesInput = {
   stories?: Prisma.StoryUncheckedCreateNestedManyWithoutUserInput
   storyViews?: Prisma.StoryViewUncheckedCreateNestedManyWithoutUserInput
   storyReactions?: Prisma.StoryReactionUncheckedCreateNestedManyWithoutUserInput
+  storyComments?: Prisma.StoryCommentUncheckedCreateNestedManyWithoutUserInput
   conversations?: Prisma.ConversationParticipantUncheckedCreateNestedManyWithoutUserInput
   messagesSent?: Prisma.MessageUncheckedCreateNestedManyWithoutSenderInput
   messageReactions?: Prisma.MessageReactionUncheckedCreateNestedManyWithoutUserInput
@@ -5317,6 +5376,7 @@ export type UserUpdateWithoutCommentRepliesInput = {
   stories?: Prisma.StoryUpdateManyWithoutUserNestedInput
   storyViews?: Prisma.StoryViewUpdateManyWithoutUserNestedInput
   storyReactions?: Prisma.StoryReactionUpdateManyWithoutUserNestedInput
+  storyComments?: Prisma.StoryCommentUpdateManyWithoutUserNestedInput
   conversations?: Prisma.ConversationParticipantUpdateManyWithoutUserNestedInput
   messagesSent?: Prisma.MessageUpdateManyWithoutSenderNestedInput
   messageReactions?: Prisma.MessageReactionUpdateManyWithoutUserNestedInput
@@ -5400,6 +5460,7 @@ export type UserUncheckedUpdateWithoutCommentRepliesInput = {
   stories?: Prisma.StoryUncheckedUpdateManyWithoutUserNestedInput
   storyViews?: Prisma.StoryViewUncheckedUpdateManyWithoutUserNestedInput
   storyReactions?: Prisma.StoryReactionUncheckedUpdateManyWithoutUserNestedInput
+  storyComments?: Prisma.StoryCommentUncheckedUpdateManyWithoutUserNestedInput
   conversations?: Prisma.ConversationParticipantUncheckedUpdateManyWithoutUserNestedInput
   messagesSent?: Prisma.MessageUncheckedUpdateManyWithoutSenderNestedInput
   messageReactions?: Prisma.MessageReactionUncheckedUpdateManyWithoutUserNestedInput
@@ -5482,6 +5543,7 @@ export type UserCreateWithoutReplyLikesInput = {
   stories?: Prisma.StoryCreateNestedManyWithoutUserInput
   storyViews?: Prisma.StoryViewCreateNestedManyWithoutUserInput
   storyReactions?: Prisma.StoryReactionCreateNestedManyWithoutUserInput
+  storyComments?: Prisma.StoryCommentCreateNestedManyWithoutUserInput
   conversations?: Prisma.ConversationParticipantCreateNestedManyWithoutUserInput
   messagesSent?: Prisma.MessageCreateNestedManyWithoutSenderInput
   messageReactions?: Prisma.MessageReactionCreateNestedManyWithoutUserInput
@@ -5565,6 +5627,7 @@ export type UserUncheckedCreateWithoutReplyLikesInput = {
   stories?: Prisma.StoryUncheckedCreateNestedManyWithoutUserInput
   storyViews?: Prisma.StoryViewUncheckedCreateNestedManyWithoutUserInput
   storyReactions?: Prisma.StoryReactionUncheckedCreateNestedManyWithoutUserInput
+  storyComments?: Prisma.StoryCommentUncheckedCreateNestedManyWithoutUserInput
   conversations?: Prisma.ConversationParticipantUncheckedCreateNestedManyWithoutUserInput
   messagesSent?: Prisma.MessageUncheckedCreateNestedManyWithoutSenderInput
   messageReactions?: Prisma.MessageReactionUncheckedCreateNestedManyWithoutUserInput
@@ -5663,6 +5726,7 @@ export type UserUpdateWithoutReplyLikesInput = {
   stories?: Prisma.StoryUpdateManyWithoutUserNestedInput
   storyViews?: Prisma.StoryViewUpdateManyWithoutUserNestedInput
   storyReactions?: Prisma.StoryReactionUpdateManyWithoutUserNestedInput
+  storyComments?: Prisma.StoryCommentUpdateManyWithoutUserNestedInput
   conversations?: Prisma.ConversationParticipantUpdateManyWithoutUserNestedInput
   messagesSent?: Prisma.MessageUpdateManyWithoutSenderNestedInput
   messageReactions?: Prisma.MessageReactionUpdateManyWithoutUserNestedInput
@@ -5746,6 +5810,7 @@ export type UserUncheckedUpdateWithoutReplyLikesInput = {
   stories?: Prisma.StoryUncheckedUpdateManyWithoutUserNestedInput
   storyViews?: Prisma.StoryViewUncheckedUpdateManyWithoutUserNestedInput
   storyReactions?: Prisma.StoryReactionUncheckedUpdateManyWithoutUserNestedInput
+  storyComments?: Prisma.StoryCommentUncheckedUpdateManyWithoutUserNestedInput
   conversations?: Prisma.ConversationParticipantUncheckedUpdateManyWithoutUserNestedInput
   messagesSent?: Prisma.MessageUncheckedUpdateManyWithoutSenderNestedInput
   messageReactions?: Prisma.MessageReactionUncheckedUpdateManyWithoutUserNestedInput
@@ -5829,6 +5894,7 @@ export type UserCreateWithoutCreatedEventsInput = {
   stories?: Prisma.StoryCreateNestedManyWithoutUserInput
   storyViews?: Prisma.StoryViewCreateNestedManyWithoutUserInput
   storyReactions?: Prisma.StoryReactionCreateNestedManyWithoutUserInput
+  storyComments?: Prisma.StoryCommentCreateNestedManyWithoutUserInput
   conversations?: Prisma.ConversationParticipantCreateNestedManyWithoutUserInput
   messagesSent?: Prisma.MessageCreateNestedManyWithoutSenderInput
   messageReactions?: Prisma.MessageReactionCreateNestedManyWithoutUserInput
@@ -5912,6 +5978,7 @@ export type UserUncheckedCreateWithoutCreatedEventsInput = {
   stories?: Prisma.StoryUncheckedCreateNestedManyWithoutUserInput
   storyViews?: Prisma.StoryViewUncheckedCreateNestedManyWithoutUserInput
   storyReactions?: Prisma.StoryReactionUncheckedCreateNestedManyWithoutUserInput
+  storyComments?: Prisma.StoryCommentUncheckedCreateNestedManyWithoutUserInput
   conversations?: Prisma.ConversationParticipantUncheckedCreateNestedManyWithoutUserInput
   messagesSent?: Prisma.MessageUncheckedCreateNestedManyWithoutSenderInput
   messageReactions?: Prisma.MessageReactionUncheckedCreateNestedManyWithoutUserInput
@@ -6010,6 +6077,7 @@ export type UserUpdateWithoutCreatedEventsInput = {
   stories?: Prisma.StoryUpdateManyWithoutUserNestedInput
   storyViews?: Prisma.StoryViewUpdateManyWithoutUserNestedInput
   storyReactions?: Prisma.StoryReactionUpdateManyWithoutUserNestedInput
+  storyComments?: Prisma.StoryCommentUpdateManyWithoutUserNestedInput
   conversations?: Prisma.ConversationParticipantUpdateManyWithoutUserNestedInput
   messagesSent?: Prisma.MessageUpdateManyWithoutSenderNestedInput
   messageReactions?: Prisma.MessageReactionUpdateManyWithoutUserNestedInput
@@ -6093,6 +6161,7 @@ export type UserUncheckedUpdateWithoutCreatedEventsInput = {
   stories?: Prisma.StoryUncheckedUpdateManyWithoutUserNestedInput
   storyViews?: Prisma.StoryViewUncheckedUpdateManyWithoutUserNestedInput
   storyReactions?: Prisma.StoryReactionUncheckedUpdateManyWithoutUserNestedInput
+  storyComments?: Prisma.StoryCommentUncheckedUpdateManyWithoutUserNestedInput
   conversations?: Prisma.ConversationParticipantUncheckedUpdateManyWithoutUserNestedInput
   messagesSent?: Prisma.MessageUncheckedUpdateManyWithoutSenderNestedInput
   messageReactions?: Prisma.MessageReactionUncheckedUpdateManyWithoutUserNestedInput
@@ -6175,6 +6244,7 @@ export type UserCreateWithoutEventAttendancesInput = {
   stories?: Prisma.StoryCreateNestedManyWithoutUserInput
   storyViews?: Prisma.StoryViewCreateNestedManyWithoutUserInput
   storyReactions?: Prisma.StoryReactionCreateNestedManyWithoutUserInput
+  storyComments?: Prisma.StoryCommentCreateNestedManyWithoutUserInput
   conversations?: Prisma.ConversationParticipantCreateNestedManyWithoutUserInput
   messagesSent?: Prisma.MessageCreateNestedManyWithoutSenderInput
   messageReactions?: Prisma.MessageReactionCreateNestedManyWithoutUserInput
@@ -6258,6 +6328,7 @@ export type UserUncheckedCreateWithoutEventAttendancesInput = {
   stories?: Prisma.StoryUncheckedCreateNestedManyWithoutUserInput
   storyViews?: Prisma.StoryViewUncheckedCreateNestedManyWithoutUserInput
   storyReactions?: Prisma.StoryReactionUncheckedCreateNestedManyWithoutUserInput
+  storyComments?: Prisma.StoryCommentUncheckedCreateNestedManyWithoutUserInput
   conversations?: Prisma.ConversationParticipantUncheckedCreateNestedManyWithoutUserInput
   messagesSent?: Prisma.MessageUncheckedCreateNestedManyWithoutSenderInput
   messageReactions?: Prisma.MessageReactionUncheckedCreateNestedManyWithoutUserInput
@@ -6356,6 +6427,7 @@ export type UserUpdateWithoutEventAttendancesInput = {
   stories?: Prisma.StoryUpdateManyWithoutUserNestedInput
   storyViews?: Prisma.StoryViewUpdateManyWithoutUserNestedInput
   storyReactions?: Prisma.StoryReactionUpdateManyWithoutUserNestedInput
+  storyComments?: Prisma.StoryCommentUpdateManyWithoutUserNestedInput
   conversations?: Prisma.ConversationParticipantUpdateManyWithoutUserNestedInput
   messagesSent?: Prisma.MessageUpdateManyWithoutSenderNestedInput
   messageReactions?: Prisma.MessageReactionUpdateManyWithoutUserNestedInput
@@ -6439,6 +6511,7 @@ export type UserUncheckedUpdateWithoutEventAttendancesInput = {
   stories?: Prisma.StoryUncheckedUpdateManyWithoutUserNestedInput
   storyViews?: Prisma.StoryViewUncheckedUpdateManyWithoutUserNestedInput
   storyReactions?: Prisma.StoryReactionUncheckedUpdateManyWithoutUserNestedInput
+  storyComments?: Prisma.StoryCommentUncheckedUpdateManyWithoutUserNestedInput
   conversations?: Prisma.ConversationParticipantUncheckedUpdateManyWithoutUserNestedInput
   messagesSent?: Prisma.MessageUncheckedUpdateManyWithoutSenderNestedInput
   messageReactions?: Prisma.MessageReactionUncheckedUpdateManyWithoutUserNestedInput
@@ -6521,6 +6594,7 @@ export type UserCreateWithoutEventPostsInput = {
   stories?: Prisma.StoryCreateNestedManyWithoutUserInput
   storyViews?: Prisma.StoryViewCreateNestedManyWithoutUserInput
   storyReactions?: Prisma.StoryReactionCreateNestedManyWithoutUserInput
+  storyComments?: Prisma.StoryCommentCreateNestedManyWithoutUserInput
   conversations?: Prisma.ConversationParticipantCreateNestedManyWithoutUserInput
   messagesSent?: Prisma.MessageCreateNestedManyWithoutSenderInput
   messageReactions?: Prisma.MessageReactionCreateNestedManyWithoutUserInput
@@ -6604,6 +6678,7 @@ export type UserUncheckedCreateWithoutEventPostsInput = {
   stories?: Prisma.StoryUncheckedCreateNestedManyWithoutUserInput
   storyViews?: Prisma.StoryViewUncheckedCreateNestedManyWithoutUserInput
   storyReactions?: Prisma.StoryReactionUncheckedCreateNestedManyWithoutUserInput
+  storyComments?: Prisma.StoryCommentUncheckedCreateNestedManyWithoutUserInput
   conversations?: Prisma.ConversationParticipantUncheckedCreateNestedManyWithoutUserInput
   messagesSent?: Prisma.MessageUncheckedCreateNestedManyWithoutSenderInput
   messageReactions?: Prisma.MessageReactionUncheckedCreateNestedManyWithoutUserInput
@@ -6702,6 +6777,7 @@ export type UserUpdateWithoutEventPostsInput = {
   stories?: Prisma.StoryUpdateManyWithoutUserNestedInput
   storyViews?: Prisma.StoryViewUpdateManyWithoutUserNestedInput
   storyReactions?: Prisma.StoryReactionUpdateManyWithoutUserNestedInput
+  storyComments?: Prisma.StoryCommentUpdateManyWithoutUserNestedInput
   conversations?: Prisma.ConversationParticipantUpdateManyWithoutUserNestedInput
   messagesSent?: Prisma.MessageUpdateManyWithoutSenderNestedInput
   messageReactions?: Prisma.MessageReactionUpdateManyWithoutUserNestedInput
@@ -6785,6 +6861,7 @@ export type UserUncheckedUpdateWithoutEventPostsInput = {
   stories?: Prisma.StoryUncheckedUpdateManyWithoutUserNestedInput
   storyViews?: Prisma.StoryViewUncheckedUpdateManyWithoutUserNestedInput
   storyReactions?: Prisma.StoryReactionUncheckedUpdateManyWithoutUserNestedInput
+  storyComments?: Prisma.StoryCommentUncheckedUpdateManyWithoutUserNestedInput
   conversations?: Prisma.ConversationParticipantUncheckedUpdateManyWithoutUserNestedInput
   messagesSent?: Prisma.MessageUncheckedUpdateManyWithoutSenderNestedInput
   messageReactions?: Prisma.MessageReactionUncheckedUpdateManyWithoutUserNestedInput
@@ -6867,6 +6944,7 @@ export type UserCreateWithoutEventPostLikesInput = {
   stories?: Prisma.StoryCreateNestedManyWithoutUserInput
   storyViews?: Prisma.StoryViewCreateNestedManyWithoutUserInput
   storyReactions?: Prisma.StoryReactionCreateNestedManyWithoutUserInput
+  storyComments?: Prisma.StoryCommentCreateNestedManyWithoutUserInput
   conversations?: Prisma.ConversationParticipantCreateNestedManyWithoutUserInput
   messagesSent?: Prisma.MessageCreateNestedManyWithoutSenderInput
   messageReactions?: Prisma.MessageReactionCreateNestedManyWithoutUserInput
@@ -6950,6 +7028,7 @@ export type UserUncheckedCreateWithoutEventPostLikesInput = {
   stories?: Prisma.StoryUncheckedCreateNestedManyWithoutUserInput
   storyViews?: Prisma.StoryViewUncheckedCreateNestedManyWithoutUserInput
   storyReactions?: Prisma.StoryReactionUncheckedCreateNestedManyWithoutUserInput
+  storyComments?: Prisma.StoryCommentUncheckedCreateNestedManyWithoutUserInput
   conversations?: Prisma.ConversationParticipantUncheckedCreateNestedManyWithoutUserInput
   messagesSent?: Prisma.MessageUncheckedCreateNestedManyWithoutSenderInput
   messageReactions?: Prisma.MessageReactionUncheckedCreateNestedManyWithoutUserInput
@@ -7048,6 +7127,7 @@ export type UserUpdateWithoutEventPostLikesInput = {
   stories?: Prisma.StoryUpdateManyWithoutUserNestedInput
   storyViews?: Prisma.StoryViewUpdateManyWithoutUserNestedInput
   storyReactions?: Prisma.StoryReactionUpdateManyWithoutUserNestedInput
+  storyComments?: Prisma.StoryCommentUpdateManyWithoutUserNestedInput
   conversations?: Prisma.ConversationParticipantUpdateManyWithoutUserNestedInput
   messagesSent?: Prisma.MessageUpdateManyWithoutSenderNestedInput
   messageReactions?: Prisma.MessageReactionUpdateManyWithoutUserNestedInput
@@ -7131,6 +7211,7 @@ export type UserUncheckedUpdateWithoutEventPostLikesInput = {
   stories?: Prisma.StoryUncheckedUpdateManyWithoutUserNestedInput
   storyViews?: Prisma.StoryViewUncheckedUpdateManyWithoutUserNestedInput
   storyReactions?: Prisma.StoryReactionUncheckedUpdateManyWithoutUserNestedInput
+  storyComments?: Prisma.StoryCommentUncheckedUpdateManyWithoutUserNestedInput
   conversations?: Prisma.ConversationParticipantUncheckedUpdateManyWithoutUserNestedInput
   messagesSent?: Prisma.MessageUncheckedUpdateManyWithoutSenderNestedInput
   messageReactions?: Prisma.MessageReactionUncheckedUpdateManyWithoutUserNestedInput
@@ -7213,6 +7294,7 @@ export type UserCreateWithoutEventPostCommentsInput = {
   stories?: Prisma.StoryCreateNestedManyWithoutUserInput
   storyViews?: Prisma.StoryViewCreateNestedManyWithoutUserInput
   storyReactions?: Prisma.StoryReactionCreateNestedManyWithoutUserInput
+  storyComments?: Prisma.StoryCommentCreateNestedManyWithoutUserInput
   conversations?: Prisma.ConversationParticipantCreateNestedManyWithoutUserInput
   messagesSent?: Prisma.MessageCreateNestedManyWithoutSenderInput
   messageReactions?: Prisma.MessageReactionCreateNestedManyWithoutUserInput
@@ -7296,6 +7378,7 @@ export type UserUncheckedCreateWithoutEventPostCommentsInput = {
   stories?: Prisma.StoryUncheckedCreateNestedManyWithoutUserInput
   storyViews?: Prisma.StoryViewUncheckedCreateNestedManyWithoutUserInput
   storyReactions?: Prisma.StoryReactionUncheckedCreateNestedManyWithoutUserInput
+  storyComments?: Prisma.StoryCommentUncheckedCreateNestedManyWithoutUserInput
   conversations?: Prisma.ConversationParticipantUncheckedCreateNestedManyWithoutUserInput
   messagesSent?: Prisma.MessageUncheckedCreateNestedManyWithoutSenderInput
   messageReactions?: Prisma.MessageReactionUncheckedCreateNestedManyWithoutUserInput
@@ -7394,6 +7477,7 @@ export type UserUpdateWithoutEventPostCommentsInput = {
   stories?: Prisma.StoryUpdateManyWithoutUserNestedInput
   storyViews?: Prisma.StoryViewUpdateManyWithoutUserNestedInput
   storyReactions?: Prisma.StoryReactionUpdateManyWithoutUserNestedInput
+  storyComments?: Prisma.StoryCommentUpdateManyWithoutUserNestedInput
   conversations?: Prisma.ConversationParticipantUpdateManyWithoutUserNestedInput
   messagesSent?: Prisma.MessageUpdateManyWithoutSenderNestedInput
   messageReactions?: Prisma.MessageReactionUpdateManyWithoutUserNestedInput
@@ -7477,6 +7561,7 @@ export type UserUncheckedUpdateWithoutEventPostCommentsInput = {
   stories?: Prisma.StoryUncheckedUpdateManyWithoutUserNestedInput
   storyViews?: Prisma.StoryViewUncheckedUpdateManyWithoutUserNestedInput
   storyReactions?: Prisma.StoryReactionUncheckedUpdateManyWithoutUserNestedInput
+  storyComments?: Prisma.StoryCommentUncheckedUpdateManyWithoutUserNestedInput
   conversations?: Prisma.ConversationParticipantUncheckedUpdateManyWithoutUserNestedInput
   messagesSent?: Prisma.MessageUncheckedUpdateManyWithoutSenderNestedInput
   messageReactions?: Prisma.MessageReactionUncheckedUpdateManyWithoutUserNestedInput
@@ -7559,6 +7644,7 @@ export type UserCreateWithoutEventPostCommentLikesInput = {
   stories?: Prisma.StoryCreateNestedManyWithoutUserInput
   storyViews?: Prisma.StoryViewCreateNestedManyWithoutUserInput
   storyReactions?: Prisma.StoryReactionCreateNestedManyWithoutUserInput
+  storyComments?: Prisma.StoryCommentCreateNestedManyWithoutUserInput
   conversations?: Prisma.ConversationParticipantCreateNestedManyWithoutUserInput
   messagesSent?: Prisma.MessageCreateNestedManyWithoutSenderInput
   messageReactions?: Prisma.MessageReactionCreateNestedManyWithoutUserInput
@@ -7642,6 +7728,7 @@ export type UserUncheckedCreateWithoutEventPostCommentLikesInput = {
   stories?: Prisma.StoryUncheckedCreateNestedManyWithoutUserInput
   storyViews?: Prisma.StoryViewUncheckedCreateNestedManyWithoutUserInput
   storyReactions?: Prisma.StoryReactionUncheckedCreateNestedManyWithoutUserInput
+  storyComments?: Prisma.StoryCommentUncheckedCreateNestedManyWithoutUserInput
   conversations?: Prisma.ConversationParticipantUncheckedCreateNestedManyWithoutUserInput
   messagesSent?: Prisma.MessageUncheckedCreateNestedManyWithoutSenderInput
   messageReactions?: Prisma.MessageReactionUncheckedCreateNestedManyWithoutUserInput
@@ -7740,6 +7827,7 @@ export type UserUpdateWithoutEventPostCommentLikesInput = {
   stories?: Prisma.StoryUpdateManyWithoutUserNestedInput
   storyViews?: Prisma.StoryViewUpdateManyWithoutUserNestedInput
   storyReactions?: Prisma.StoryReactionUpdateManyWithoutUserNestedInput
+  storyComments?: Prisma.StoryCommentUpdateManyWithoutUserNestedInput
   conversations?: Prisma.ConversationParticipantUpdateManyWithoutUserNestedInput
   messagesSent?: Prisma.MessageUpdateManyWithoutSenderNestedInput
   messageReactions?: Prisma.MessageReactionUpdateManyWithoutUserNestedInput
@@ -7823,6 +7911,7 @@ export type UserUncheckedUpdateWithoutEventPostCommentLikesInput = {
   stories?: Prisma.StoryUncheckedUpdateManyWithoutUserNestedInput
   storyViews?: Prisma.StoryViewUncheckedUpdateManyWithoutUserNestedInput
   storyReactions?: Prisma.StoryReactionUncheckedUpdateManyWithoutUserNestedInput
+  storyComments?: Prisma.StoryCommentUncheckedUpdateManyWithoutUserNestedInput
   conversations?: Prisma.ConversationParticipantUncheckedUpdateManyWithoutUserNestedInput
   messagesSent?: Prisma.MessageUncheckedUpdateManyWithoutSenderNestedInput
   messageReactions?: Prisma.MessageReactionUncheckedUpdateManyWithoutUserNestedInput
@@ -7905,6 +7994,7 @@ export type UserCreateWithoutOwnedGroupsInput = {
   stories?: Prisma.StoryCreateNestedManyWithoutUserInput
   storyViews?: Prisma.StoryViewCreateNestedManyWithoutUserInput
   storyReactions?: Prisma.StoryReactionCreateNestedManyWithoutUserInput
+  storyComments?: Prisma.StoryCommentCreateNestedManyWithoutUserInput
   conversations?: Prisma.ConversationParticipantCreateNestedManyWithoutUserInput
   messagesSent?: Prisma.MessageCreateNestedManyWithoutSenderInput
   messageReactions?: Prisma.MessageReactionCreateNestedManyWithoutUserInput
@@ -7988,6 +8078,7 @@ export type UserUncheckedCreateWithoutOwnedGroupsInput = {
   stories?: Prisma.StoryUncheckedCreateNestedManyWithoutUserInput
   storyViews?: Prisma.StoryViewUncheckedCreateNestedManyWithoutUserInput
   storyReactions?: Prisma.StoryReactionUncheckedCreateNestedManyWithoutUserInput
+  storyComments?: Prisma.StoryCommentUncheckedCreateNestedManyWithoutUserInput
   conversations?: Prisma.ConversationParticipantUncheckedCreateNestedManyWithoutUserInput
   messagesSent?: Prisma.MessageUncheckedCreateNestedManyWithoutSenderInput
   messageReactions?: Prisma.MessageReactionUncheckedCreateNestedManyWithoutUserInput
@@ -8086,6 +8177,7 @@ export type UserUpdateWithoutOwnedGroupsInput = {
   stories?: Prisma.StoryUpdateManyWithoutUserNestedInput
   storyViews?: Prisma.StoryViewUpdateManyWithoutUserNestedInput
   storyReactions?: Prisma.StoryReactionUpdateManyWithoutUserNestedInput
+  storyComments?: Prisma.StoryCommentUpdateManyWithoutUserNestedInput
   conversations?: Prisma.ConversationParticipantUpdateManyWithoutUserNestedInput
   messagesSent?: Prisma.MessageUpdateManyWithoutSenderNestedInput
   messageReactions?: Prisma.MessageReactionUpdateManyWithoutUserNestedInput
@@ -8169,6 +8261,7 @@ export type UserUncheckedUpdateWithoutOwnedGroupsInput = {
   stories?: Prisma.StoryUncheckedUpdateManyWithoutUserNestedInput
   storyViews?: Prisma.StoryViewUncheckedUpdateManyWithoutUserNestedInput
   storyReactions?: Prisma.StoryReactionUncheckedUpdateManyWithoutUserNestedInput
+  storyComments?: Prisma.StoryCommentUncheckedUpdateManyWithoutUserNestedInput
   conversations?: Prisma.ConversationParticipantUncheckedUpdateManyWithoutUserNestedInput
   messagesSent?: Prisma.MessageUncheckedUpdateManyWithoutSenderNestedInput
   messageReactions?: Prisma.MessageReactionUncheckedUpdateManyWithoutUserNestedInput
@@ -8251,6 +8344,7 @@ export type UserCreateWithoutGroupMembershipsInput = {
   stories?: Prisma.StoryCreateNestedManyWithoutUserInput
   storyViews?: Prisma.StoryViewCreateNestedManyWithoutUserInput
   storyReactions?: Prisma.StoryReactionCreateNestedManyWithoutUserInput
+  storyComments?: Prisma.StoryCommentCreateNestedManyWithoutUserInput
   conversations?: Prisma.ConversationParticipantCreateNestedManyWithoutUserInput
   messagesSent?: Prisma.MessageCreateNestedManyWithoutSenderInput
   messageReactions?: Prisma.MessageReactionCreateNestedManyWithoutUserInput
@@ -8334,6 +8428,7 @@ export type UserUncheckedCreateWithoutGroupMembershipsInput = {
   stories?: Prisma.StoryUncheckedCreateNestedManyWithoutUserInput
   storyViews?: Prisma.StoryViewUncheckedCreateNestedManyWithoutUserInput
   storyReactions?: Prisma.StoryReactionUncheckedCreateNestedManyWithoutUserInput
+  storyComments?: Prisma.StoryCommentUncheckedCreateNestedManyWithoutUserInput
   conversations?: Prisma.ConversationParticipantUncheckedCreateNestedManyWithoutUserInput
   messagesSent?: Prisma.MessageUncheckedCreateNestedManyWithoutSenderInput
   messageReactions?: Prisma.MessageReactionUncheckedCreateNestedManyWithoutUserInput
@@ -8432,6 +8527,7 @@ export type UserUpdateWithoutGroupMembershipsInput = {
   stories?: Prisma.StoryUpdateManyWithoutUserNestedInput
   storyViews?: Prisma.StoryViewUpdateManyWithoutUserNestedInput
   storyReactions?: Prisma.StoryReactionUpdateManyWithoutUserNestedInput
+  storyComments?: Prisma.StoryCommentUpdateManyWithoutUserNestedInput
   conversations?: Prisma.ConversationParticipantUpdateManyWithoutUserNestedInput
   messagesSent?: Prisma.MessageUpdateManyWithoutSenderNestedInput
   messageReactions?: Prisma.MessageReactionUpdateManyWithoutUserNestedInput
@@ -8515,6 +8611,7 @@ export type UserUncheckedUpdateWithoutGroupMembershipsInput = {
   stories?: Prisma.StoryUncheckedUpdateManyWithoutUserNestedInput
   storyViews?: Prisma.StoryViewUncheckedUpdateManyWithoutUserNestedInput
   storyReactions?: Prisma.StoryReactionUncheckedUpdateManyWithoutUserNestedInput
+  storyComments?: Prisma.StoryCommentUncheckedUpdateManyWithoutUserNestedInput
   conversations?: Prisma.ConversationParticipantUncheckedUpdateManyWithoutUserNestedInput
   messagesSent?: Prisma.MessageUncheckedUpdateManyWithoutSenderNestedInput
   messageReactions?: Prisma.MessageReactionUncheckedUpdateManyWithoutUserNestedInput
@@ -8597,6 +8694,7 @@ export type UserCreateWithoutGroupPostsInput = {
   stories?: Prisma.StoryCreateNestedManyWithoutUserInput
   storyViews?: Prisma.StoryViewCreateNestedManyWithoutUserInput
   storyReactions?: Prisma.StoryReactionCreateNestedManyWithoutUserInput
+  storyComments?: Prisma.StoryCommentCreateNestedManyWithoutUserInput
   conversations?: Prisma.ConversationParticipantCreateNestedManyWithoutUserInput
   messagesSent?: Prisma.MessageCreateNestedManyWithoutSenderInput
   messageReactions?: Prisma.MessageReactionCreateNestedManyWithoutUserInput
@@ -8680,6 +8778,7 @@ export type UserUncheckedCreateWithoutGroupPostsInput = {
   stories?: Prisma.StoryUncheckedCreateNestedManyWithoutUserInput
   storyViews?: Prisma.StoryViewUncheckedCreateNestedManyWithoutUserInput
   storyReactions?: Prisma.StoryReactionUncheckedCreateNestedManyWithoutUserInput
+  storyComments?: Prisma.StoryCommentUncheckedCreateNestedManyWithoutUserInput
   conversations?: Prisma.ConversationParticipantUncheckedCreateNestedManyWithoutUserInput
   messagesSent?: Prisma.MessageUncheckedCreateNestedManyWithoutSenderInput
   messageReactions?: Prisma.MessageReactionUncheckedCreateNestedManyWithoutUserInput
@@ -8778,6 +8877,7 @@ export type UserUpdateWithoutGroupPostsInput = {
   stories?: Prisma.StoryUpdateManyWithoutUserNestedInput
   storyViews?: Prisma.StoryViewUpdateManyWithoutUserNestedInput
   storyReactions?: Prisma.StoryReactionUpdateManyWithoutUserNestedInput
+  storyComments?: Prisma.StoryCommentUpdateManyWithoutUserNestedInput
   conversations?: Prisma.ConversationParticipantUpdateManyWithoutUserNestedInput
   messagesSent?: Prisma.MessageUpdateManyWithoutSenderNestedInput
   messageReactions?: Prisma.MessageReactionUpdateManyWithoutUserNestedInput
@@ -8861,6 +8961,7 @@ export type UserUncheckedUpdateWithoutGroupPostsInput = {
   stories?: Prisma.StoryUncheckedUpdateManyWithoutUserNestedInput
   storyViews?: Prisma.StoryViewUncheckedUpdateManyWithoutUserNestedInput
   storyReactions?: Prisma.StoryReactionUncheckedUpdateManyWithoutUserNestedInput
+  storyComments?: Prisma.StoryCommentUncheckedUpdateManyWithoutUserNestedInput
   conversations?: Prisma.ConversationParticipantUncheckedUpdateManyWithoutUserNestedInput
   messagesSent?: Prisma.MessageUncheckedUpdateManyWithoutSenderNestedInput
   messageReactions?: Prisma.MessageReactionUncheckedUpdateManyWithoutUserNestedInput
@@ -8943,6 +9044,7 @@ export type UserCreateWithoutGroupPostLikesInput = {
   stories?: Prisma.StoryCreateNestedManyWithoutUserInput
   storyViews?: Prisma.StoryViewCreateNestedManyWithoutUserInput
   storyReactions?: Prisma.StoryReactionCreateNestedManyWithoutUserInput
+  storyComments?: Prisma.StoryCommentCreateNestedManyWithoutUserInput
   conversations?: Prisma.ConversationParticipantCreateNestedManyWithoutUserInput
   messagesSent?: Prisma.MessageCreateNestedManyWithoutSenderInput
   messageReactions?: Prisma.MessageReactionCreateNestedManyWithoutUserInput
@@ -9026,6 +9128,7 @@ export type UserUncheckedCreateWithoutGroupPostLikesInput = {
   stories?: Prisma.StoryUncheckedCreateNestedManyWithoutUserInput
   storyViews?: Prisma.StoryViewUncheckedCreateNestedManyWithoutUserInput
   storyReactions?: Prisma.StoryReactionUncheckedCreateNestedManyWithoutUserInput
+  storyComments?: Prisma.StoryCommentUncheckedCreateNestedManyWithoutUserInput
   conversations?: Prisma.ConversationParticipantUncheckedCreateNestedManyWithoutUserInput
   messagesSent?: Prisma.MessageUncheckedCreateNestedManyWithoutSenderInput
   messageReactions?: Prisma.MessageReactionUncheckedCreateNestedManyWithoutUserInput
@@ -9124,6 +9227,7 @@ export type UserUpdateWithoutGroupPostLikesInput = {
   stories?: Prisma.StoryUpdateManyWithoutUserNestedInput
   storyViews?: Prisma.StoryViewUpdateManyWithoutUserNestedInput
   storyReactions?: Prisma.StoryReactionUpdateManyWithoutUserNestedInput
+  storyComments?: Prisma.StoryCommentUpdateManyWithoutUserNestedInput
   conversations?: Prisma.ConversationParticipantUpdateManyWithoutUserNestedInput
   messagesSent?: Prisma.MessageUpdateManyWithoutSenderNestedInput
   messageReactions?: Prisma.MessageReactionUpdateManyWithoutUserNestedInput
@@ -9207,6 +9311,7 @@ export type UserUncheckedUpdateWithoutGroupPostLikesInput = {
   stories?: Prisma.StoryUncheckedUpdateManyWithoutUserNestedInput
   storyViews?: Prisma.StoryViewUncheckedUpdateManyWithoutUserNestedInput
   storyReactions?: Prisma.StoryReactionUncheckedUpdateManyWithoutUserNestedInput
+  storyComments?: Prisma.StoryCommentUncheckedUpdateManyWithoutUserNestedInput
   conversations?: Prisma.ConversationParticipantUncheckedUpdateManyWithoutUserNestedInput
   messagesSent?: Prisma.MessageUncheckedUpdateManyWithoutSenderNestedInput
   messageReactions?: Prisma.MessageReactionUncheckedUpdateManyWithoutUserNestedInput
@@ -9289,6 +9394,7 @@ export type UserCreateWithoutGroupPostCommentsInput = {
   stories?: Prisma.StoryCreateNestedManyWithoutUserInput
   storyViews?: Prisma.StoryViewCreateNestedManyWithoutUserInput
   storyReactions?: Prisma.StoryReactionCreateNestedManyWithoutUserInput
+  storyComments?: Prisma.StoryCommentCreateNestedManyWithoutUserInput
   conversations?: Prisma.ConversationParticipantCreateNestedManyWithoutUserInput
   messagesSent?: Prisma.MessageCreateNestedManyWithoutSenderInput
   messageReactions?: Prisma.MessageReactionCreateNestedManyWithoutUserInput
@@ -9372,6 +9478,7 @@ export type UserUncheckedCreateWithoutGroupPostCommentsInput = {
   stories?: Prisma.StoryUncheckedCreateNestedManyWithoutUserInput
   storyViews?: Prisma.StoryViewUncheckedCreateNestedManyWithoutUserInput
   storyReactions?: Prisma.StoryReactionUncheckedCreateNestedManyWithoutUserInput
+  storyComments?: Prisma.StoryCommentUncheckedCreateNestedManyWithoutUserInput
   conversations?: Prisma.ConversationParticipantUncheckedCreateNestedManyWithoutUserInput
   messagesSent?: Prisma.MessageUncheckedCreateNestedManyWithoutSenderInput
   messageReactions?: Prisma.MessageReactionUncheckedCreateNestedManyWithoutUserInput
@@ -9470,6 +9577,7 @@ export type UserUpdateWithoutGroupPostCommentsInput = {
   stories?: Prisma.StoryUpdateManyWithoutUserNestedInput
   storyViews?: Prisma.StoryViewUpdateManyWithoutUserNestedInput
   storyReactions?: Prisma.StoryReactionUpdateManyWithoutUserNestedInput
+  storyComments?: Prisma.StoryCommentUpdateManyWithoutUserNestedInput
   conversations?: Prisma.ConversationParticipantUpdateManyWithoutUserNestedInput
   messagesSent?: Prisma.MessageUpdateManyWithoutSenderNestedInput
   messageReactions?: Prisma.MessageReactionUpdateManyWithoutUserNestedInput
@@ -9553,6 +9661,7 @@ export type UserUncheckedUpdateWithoutGroupPostCommentsInput = {
   stories?: Prisma.StoryUncheckedUpdateManyWithoutUserNestedInput
   storyViews?: Prisma.StoryViewUncheckedUpdateManyWithoutUserNestedInput
   storyReactions?: Prisma.StoryReactionUncheckedUpdateManyWithoutUserNestedInput
+  storyComments?: Prisma.StoryCommentUncheckedUpdateManyWithoutUserNestedInput
   conversations?: Prisma.ConversationParticipantUncheckedUpdateManyWithoutUserNestedInput
   messagesSent?: Prisma.MessageUncheckedUpdateManyWithoutSenderNestedInput
   messageReactions?: Prisma.MessageReactionUncheckedUpdateManyWithoutUserNestedInput
@@ -9635,6 +9744,7 @@ export type UserCreateWithoutGroupPostCommentLikesInput = {
   stories?: Prisma.StoryCreateNestedManyWithoutUserInput
   storyViews?: Prisma.StoryViewCreateNestedManyWithoutUserInput
   storyReactions?: Prisma.StoryReactionCreateNestedManyWithoutUserInput
+  storyComments?: Prisma.StoryCommentCreateNestedManyWithoutUserInput
   conversations?: Prisma.ConversationParticipantCreateNestedManyWithoutUserInput
   messagesSent?: Prisma.MessageCreateNestedManyWithoutSenderInput
   messageReactions?: Prisma.MessageReactionCreateNestedManyWithoutUserInput
@@ -9718,6 +9828,7 @@ export type UserUncheckedCreateWithoutGroupPostCommentLikesInput = {
   stories?: Prisma.StoryUncheckedCreateNestedManyWithoutUserInput
   storyViews?: Prisma.StoryViewUncheckedCreateNestedManyWithoutUserInput
   storyReactions?: Prisma.StoryReactionUncheckedCreateNestedManyWithoutUserInput
+  storyComments?: Prisma.StoryCommentUncheckedCreateNestedManyWithoutUserInput
   conversations?: Prisma.ConversationParticipantUncheckedCreateNestedManyWithoutUserInput
   messagesSent?: Prisma.MessageUncheckedCreateNestedManyWithoutSenderInput
   messageReactions?: Prisma.MessageReactionUncheckedCreateNestedManyWithoutUserInput
@@ -9816,6 +9927,7 @@ export type UserUpdateWithoutGroupPostCommentLikesInput = {
   stories?: Prisma.StoryUpdateManyWithoutUserNestedInput
   storyViews?: Prisma.StoryViewUpdateManyWithoutUserNestedInput
   storyReactions?: Prisma.StoryReactionUpdateManyWithoutUserNestedInput
+  storyComments?: Prisma.StoryCommentUpdateManyWithoutUserNestedInput
   conversations?: Prisma.ConversationParticipantUpdateManyWithoutUserNestedInput
   messagesSent?: Prisma.MessageUpdateManyWithoutSenderNestedInput
   messageReactions?: Prisma.MessageReactionUpdateManyWithoutUserNestedInput
@@ -9899,6 +10011,7 @@ export type UserUncheckedUpdateWithoutGroupPostCommentLikesInput = {
   stories?: Prisma.StoryUncheckedUpdateManyWithoutUserNestedInput
   storyViews?: Prisma.StoryViewUncheckedUpdateManyWithoutUserNestedInput
   storyReactions?: Prisma.StoryReactionUncheckedUpdateManyWithoutUserNestedInput
+  storyComments?: Prisma.StoryCommentUncheckedUpdateManyWithoutUserNestedInput
   conversations?: Prisma.ConversationParticipantUncheckedUpdateManyWithoutUserNestedInput
   messagesSent?: Prisma.MessageUncheckedUpdateManyWithoutSenderNestedInput
   messageReactions?: Prisma.MessageReactionUncheckedUpdateManyWithoutUserNestedInput
@@ -9981,6 +10094,7 @@ export type UserCreateWithoutListingsInput = {
   stories?: Prisma.StoryCreateNestedManyWithoutUserInput
   storyViews?: Prisma.StoryViewCreateNestedManyWithoutUserInput
   storyReactions?: Prisma.StoryReactionCreateNestedManyWithoutUserInput
+  storyComments?: Prisma.StoryCommentCreateNestedManyWithoutUserInput
   conversations?: Prisma.ConversationParticipantCreateNestedManyWithoutUserInput
   messagesSent?: Prisma.MessageCreateNestedManyWithoutSenderInput
   messageReactions?: Prisma.MessageReactionCreateNestedManyWithoutUserInput
@@ -10064,6 +10178,7 @@ export type UserUncheckedCreateWithoutListingsInput = {
   stories?: Prisma.StoryUncheckedCreateNestedManyWithoutUserInput
   storyViews?: Prisma.StoryViewUncheckedCreateNestedManyWithoutUserInput
   storyReactions?: Prisma.StoryReactionUncheckedCreateNestedManyWithoutUserInput
+  storyComments?: Prisma.StoryCommentUncheckedCreateNestedManyWithoutUserInput
   conversations?: Prisma.ConversationParticipantUncheckedCreateNestedManyWithoutUserInput
   messagesSent?: Prisma.MessageUncheckedCreateNestedManyWithoutSenderInput
   messageReactions?: Prisma.MessageReactionUncheckedCreateNestedManyWithoutUserInput
@@ -10162,6 +10277,7 @@ export type UserUpdateWithoutListingsInput = {
   stories?: Prisma.StoryUpdateManyWithoutUserNestedInput
   storyViews?: Prisma.StoryViewUpdateManyWithoutUserNestedInput
   storyReactions?: Prisma.StoryReactionUpdateManyWithoutUserNestedInput
+  storyComments?: Prisma.StoryCommentUpdateManyWithoutUserNestedInput
   conversations?: Prisma.ConversationParticipantUpdateManyWithoutUserNestedInput
   messagesSent?: Prisma.MessageUpdateManyWithoutSenderNestedInput
   messageReactions?: Prisma.MessageReactionUpdateManyWithoutUserNestedInput
@@ -10245,6 +10361,7 @@ export type UserUncheckedUpdateWithoutListingsInput = {
   stories?: Prisma.StoryUncheckedUpdateManyWithoutUserNestedInput
   storyViews?: Prisma.StoryViewUncheckedUpdateManyWithoutUserNestedInput
   storyReactions?: Prisma.StoryReactionUncheckedUpdateManyWithoutUserNestedInput
+  storyComments?: Prisma.StoryCommentUncheckedUpdateManyWithoutUserNestedInput
   conversations?: Prisma.ConversationParticipantUncheckedUpdateManyWithoutUserNestedInput
   messagesSent?: Prisma.MessageUncheckedUpdateManyWithoutSenderNestedInput
   messageReactions?: Prisma.MessageReactionUncheckedUpdateManyWithoutUserNestedInput
@@ -10327,6 +10444,7 @@ export type UserCreateWithoutListingSavesInput = {
   stories?: Prisma.StoryCreateNestedManyWithoutUserInput
   storyViews?: Prisma.StoryViewCreateNestedManyWithoutUserInput
   storyReactions?: Prisma.StoryReactionCreateNestedManyWithoutUserInput
+  storyComments?: Prisma.StoryCommentCreateNestedManyWithoutUserInput
   conversations?: Prisma.ConversationParticipantCreateNestedManyWithoutUserInput
   messagesSent?: Prisma.MessageCreateNestedManyWithoutSenderInput
   messageReactions?: Prisma.MessageReactionCreateNestedManyWithoutUserInput
@@ -10410,6 +10528,7 @@ export type UserUncheckedCreateWithoutListingSavesInput = {
   stories?: Prisma.StoryUncheckedCreateNestedManyWithoutUserInput
   storyViews?: Prisma.StoryViewUncheckedCreateNestedManyWithoutUserInput
   storyReactions?: Prisma.StoryReactionUncheckedCreateNestedManyWithoutUserInput
+  storyComments?: Prisma.StoryCommentUncheckedCreateNestedManyWithoutUserInput
   conversations?: Prisma.ConversationParticipantUncheckedCreateNestedManyWithoutUserInput
   messagesSent?: Prisma.MessageUncheckedCreateNestedManyWithoutSenderInput
   messageReactions?: Prisma.MessageReactionUncheckedCreateNestedManyWithoutUserInput
@@ -10508,6 +10627,7 @@ export type UserUpdateWithoutListingSavesInput = {
   stories?: Prisma.StoryUpdateManyWithoutUserNestedInput
   storyViews?: Prisma.StoryViewUpdateManyWithoutUserNestedInput
   storyReactions?: Prisma.StoryReactionUpdateManyWithoutUserNestedInput
+  storyComments?: Prisma.StoryCommentUpdateManyWithoutUserNestedInput
   conversations?: Prisma.ConversationParticipantUpdateManyWithoutUserNestedInput
   messagesSent?: Prisma.MessageUpdateManyWithoutSenderNestedInput
   messageReactions?: Prisma.MessageReactionUpdateManyWithoutUserNestedInput
@@ -10591,6 +10711,7 @@ export type UserUncheckedUpdateWithoutListingSavesInput = {
   stories?: Prisma.StoryUncheckedUpdateManyWithoutUserNestedInput
   storyViews?: Prisma.StoryViewUncheckedUpdateManyWithoutUserNestedInput
   storyReactions?: Prisma.StoryReactionUncheckedUpdateManyWithoutUserNestedInput
+  storyComments?: Prisma.StoryCommentUncheckedUpdateManyWithoutUserNestedInput
   conversations?: Prisma.ConversationParticipantUncheckedUpdateManyWithoutUserNestedInput
   messagesSent?: Prisma.MessageUncheckedUpdateManyWithoutSenderNestedInput
   messageReactions?: Prisma.MessageReactionUncheckedUpdateManyWithoutUserNestedInput
@@ -10673,6 +10794,7 @@ export type UserCreateWithoutListingOffersInput = {
   stories?: Prisma.StoryCreateNestedManyWithoutUserInput
   storyViews?: Prisma.StoryViewCreateNestedManyWithoutUserInput
   storyReactions?: Prisma.StoryReactionCreateNestedManyWithoutUserInput
+  storyComments?: Prisma.StoryCommentCreateNestedManyWithoutUserInput
   conversations?: Prisma.ConversationParticipantCreateNestedManyWithoutUserInput
   messagesSent?: Prisma.MessageCreateNestedManyWithoutSenderInput
   messageReactions?: Prisma.MessageReactionCreateNestedManyWithoutUserInput
@@ -10756,6 +10878,7 @@ export type UserUncheckedCreateWithoutListingOffersInput = {
   stories?: Prisma.StoryUncheckedCreateNestedManyWithoutUserInput
   storyViews?: Prisma.StoryViewUncheckedCreateNestedManyWithoutUserInput
   storyReactions?: Prisma.StoryReactionUncheckedCreateNestedManyWithoutUserInput
+  storyComments?: Prisma.StoryCommentUncheckedCreateNestedManyWithoutUserInput
   conversations?: Prisma.ConversationParticipantUncheckedCreateNestedManyWithoutUserInput
   messagesSent?: Prisma.MessageUncheckedCreateNestedManyWithoutSenderInput
   messageReactions?: Prisma.MessageReactionUncheckedCreateNestedManyWithoutUserInput
@@ -10854,6 +10977,7 @@ export type UserUpdateWithoutListingOffersInput = {
   stories?: Prisma.StoryUpdateManyWithoutUserNestedInput
   storyViews?: Prisma.StoryViewUpdateManyWithoutUserNestedInput
   storyReactions?: Prisma.StoryReactionUpdateManyWithoutUserNestedInput
+  storyComments?: Prisma.StoryCommentUpdateManyWithoutUserNestedInput
   conversations?: Prisma.ConversationParticipantUpdateManyWithoutUserNestedInput
   messagesSent?: Prisma.MessageUpdateManyWithoutSenderNestedInput
   messageReactions?: Prisma.MessageReactionUpdateManyWithoutUserNestedInput
@@ -10937,6 +11061,7 @@ export type UserUncheckedUpdateWithoutListingOffersInput = {
   stories?: Prisma.StoryUncheckedUpdateManyWithoutUserNestedInput
   storyViews?: Prisma.StoryViewUncheckedUpdateManyWithoutUserNestedInput
   storyReactions?: Prisma.StoryReactionUncheckedUpdateManyWithoutUserNestedInput
+  storyComments?: Prisma.StoryCommentUncheckedUpdateManyWithoutUserNestedInput
   conversations?: Prisma.ConversationParticipantUncheckedUpdateManyWithoutUserNestedInput
   messagesSent?: Prisma.MessageUncheckedUpdateManyWithoutSenderNestedInput
   messageReactions?: Prisma.MessageReactionUncheckedUpdateManyWithoutUserNestedInput
@@ -11019,6 +11144,7 @@ export type UserCreateWithoutListingMessagesInput = {
   stories?: Prisma.StoryCreateNestedManyWithoutUserInput
   storyViews?: Prisma.StoryViewCreateNestedManyWithoutUserInput
   storyReactions?: Prisma.StoryReactionCreateNestedManyWithoutUserInput
+  storyComments?: Prisma.StoryCommentCreateNestedManyWithoutUserInput
   conversations?: Prisma.ConversationParticipantCreateNestedManyWithoutUserInput
   messagesSent?: Prisma.MessageCreateNestedManyWithoutSenderInput
   messageReactions?: Prisma.MessageReactionCreateNestedManyWithoutUserInput
@@ -11102,6 +11228,7 @@ export type UserUncheckedCreateWithoutListingMessagesInput = {
   stories?: Prisma.StoryUncheckedCreateNestedManyWithoutUserInput
   storyViews?: Prisma.StoryViewUncheckedCreateNestedManyWithoutUserInput
   storyReactions?: Prisma.StoryReactionUncheckedCreateNestedManyWithoutUserInput
+  storyComments?: Prisma.StoryCommentUncheckedCreateNestedManyWithoutUserInput
   conversations?: Prisma.ConversationParticipantUncheckedCreateNestedManyWithoutUserInput
   messagesSent?: Prisma.MessageUncheckedCreateNestedManyWithoutSenderInput
   messageReactions?: Prisma.MessageReactionUncheckedCreateNestedManyWithoutUserInput
@@ -11200,6 +11327,7 @@ export type UserUpdateWithoutListingMessagesInput = {
   stories?: Prisma.StoryUpdateManyWithoutUserNestedInput
   storyViews?: Prisma.StoryViewUpdateManyWithoutUserNestedInput
   storyReactions?: Prisma.StoryReactionUpdateManyWithoutUserNestedInput
+  storyComments?: Prisma.StoryCommentUpdateManyWithoutUserNestedInput
   conversations?: Prisma.ConversationParticipantUpdateManyWithoutUserNestedInput
   messagesSent?: Prisma.MessageUpdateManyWithoutSenderNestedInput
   messageReactions?: Prisma.MessageReactionUpdateManyWithoutUserNestedInput
@@ -11283,6 +11411,7 @@ export type UserUncheckedUpdateWithoutListingMessagesInput = {
   stories?: Prisma.StoryUncheckedUpdateManyWithoutUserNestedInput
   storyViews?: Prisma.StoryViewUncheckedUpdateManyWithoutUserNestedInput
   storyReactions?: Prisma.StoryReactionUncheckedUpdateManyWithoutUserNestedInput
+  storyComments?: Prisma.StoryCommentUncheckedUpdateManyWithoutUserNestedInput
   conversations?: Prisma.ConversationParticipantUncheckedUpdateManyWithoutUserNestedInput
   messagesSent?: Prisma.MessageUncheckedUpdateManyWithoutSenderNestedInput
   messageReactions?: Prisma.MessageReactionUncheckedUpdateManyWithoutUserNestedInput
@@ -11365,6 +11494,7 @@ export type UserCreateWithoutListingMessageLikesInput = {
   stories?: Prisma.StoryCreateNestedManyWithoutUserInput
   storyViews?: Prisma.StoryViewCreateNestedManyWithoutUserInput
   storyReactions?: Prisma.StoryReactionCreateNestedManyWithoutUserInput
+  storyComments?: Prisma.StoryCommentCreateNestedManyWithoutUserInput
   conversations?: Prisma.ConversationParticipantCreateNestedManyWithoutUserInput
   messagesSent?: Prisma.MessageCreateNestedManyWithoutSenderInput
   messageReactions?: Prisma.MessageReactionCreateNestedManyWithoutUserInput
@@ -11448,6 +11578,7 @@ export type UserUncheckedCreateWithoutListingMessageLikesInput = {
   stories?: Prisma.StoryUncheckedCreateNestedManyWithoutUserInput
   storyViews?: Prisma.StoryViewUncheckedCreateNestedManyWithoutUserInput
   storyReactions?: Prisma.StoryReactionUncheckedCreateNestedManyWithoutUserInput
+  storyComments?: Prisma.StoryCommentUncheckedCreateNestedManyWithoutUserInput
   conversations?: Prisma.ConversationParticipantUncheckedCreateNestedManyWithoutUserInput
   messagesSent?: Prisma.MessageUncheckedCreateNestedManyWithoutSenderInput
   messageReactions?: Prisma.MessageReactionUncheckedCreateNestedManyWithoutUserInput
@@ -11546,6 +11677,7 @@ export type UserUpdateWithoutListingMessageLikesInput = {
   stories?: Prisma.StoryUpdateManyWithoutUserNestedInput
   storyViews?: Prisma.StoryViewUpdateManyWithoutUserNestedInput
   storyReactions?: Prisma.StoryReactionUpdateManyWithoutUserNestedInput
+  storyComments?: Prisma.StoryCommentUpdateManyWithoutUserNestedInput
   conversations?: Prisma.ConversationParticipantUpdateManyWithoutUserNestedInput
   messagesSent?: Prisma.MessageUpdateManyWithoutSenderNestedInput
   messageReactions?: Prisma.MessageReactionUpdateManyWithoutUserNestedInput
@@ -11629,6 +11761,7 @@ export type UserUncheckedUpdateWithoutListingMessageLikesInput = {
   stories?: Prisma.StoryUncheckedUpdateManyWithoutUserNestedInput
   storyViews?: Prisma.StoryViewUncheckedUpdateManyWithoutUserNestedInput
   storyReactions?: Prisma.StoryReactionUncheckedUpdateManyWithoutUserNestedInput
+  storyComments?: Prisma.StoryCommentUncheckedUpdateManyWithoutUserNestedInput
   conversations?: Prisma.ConversationParticipantUncheckedUpdateManyWithoutUserNestedInput
   messagesSent?: Prisma.MessageUncheckedUpdateManyWithoutSenderNestedInput
   messageReactions?: Prisma.MessageReactionUncheckedUpdateManyWithoutUserNestedInput
@@ -11711,6 +11844,7 @@ export type UserCreateWithoutMemoriesInput = {
   stories?: Prisma.StoryCreateNestedManyWithoutUserInput
   storyViews?: Prisma.StoryViewCreateNestedManyWithoutUserInput
   storyReactions?: Prisma.StoryReactionCreateNestedManyWithoutUserInput
+  storyComments?: Prisma.StoryCommentCreateNestedManyWithoutUserInput
   conversations?: Prisma.ConversationParticipantCreateNestedManyWithoutUserInput
   messagesSent?: Prisma.MessageCreateNestedManyWithoutSenderInput
   messageReactions?: Prisma.MessageReactionCreateNestedManyWithoutUserInput
@@ -11794,6 +11928,7 @@ export type UserUncheckedCreateWithoutMemoriesInput = {
   stories?: Prisma.StoryUncheckedCreateNestedManyWithoutUserInput
   storyViews?: Prisma.StoryViewUncheckedCreateNestedManyWithoutUserInput
   storyReactions?: Prisma.StoryReactionUncheckedCreateNestedManyWithoutUserInput
+  storyComments?: Prisma.StoryCommentUncheckedCreateNestedManyWithoutUserInput
   conversations?: Prisma.ConversationParticipantUncheckedCreateNestedManyWithoutUserInput
   messagesSent?: Prisma.MessageUncheckedCreateNestedManyWithoutSenderInput
   messageReactions?: Prisma.MessageReactionUncheckedCreateNestedManyWithoutUserInput
@@ -11892,6 +12027,7 @@ export type UserUpdateWithoutMemoriesInput = {
   stories?: Prisma.StoryUpdateManyWithoutUserNestedInput
   storyViews?: Prisma.StoryViewUpdateManyWithoutUserNestedInput
   storyReactions?: Prisma.StoryReactionUpdateManyWithoutUserNestedInput
+  storyComments?: Prisma.StoryCommentUpdateManyWithoutUserNestedInput
   conversations?: Prisma.ConversationParticipantUpdateManyWithoutUserNestedInput
   messagesSent?: Prisma.MessageUpdateManyWithoutSenderNestedInput
   messageReactions?: Prisma.MessageReactionUpdateManyWithoutUserNestedInput
@@ -11975,6 +12111,7 @@ export type UserUncheckedUpdateWithoutMemoriesInput = {
   stories?: Prisma.StoryUncheckedUpdateManyWithoutUserNestedInput
   storyViews?: Prisma.StoryViewUncheckedUpdateManyWithoutUserNestedInput
   storyReactions?: Prisma.StoryReactionUncheckedUpdateManyWithoutUserNestedInput
+  storyComments?: Prisma.StoryCommentUncheckedUpdateManyWithoutUserNestedInput
   conversations?: Prisma.ConversationParticipantUncheckedUpdateManyWithoutUserNestedInput
   messagesSent?: Prisma.MessageUncheckedUpdateManyWithoutSenderNestedInput
   messageReactions?: Prisma.MessageReactionUncheckedUpdateManyWithoutUserNestedInput
@@ -12057,6 +12194,7 @@ export type UserCreateWithoutConversationsInput = {
   stories?: Prisma.StoryCreateNestedManyWithoutUserInput
   storyViews?: Prisma.StoryViewCreateNestedManyWithoutUserInput
   storyReactions?: Prisma.StoryReactionCreateNestedManyWithoutUserInput
+  storyComments?: Prisma.StoryCommentCreateNestedManyWithoutUserInput
   messagesSent?: Prisma.MessageCreateNestedManyWithoutSenderInput
   messageReactions?: Prisma.MessageReactionCreateNestedManyWithoutUserInput
   ownedGroups?: Prisma.GroupCreateNestedManyWithoutOwnerInput
@@ -12140,6 +12278,7 @@ export type UserUncheckedCreateWithoutConversationsInput = {
   stories?: Prisma.StoryUncheckedCreateNestedManyWithoutUserInput
   storyViews?: Prisma.StoryViewUncheckedCreateNestedManyWithoutUserInput
   storyReactions?: Prisma.StoryReactionUncheckedCreateNestedManyWithoutUserInput
+  storyComments?: Prisma.StoryCommentUncheckedCreateNestedManyWithoutUserInput
   messagesSent?: Prisma.MessageUncheckedCreateNestedManyWithoutSenderInput
   messageReactions?: Prisma.MessageReactionUncheckedCreateNestedManyWithoutUserInput
   ownedGroups?: Prisma.GroupUncheckedCreateNestedManyWithoutOwnerInput
@@ -12238,6 +12377,7 @@ export type UserUpdateWithoutConversationsInput = {
   stories?: Prisma.StoryUpdateManyWithoutUserNestedInput
   storyViews?: Prisma.StoryViewUpdateManyWithoutUserNestedInput
   storyReactions?: Prisma.StoryReactionUpdateManyWithoutUserNestedInput
+  storyComments?: Prisma.StoryCommentUpdateManyWithoutUserNestedInput
   messagesSent?: Prisma.MessageUpdateManyWithoutSenderNestedInput
   messageReactions?: Prisma.MessageReactionUpdateManyWithoutUserNestedInput
   ownedGroups?: Prisma.GroupUpdateManyWithoutOwnerNestedInput
@@ -12321,6 +12461,7 @@ export type UserUncheckedUpdateWithoutConversationsInput = {
   stories?: Prisma.StoryUncheckedUpdateManyWithoutUserNestedInput
   storyViews?: Prisma.StoryViewUncheckedUpdateManyWithoutUserNestedInput
   storyReactions?: Prisma.StoryReactionUncheckedUpdateManyWithoutUserNestedInput
+  storyComments?: Prisma.StoryCommentUncheckedUpdateManyWithoutUserNestedInput
   messagesSent?: Prisma.MessageUncheckedUpdateManyWithoutSenderNestedInput
   messageReactions?: Prisma.MessageReactionUncheckedUpdateManyWithoutUserNestedInput
   ownedGroups?: Prisma.GroupUncheckedUpdateManyWithoutOwnerNestedInput
@@ -12403,6 +12544,7 @@ export type UserCreateWithoutMessagesSentInput = {
   stories?: Prisma.StoryCreateNestedManyWithoutUserInput
   storyViews?: Prisma.StoryViewCreateNestedManyWithoutUserInput
   storyReactions?: Prisma.StoryReactionCreateNestedManyWithoutUserInput
+  storyComments?: Prisma.StoryCommentCreateNestedManyWithoutUserInput
   conversations?: Prisma.ConversationParticipantCreateNestedManyWithoutUserInput
   messageReactions?: Prisma.MessageReactionCreateNestedManyWithoutUserInput
   ownedGroups?: Prisma.GroupCreateNestedManyWithoutOwnerInput
@@ -12486,6 +12628,7 @@ export type UserUncheckedCreateWithoutMessagesSentInput = {
   stories?: Prisma.StoryUncheckedCreateNestedManyWithoutUserInput
   storyViews?: Prisma.StoryViewUncheckedCreateNestedManyWithoutUserInput
   storyReactions?: Prisma.StoryReactionUncheckedCreateNestedManyWithoutUserInput
+  storyComments?: Prisma.StoryCommentUncheckedCreateNestedManyWithoutUserInput
   conversations?: Prisma.ConversationParticipantUncheckedCreateNestedManyWithoutUserInput
   messageReactions?: Prisma.MessageReactionUncheckedCreateNestedManyWithoutUserInput
   ownedGroups?: Prisma.GroupUncheckedCreateNestedManyWithoutOwnerInput
@@ -12584,6 +12727,7 @@ export type UserUpdateWithoutMessagesSentInput = {
   stories?: Prisma.StoryUpdateManyWithoutUserNestedInput
   storyViews?: Prisma.StoryViewUpdateManyWithoutUserNestedInput
   storyReactions?: Prisma.StoryReactionUpdateManyWithoutUserNestedInput
+  storyComments?: Prisma.StoryCommentUpdateManyWithoutUserNestedInput
   conversations?: Prisma.ConversationParticipantUpdateManyWithoutUserNestedInput
   messageReactions?: Prisma.MessageReactionUpdateManyWithoutUserNestedInput
   ownedGroups?: Prisma.GroupUpdateManyWithoutOwnerNestedInput
@@ -12667,6 +12811,7 @@ export type UserUncheckedUpdateWithoutMessagesSentInput = {
   stories?: Prisma.StoryUncheckedUpdateManyWithoutUserNestedInput
   storyViews?: Prisma.StoryViewUncheckedUpdateManyWithoutUserNestedInput
   storyReactions?: Prisma.StoryReactionUncheckedUpdateManyWithoutUserNestedInput
+  storyComments?: Prisma.StoryCommentUncheckedUpdateManyWithoutUserNestedInput
   conversations?: Prisma.ConversationParticipantUncheckedUpdateManyWithoutUserNestedInput
   messageReactions?: Prisma.MessageReactionUncheckedUpdateManyWithoutUserNestedInput
   ownedGroups?: Prisma.GroupUncheckedUpdateManyWithoutOwnerNestedInput
@@ -12749,6 +12894,7 @@ export type UserCreateWithoutMessageReactionsInput = {
   stories?: Prisma.StoryCreateNestedManyWithoutUserInput
   storyViews?: Prisma.StoryViewCreateNestedManyWithoutUserInput
   storyReactions?: Prisma.StoryReactionCreateNestedManyWithoutUserInput
+  storyComments?: Prisma.StoryCommentCreateNestedManyWithoutUserInput
   conversations?: Prisma.ConversationParticipantCreateNestedManyWithoutUserInput
   messagesSent?: Prisma.MessageCreateNestedManyWithoutSenderInput
   ownedGroups?: Prisma.GroupCreateNestedManyWithoutOwnerInput
@@ -12832,6 +12978,7 @@ export type UserUncheckedCreateWithoutMessageReactionsInput = {
   stories?: Prisma.StoryUncheckedCreateNestedManyWithoutUserInput
   storyViews?: Prisma.StoryViewUncheckedCreateNestedManyWithoutUserInput
   storyReactions?: Prisma.StoryReactionUncheckedCreateNestedManyWithoutUserInput
+  storyComments?: Prisma.StoryCommentUncheckedCreateNestedManyWithoutUserInput
   conversations?: Prisma.ConversationParticipantUncheckedCreateNestedManyWithoutUserInput
   messagesSent?: Prisma.MessageUncheckedCreateNestedManyWithoutSenderInput
   ownedGroups?: Prisma.GroupUncheckedCreateNestedManyWithoutOwnerInput
@@ -12930,6 +13077,7 @@ export type UserUpdateWithoutMessageReactionsInput = {
   stories?: Prisma.StoryUpdateManyWithoutUserNestedInput
   storyViews?: Prisma.StoryViewUpdateManyWithoutUserNestedInput
   storyReactions?: Prisma.StoryReactionUpdateManyWithoutUserNestedInput
+  storyComments?: Prisma.StoryCommentUpdateManyWithoutUserNestedInput
   conversations?: Prisma.ConversationParticipantUpdateManyWithoutUserNestedInput
   messagesSent?: Prisma.MessageUpdateManyWithoutSenderNestedInput
   ownedGroups?: Prisma.GroupUpdateManyWithoutOwnerNestedInput
@@ -13013,6 +13161,7 @@ export type UserUncheckedUpdateWithoutMessageReactionsInput = {
   stories?: Prisma.StoryUncheckedUpdateManyWithoutUserNestedInput
   storyViews?: Prisma.StoryViewUncheckedUpdateManyWithoutUserNestedInput
   storyReactions?: Prisma.StoryReactionUncheckedUpdateManyWithoutUserNestedInput
+  storyComments?: Prisma.StoryCommentUncheckedUpdateManyWithoutUserNestedInput
   conversations?: Prisma.ConversationParticipantUncheckedUpdateManyWithoutUserNestedInput
   messagesSent?: Prisma.MessageUncheckedUpdateManyWithoutSenderNestedInput
   ownedGroups?: Prisma.GroupUncheckedUpdateManyWithoutOwnerNestedInput
@@ -13095,6 +13244,7 @@ export type UserCreateWithoutReportedContentCreatedInput = {
   stories?: Prisma.StoryCreateNestedManyWithoutUserInput
   storyViews?: Prisma.StoryViewCreateNestedManyWithoutUserInput
   storyReactions?: Prisma.StoryReactionCreateNestedManyWithoutUserInput
+  storyComments?: Prisma.StoryCommentCreateNestedManyWithoutUserInput
   conversations?: Prisma.ConversationParticipantCreateNestedManyWithoutUserInput
   messagesSent?: Prisma.MessageCreateNestedManyWithoutSenderInput
   messageReactions?: Prisma.MessageReactionCreateNestedManyWithoutUserInput
@@ -13178,6 +13328,7 @@ export type UserUncheckedCreateWithoutReportedContentCreatedInput = {
   stories?: Prisma.StoryUncheckedCreateNestedManyWithoutUserInput
   storyViews?: Prisma.StoryViewUncheckedCreateNestedManyWithoutUserInput
   storyReactions?: Prisma.StoryReactionUncheckedCreateNestedManyWithoutUserInput
+  storyComments?: Prisma.StoryCommentUncheckedCreateNestedManyWithoutUserInput
   conversations?: Prisma.ConversationParticipantUncheckedCreateNestedManyWithoutUserInput
   messagesSent?: Prisma.MessageUncheckedCreateNestedManyWithoutSenderInput
   messageReactions?: Prisma.MessageReactionUncheckedCreateNestedManyWithoutUserInput
@@ -13265,6 +13416,7 @@ export type UserCreateWithoutReportedContentReceivedInput = {
   stories?: Prisma.StoryCreateNestedManyWithoutUserInput
   storyViews?: Prisma.StoryViewCreateNestedManyWithoutUserInput
   storyReactions?: Prisma.StoryReactionCreateNestedManyWithoutUserInput
+  storyComments?: Prisma.StoryCommentCreateNestedManyWithoutUserInput
   conversations?: Prisma.ConversationParticipantCreateNestedManyWithoutUserInput
   messagesSent?: Prisma.MessageCreateNestedManyWithoutSenderInput
   messageReactions?: Prisma.MessageReactionCreateNestedManyWithoutUserInput
@@ -13348,6 +13500,7 @@ export type UserUncheckedCreateWithoutReportedContentReceivedInput = {
   stories?: Prisma.StoryUncheckedCreateNestedManyWithoutUserInput
   storyViews?: Prisma.StoryViewUncheckedCreateNestedManyWithoutUserInput
   storyReactions?: Prisma.StoryReactionUncheckedCreateNestedManyWithoutUserInput
+  storyComments?: Prisma.StoryCommentUncheckedCreateNestedManyWithoutUserInput
   conversations?: Prisma.ConversationParticipantUncheckedCreateNestedManyWithoutUserInput
   messagesSent?: Prisma.MessageUncheckedCreateNestedManyWithoutSenderInput
   messageReactions?: Prisma.MessageReactionUncheckedCreateNestedManyWithoutUserInput
@@ -13446,6 +13599,7 @@ export type UserUpdateWithoutReportedContentCreatedInput = {
   stories?: Prisma.StoryUpdateManyWithoutUserNestedInput
   storyViews?: Prisma.StoryViewUpdateManyWithoutUserNestedInput
   storyReactions?: Prisma.StoryReactionUpdateManyWithoutUserNestedInput
+  storyComments?: Prisma.StoryCommentUpdateManyWithoutUserNestedInput
   conversations?: Prisma.ConversationParticipantUpdateManyWithoutUserNestedInput
   messagesSent?: Prisma.MessageUpdateManyWithoutSenderNestedInput
   messageReactions?: Prisma.MessageReactionUpdateManyWithoutUserNestedInput
@@ -13529,6 +13683,7 @@ export type UserUncheckedUpdateWithoutReportedContentCreatedInput = {
   stories?: Prisma.StoryUncheckedUpdateManyWithoutUserNestedInput
   storyViews?: Prisma.StoryViewUncheckedUpdateManyWithoutUserNestedInput
   storyReactions?: Prisma.StoryReactionUncheckedUpdateManyWithoutUserNestedInput
+  storyComments?: Prisma.StoryCommentUncheckedUpdateManyWithoutUserNestedInput
   conversations?: Prisma.ConversationParticipantUncheckedUpdateManyWithoutUserNestedInput
   messagesSent?: Prisma.MessageUncheckedUpdateManyWithoutSenderNestedInput
   messageReactions?: Prisma.MessageReactionUncheckedUpdateManyWithoutUserNestedInput
@@ -13622,6 +13777,7 @@ export type UserUpdateWithoutReportedContentReceivedInput = {
   stories?: Prisma.StoryUpdateManyWithoutUserNestedInput
   storyViews?: Prisma.StoryViewUpdateManyWithoutUserNestedInput
   storyReactions?: Prisma.StoryReactionUpdateManyWithoutUserNestedInput
+  storyComments?: Prisma.StoryCommentUpdateManyWithoutUserNestedInput
   conversations?: Prisma.ConversationParticipantUpdateManyWithoutUserNestedInput
   messagesSent?: Prisma.MessageUpdateManyWithoutSenderNestedInput
   messageReactions?: Prisma.MessageReactionUpdateManyWithoutUserNestedInput
@@ -13705,6 +13861,7 @@ export type UserUncheckedUpdateWithoutReportedContentReceivedInput = {
   stories?: Prisma.StoryUncheckedUpdateManyWithoutUserNestedInput
   storyViews?: Prisma.StoryViewUncheckedUpdateManyWithoutUserNestedInput
   storyReactions?: Prisma.StoryReactionUncheckedUpdateManyWithoutUserNestedInput
+  storyComments?: Prisma.StoryCommentUncheckedUpdateManyWithoutUserNestedInput
   conversations?: Prisma.ConversationParticipantUncheckedUpdateManyWithoutUserNestedInput
   messagesSent?: Prisma.MessageUncheckedUpdateManyWithoutSenderNestedInput
   messageReactions?: Prisma.MessageReactionUncheckedUpdateManyWithoutUserNestedInput
@@ -13787,6 +13944,7 @@ export type UserCreateWithoutModerationLogsCreatedInput = {
   stories?: Prisma.StoryCreateNestedManyWithoutUserInput
   storyViews?: Prisma.StoryViewCreateNestedManyWithoutUserInput
   storyReactions?: Prisma.StoryReactionCreateNestedManyWithoutUserInput
+  storyComments?: Prisma.StoryCommentCreateNestedManyWithoutUserInput
   conversations?: Prisma.ConversationParticipantCreateNestedManyWithoutUserInput
   messagesSent?: Prisma.MessageCreateNestedManyWithoutSenderInput
   messageReactions?: Prisma.MessageReactionCreateNestedManyWithoutUserInput
@@ -13870,6 +14028,7 @@ export type UserUncheckedCreateWithoutModerationLogsCreatedInput = {
   stories?: Prisma.StoryUncheckedCreateNestedManyWithoutUserInput
   storyViews?: Prisma.StoryViewUncheckedCreateNestedManyWithoutUserInput
   storyReactions?: Prisma.StoryReactionUncheckedCreateNestedManyWithoutUserInput
+  storyComments?: Prisma.StoryCommentUncheckedCreateNestedManyWithoutUserInput
   conversations?: Prisma.ConversationParticipantUncheckedCreateNestedManyWithoutUserInput
   messagesSent?: Prisma.MessageUncheckedCreateNestedManyWithoutSenderInput
   messageReactions?: Prisma.MessageReactionUncheckedCreateNestedManyWithoutUserInput
@@ -13957,6 +14116,7 @@ export type UserCreateWithoutModerationLogsTargetedInput = {
   stories?: Prisma.StoryCreateNestedManyWithoutUserInput
   storyViews?: Prisma.StoryViewCreateNestedManyWithoutUserInput
   storyReactions?: Prisma.StoryReactionCreateNestedManyWithoutUserInput
+  storyComments?: Prisma.StoryCommentCreateNestedManyWithoutUserInput
   conversations?: Prisma.ConversationParticipantCreateNestedManyWithoutUserInput
   messagesSent?: Prisma.MessageCreateNestedManyWithoutSenderInput
   messageReactions?: Prisma.MessageReactionCreateNestedManyWithoutUserInput
@@ -14040,6 +14200,7 @@ export type UserUncheckedCreateWithoutModerationLogsTargetedInput = {
   stories?: Prisma.StoryUncheckedCreateNestedManyWithoutUserInput
   storyViews?: Prisma.StoryViewUncheckedCreateNestedManyWithoutUserInput
   storyReactions?: Prisma.StoryReactionUncheckedCreateNestedManyWithoutUserInput
+  storyComments?: Prisma.StoryCommentUncheckedCreateNestedManyWithoutUserInput
   conversations?: Prisma.ConversationParticipantUncheckedCreateNestedManyWithoutUserInput
   messagesSent?: Prisma.MessageUncheckedCreateNestedManyWithoutSenderInput
   messageReactions?: Prisma.MessageReactionUncheckedCreateNestedManyWithoutUserInput
@@ -14138,6 +14299,7 @@ export type UserUpdateWithoutModerationLogsCreatedInput = {
   stories?: Prisma.StoryUpdateManyWithoutUserNestedInput
   storyViews?: Prisma.StoryViewUpdateManyWithoutUserNestedInput
   storyReactions?: Prisma.StoryReactionUpdateManyWithoutUserNestedInput
+  storyComments?: Prisma.StoryCommentUpdateManyWithoutUserNestedInput
   conversations?: Prisma.ConversationParticipantUpdateManyWithoutUserNestedInput
   messagesSent?: Prisma.MessageUpdateManyWithoutSenderNestedInput
   messageReactions?: Prisma.MessageReactionUpdateManyWithoutUserNestedInput
@@ -14221,6 +14383,7 @@ export type UserUncheckedUpdateWithoutModerationLogsCreatedInput = {
   stories?: Prisma.StoryUncheckedUpdateManyWithoutUserNestedInput
   storyViews?: Prisma.StoryViewUncheckedUpdateManyWithoutUserNestedInput
   storyReactions?: Prisma.StoryReactionUncheckedUpdateManyWithoutUserNestedInput
+  storyComments?: Prisma.StoryCommentUncheckedUpdateManyWithoutUserNestedInput
   conversations?: Prisma.ConversationParticipantUncheckedUpdateManyWithoutUserNestedInput
   messagesSent?: Prisma.MessageUncheckedUpdateManyWithoutSenderNestedInput
   messageReactions?: Prisma.MessageReactionUncheckedUpdateManyWithoutUserNestedInput
@@ -14314,6 +14477,7 @@ export type UserUpdateWithoutModerationLogsTargetedInput = {
   stories?: Prisma.StoryUpdateManyWithoutUserNestedInput
   storyViews?: Prisma.StoryViewUpdateManyWithoutUserNestedInput
   storyReactions?: Prisma.StoryReactionUpdateManyWithoutUserNestedInput
+  storyComments?: Prisma.StoryCommentUpdateManyWithoutUserNestedInput
   conversations?: Prisma.ConversationParticipantUpdateManyWithoutUserNestedInput
   messagesSent?: Prisma.MessageUpdateManyWithoutSenderNestedInput
   messageReactions?: Prisma.MessageReactionUpdateManyWithoutUserNestedInput
@@ -14397,6 +14561,7 @@ export type UserUncheckedUpdateWithoutModerationLogsTargetedInput = {
   stories?: Prisma.StoryUncheckedUpdateManyWithoutUserNestedInput
   storyViews?: Prisma.StoryViewUncheckedUpdateManyWithoutUserNestedInput
   storyReactions?: Prisma.StoryReactionUncheckedUpdateManyWithoutUserNestedInput
+  storyComments?: Prisma.StoryCommentUncheckedUpdateManyWithoutUserNestedInput
   conversations?: Prisma.ConversationParticipantUncheckedUpdateManyWithoutUserNestedInput
   messagesSent?: Prisma.MessageUncheckedUpdateManyWithoutSenderNestedInput
   messageReactions?: Prisma.MessageReactionUncheckedUpdateManyWithoutUserNestedInput
@@ -14479,6 +14644,7 @@ export type UserCreateWithoutNotificationsReceivedInput = {
   stories?: Prisma.StoryCreateNestedManyWithoutUserInput
   storyViews?: Prisma.StoryViewCreateNestedManyWithoutUserInput
   storyReactions?: Prisma.StoryReactionCreateNestedManyWithoutUserInput
+  storyComments?: Prisma.StoryCommentCreateNestedManyWithoutUserInput
   conversations?: Prisma.ConversationParticipantCreateNestedManyWithoutUserInput
   messagesSent?: Prisma.MessageCreateNestedManyWithoutSenderInput
   messageReactions?: Prisma.MessageReactionCreateNestedManyWithoutUserInput
@@ -14562,6 +14728,7 @@ export type UserUncheckedCreateWithoutNotificationsReceivedInput = {
   stories?: Prisma.StoryUncheckedCreateNestedManyWithoutUserInput
   storyViews?: Prisma.StoryViewUncheckedCreateNestedManyWithoutUserInput
   storyReactions?: Prisma.StoryReactionUncheckedCreateNestedManyWithoutUserInput
+  storyComments?: Prisma.StoryCommentUncheckedCreateNestedManyWithoutUserInput
   conversations?: Prisma.ConversationParticipantUncheckedCreateNestedManyWithoutUserInput
   messagesSent?: Prisma.MessageUncheckedCreateNestedManyWithoutSenderInput
   messageReactions?: Prisma.MessageReactionUncheckedCreateNestedManyWithoutUserInput
@@ -14649,6 +14816,7 @@ export type UserCreateWithoutNotificationsSentInput = {
   stories?: Prisma.StoryCreateNestedManyWithoutUserInput
   storyViews?: Prisma.StoryViewCreateNestedManyWithoutUserInput
   storyReactions?: Prisma.StoryReactionCreateNestedManyWithoutUserInput
+  storyComments?: Prisma.StoryCommentCreateNestedManyWithoutUserInput
   conversations?: Prisma.ConversationParticipantCreateNestedManyWithoutUserInput
   messagesSent?: Prisma.MessageCreateNestedManyWithoutSenderInput
   messageReactions?: Prisma.MessageReactionCreateNestedManyWithoutUserInput
@@ -14732,6 +14900,7 @@ export type UserUncheckedCreateWithoutNotificationsSentInput = {
   stories?: Prisma.StoryUncheckedCreateNestedManyWithoutUserInput
   storyViews?: Prisma.StoryViewUncheckedCreateNestedManyWithoutUserInput
   storyReactions?: Prisma.StoryReactionUncheckedCreateNestedManyWithoutUserInput
+  storyComments?: Prisma.StoryCommentUncheckedCreateNestedManyWithoutUserInput
   conversations?: Prisma.ConversationParticipantUncheckedCreateNestedManyWithoutUserInput
   messagesSent?: Prisma.MessageUncheckedCreateNestedManyWithoutSenderInput
   messageReactions?: Prisma.MessageReactionUncheckedCreateNestedManyWithoutUserInput
@@ -14830,6 +14999,7 @@ export type UserUpdateWithoutNotificationsReceivedInput = {
   stories?: Prisma.StoryUpdateManyWithoutUserNestedInput
   storyViews?: Prisma.StoryViewUpdateManyWithoutUserNestedInput
   storyReactions?: Prisma.StoryReactionUpdateManyWithoutUserNestedInput
+  storyComments?: Prisma.StoryCommentUpdateManyWithoutUserNestedInput
   conversations?: Prisma.ConversationParticipantUpdateManyWithoutUserNestedInput
   messagesSent?: Prisma.MessageUpdateManyWithoutSenderNestedInput
   messageReactions?: Prisma.MessageReactionUpdateManyWithoutUserNestedInput
@@ -14913,6 +15083,7 @@ export type UserUncheckedUpdateWithoutNotificationsReceivedInput = {
   stories?: Prisma.StoryUncheckedUpdateManyWithoutUserNestedInput
   storyViews?: Prisma.StoryViewUncheckedUpdateManyWithoutUserNestedInput
   storyReactions?: Prisma.StoryReactionUncheckedUpdateManyWithoutUserNestedInput
+  storyComments?: Prisma.StoryCommentUncheckedUpdateManyWithoutUserNestedInput
   conversations?: Prisma.ConversationParticipantUncheckedUpdateManyWithoutUserNestedInput
   messagesSent?: Prisma.MessageUncheckedUpdateManyWithoutSenderNestedInput
   messageReactions?: Prisma.MessageReactionUncheckedUpdateManyWithoutUserNestedInput
@@ -15006,6 +15177,7 @@ export type UserUpdateWithoutNotificationsSentInput = {
   stories?: Prisma.StoryUpdateManyWithoutUserNestedInput
   storyViews?: Prisma.StoryViewUpdateManyWithoutUserNestedInput
   storyReactions?: Prisma.StoryReactionUpdateManyWithoutUserNestedInput
+  storyComments?: Prisma.StoryCommentUpdateManyWithoutUserNestedInput
   conversations?: Prisma.ConversationParticipantUpdateManyWithoutUserNestedInput
   messagesSent?: Prisma.MessageUpdateManyWithoutSenderNestedInput
   messageReactions?: Prisma.MessageReactionUpdateManyWithoutUserNestedInput
@@ -15089,6 +15261,7 @@ export type UserUncheckedUpdateWithoutNotificationsSentInput = {
   stories?: Prisma.StoryUncheckedUpdateManyWithoutUserNestedInput
   storyViews?: Prisma.StoryViewUncheckedUpdateManyWithoutUserNestedInput
   storyReactions?: Prisma.StoryReactionUncheckedUpdateManyWithoutUserNestedInput
+  storyComments?: Prisma.StoryCommentUncheckedUpdateManyWithoutUserNestedInput
   conversations?: Prisma.ConversationParticipantUncheckedUpdateManyWithoutUserNestedInput
   messagesSent?: Prisma.MessageUncheckedUpdateManyWithoutSenderNestedInput
   messageReactions?: Prisma.MessageReactionUncheckedUpdateManyWithoutUserNestedInput
@@ -15171,6 +15344,7 @@ export type UserCreateWithoutOwnedPagesInput = {
   stories?: Prisma.StoryCreateNestedManyWithoutUserInput
   storyViews?: Prisma.StoryViewCreateNestedManyWithoutUserInput
   storyReactions?: Prisma.StoryReactionCreateNestedManyWithoutUserInput
+  storyComments?: Prisma.StoryCommentCreateNestedManyWithoutUserInput
   conversations?: Prisma.ConversationParticipantCreateNestedManyWithoutUserInput
   messagesSent?: Prisma.MessageCreateNestedManyWithoutSenderInput
   messageReactions?: Prisma.MessageReactionCreateNestedManyWithoutUserInput
@@ -15254,6 +15428,7 @@ export type UserUncheckedCreateWithoutOwnedPagesInput = {
   stories?: Prisma.StoryUncheckedCreateNestedManyWithoutUserInput
   storyViews?: Prisma.StoryViewUncheckedCreateNestedManyWithoutUserInput
   storyReactions?: Prisma.StoryReactionUncheckedCreateNestedManyWithoutUserInput
+  storyComments?: Prisma.StoryCommentUncheckedCreateNestedManyWithoutUserInput
   conversations?: Prisma.ConversationParticipantUncheckedCreateNestedManyWithoutUserInput
   messagesSent?: Prisma.MessageUncheckedCreateNestedManyWithoutSenderInput
   messageReactions?: Prisma.MessageReactionUncheckedCreateNestedManyWithoutUserInput
@@ -15352,6 +15527,7 @@ export type UserUpdateWithoutOwnedPagesInput = {
   stories?: Prisma.StoryUpdateManyWithoutUserNestedInput
   storyViews?: Prisma.StoryViewUpdateManyWithoutUserNestedInput
   storyReactions?: Prisma.StoryReactionUpdateManyWithoutUserNestedInput
+  storyComments?: Prisma.StoryCommentUpdateManyWithoutUserNestedInput
   conversations?: Prisma.ConversationParticipantUpdateManyWithoutUserNestedInput
   messagesSent?: Prisma.MessageUpdateManyWithoutSenderNestedInput
   messageReactions?: Prisma.MessageReactionUpdateManyWithoutUserNestedInput
@@ -15435,6 +15611,7 @@ export type UserUncheckedUpdateWithoutOwnedPagesInput = {
   stories?: Prisma.StoryUncheckedUpdateManyWithoutUserNestedInput
   storyViews?: Prisma.StoryViewUncheckedUpdateManyWithoutUserNestedInput
   storyReactions?: Prisma.StoryReactionUncheckedUpdateManyWithoutUserNestedInput
+  storyComments?: Prisma.StoryCommentUncheckedUpdateManyWithoutUserNestedInput
   conversations?: Prisma.ConversationParticipantUncheckedUpdateManyWithoutUserNestedInput
   messagesSent?: Prisma.MessageUncheckedUpdateManyWithoutSenderNestedInput
   messageReactions?: Prisma.MessageReactionUncheckedUpdateManyWithoutUserNestedInput
@@ -15517,6 +15694,7 @@ export type UserCreateWithoutPageFollowsInput = {
   stories?: Prisma.StoryCreateNestedManyWithoutUserInput
   storyViews?: Prisma.StoryViewCreateNestedManyWithoutUserInput
   storyReactions?: Prisma.StoryReactionCreateNestedManyWithoutUserInput
+  storyComments?: Prisma.StoryCommentCreateNestedManyWithoutUserInput
   conversations?: Prisma.ConversationParticipantCreateNestedManyWithoutUserInput
   messagesSent?: Prisma.MessageCreateNestedManyWithoutSenderInput
   messageReactions?: Prisma.MessageReactionCreateNestedManyWithoutUserInput
@@ -15600,6 +15778,7 @@ export type UserUncheckedCreateWithoutPageFollowsInput = {
   stories?: Prisma.StoryUncheckedCreateNestedManyWithoutUserInput
   storyViews?: Prisma.StoryViewUncheckedCreateNestedManyWithoutUserInput
   storyReactions?: Prisma.StoryReactionUncheckedCreateNestedManyWithoutUserInput
+  storyComments?: Prisma.StoryCommentUncheckedCreateNestedManyWithoutUserInput
   conversations?: Prisma.ConversationParticipantUncheckedCreateNestedManyWithoutUserInput
   messagesSent?: Prisma.MessageUncheckedCreateNestedManyWithoutSenderInput
   messageReactions?: Prisma.MessageReactionUncheckedCreateNestedManyWithoutUserInput
@@ -15698,6 +15877,7 @@ export type UserUpdateWithoutPageFollowsInput = {
   stories?: Prisma.StoryUpdateManyWithoutUserNestedInput
   storyViews?: Prisma.StoryViewUpdateManyWithoutUserNestedInput
   storyReactions?: Prisma.StoryReactionUpdateManyWithoutUserNestedInput
+  storyComments?: Prisma.StoryCommentUpdateManyWithoutUserNestedInput
   conversations?: Prisma.ConversationParticipantUpdateManyWithoutUserNestedInput
   messagesSent?: Prisma.MessageUpdateManyWithoutSenderNestedInput
   messageReactions?: Prisma.MessageReactionUpdateManyWithoutUserNestedInput
@@ -15781,6 +15961,7 @@ export type UserUncheckedUpdateWithoutPageFollowsInput = {
   stories?: Prisma.StoryUncheckedUpdateManyWithoutUserNestedInput
   storyViews?: Prisma.StoryViewUncheckedUpdateManyWithoutUserNestedInput
   storyReactions?: Prisma.StoryReactionUncheckedUpdateManyWithoutUserNestedInput
+  storyComments?: Prisma.StoryCommentUncheckedUpdateManyWithoutUserNestedInput
   conversations?: Prisma.ConversationParticipantUncheckedUpdateManyWithoutUserNestedInput
   messagesSent?: Prisma.MessageUncheckedUpdateManyWithoutSenderNestedInput
   messageReactions?: Prisma.MessageReactionUncheckedUpdateManyWithoutUserNestedInput
@@ -15863,6 +16044,7 @@ export type UserCreateWithoutPagePostsInput = {
   stories?: Prisma.StoryCreateNestedManyWithoutUserInput
   storyViews?: Prisma.StoryViewCreateNestedManyWithoutUserInput
   storyReactions?: Prisma.StoryReactionCreateNestedManyWithoutUserInput
+  storyComments?: Prisma.StoryCommentCreateNestedManyWithoutUserInput
   conversations?: Prisma.ConversationParticipantCreateNestedManyWithoutUserInput
   messagesSent?: Prisma.MessageCreateNestedManyWithoutSenderInput
   messageReactions?: Prisma.MessageReactionCreateNestedManyWithoutUserInput
@@ -15946,6 +16128,7 @@ export type UserUncheckedCreateWithoutPagePostsInput = {
   stories?: Prisma.StoryUncheckedCreateNestedManyWithoutUserInput
   storyViews?: Prisma.StoryViewUncheckedCreateNestedManyWithoutUserInput
   storyReactions?: Prisma.StoryReactionUncheckedCreateNestedManyWithoutUserInput
+  storyComments?: Prisma.StoryCommentUncheckedCreateNestedManyWithoutUserInput
   conversations?: Prisma.ConversationParticipantUncheckedCreateNestedManyWithoutUserInput
   messagesSent?: Prisma.MessageUncheckedCreateNestedManyWithoutSenderInput
   messageReactions?: Prisma.MessageReactionUncheckedCreateNestedManyWithoutUserInput
@@ -16044,6 +16227,7 @@ export type UserUpdateWithoutPagePostsInput = {
   stories?: Prisma.StoryUpdateManyWithoutUserNestedInput
   storyViews?: Prisma.StoryViewUpdateManyWithoutUserNestedInput
   storyReactions?: Prisma.StoryReactionUpdateManyWithoutUserNestedInput
+  storyComments?: Prisma.StoryCommentUpdateManyWithoutUserNestedInput
   conversations?: Prisma.ConversationParticipantUpdateManyWithoutUserNestedInput
   messagesSent?: Prisma.MessageUpdateManyWithoutSenderNestedInput
   messageReactions?: Prisma.MessageReactionUpdateManyWithoutUserNestedInput
@@ -16127,6 +16311,7 @@ export type UserUncheckedUpdateWithoutPagePostsInput = {
   stories?: Prisma.StoryUncheckedUpdateManyWithoutUserNestedInput
   storyViews?: Prisma.StoryViewUncheckedUpdateManyWithoutUserNestedInput
   storyReactions?: Prisma.StoryReactionUncheckedUpdateManyWithoutUserNestedInput
+  storyComments?: Prisma.StoryCommentUncheckedUpdateManyWithoutUserNestedInput
   conversations?: Prisma.ConversationParticipantUncheckedUpdateManyWithoutUserNestedInput
   messagesSent?: Prisma.MessageUncheckedUpdateManyWithoutSenderNestedInput
   messageReactions?: Prisma.MessageReactionUncheckedUpdateManyWithoutUserNestedInput
@@ -16209,6 +16394,7 @@ export type UserCreateWithoutPagePostLikesInput = {
   stories?: Prisma.StoryCreateNestedManyWithoutUserInput
   storyViews?: Prisma.StoryViewCreateNestedManyWithoutUserInput
   storyReactions?: Prisma.StoryReactionCreateNestedManyWithoutUserInput
+  storyComments?: Prisma.StoryCommentCreateNestedManyWithoutUserInput
   conversations?: Prisma.ConversationParticipantCreateNestedManyWithoutUserInput
   messagesSent?: Prisma.MessageCreateNestedManyWithoutSenderInput
   messageReactions?: Prisma.MessageReactionCreateNestedManyWithoutUserInput
@@ -16292,6 +16478,7 @@ export type UserUncheckedCreateWithoutPagePostLikesInput = {
   stories?: Prisma.StoryUncheckedCreateNestedManyWithoutUserInput
   storyViews?: Prisma.StoryViewUncheckedCreateNestedManyWithoutUserInput
   storyReactions?: Prisma.StoryReactionUncheckedCreateNestedManyWithoutUserInput
+  storyComments?: Prisma.StoryCommentUncheckedCreateNestedManyWithoutUserInput
   conversations?: Prisma.ConversationParticipantUncheckedCreateNestedManyWithoutUserInput
   messagesSent?: Prisma.MessageUncheckedCreateNestedManyWithoutSenderInput
   messageReactions?: Prisma.MessageReactionUncheckedCreateNestedManyWithoutUserInput
@@ -16390,6 +16577,7 @@ export type UserUpdateWithoutPagePostLikesInput = {
   stories?: Prisma.StoryUpdateManyWithoutUserNestedInput
   storyViews?: Prisma.StoryViewUpdateManyWithoutUserNestedInput
   storyReactions?: Prisma.StoryReactionUpdateManyWithoutUserNestedInput
+  storyComments?: Prisma.StoryCommentUpdateManyWithoutUserNestedInput
   conversations?: Prisma.ConversationParticipantUpdateManyWithoutUserNestedInput
   messagesSent?: Prisma.MessageUpdateManyWithoutSenderNestedInput
   messageReactions?: Prisma.MessageReactionUpdateManyWithoutUserNestedInput
@@ -16473,6 +16661,7 @@ export type UserUncheckedUpdateWithoutPagePostLikesInput = {
   stories?: Prisma.StoryUncheckedUpdateManyWithoutUserNestedInput
   storyViews?: Prisma.StoryViewUncheckedUpdateManyWithoutUserNestedInput
   storyReactions?: Prisma.StoryReactionUncheckedUpdateManyWithoutUserNestedInput
+  storyComments?: Prisma.StoryCommentUncheckedUpdateManyWithoutUserNestedInput
   conversations?: Prisma.ConversationParticipantUncheckedUpdateManyWithoutUserNestedInput
   messagesSent?: Prisma.MessageUncheckedUpdateManyWithoutSenderNestedInput
   messageReactions?: Prisma.MessageReactionUncheckedUpdateManyWithoutUserNestedInput
@@ -16555,6 +16744,7 @@ export type UserCreateWithoutPagePostCommentsInput = {
   stories?: Prisma.StoryCreateNestedManyWithoutUserInput
   storyViews?: Prisma.StoryViewCreateNestedManyWithoutUserInput
   storyReactions?: Prisma.StoryReactionCreateNestedManyWithoutUserInput
+  storyComments?: Prisma.StoryCommentCreateNestedManyWithoutUserInput
   conversations?: Prisma.ConversationParticipantCreateNestedManyWithoutUserInput
   messagesSent?: Prisma.MessageCreateNestedManyWithoutSenderInput
   messageReactions?: Prisma.MessageReactionCreateNestedManyWithoutUserInput
@@ -16638,6 +16828,7 @@ export type UserUncheckedCreateWithoutPagePostCommentsInput = {
   stories?: Prisma.StoryUncheckedCreateNestedManyWithoutUserInput
   storyViews?: Prisma.StoryViewUncheckedCreateNestedManyWithoutUserInput
   storyReactions?: Prisma.StoryReactionUncheckedCreateNestedManyWithoutUserInput
+  storyComments?: Prisma.StoryCommentUncheckedCreateNestedManyWithoutUserInput
   conversations?: Prisma.ConversationParticipantUncheckedCreateNestedManyWithoutUserInput
   messagesSent?: Prisma.MessageUncheckedCreateNestedManyWithoutSenderInput
   messageReactions?: Prisma.MessageReactionUncheckedCreateNestedManyWithoutUserInput
@@ -16736,6 +16927,7 @@ export type UserUpdateWithoutPagePostCommentsInput = {
   stories?: Prisma.StoryUpdateManyWithoutUserNestedInput
   storyViews?: Prisma.StoryViewUpdateManyWithoutUserNestedInput
   storyReactions?: Prisma.StoryReactionUpdateManyWithoutUserNestedInput
+  storyComments?: Prisma.StoryCommentUpdateManyWithoutUserNestedInput
   conversations?: Prisma.ConversationParticipantUpdateManyWithoutUserNestedInput
   messagesSent?: Prisma.MessageUpdateManyWithoutSenderNestedInput
   messageReactions?: Prisma.MessageReactionUpdateManyWithoutUserNestedInput
@@ -16819,6 +17011,7 @@ export type UserUncheckedUpdateWithoutPagePostCommentsInput = {
   stories?: Prisma.StoryUncheckedUpdateManyWithoutUserNestedInput
   storyViews?: Prisma.StoryViewUncheckedUpdateManyWithoutUserNestedInput
   storyReactions?: Prisma.StoryReactionUncheckedUpdateManyWithoutUserNestedInput
+  storyComments?: Prisma.StoryCommentUncheckedUpdateManyWithoutUserNestedInput
   conversations?: Prisma.ConversationParticipantUncheckedUpdateManyWithoutUserNestedInput
   messagesSent?: Prisma.MessageUncheckedUpdateManyWithoutSenderNestedInput
   messageReactions?: Prisma.MessageReactionUncheckedUpdateManyWithoutUserNestedInput
@@ -16901,6 +17094,7 @@ export type UserCreateWithoutPagePostCommentLikesInput = {
   stories?: Prisma.StoryCreateNestedManyWithoutUserInput
   storyViews?: Prisma.StoryViewCreateNestedManyWithoutUserInput
   storyReactions?: Prisma.StoryReactionCreateNestedManyWithoutUserInput
+  storyComments?: Prisma.StoryCommentCreateNestedManyWithoutUserInput
   conversations?: Prisma.ConversationParticipantCreateNestedManyWithoutUserInput
   messagesSent?: Prisma.MessageCreateNestedManyWithoutSenderInput
   messageReactions?: Prisma.MessageReactionCreateNestedManyWithoutUserInput
@@ -16984,6 +17178,7 @@ export type UserUncheckedCreateWithoutPagePostCommentLikesInput = {
   stories?: Prisma.StoryUncheckedCreateNestedManyWithoutUserInput
   storyViews?: Prisma.StoryViewUncheckedCreateNestedManyWithoutUserInput
   storyReactions?: Prisma.StoryReactionUncheckedCreateNestedManyWithoutUserInput
+  storyComments?: Prisma.StoryCommentUncheckedCreateNestedManyWithoutUserInput
   conversations?: Prisma.ConversationParticipantUncheckedCreateNestedManyWithoutUserInput
   messagesSent?: Prisma.MessageUncheckedCreateNestedManyWithoutSenderInput
   messageReactions?: Prisma.MessageReactionUncheckedCreateNestedManyWithoutUserInput
@@ -17082,6 +17277,7 @@ export type UserUpdateWithoutPagePostCommentLikesInput = {
   stories?: Prisma.StoryUpdateManyWithoutUserNestedInput
   storyViews?: Prisma.StoryViewUpdateManyWithoutUserNestedInput
   storyReactions?: Prisma.StoryReactionUpdateManyWithoutUserNestedInput
+  storyComments?: Prisma.StoryCommentUpdateManyWithoutUserNestedInput
   conversations?: Prisma.ConversationParticipantUpdateManyWithoutUserNestedInput
   messagesSent?: Prisma.MessageUpdateManyWithoutSenderNestedInput
   messageReactions?: Prisma.MessageReactionUpdateManyWithoutUserNestedInput
@@ -17165,6 +17361,7 @@ export type UserUncheckedUpdateWithoutPagePostCommentLikesInput = {
   stories?: Prisma.StoryUncheckedUpdateManyWithoutUserNestedInput
   storyViews?: Prisma.StoryViewUncheckedUpdateManyWithoutUserNestedInput
   storyReactions?: Prisma.StoryReactionUncheckedUpdateManyWithoutUserNestedInput
+  storyComments?: Prisma.StoryCommentUncheckedUpdateManyWithoutUserNestedInput
   conversations?: Prisma.ConversationParticipantUncheckedUpdateManyWithoutUserNestedInput
   messagesSent?: Prisma.MessageUncheckedUpdateManyWithoutSenderNestedInput
   messageReactions?: Prisma.MessageReactionUncheckedUpdateManyWithoutUserNestedInput
@@ -17246,6 +17443,7 @@ export type UserCreateWithoutPostsInput = {
   stories?: Prisma.StoryCreateNestedManyWithoutUserInput
   storyViews?: Prisma.StoryViewCreateNestedManyWithoutUserInput
   storyReactions?: Prisma.StoryReactionCreateNestedManyWithoutUserInput
+  storyComments?: Prisma.StoryCommentCreateNestedManyWithoutUserInput
   conversations?: Prisma.ConversationParticipantCreateNestedManyWithoutUserInput
   messagesSent?: Prisma.MessageCreateNestedManyWithoutSenderInput
   messageReactions?: Prisma.MessageReactionCreateNestedManyWithoutUserInput
@@ -17329,6 +17527,7 @@ export type UserUncheckedCreateWithoutPostsInput = {
   stories?: Prisma.StoryUncheckedCreateNestedManyWithoutUserInput
   storyViews?: Prisma.StoryViewUncheckedCreateNestedManyWithoutUserInput
   storyReactions?: Prisma.StoryReactionUncheckedCreateNestedManyWithoutUserInput
+  storyComments?: Prisma.StoryCommentUncheckedCreateNestedManyWithoutUserInput
   conversations?: Prisma.ConversationParticipantUncheckedCreateNestedManyWithoutUserInput
   messagesSent?: Prisma.MessageUncheckedCreateNestedManyWithoutSenderInput
   messageReactions?: Prisma.MessageReactionUncheckedCreateNestedManyWithoutUserInput
@@ -17427,6 +17626,7 @@ export type UserUpdateWithoutPostsInput = {
   stories?: Prisma.StoryUpdateManyWithoutUserNestedInput
   storyViews?: Prisma.StoryViewUpdateManyWithoutUserNestedInput
   storyReactions?: Prisma.StoryReactionUpdateManyWithoutUserNestedInput
+  storyComments?: Prisma.StoryCommentUpdateManyWithoutUserNestedInput
   conversations?: Prisma.ConversationParticipantUpdateManyWithoutUserNestedInput
   messagesSent?: Prisma.MessageUpdateManyWithoutSenderNestedInput
   messageReactions?: Prisma.MessageReactionUpdateManyWithoutUserNestedInput
@@ -17510,6 +17710,7 @@ export type UserUncheckedUpdateWithoutPostsInput = {
   stories?: Prisma.StoryUncheckedUpdateManyWithoutUserNestedInput
   storyViews?: Prisma.StoryViewUncheckedUpdateManyWithoutUserNestedInput
   storyReactions?: Prisma.StoryReactionUncheckedUpdateManyWithoutUserNestedInput
+  storyComments?: Prisma.StoryCommentUncheckedUpdateManyWithoutUserNestedInput
   conversations?: Prisma.ConversationParticipantUncheckedUpdateManyWithoutUserNestedInput
   messagesSent?: Prisma.MessageUncheckedUpdateManyWithoutSenderNestedInput
   messageReactions?: Prisma.MessageReactionUncheckedUpdateManyWithoutUserNestedInput
@@ -17592,6 +17793,7 @@ export type UserCreateWithoutPostLikesInput = {
   stories?: Prisma.StoryCreateNestedManyWithoutUserInput
   storyViews?: Prisma.StoryViewCreateNestedManyWithoutUserInput
   storyReactions?: Prisma.StoryReactionCreateNestedManyWithoutUserInput
+  storyComments?: Prisma.StoryCommentCreateNestedManyWithoutUserInput
   conversations?: Prisma.ConversationParticipantCreateNestedManyWithoutUserInput
   messagesSent?: Prisma.MessageCreateNestedManyWithoutSenderInput
   messageReactions?: Prisma.MessageReactionCreateNestedManyWithoutUserInput
@@ -17675,6 +17877,7 @@ export type UserUncheckedCreateWithoutPostLikesInput = {
   stories?: Prisma.StoryUncheckedCreateNestedManyWithoutUserInput
   storyViews?: Prisma.StoryViewUncheckedCreateNestedManyWithoutUserInput
   storyReactions?: Prisma.StoryReactionUncheckedCreateNestedManyWithoutUserInput
+  storyComments?: Prisma.StoryCommentUncheckedCreateNestedManyWithoutUserInput
   conversations?: Prisma.ConversationParticipantUncheckedCreateNestedManyWithoutUserInput
   messagesSent?: Prisma.MessageUncheckedCreateNestedManyWithoutSenderInput
   messageReactions?: Prisma.MessageReactionUncheckedCreateNestedManyWithoutUserInput
@@ -17773,6 +17976,7 @@ export type UserUpdateWithoutPostLikesInput = {
   stories?: Prisma.StoryUpdateManyWithoutUserNestedInput
   storyViews?: Prisma.StoryViewUpdateManyWithoutUserNestedInput
   storyReactions?: Prisma.StoryReactionUpdateManyWithoutUserNestedInput
+  storyComments?: Prisma.StoryCommentUpdateManyWithoutUserNestedInput
   conversations?: Prisma.ConversationParticipantUpdateManyWithoutUserNestedInput
   messagesSent?: Prisma.MessageUpdateManyWithoutSenderNestedInput
   messageReactions?: Prisma.MessageReactionUpdateManyWithoutUserNestedInput
@@ -17856,6 +18060,7 @@ export type UserUncheckedUpdateWithoutPostLikesInput = {
   stories?: Prisma.StoryUncheckedUpdateManyWithoutUserNestedInput
   storyViews?: Prisma.StoryViewUncheckedUpdateManyWithoutUserNestedInput
   storyReactions?: Prisma.StoryReactionUncheckedUpdateManyWithoutUserNestedInput
+  storyComments?: Prisma.StoryCommentUncheckedUpdateManyWithoutUserNestedInput
   conversations?: Prisma.ConversationParticipantUncheckedUpdateManyWithoutUserNestedInput
   messagesSent?: Prisma.MessageUncheckedUpdateManyWithoutSenderNestedInput
   messageReactions?: Prisma.MessageReactionUncheckedUpdateManyWithoutUserNestedInput
@@ -17938,6 +18143,7 @@ export type UserCreateWithoutPostSavesInput = {
   stories?: Prisma.StoryCreateNestedManyWithoutUserInput
   storyViews?: Prisma.StoryViewCreateNestedManyWithoutUserInput
   storyReactions?: Prisma.StoryReactionCreateNestedManyWithoutUserInput
+  storyComments?: Prisma.StoryCommentCreateNestedManyWithoutUserInput
   conversations?: Prisma.ConversationParticipantCreateNestedManyWithoutUserInput
   messagesSent?: Prisma.MessageCreateNestedManyWithoutSenderInput
   messageReactions?: Prisma.MessageReactionCreateNestedManyWithoutUserInput
@@ -18021,6 +18227,7 @@ export type UserUncheckedCreateWithoutPostSavesInput = {
   stories?: Prisma.StoryUncheckedCreateNestedManyWithoutUserInput
   storyViews?: Prisma.StoryViewUncheckedCreateNestedManyWithoutUserInput
   storyReactions?: Prisma.StoryReactionUncheckedCreateNestedManyWithoutUserInput
+  storyComments?: Prisma.StoryCommentUncheckedCreateNestedManyWithoutUserInput
   conversations?: Prisma.ConversationParticipantUncheckedCreateNestedManyWithoutUserInput
   messagesSent?: Prisma.MessageUncheckedCreateNestedManyWithoutSenderInput
   messageReactions?: Prisma.MessageReactionUncheckedCreateNestedManyWithoutUserInput
@@ -18119,6 +18326,7 @@ export type UserUpdateWithoutPostSavesInput = {
   stories?: Prisma.StoryUpdateManyWithoutUserNestedInput
   storyViews?: Prisma.StoryViewUpdateManyWithoutUserNestedInput
   storyReactions?: Prisma.StoryReactionUpdateManyWithoutUserNestedInput
+  storyComments?: Prisma.StoryCommentUpdateManyWithoutUserNestedInput
   conversations?: Prisma.ConversationParticipantUpdateManyWithoutUserNestedInput
   messagesSent?: Prisma.MessageUpdateManyWithoutSenderNestedInput
   messageReactions?: Prisma.MessageReactionUpdateManyWithoutUserNestedInput
@@ -18202,6 +18410,7 @@ export type UserUncheckedUpdateWithoutPostSavesInput = {
   stories?: Prisma.StoryUncheckedUpdateManyWithoutUserNestedInput
   storyViews?: Prisma.StoryViewUncheckedUpdateManyWithoutUserNestedInput
   storyReactions?: Prisma.StoryReactionUncheckedUpdateManyWithoutUserNestedInput
+  storyComments?: Prisma.StoryCommentUncheckedUpdateManyWithoutUserNestedInput
   conversations?: Prisma.ConversationParticipantUncheckedUpdateManyWithoutUserNestedInput
   messagesSent?: Prisma.MessageUncheckedUpdateManyWithoutSenderNestedInput
   messageReactions?: Prisma.MessageReactionUncheckedUpdateManyWithoutUserNestedInput
@@ -18284,6 +18493,7 @@ export type UserCreateWithoutPostSharesInput = {
   stories?: Prisma.StoryCreateNestedManyWithoutUserInput
   storyViews?: Prisma.StoryViewCreateNestedManyWithoutUserInput
   storyReactions?: Prisma.StoryReactionCreateNestedManyWithoutUserInput
+  storyComments?: Prisma.StoryCommentCreateNestedManyWithoutUserInput
   conversations?: Prisma.ConversationParticipantCreateNestedManyWithoutUserInput
   messagesSent?: Prisma.MessageCreateNestedManyWithoutSenderInput
   messageReactions?: Prisma.MessageReactionCreateNestedManyWithoutUserInput
@@ -18367,6 +18577,7 @@ export type UserUncheckedCreateWithoutPostSharesInput = {
   stories?: Prisma.StoryUncheckedCreateNestedManyWithoutUserInput
   storyViews?: Prisma.StoryViewUncheckedCreateNestedManyWithoutUserInput
   storyReactions?: Prisma.StoryReactionUncheckedCreateNestedManyWithoutUserInput
+  storyComments?: Prisma.StoryCommentUncheckedCreateNestedManyWithoutUserInput
   conversations?: Prisma.ConversationParticipantUncheckedCreateNestedManyWithoutUserInput
   messagesSent?: Prisma.MessageUncheckedCreateNestedManyWithoutSenderInput
   messageReactions?: Prisma.MessageReactionUncheckedCreateNestedManyWithoutUserInput
@@ -18465,6 +18676,7 @@ export type UserUpdateWithoutPostSharesInput = {
   stories?: Prisma.StoryUpdateManyWithoutUserNestedInput
   storyViews?: Prisma.StoryViewUpdateManyWithoutUserNestedInput
   storyReactions?: Prisma.StoryReactionUpdateManyWithoutUserNestedInput
+  storyComments?: Prisma.StoryCommentUpdateManyWithoutUserNestedInput
   conversations?: Prisma.ConversationParticipantUpdateManyWithoutUserNestedInput
   messagesSent?: Prisma.MessageUpdateManyWithoutSenderNestedInput
   messageReactions?: Prisma.MessageReactionUpdateManyWithoutUserNestedInput
@@ -18548,6 +18760,7 @@ export type UserUncheckedUpdateWithoutPostSharesInput = {
   stories?: Prisma.StoryUncheckedUpdateManyWithoutUserNestedInput
   storyViews?: Prisma.StoryViewUncheckedUpdateManyWithoutUserNestedInput
   storyReactions?: Prisma.StoryReactionUncheckedUpdateManyWithoutUserNestedInput
+  storyComments?: Prisma.StoryCommentUncheckedUpdateManyWithoutUserNestedInput
   conversations?: Prisma.ConversationParticipantUncheckedUpdateManyWithoutUserNestedInput
   messagesSent?: Prisma.MessageUncheckedUpdateManyWithoutSenderNestedInput
   messageReactions?: Prisma.MessageReactionUncheckedUpdateManyWithoutUserNestedInput
@@ -18630,6 +18843,7 @@ export type UserCreateWithoutPostsEditedInput = {
   stories?: Prisma.StoryCreateNestedManyWithoutUserInput
   storyViews?: Prisma.StoryViewCreateNestedManyWithoutUserInput
   storyReactions?: Prisma.StoryReactionCreateNestedManyWithoutUserInput
+  storyComments?: Prisma.StoryCommentCreateNestedManyWithoutUserInput
   conversations?: Prisma.ConversationParticipantCreateNestedManyWithoutUserInput
   messagesSent?: Prisma.MessageCreateNestedManyWithoutSenderInput
   messageReactions?: Prisma.MessageReactionCreateNestedManyWithoutUserInput
@@ -18713,6 +18927,7 @@ export type UserUncheckedCreateWithoutPostsEditedInput = {
   stories?: Prisma.StoryUncheckedCreateNestedManyWithoutUserInput
   storyViews?: Prisma.StoryViewUncheckedCreateNestedManyWithoutUserInput
   storyReactions?: Prisma.StoryReactionUncheckedCreateNestedManyWithoutUserInput
+  storyComments?: Prisma.StoryCommentUncheckedCreateNestedManyWithoutUserInput
   conversations?: Prisma.ConversationParticipantUncheckedCreateNestedManyWithoutUserInput
   messagesSent?: Prisma.MessageUncheckedCreateNestedManyWithoutSenderInput
   messageReactions?: Prisma.MessageReactionUncheckedCreateNestedManyWithoutUserInput
@@ -18811,6 +19026,7 @@ export type UserUpdateWithoutPostsEditedInput = {
   stories?: Prisma.StoryUpdateManyWithoutUserNestedInput
   storyViews?: Prisma.StoryViewUpdateManyWithoutUserNestedInput
   storyReactions?: Prisma.StoryReactionUpdateManyWithoutUserNestedInput
+  storyComments?: Prisma.StoryCommentUpdateManyWithoutUserNestedInput
   conversations?: Prisma.ConversationParticipantUpdateManyWithoutUserNestedInput
   messagesSent?: Prisma.MessageUpdateManyWithoutSenderNestedInput
   messageReactions?: Prisma.MessageReactionUpdateManyWithoutUserNestedInput
@@ -18894,6 +19110,7 @@ export type UserUncheckedUpdateWithoutPostsEditedInput = {
   stories?: Prisma.StoryUncheckedUpdateManyWithoutUserNestedInput
   storyViews?: Prisma.StoryViewUncheckedUpdateManyWithoutUserNestedInput
   storyReactions?: Prisma.StoryReactionUncheckedUpdateManyWithoutUserNestedInput
+  storyComments?: Prisma.StoryCommentUncheckedUpdateManyWithoutUserNestedInput
   conversations?: Prisma.ConversationParticipantUncheckedUpdateManyWithoutUserNestedInput
   messagesSent?: Prisma.MessageUncheckedUpdateManyWithoutSenderNestedInput
   messageReactions?: Prisma.MessageReactionUncheckedUpdateManyWithoutUserNestedInput
@@ -18976,6 +19193,7 @@ export type UserCreateWithoutStoriesInput = {
   postsEdited?: Prisma.PostHistoryCreateNestedManyWithoutEditedByInput
   storyViews?: Prisma.StoryViewCreateNestedManyWithoutUserInput
   storyReactions?: Prisma.StoryReactionCreateNestedManyWithoutUserInput
+  storyComments?: Prisma.StoryCommentCreateNestedManyWithoutUserInput
   conversations?: Prisma.ConversationParticipantCreateNestedManyWithoutUserInput
   messagesSent?: Prisma.MessageCreateNestedManyWithoutSenderInput
   messageReactions?: Prisma.MessageReactionCreateNestedManyWithoutUserInput
@@ -19059,6 +19277,7 @@ export type UserUncheckedCreateWithoutStoriesInput = {
   postsEdited?: Prisma.PostHistoryUncheckedCreateNestedManyWithoutEditedByInput
   storyViews?: Prisma.StoryViewUncheckedCreateNestedManyWithoutUserInput
   storyReactions?: Prisma.StoryReactionUncheckedCreateNestedManyWithoutUserInput
+  storyComments?: Prisma.StoryCommentUncheckedCreateNestedManyWithoutUserInput
   conversations?: Prisma.ConversationParticipantUncheckedCreateNestedManyWithoutUserInput
   messagesSent?: Prisma.MessageUncheckedCreateNestedManyWithoutSenderInput
   messageReactions?: Prisma.MessageReactionUncheckedCreateNestedManyWithoutUserInput
@@ -19157,6 +19376,7 @@ export type UserUpdateWithoutStoriesInput = {
   postsEdited?: Prisma.PostHistoryUpdateManyWithoutEditedByNestedInput
   storyViews?: Prisma.StoryViewUpdateManyWithoutUserNestedInput
   storyReactions?: Prisma.StoryReactionUpdateManyWithoutUserNestedInput
+  storyComments?: Prisma.StoryCommentUpdateManyWithoutUserNestedInput
   conversations?: Prisma.ConversationParticipantUpdateManyWithoutUserNestedInput
   messagesSent?: Prisma.MessageUpdateManyWithoutSenderNestedInput
   messageReactions?: Prisma.MessageReactionUpdateManyWithoutUserNestedInput
@@ -19240,6 +19460,7 @@ export type UserUncheckedUpdateWithoutStoriesInput = {
   postsEdited?: Prisma.PostHistoryUncheckedUpdateManyWithoutEditedByNestedInput
   storyViews?: Prisma.StoryViewUncheckedUpdateManyWithoutUserNestedInput
   storyReactions?: Prisma.StoryReactionUncheckedUpdateManyWithoutUserNestedInput
+  storyComments?: Prisma.StoryCommentUncheckedUpdateManyWithoutUserNestedInput
   conversations?: Prisma.ConversationParticipantUncheckedUpdateManyWithoutUserNestedInput
   messagesSent?: Prisma.MessageUncheckedUpdateManyWithoutSenderNestedInput
   messageReactions?: Prisma.MessageReactionUncheckedUpdateManyWithoutUserNestedInput
@@ -19322,6 +19543,7 @@ export type UserCreateWithoutStoryViewsInput = {
   postsEdited?: Prisma.PostHistoryCreateNestedManyWithoutEditedByInput
   stories?: Prisma.StoryCreateNestedManyWithoutUserInput
   storyReactions?: Prisma.StoryReactionCreateNestedManyWithoutUserInput
+  storyComments?: Prisma.StoryCommentCreateNestedManyWithoutUserInput
   conversations?: Prisma.ConversationParticipantCreateNestedManyWithoutUserInput
   messagesSent?: Prisma.MessageCreateNestedManyWithoutSenderInput
   messageReactions?: Prisma.MessageReactionCreateNestedManyWithoutUserInput
@@ -19405,6 +19627,7 @@ export type UserUncheckedCreateWithoutStoryViewsInput = {
   postsEdited?: Prisma.PostHistoryUncheckedCreateNestedManyWithoutEditedByInput
   stories?: Prisma.StoryUncheckedCreateNestedManyWithoutUserInput
   storyReactions?: Prisma.StoryReactionUncheckedCreateNestedManyWithoutUserInput
+  storyComments?: Prisma.StoryCommentUncheckedCreateNestedManyWithoutUserInput
   conversations?: Prisma.ConversationParticipantUncheckedCreateNestedManyWithoutUserInput
   messagesSent?: Prisma.MessageUncheckedCreateNestedManyWithoutSenderInput
   messageReactions?: Prisma.MessageReactionUncheckedCreateNestedManyWithoutUserInput
@@ -19503,6 +19726,7 @@ export type UserUpdateWithoutStoryViewsInput = {
   postsEdited?: Prisma.PostHistoryUpdateManyWithoutEditedByNestedInput
   stories?: Prisma.StoryUpdateManyWithoutUserNestedInput
   storyReactions?: Prisma.StoryReactionUpdateManyWithoutUserNestedInput
+  storyComments?: Prisma.StoryCommentUpdateManyWithoutUserNestedInput
   conversations?: Prisma.ConversationParticipantUpdateManyWithoutUserNestedInput
   messagesSent?: Prisma.MessageUpdateManyWithoutSenderNestedInput
   messageReactions?: Prisma.MessageReactionUpdateManyWithoutUserNestedInput
@@ -19586,6 +19810,7 @@ export type UserUncheckedUpdateWithoutStoryViewsInput = {
   postsEdited?: Prisma.PostHistoryUncheckedUpdateManyWithoutEditedByNestedInput
   stories?: Prisma.StoryUncheckedUpdateManyWithoutUserNestedInput
   storyReactions?: Prisma.StoryReactionUncheckedUpdateManyWithoutUserNestedInput
+  storyComments?: Prisma.StoryCommentUncheckedUpdateManyWithoutUserNestedInput
   conversations?: Prisma.ConversationParticipantUncheckedUpdateManyWithoutUserNestedInput
   messagesSent?: Prisma.MessageUncheckedUpdateManyWithoutSenderNestedInput
   messageReactions?: Prisma.MessageReactionUncheckedUpdateManyWithoutUserNestedInput
@@ -19668,6 +19893,7 @@ export type UserCreateWithoutStoryReactionsInput = {
   postsEdited?: Prisma.PostHistoryCreateNestedManyWithoutEditedByInput
   stories?: Prisma.StoryCreateNestedManyWithoutUserInput
   storyViews?: Prisma.StoryViewCreateNestedManyWithoutUserInput
+  storyComments?: Prisma.StoryCommentCreateNestedManyWithoutUserInput
   conversations?: Prisma.ConversationParticipantCreateNestedManyWithoutUserInput
   messagesSent?: Prisma.MessageCreateNestedManyWithoutSenderInput
   messageReactions?: Prisma.MessageReactionCreateNestedManyWithoutUserInput
@@ -19751,6 +19977,7 @@ export type UserUncheckedCreateWithoutStoryReactionsInput = {
   postsEdited?: Prisma.PostHistoryUncheckedCreateNestedManyWithoutEditedByInput
   stories?: Prisma.StoryUncheckedCreateNestedManyWithoutUserInput
   storyViews?: Prisma.StoryViewUncheckedCreateNestedManyWithoutUserInput
+  storyComments?: Prisma.StoryCommentUncheckedCreateNestedManyWithoutUserInput
   conversations?: Prisma.ConversationParticipantUncheckedCreateNestedManyWithoutUserInput
   messagesSent?: Prisma.MessageUncheckedCreateNestedManyWithoutSenderInput
   messageReactions?: Prisma.MessageReactionUncheckedCreateNestedManyWithoutUserInput
@@ -19849,6 +20076,7 @@ export type UserUpdateWithoutStoryReactionsInput = {
   postsEdited?: Prisma.PostHistoryUpdateManyWithoutEditedByNestedInput
   stories?: Prisma.StoryUpdateManyWithoutUserNestedInput
   storyViews?: Prisma.StoryViewUpdateManyWithoutUserNestedInput
+  storyComments?: Prisma.StoryCommentUpdateManyWithoutUserNestedInput
   conversations?: Prisma.ConversationParticipantUpdateManyWithoutUserNestedInput
   messagesSent?: Prisma.MessageUpdateManyWithoutSenderNestedInput
   messageReactions?: Prisma.MessageReactionUpdateManyWithoutUserNestedInput
@@ -19932,6 +20160,357 @@ export type UserUncheckedUpdateWithoutStoryReactionsInput = {
   postsEdited?: Prisma.PostHistoryUncheckedUpdateManyWithoutEditedByNestedInput
   stories?: Prisma.StoryUncheckedUpdateManyWithoutUserNestedInput
   storyViews?: Prisma.StoryViewUncheckedUpdateManyWithoutUserNestedInput
+  storyComments?: Prisma.StoryCommentUncheckedUpdateManyWithoutUserNestedInput
+  conversations?: Prisma.ConversationParticipantUncheckedUpdateManyWithoutUserNestedInput
+  messagesSent?: Prisma.MessageUncheckedUpdateManyWithoutSenderNestedInput
+  messageReactions?: Prisma.MessageReactionUncheckedUpdateManyWithoutUserNestedInput
+  ownedGroups?: Prisma.GroupUncheckedUpdateManyWithoutOwnerNestedInput
+  groupMemberships?: Prisma.GroupMemberUncheckedUpdateManyWithoutUserNestedInput
+  groupPosts?: Prisma.GroupPostUncheckedUpdateManyWithoutUserNestedInput
+  groupPostLikes?: Prisma.GroupPostLikeUncheckedUpdateManyWithoutUserNestedInput
+  groupPostComments?: Prisma.GroupPostCommentUncheckedUpdateManyWithoutUserNestedInput
+  ownedPages?: Prisma.PageUncheckedUpdateManyWithoutOwnerNestedInput
+  pageFollows?: Prisma.PageFollowerUncheckedUpdateManyWithoutUserNestedInput
+  pagePosts?: Prisma.PagePostUncheckedUpdateManyWithoutUserNestedInput
+  pagePostLikes?: Prisma.PagePostLikeUncheckedUpdateManyWithoutUserNestedInput
+  pagePostComments?: Prisma.PagePostCommentUncheckedUpdateManyWithoutUserNestedInput
+  createdEvents?: Prisma.EventUncheckedUpdateManyWithoutCreatorNestedInput
+  eventAttendances?: Prisma.EventAttendeeUncheckedUpdateManyWithoutUserNestedInput
+  eventPosts?: Prisma.EventPostUncheckedUpdateManyWithoutUserNestedInput
+  eventPostLikes?: Prisma.EventPostLikeUncheckedUpdateManyWithoutUserNestedInput
+  eventPostComments?: Prisma.EventPostCommentUncheckedUpdateManyWithoutUserNestedInput
+  eventPostCommentLikes?: Prisma.EventPostCommentLikeUncheckedUpdateManyWithoutUserNestedInput
+  memories?: Prisma.MemoryUncheckedUpdateManyWithoutUserNestedInput
+  pagePostCommentLikes?: Prisma.PagePostCommentLikeUncheckedUpdateManyWithoutUserNestedInput
+  groupPostCommentLikes?: Prisma.GroupPostCommentLikeUncheckedUpdateManyWithoutUserNestedInput
+  notificationsReceived?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
+  notificationsSent?: Prisma.NotificationUncheckedUpdateManyWithoutSenderNestedInput
+  reportedContentCreated?: Prisma.ReportedContentUncheckedUpdateManyWithoutReportingUserNestedInput
+  reportedContentReceived?: Prisma.ReportedContentUncheckedUpdateManyWithoutReportedUserNestedInput
+  moderationLogsCreated?: Prisma.ModerationLogUncheckedUpdateManyWithoutModeratorUserNestedInput
+  moderationLogsTargeted?: Prisma.ModerationLogUncheckedUpdateManyWithoutTargetUserNestedInput
+  listings?: Prisma.MarketplaceListingUncheckedUpdateManyWithoutSellerNestedInput
+  listingSaves?: Prisma.ListingSaveUncheckedUpdateManyWithoutUserNestedInput
+  listingOffers?: Prisma.ListingOfferUncheckedUpdateManyWithoutBuyerNestedInput
+  listingMessages?: Prisma.ListingMessageUncheckedUpdateManyWithoutSenderNestedInput
+  listingMessageLikes?: Prisma.ListingMessageLikeUncheckedUpdateManyWithoutUserNestedInput
+  videos?: Prisma.VideoUncheckedUpdateManyWithoutAuthorNestedInput
+  videoLikes?: Prisma.VideoLikeUncheckedUpdateManyWithoutUserNestedInput
+  videoComments?: Prisma.VideoCommentUncheckedUpdateManyWithoutUserNestedInput
+  videoCommentLikes?: Prisma.VideoCommentLikeUncheckedUpdateManyWithoutUserNestedInput
+  blogs?: Prisma.BlogUncheckedUpdateManyWithoutAuthorNestedInput
+  blogLikes?: Prisma.BlogLikeUncheckedUpdateManyWithoutUserNestedInput
+  albums?: Prisma.AlbumUncheckedUpdateManyWithoutUserNestedInput
+}
+
+export type UserCreateWithoutStoryCommentsInput = {
+  userName: string
+  email: string
+  password?: string | null
+  role?: $Enums.UserRole
+  firstName?: string | null
+  lastName?: string | null
+  bio?: string | null
+  birthday?: Date | string | null
+  gender?: $Enums.Gender
+  phone?: string | null
+  website?: string | null
+  location?: string | null
+  profilePrivacy?: $Enums.ProfilePrivacy
+  active?: boolean
+  lastActiveAt?: Date | string | null
+  canResetPassword?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  resetPasswordTokens?: Prisma.ResetPasswordTokenCreateNestedManyWithoutUserInput
+  activateTokens?: Prisma.ActivateTokenCreateNestedManyWithoutUserInput
+  accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
+  sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
+  avatar?: Prisma.AvatarCreateNestedOneWithoutUserInput
+  coverPhoto?: Prisma.CoverPhotoCreateNestedOneWithoutUserInput
+  followers?: Prisma.UserFollowCreateNestedManyWithoutFollowingInput
+  following?: Prisma.UserFollowCreateNestedManyWithoutFollowerInput
+  blockedBy?: Prisma.UserBlockCreateNestedManyWithoutBlockedInput
+  blocking?: Prisma.UserBlockCreateNestedManyWithoutBlockerInput
+  posts?: Prisma.PostCreateNestedManyWithoutUserInput
+  postLikes?: Prisma.PostLikeCreateNestedManyWithoutUserInput
+  postSaves?: Prisma.PostSaveCreateNestedManyWithoutUserInput
+  postShares?: Prisma.PostShareCreateNestedManyWithoutUserInput
+  postComments?: Prisma.PostCommentCreateNestedManyWithoutUserInput
+  commentLikes?: Prisma.CommentLikeCreateNestedManyWithoutUserInput
+  commentReplies?: Prisma.CommentReplyCreateNestedManyWithoutUserInput
+  replyLikes?: Prisma.ReplyLikeCreateNestedManyWithoutUserInput
+  postsEdited?: Prisma.PostHistoryCreateNestedManyWithoutEditedByInput
+  stories?: Prisma.StoryCreateNestedManyWithoutUserInput
+  storyViews?: Prisma.StoryViewCreateNestedManyWithoutUserInput
+  storyReactions?: Prisma.StoryReactionCreateNestedManyWithoutUserInput
+  conversations?: Prisma.ConversationParticipantCreateNestedManyWithoutUserInput
+  messagesSent?: Prisma.MessageCreateNestedManyWithoutSenderInput
+  messageReactions?: Prisma.MessageReactionCreateNestedManyWithoutUserInput
+  ownedGroups?: Prisma.GroupCreateNestedManyWithoutOwnerInput
+  groupMemberships?: Prisma.GroupMemberCreateNestedManyWithoutUserInput
+  groupPosts?: Prisma.GroupPostCreateNestedManyWithoutUserInput
+  groupPostLikes?: Prisma.GroupPostLikeCreateNestedManyWithoutUserInput
+  groupPostComments?: Prisma.GroupPostCommentCreateNestedManyWithoutUserInput
+  ownedPages?: Prisma.PageCreateNestedManyWithoutOwnerInput
+  pageFollows?: Prisma.PageFollowerCreateNestedManyWithoutUserInput
+  pagePosts?: Prisma.PagePostCreateNestedManyWithoutUserInput
+  pagePostLikes?: Prisma.PagePostLikeCreateNestedManyWithoutUserInput
+  pagePostComments?: Prisma.PagePostCommentCreateNestedManyWithoutUserInput
+  createdEvents?: Prisma.EventCreateNestedManyWithoutCreatorInput
+  eventAttendances?: Prisma.EventAttendeeCreateNestedManyWithoutUserInput
+  eventPosts?: Prisma.EventPostCreateNestedManyWithoutUserInput
+  eventPostLikes?: Prisma.EventPostLikeCreateNestedManyWithoutUserInput
+  eventPostComments?: Prisma.EventPostCommentCreateNestedManyWithoutUserInput
+  eventPostCommentLikes?: Prisma.EventPostCommentLikeCreateNestedManyWithoutUserInput
+  memories?: Prisma.MemoryCreateNestedManyWithoutUserInput
+  pagePostCommentLikes?: Prisma.PagePostCommentLikeCreateNestedManyWithoutUserInput
+  groupPostCommentLikes?: Prisma.GroupPostCommentLikeCreateNestedManyWithoutUserInput
+  notificationsReceived?: Prisma.NotificationCreateNestedManyWithoutUserInput
+  notificationsSent?: Prisma.NotificationCreateNestedManyWithoutSenderInput
+  reportedContentCreated?: Prisma.ReportedContentCreateNestedManyWithoutReportingUserInput
+  reportedContentReceived?: Prisma.ReportedContentCreateNestedManyWithoutReportedUserInput
+  moderationLogsCreated?: Prisma.ModerationLogCreateNestedManyWithoutModeratorUserInput
+  moderationLogsTargeted?: Prisma.ModerationLogCreateNestedManyWithoutTargetUserInput
+  listings?: Prisma.MarketplaceListingCreateNestedManyWithoutSellerInput
+  listingSaves?: Prisma.ListingSaveCreateNestedManyWithoutUserInput
+  listingOffers?: Prisma.ListingOfferCreateNestedManyWithoutBuyerInput
+  listingMessages?: Prisma.ListingMessageCreateNestedManyWithoutSenderInput
+  listingMessageLikes?: Prisma.ListingMessageLikeCreateNestedManyWithoutUserInput
+  videos?: Prisma.VideoCreateNestedManyWithoutAuthorInput
+  videoLikes?: Prisma.VideoLikeCreateNestedManyWithoutUserInput
+  videoComments?: Prisma.VideoCommentCreateNestedManyWithoutUserInput
+  videoCommentLikes?: Prisma.VideoCommentLikeCreateNestedManyWithoutUserInput
+  blogs?: Prisma.BlogCreateNestedManyWithoutAuthorInput
+  blogLikes?: Prisma.BlogLikeCreateNestedManyWithoutUserInput
+  albums?: Prisma.AlbumCreateNestedManyWithoutUserInput
+}
+
+export type UserUncheckedCreateWithoutStoryCommentsInput = {
+  id?: number
+  userName: string
+  email: string
+  password?: string | null
+  role?: $Enums.UserRole
+  firstName?: string | null
+  lastName?: string | null
+  bio?: string | null
+  birthday?: Date | string | null
+  gender?: $Enums.Gender
+  phone?: string | null
+  website?: string | null
+  location?: string | null
+  profilePrivacy?: $Enums.ProfilePrivacy
+  active?: boolean
+  lastActiveAt?: Date | string | null
+  canResetPassword?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  resetPasswordTokens?: Prisma.ResetPasswordTokenUncheckedCreateNestedManyWithoutUserInput
+  activateTokens?: Prisma.ActivateTokenUncheckedCreateNestedManyWithoutUserInput
+  accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
+  sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
+  avatar?: Prisma.AvatarUncheckedCreateNestedOneWithoutUserInput
+  coverPhoto?: Prisma.CoverPhotoUncheckedCreateNestedOneWithoutUserInput
+  followers?: Prisma.UserFollowUncheckedCreateNestedManyWithoutFollowingInput
+  following?: Prisma.UserFollowUncheckedCreateNestedManyWithoutFollowerInput
+  blockedBy?: Prisma.UserBlockUncheckedCreateNestedManyWithoutBlockedInput
+  blocking?: Prisma.UserBlockUncheckedCreateNestedManyWithoutBlockerInput
+  posts?: Prisma.PostUncheckedCreateNestedManyWithoutUserInput
+  postLikes?: Prisma.PostLikeUncheckedCreateNestedManyWithoutUserInput
+  postSaves?: Prisma.PostSaveUncheckedCreateNestedManyWithoutUserInput
+  postShares?: Prisma.PostShareUncheckedCreateNestedManyWithoutUserInput
+  postComments?: Prisma.PostCommentUncheckedCreateNestedManyWithoutUserInput
+  commentLikes?: Prisma.CommentLikeUncheckedCreateNestedManyWithoutUserInput
+  commentReplies?: Prisma.CommentReplyUncheckedCreateNestedManyWithoutUserInput
+  replyLikes?: Prisma.ReplyLikeUncheckedCreateNestedManyWithoutUserInput
+  postsEdited?: Prisma.PostHistoryUncheckedCreateNestedManyWithoutEditedByInput
+  stories?: Prisma.StoryUncheckedCreateNestedManyWithoutUserInput
+  storyViews?: Prisma.StoryViewUncheckedCreateNestedManyWithoutUserInput
+  storyReactions?: Prisma.StoryReactionUncheckedCreateNestedManyWithoutUserInput
+  conversations?: Prisma.ConversationParticipantUncheckedCreateNestedManyWithoutUserInput
+  messagesSent?: Prisma.MessageUncheckedCreateNestedManyWithoutSenderInput
+  messageReactions?: Prisma.MessageReactionUncheckedCreateNestedManyWithoutUserInput
+  ownedGroups?: Prisma.GroupUncheckedCreateNestedManyWithoutOwnerInput
+  groupMemberships?: Prisma.GroupMemberUncheckedCreateNestedManyWithoutUserInput
+  groupPosts?: Prisma.GroupPostUncheckedCreateNestedManyWithoutUserInput
+  groupPostLikes?: Prisma.GroupPostLikeUncheckedCreateNestedManyWithoutUserInput
+  groupPostComments?: Prisma.GroupPostCommentUncheckedCreateNestedManyWithoutUserInput
+  ownedPages?: Prisma.PageUncheckedCreateNestedManyWithoutOwnerInput
+  pageFollows?: Prisma.PageFollowerUncheckedCreateNestedManyWithoutUserInput
+  pagePosts?: Prisma.PagePostUncheckedCreateNestedManyWithoutUserInput
+  pagePostLikes?: Prisma.PagePostLikeUncheckedCreateNestedManyWithoutUserInput
+  pagePostComments?: Prisma.PagePostCommentUncheckedCreateNestedManyWithoutUserInput
+  createdEvents?: Prisma.EventUncheckedCreateNestedManyWithoutCreatorInput
+  eventAttendances?: Prisma.EventAttendeeUncheckedCreateNestedManyWithoutUserInput
+  eventPosts?: Prisma.EventPostUncheckedCreateNestedManyWithoutUserInput
+  eventPostLikes?: Prisma.EventPostLikeUncheckedCreateNestedManyWithoutUserInput
+  eventPostComments?: Prisma.EventPostCommentUncheckedCreateNestedManyWithoutUserInput
+  eventPostCommentLikes?: Prisma.EventPostCommentLikeUncheckedCreateNestedManyWithoutUserInput
+  memories?: Prisma.MemoryUncheckedCreateNestedManyWithoutUserInput
+  pagePostCommentLikes?: Prisma.PagePostCommentLikeUncheckedCreateNestedManyWithoutUserInput
+  groupPostCommentLikes?: Prisma.GroupPostCommentLikeUncheckedCreateNestedManyWithoutUserInput
+  notificationsReceived?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
+  notificationsSent?: Prisma.NotificationUncheckedCreateNestedManyWithoutSenderInput
+  reportedContentCreated?: Prisma.ReportedContentUncheckedCreateNestedManyWithoutReportingUserInput
+  reportedContentReceived?: Prisma.ReportedContentUncheckedCreateNestedManyWithoutReportedUserInput
+  moderationLogsCreated?: Prisma.ModerationLogUncheckedCreateNestedManyWithoutModeratorUserInput
+  moderationLogsTargeted?: Prisma.ModerationLogUncheckedCreateNestedManyWithoutTargetUserInput
+  listings?: Prisma.MarketplaceListingUncheckedCreateNestedManyWithoutSellerInput
+  listingSaves?: Prisma.ListingSaveUncheckedCreateNestedManyWithoutUserInput
+  listingOffers?: Prisma.ListingOfferUncheckedCreateNestedManyWithoutBuyerInput
+  listingMessages?: Prisma.ListingMessageUncheckedCreateNestedManyWithoutSenderInput
+  listingMessageLikes?: Prisma.ListingMessageLikeUncheckedCreateNestedManyWithoutUserInput
+  videos?: Prisma.VideoUncheckedCreateNestedManyWithoutAuthorInput
+  videoLikes?: Prisma.VideoLikeUncheckedCreateNestedManyWithoutUserInput
+  videoComments?: Prisma.VideoCommentUncheckedCreateNestedManyWithoutUserInput
+  videoCommentLikes?: Prisma.VideoCommentLikeUncheckedCreateNestedManyWithoutUserInput
+  blogs?: Prisma.BlogUncheckedCreateNestedManyWithoutAuthorInput
+  blogLikes?: Prisma.BlogLikeUncheckedCreateNestedManyWithoutUserInput
+  albums?: Prisma.AlbumUncheckedCreateNestedManyWithoutUserInput
+}
+
+export type UserCreateOrConnectWithoutStoryCommentsInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutStoryCommentsInput, Prisma.UserUncheckedCreateWithoutStoryCommentsInput>
+}
+
+export type UserUpsertWithoutStoryCommentsInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutStoryCommentsInput, Prisma.UserUncheckedUpdateWithoutStoryCommentsInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutStoryCommentsInput, Prisma.UserUncheckedCreateWithoutStoryCommentsInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutStoryCommentsInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutStoryCommentsInput, Prisma.UserUncheckedUpdateWithoutStoryCommentsInput>
+}
+
+export type UserUpdateWithoutStoryCommentsInput = {
+  userName?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  password?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+  firstName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  lastName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  birthday?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  gender?: Prisma.EnumGenderFieldUpdateOperationsInput | $Enums.Gender
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  website?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  location?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  profilePrivacy?: Prisma.EnumProfilePrivacyFieldUpdateOperationsInput | $Enums.ProfilePrivacy
+  active?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  lastActiveAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  canResetPassword?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  resetPasswordTokens?: Prisma.ResetPasswordTokenUpdateManyWithoutUserNestedInput
+  activateTokens?: Prisma.ActivateTokenUpdateManyWithoutUserNestedInput
+  accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
+  sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
+  avatar?: Prisma.AvatarUpdateOneWithoutUserNestedInput
+  coverPhoto?: Prisma.CoverPhotoUpdateOneWithoutUserNestedInput
+  followers?: Prisma.UserFollowUpdateManyWithoutFollowingNestedInput
+  following?: Prisma.UserFollowUpdateManyWithoutFollowerNestedInput
+  blockedBy?: Prisma.UserBlockUpdateManyWithoutBlockedNestedInput
+  blocking?: Prisma.UserBlockUpdateManyWithoutBlockerNestedInput
+  posts?: Prisma.PostUpdateManyWithoutUserNestedInput
+  postLikes?: Prisma.PostLikeUpdateManyWithoutUserNestedInput
+  postSaves?: Prisma.PostSaveUpdateManyWithoutUserNestedInput
+  postShares?: Prisma.PostShareUpdateManyWithoutUserNestedInput
+  postComments?: Prisma.PostCommentUpdateManyWithoutUserNestedInput
+  commentLikes?: Prisma.CommentLikeUpdateManyWithoutUserNestedInput
+  commentReplies?: Prisma.CommentReplyUpdateManyWithoutUserNestedInput
+  replyLikes?: Prisma.ReplyLikeUpdateManyWithoutUserNestedInput
+  postsEdited?: Prisma.PostHistoryUpdateManyWithoutEditedByNestedInput
+  stories?: Prisma.StoryUpdateManyWithoutUserNestedInput
+  storyViews?: Prisma.StoryViewUpdateManyWithoutUserNestedInput
+  storyReactions?: Prisma.StoryReactionUpdateManyWithoutUserNestedInput
+  conversations?: Prisma.ConversationParticipantUpdateManyWithoutUserNestedInput
+  messagesSent?: Prisma.MessageUpdateManyWithoutSenderNestedInput
+  messageReactions?: Prisma.MessageReactionUpdateManyWithoutUserNestedInput
+  ownedGroups?: Prisma.GroupUpdateManyWithoutOwnerNestedInput
+  groupMemberships?: Prisma.GroupMemberUpdateManyWithoutUserNestedInput
+  groupPosts?: Prisma.GroupPostUpdateManyWithoutUserNestedInput
+  groupPostLikes?: Prisma.GroupPostLikeUpdateManyWithoutUserNestedInput
+  groupPostComments?: Prisma.GroupPostCommentUpdateManyWithoutUserNestedInput
+  ownedPages?: Prisma.PageUpdateManyWithoutOwnerNestedInput
+  pageFollows?: Prisma.PageFollowerUpdateManyWithoutUserNestedInput
+  pagePosts?: Prisma.PagePostUpdateManyWithoutUserNestedInput
+  pagePostLikes?: Prisma.PagePostLikeUpdateManyWithoutUserNestedInput
+  pagePostComments?: Prisma.PagePostCommentUpdateManyWithoutUserNestedInput
+  createdEvents?: Prisma.EventUpdateManyWithoutCreatorNestedInput
+  eventAttendances?: Prisma.EventAttendeeUpdateManyWithoutUserNestedInput
+  eventPosts?: Prisma.EventPostUpdateManyWithoutUserNestedInput
+  eventPostLikes?: Prisma.EventPostLikeUpdateManyWithoutUserNestedInput
+  eventPostComments?: Prisma.EventPostCommentUpdateManyWithoutUserNestedInput
+  eventPostCommentLikes?: Prisma.EventPostCommentLikeUpdateManyWithoutUserNestedInput
+  memories?: Prisma.MemoryUpdateManyWithoutUserNestedInput
+  pagePostCommentLikes?: Prisma.PagePostCommentLikeUpdateManyWithoutUserNestedInput
+  groupPostCommentLikes?: Prisma.GroupPostCommentLikeUpdateManyWithoutUserNestedInput
+  notificationsReceived?: Prisma.NotificationUpdateManyWithoutUserNestedInput
+  notificationsSent?: Prisma.NotificationUpdateManyWithoutSenderNestedInput
+  reportedContentCreated?: Prisma.ReportedContentUpdateManyWithoutReportingUserNestedInput
+  reportedContentReceived?: Prisma.ReportedContentUpdateManyWithoutReportedUserNestedInput
+  moderationLogsCreated?: Prisma.ModerationLogUpdateManyWithoutModeratorUserNestedInput
+  moderationLogsTargeted?: Prisma.ModerationLogUpdateManyWithoutTargetUserNestedInput
+  listings?: Prisma.MarketplaceListingUpdateManyWithoutSellerNestedInput
+  listingSaves?: Prisma.ListingSaveUpdateManyWithoutUserNestedInput
+  listingOffers?: Prisma.ListingOfferUpdateManyWithoutBuyerNestedInput
+  listingMessages?: Prisma.ListingMessageUpdateManyWithoutSenderNestedInput
+  listingMessageLikes?: Prisma.ListingMessageLikeUpdateManyWithoutUserNestedInput
+  videos?: Prisma.VideoUpdateManyWithoutAuthorNestedInput
+  videoLikes?: Prisma.VideoLikeUpdateManyWithoutUserNestedInput
+  videoComments?: Prisma.VideoCommentUpdateManyWithoutUserNestedInput
+  videoCommentLikes?: Prisma.VideoCommentLikeUpdateManyWithoutUserNestedInput
+  blogs?: Prisma.BlogUpdateManyWithoutAuthorNestedInput
+  blogLikes?: Prisma.BlogLikeUpdateManyWithoutUserNestedInput
+  albums?: Prisma.AlbumUpdateManyWithoutUserNestedInput
+}
+
+export type UserUncheckedUpdateWithoutStoryCommentsInput = {
+  id?: Prisma.IntFieldUpdateOperationsInput | number
+  userName?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  password?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+  firstName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  lastName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  birthday?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  gender?: Prisma.EnumGenderFieldUpdateOperationsInput | $Enums.Gender
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  website?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  location?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  profilePrivacy?: Prisma.EnumProfilePrivacyFieldUpdateOperationsInput | $Enums.ProfilePrivacy
+  active?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  lastActiveAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  canResetPassword?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  resetPasswordTokens?: Prisma.ResetPasswordTokenUncheckedUpdateManyWithoutUserNestedInput
+  activateTokens?: Prisma.ActivateTokenUncheckedUpdateManyWithoutUserNestedInput
+  accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
+  sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
+  avatar?: Prisma.AvatarUncheckedUpdateOneWithoutUserNestedInput
+  coverPhoto?: Prisma.CoverPhotoUncheckedUpdateOneWithoutUserNestedInput
+  followers?: Prisma.UserFollowUncheckedUpdateManyWithoutFollowingNestedInput
+  following?: Prisma.UserFollowUncheckedUpdateManyWithoutFollowerNestedInput
+  blockedBy?: Prisma.UserBlockUncheckedUpdateManyWithoutBlockedNestedInput
+  blocking?: Prisma.UserBlockUncheckedUpdateManyWithoutBlockerNestedInput
+  posts?: Prisma.PostUncheckedUpdateManyWithoutUserNestedInput
+  postLikes?: Prisma.PostLikeUncheckedUpdateManyWithoutUserNestedInput
+  postSaves?: Prisma.PostSaveUncheckedUpdateManyWithoutUserNestedInput
+  postShares?: Prisma.PostShareUncheckedUpdateManyWithoutUserNestedInput
+  postComments?: Prisma.PostCommentUncheckedUpdateManyWithoutUserNestedInput
+  commentLikes?: Prisma.CommentLikeUncheckedUpdateManyWithoutUserNestedInput
+  commentReplies?: Prisma.CommentReplyUncheckedUpdateManyWithoutUserNestedInput
+  replyLikes?: Prisma.ReplyLikeUncheckedUpdateManyWithoutUserNestedInput
+  postsEdited?: Prisma.PostHistoryUncheckedUpdateManyWithoutEditedByNestedInput
+  stories?: Prisma.StoryUncheckedUpdateManyWithoutUserNestedInput
+  storyViews?: Prisma.StoryViewUncheckedUpdateManyWithoutUserNestedInput
+  storyReactions?: Prisma.StoryReactionUncheckedUpdateManyWithoutUserNestedInput
   conversations?: Prisma.ConversationParticipantUncheckedUpdateManyWithoutUserNestedInput
   messagesSent?: Prisma.MessageUncheckedUpdateManyWithoutSenderNestedInput
   messageReactions?: Prisma.MessageReactionUncheckedUpdateManyWithoutUserNestedInput
@@ -20014,6 +20593,7 @@ export type UserCreateWithoutAvatarInput = {
   stories?: Prisma.StoryCreateNestedManyWithoutUserInput
   storyViews?: Prisma.StoryViewCreateNestedManyWithoutUserInput
   storyReactions?: Prisma.StoryReactionCreateNestedManyWithoutUserInput
+  storyComments?: Prisma.StoryCommentCreateNestedManyWithoutUserInput
   conversations?: Prisma.ConversationParticipantCreateNestedManyWithoutUserInput
   messagesSent?: Prisma.MessageCreateNestedManyWithoutSenderInput
   messageReactions?: Prisma.MessageReactionCreateNestedManyWithoutUserInput
@@ -20097,6 +20677,7 @@ export type UserUncheckedCreateWithoutAvatarInput = {
   stories?: Prisma.StoryUncheckedCreateNestedManyWithoutUserInput
   storyViews?: Prisma.StoryViewUncheckedCreateNestedManyWithoutUserInput
   storyReactions?: Prisma.StoryReactionUncheckedCreateNestedManyWithoutUserInput
+  storyComments?: Prisma.StoryCommentUncheckedCreateNestedManyWithoutUserInput
   conversations?: Prisma.ConversationParticipantUncheckedCreateNestedManyWithoutUserInput
   messagesSent?: Prisma.MessageUncheckedCreateNestedManyWithoutSenderInput
   messageReactions?: Prisma.MessageReactionUncheckedCreateNestedManyWithoutUserInput
@@ -20195,6 +20776,7 @@ export type UserUpdateWithoutAvatarInput = {
   stories?: Prisma.StoryUpdateManyWithoutUserNestedInput
   storyViews?: Prisma.StoryViewUpdateManyWithoutUserNestedInput
   storyReactions?: Prisma.StoryReactionUpdateManyWithoutUserNestedInput
+  storyComments?: Prisma.StoryCommentUpdateManyWithoutUserNestedInput
   conversations?: Prisma.ConversationParticipantUpdateManyWithoutUserNestedInput
   messagesSent?: Prisma.MessageUpdateManyWithoutSenderNestedInput
   messageReactions?: Prisma.MessageReactionUpdateManyWithoutUserNestedInput
@@ -20278,6 +20860,7 @@ export type UserUncheckedUpdateWithoutAvatarInput = {
   stories?: Prisma.StoryUncheckedUpdateManyWithoutUserNestedInput
   storyViews?: Prisma.StoryViewUncheckedUpdateManyWithoutUserNestedInput
   storyReactions?: Prisma.StoryReactionUncheckedUpdateManyWithoutUserNestedInput
+  storyComments?: Prisma.StoryCommentUncheckedUpdateManyWithoutUserNestedInput
   conversations?: Prisma.ConversationParticipantUncheckedUpdateManyWithoutUserNestedInput
   messagesSent?: Prisma.MessageUncheckedUpdateManyWithoutSenderNestedInput
   messageReactions?: Prisma.MessageReactionUncheckedUpdateManyWithoutUserNestedInput
@@ -20360,6 +20943,7 @@ export type UserCreateWithoutCoverPhotoInput = {
   stories?: Prisma.StoryCreateNestedManyWithoutUserInput
   storyViews?: Prisma.StoryViewCreateNestedManyWithoutUserInput
   storyReactions?: Prisma.StoryReactionCreateNestedManyWithoutUserInput
+  storyComments?: Prisma.StoryCommentCreateNestedManyWithoutUserInput
   conversations?: Prisma.ConversationParticipantCreateNestedManyWithoutUserInput
   messagesSent?: Prisma.MessageCreateNestedManyWithoutSenderInput
   messageReactions?: Prisma.MessageReactionCreateNestedManyWithoutUserInput
@@ -20443,6 +21027,7 @@ export type UserUncheckedCreateWithoutCoverPhotoInput = {
   stories?: Prisma.StoryUncheckedCreateNestedManyWithoutUserInput
   storyViews?: Prisma.StoryViewUncheckedCreateNestedManyWithoutUserInput
   storyReactions?: Prisma.StoryReactionUncheckedCreateNestedManyWithoutUserInput
+  storyComments?: Prisma.StoryCommentUncheckedCreateNestedManyWithoutUserInput
   conversations?: Prisma.ConversationParticipantUncheckedCreateNestedManyWithoutUserInput
   messagesSent?: Prisma.MessageUncheckedCreateNestedManyWithoutSenderInput
   messageReactions?: Prisma.MessageReactionUncheckedCreateNestedManyWithoutUserInput
@@ -20541,6 +21126,7 @@ export type UserUpdateWithoutCoverPhotoInput = {
   stories?: Prisma.StoryUpdateManyWithoutUserNestedInput
   storyViews?: Prisma.StoryViewUpdateManyWithoutUserNestedInput
   storyReactions?: Prisma.StoryReactionUpdateManyWithoutUserNestedInput
+  storyComments?: Prisma.StoryCommentUpdateManyWithoutUserNestedInput
   conversations?: Prisma.ConversationParticipantUpdateManyWithoutUserNestedInput
   messagesSent?: Prisma.MessageUpdateManyWithoutSenderNestedInput
   messageReactions?: Prisma.MessageReactionUpdateManyWithoutUserNestedInput
@@ -20624,6 +21210,7 @@ export type UserUncheckedUpdateWithoutCoverPhotoInput = {
   stories?: Prisma.StoryUncheckedUpdateManyWithoutUserNestedInput
   storyViews?: Prisma.StoryViewUncheckedUpdateManyWithoutUserNestedInput
   storyReactions?: Prisma.StoryReactionUncheckedUpdateManyWithoutUserNestedInput
+  storyComments?: Prisma.StoryCommentUncheckedUpdateManyWithoutUserNestedInput
   conversations?: Prisma.ConversationParticipantUncheckedUpdateManyWithoutUserNestedInput
   messagesSent?: Prisma.MessageUncheckedUpdateManyWithoutSenderNestedInput
   messageReactions?: Prisma.MessageReactionUncheckedUpdateManyWithoutUserNestedInput
@@ -20706,6 +21293,7 @@ export type UserCreateWithoutFollowingInput = {
   stories?: Prisma.StoryCreateNestedManyWithoutUserInput
   storyViews?: Prisma.StoryViewCreateNestedManyWithoutUserInput
   storyReactions?: Prisma.StoryReactionCreateNestedManyWithoutUserInput
+  storyComments?: Prisma.StoryCommentCreateNestedManyWithoutUserInput
   conversations?: Prisma.ConversationParticipantCreateNestedManyWithoutUserInput
   messagesSent?: Prisma.MessageCreateNestedManyWithoutSenderInput
   messageReactions?: Prisma.MessageReactionCreateNestedManyWithoutUserInput
@@ -20789,6 +21377,7 @@ export type UserUncheckedCreateWithoutFollowingInput = {
   stories?: Prisma.StoryUncheckedCreateNestedManyWithoutUserInput
   storyViews?: Prisma.StoryViewUncheckedCreateNestedManyWithoutUserInput
   storyReactions?: Prisma.StoryReactionUncheckedCreateNestedManyWithoutUserInput
+  storyComments?: Prisma.StoryCommentUncheckedCreateNestedManyWithoutUserInput
   conversations?: Prisma.ConversationParticipantUncheckedCreateNestedManyWithoutUserInput
   messagesSent?: Prisma.MessageUncheckedCreateNestedManyWithoutSenderInput
   messageReactions?: Prisma.MessageReactionUncheckedCreateNestedManyWithoutUserInput
@@ -20876,6 +21465,7 @@ export type UserCreateWithoutFollowersInput = {
   stories?: Prisma.StoryCreateNestedManyWithoutUserInput
   storyViews?: Prisma.StoryViewCreateNestedManyWithoutUserInput
   storyReactions?: Prisma.StoryReactionCreateNestedManyWithoutUserInput
+  storyComments?: Prisma.StoryCommentCreateNestedManyWithoutUserInput
   conversations?: Prisma.ConversationParticipantCreateNestedManyWithoutUserInput
   messagesSent?: Prisma.MessageCreateNestedManyWithoutSenderInput
   messageReactions?: Prisma.MessageReactionCreateNestedManyWithoutUserInput
@@ -20959,6 +21549,7 @@ export type UserUncheckedCreateWithoutFollowersInput = {
   stories?: Prisma.StoryUncheckedCreateNestedManyWithoutUserInput
   storyViews?: Prisma.StoryViewUncheckedCreateNestedManyWithoutUserInput
   storyReactions?: Prisma.StoryReactionUncheckedCreateNestedManyWithoutUserInput
+  storyComments?: Prisma.StoryCommentUncheckedCreateNestedManyWithoutUserInput
   conversations?: Prisma.ConversationParticipantUncheckedCreateNestedManyWithoutUserInput
   messagesSent?: Prisma.MessageUncheckedCreateNestedManyWithoutSenderInput
   messageReactions?: Prisma.MessageReactionUncheckedCreateNestedManyWithoutUserInput
@@ -21057,6 +21648,7 @@ export type UserUpdateWithoutFollowingInput = {
   stories?: Prisma.StoryUpdateManyWithoutUserNestedInput
   storyViews?: Prisma.StoryViewUpdateManyWithoutUserNestedInput
   storyReactions?: Prisma.StoryReactionUpdateManyWithoutUserNestedInput
+  storyComments?: Prisma.StoryCommentUpdateManyWithoutUserNestedInput
   conversations?: Prisma.ConversationParticipantUpdateManyWithoutUserNestedInput
   messagesSent?: Prisma.MessageUpdateManyWithoutSenderNestedInput
   messageReactions?: Prisma.MessageReactionUpdateManyWithoutUserNestedInput
@@ -21140,6 +21732,7 @@ export type UserUncheckedUpdateWithoutFollowingInput = {
   stories?: Prisma.StoryUncheckedUpdateManyWithoutUserNestedInput
   storyViews?: Prisma.StoryViewUncheckedUpdateManyWithoutUserNestedInput
   storyReactions?: Prisma.StoryReactionUncheckedUpdateManyWithoutUserNestedInput
+  storyComments?: Prisma.StoryCommentUncheckedUpdateManyWithoutUserNestedInput
   conversations?: Prisma.ConversationParticipantUncheckedUpdateManyWithoutUserNestedInput
   messagesSent?: Prisma.MessageUncheckedUpdateManyWithoutSenderNestedInput
   messageReactions?: Prisma.MessageReactionUncheckedUpdateManyWithoutUserNestedInput
@@ -21233,6 +21826,7 @@ export type UserUpdateWithoutFollowersInput = {
   stories?: Prisma.StoryUpdateManyWithoutUserNestedInput
   storyViews?: Prisma.StoryViewUpdateManyWithoutUserNestedInput
   storyReactions?: Prisma.StoryReactionUpdateManyWithoutUserNestedInput
+  storyComments?: Prisma.StoryCommentUpdateManyWithoutUserNestedInput
   conversations?: Prisma.ConversationParticipantUpdateManyWithoutUserNestedInput
   messagesSent?: Prisma.MessageUpdateManyWithoutSenderNestedInput
   messageReactions?: Prisma.MessageReactionUpdateManyWithoutUserNestedInput
@@ -21316,6 +21910,7 @@ export type UserUncheckedUpdateWithoutFollowersInput = {
   stories?: Prisma.StoryUncheckedUpdateManyWithoutUserNestedInput
   storyViews?: Prisma.StoryViewUncheckedUpdateManyWithoutUserNestedInput
   storyReactions?: Prisma.StoryReactionUncheckedUpdateManyWithoutUserNestedInput
+  storyComments?: Prisma.StoryCommentUncheckedUpdateManyWithoutUserNestedInput
   conversations?: Prisma.ConversationParticipantUncheckedUpdateManyWithoutUserNestedInput
   messagesSent?: Prisma.MessageUncheckedUpdateManyWithoutSenderNestedInput
   messageReactions?: Prisma.MessageReactionUncheckedUpdateManyWithoutUserNestedInput
@@ -21398,6 +21993,7 @@ export type UserCreateWithoutBlockingInput = {
   stories?: Prisma.StoryCreateNestedManyWithoutUserInput
   storyViews?: Prisma.StoryViewCreateNestedManyWithoutUserInput
   storyReactions?: Prisma.StoryReactionCreateNestedManyWithoutUserInput
+  storyComments?: Prisma.StoryCommentCreateNestedManyWithoutUserInput
   conversations?: Prisma.ConversationParticipantCreateNestedManyWithoutUserInput
   messagesSent?: Prisma.MessageCreateNestedManyWithoutSenderInput
   messageReactions?: Prisma.MessageReactionCreateNestedManyWithoutUserInput
@@ -21481,6 +22077,7 @@ export type UserUncheckedCreateWithoutBlockingInput = {
   stories?: Prisma.StoryUncheckedCreateNestedManyWithoutUserInput
   storyViews?: Prisma.StoryViewUncheckedCreateNestedManyWithoutUserInput
   storyReactions?: Prisma.StoryReactionUncheckedCreateNestedManyWithoutUserInput
+  storyComments?: Prisma.StoryCommentUncheckedCreateNestedManyWithoutUserInput
   conversations?: Prisma.ConversationParticipantUncheckedCreateNestedManyWithoutUserInput
   messagesSent?: Prisma.MessageUncheckedCreateNestedManyWithoutSenderInput
   messageReactions?: Prisma.MessageReactionUncheckedCreateNestedManyWithoutUserInput
@@ -21568,6 +22165,7 @@ export type UserCreateWithoutBlockedByInput = {
   stories?: Prisma.StoryCreateNestedManyWithoutUserInput
   storyViews?: Prisma.StoryViewCreateNestedManyWithoutUserInput
   storyReactions?: Prisma.StoryReactionCreateNestedManyWithoutUserInput
+  storyComments?: Prisma.StoryCommentCreateNestedManyWithoutUserInput
   conversations?: Prisma.ConversationParticipantCreateNestedManyWithoutUserInput
   messagesSent?: Prisma.MessageCreateNestedManyWithoutSenderInput
   messageReactions?: Prisma.MessageReactionCreateNestedManyWithoutUserInput
@@ -21651,6 +22249,7 @@ export type UserUncheckedCreateWithoutBlockedByInput = {
   stories?: Prisma.StoryUncheckedCreateNestedManyWithoutUserInput
   storyViews?: Prisma.StoryViewUncheckedCreateNestedManyWithoutUserInput
   storyReactions?: Prisma.StoryReactionUncheckedCreateNestedManyWithoutUserInput
+  storyComments?: Prisma.StoryCommentUncheckedCreateNestedManyWithoutUserInput
   conversations?: Prisma.ConversationParticipantUncheckedCreateNestedManyWithoutUserInput
   messagesSent?: Prisma.MessageUncheckedCreateNestedManyWithoutSenderInput
   messageReactions?: Prisma.MessageReactionUncheckedCreateNestedManyWithoutUserInput
@@ -21749,6 +22348,7 @@ export type UserUpdateWithoutBlockingInput = {
   stories?: Prisma.StoryUpdateManyWithoutUserNestedInput
   storyViews?: Prisma.StoryViewUpdateManyWithoutUserNestedInput
   storyReactions?: Prisma.StoryReactionUpdateManyWithoutUserNestedInput
+  storyComments?: Prisma.StoryCommentUpdateManyWithoutUserNestedInput
   conversations?: Prisma.ConversationParticipantUpdateManyWithoutUserNestedInput
   messagesSent?: Prisma.MessageUpdateManyWithoutSenderNestedInput
   messageReactions?: Prisma.MessageReactionUpdateManyWithoutUserNestedInput
@@ -21832,6 +22432,7 @@ export type UserUncheckedUpdateWithoutBlockingInput = {
   stories?: Prisma.StoryUncheckedUpdateManyWithoutUserNestedInput
   storyViews?: Prisma.StoryViewUncheckedUpdateManyWithoutUserNestedInput
   storyReactions?: Prisma.StoryReactionUncheckedUpdateManyWithoutUserNestedInput
+  storyComments?: Prisma.StoryCommentUncheckedUpdateManyWithoutUserNestedInput
   conversations?: Prisma.ConversationParticipantUncheckedUpdateManyWithoutUserNestedInput
   messagesSent?: Prisma.MessageUncheckedUpdateManyWithoutSenderNestedInput
   messageReactions?: Prisma.MessageReactionUncheckedUpdateManyWithoutUserNestedInput
@@ -21925,6 +22526,7 @@ export type UserUpdateWithoutBlockedByInput = {
   stories?: Prisma.StoryUpdateManyWithoutUserNestedInput
   storyViews?: Prisma.StoryViewUpdateManyWithoutUserNestedInput
   storyReactions?: Prisma.StoryReactionUpdateManyWithoutUserNestedInput
+  storyComments?: Prisma.StoryCommentUpdateManyWithoutUserNestedInput
   conversations?: Prisma.ConversationParticipantUpdateManyWithoutUserNestedInput
   messagesSent?: Prisma.MessageUpdateManyWithoutSenderNestedInput
   messageReactions?: Prisma.MessageReactionUpdateManyWithoutUserNestedInput
@@ -22008,6 +22610,7 @@ export type UserUncheckedUpdateWithoutBlockedByInput = {
   stories?: Prisma.StoryUncheckedUpdateManyWithoutUserNestedInput
   storyViews?: Prisma.StoryViewUncheckedUpdateManyWithoutUserNestedInput
   storyReactions?: Prisma.StoryReactionUncheckedUpdateManyWithoutUserNestedInput
+  storyComments?: Prisma.StoryCommentUncheckedUpdateManyWithoutUserNestedInput
   conversations?: Prisma.ConversationParticipantUncheckedUpdateManyWithoutUserNestedInput
   messagesSent?: Prisma.MessageUncheckedUpdateManyWithoutSenderNestedInput
   messageReactions?: Prisma.MessageReactionUncheckedUpdateManyWithoutUserNestedInput
@@ -22091,6 +22694,7 @@ export type UserCreateWithoutVideosInput = {
   stories?: Prisma.StoryCreateNestedManyWithoutUserInput
   storyViews?: Prisma.StoryViewCreateNestedManyWithoutUserInput
   storyReactions?: Prisma.StoryReactionCreateNestedManyWithoutUserInput
+  storyComments?: Prisma.StoryCommentCreateNestedManyWithoutUserInput
   conversations?: Prisma.ConversationParticipantCreateNestedManyWithoutUserInput
   messagesSent?: Prisma.MessageCreateNestedManyWithoutSenderInput
   messageReactions?: Prisma.MessageReactionCreateNestedManyWithoutUserInput
@@ -22174,6 +22778,7 @@ export type UserUncheckedCreateWithoutVideosInput = {
   stories?: Prisma.StoryUncheckedCreateNestedManyWithoutUserInput
   storyViews?: Prisma.StoryViewUncheckedCreateNestedManyWithoutUserInput
   storyReactions?: Prisma.StoryReactionUncheckedCreateNestedManyWithoutUserInput
+  storyComments?: Prisma.StoryCommentUncheckedCreateNestedManyWithoutUserInput
   conversations?: Prisma.ConversationParticipantUncheckedCreateNestedManyWithoutUserInput
   messagesSent?: Prisma.MessageUncheckedCreateNestedManyWithoutSenderInput
   messageReactions?: Prisma.MessageReactionUncheckedCreateNestedManyWithoutUserInput
@@ -22272,6 +22877,7 @@ export type UserUpdateWithoutVideosInput = {
   stories?: Prisma.StoryUpdateManyWithoutUserNestedInput
   storyViews?: Prisma.StoryViewUpdateManyWithoutUserNestedInput
   storyReactions?: Prisma.StoryReactionUpdateManyWithoutUserNestedInput
+  storyComments?: Prisma.StoryCommentUpdateManyWithoutUserNestedInput
   conversations?: Prisma.ConversationParticipantUpdateManyWithoutUserNestedInput
   messagesSent?: Prisma.MessageUpdateManyWithoutSenderNestedInput
   messageReactions?: Prisma.MessageReactionUpdateManyWithoutUserNestedInput
@@ -22355,6 +22961,7 @@ export type UserUncheckedUpdateWithoutVideosInput = {
   stories?: Prisma.StoryUncheckedUpdateManyWithoutUserNestedInput
   storyViews?: Prisma.StoryViewUncheckedUpdateManyWithoutUserNestedInput
   storyReactions?: Prisma.StoryReactionUncheckedUpdateManyWithoutUserNestedInput
+  storyComments?: Prisma.StoryCommentUncheckedUpdateManyWithoutUserNestedInput
   conversations?: Prisma.ConversationParticipantUncheckedUpdateManyWithoutUserNestedInput
   messagesSent?: Prisma.MessageUncheckedUpdateManyWithoutSenderNestedInput
   messageReactions?: Prisma.MessageReactionUncheckedUpdateManyWithoutUserNestedInput
@@ -22437,6 +23044,7 @@ export type UserCreateWithoutVideoLikesInput = {
   stories?: Prisma.StoryCreateNestedManyWithoutUserInput
   storyViews?: Prisma.StoryViewCreateNestedManyWithoutUserInput
   storyReactions?: Prisma.StoryReactionCreateNestedManyWithoutUserInput
+  storyComments?: Prisma.StoryCommentCreateNestedManyWithoutUserInput
   conversations?: Prisma.ConversationParticipantCreateNestedManyWithoutUserInput
   messagesSent?: Prisma.MessageCreateNestedManyWithoutSenderInput
   messageReactions?: Prisma.MessageReactionCreateNestedManyWithoutUserInput
@@ -22520,6 +23128,7 @@ export type UserUncheckedCreateWithoutVideoLikesInput = {
   stories?: Prisma.StoryUncheckedCreateNestedManyWithoutUserInput
   storyViews?: Prisma.StoryViewUncheckedCreateNestedManyWithoutUserInput
   storyReactions?: Prisma.StoryReactionUncheckedCreateNestedManyWithoutUserInput
+  storyComments?: Prisma.StoryCommentUncheckedCreateNestedManyWithoutUserInput
   conversations?: Prisma.ConversationParticipantUncheckedCreateNestedManyWithoutUserInput
   messagesSent?: Prisma.MessageUncheckedCreateNestedManyWithoutSenderInput
   messageReactions?: Prisma.MessageReactionUncheckedCreateNestedManyWithoutUserInput
@@ -22618,6 +23227,7 @@ export type UserUpdateWithoutVideoLikesInput = {
   stories?: Prisma.StoryUpdateManyWithoutUserNestedInput
   storyViews?: Prisma.StoryViewUpdateManyWithoutUserNestedInput
   storyReactions?: Prisma.StoryReactionUpdateManyWithoutUserNestedInput
+  storyComments?: Prisma.StoryCommentUpdateManyWithoutUserNestedInput
   conversations?: Prisma.ConversationParticipantUpdateManyWithoutUserNestedInput
   messagesSent?: Prisma.MessageUpdateManyWithoutSenderNestedInput
   messageReactions?: Prisma.MessageReactionUpdateManyWithoutUserNestedInput
@@ -22701,6 +23311,7 @@ export type UserUncheckedUpdateWithoutVideoLikesInput = {
   stories?: Prisma.StoryUncheckedUpdateManyWithoutUserNestedInput
   storyViews?: Prisma.StoryViewUncheckedUpdateManyWithoutUserNestedInput
   storyReactions?: Prisma.StoryReactionUncheckedUpdateManyWithoutUserNestedInput
+  storyComments?: Prisma.StoryCommentUncheckedUpdateManyWithoutUserNestedInput
   conversations?: Prisma.ConversationParticipantUncheckedUpdateManyWithoutUserNestedInput
   messagesSent?: Prisma.MessageUncheckedUpdateManyWithoutSenderNestedInput
   messageReactions?: Prisma.MessageReactionUncheckedUpdateManyWithoutUserNestedInput
@@ -22783,6 +23394,7 @@ export type UserCreateWithoutVideoCommentsInput = {
   stories?: Prisma.StoryCreateNestedManyWithoutUserInput
   storyViews?: Prisma.StoryViewCreateNestedManyWithoutUserInput
   storyReactions?: Prisma.StoryReactionCreateNestedManyWithoutUserInput
+  storyComments?: Prisma.StoryCommentCreateNestedManyWithoutUserInput
   conversations?: Prisma.ConversationParticipantCreateNestedManyWithoutUserInput
   messagesSent?: Prisma.MessageCreateNestedManyWithoutSenderInput
   messageReactions?: Prisma.MessageReactionCreateNestedManyWithoutUserInput
@@ -22866,6 +23478,7 @@ export type UserUncheckedCreateWithoutVideoCommentsInput = {
   stories?: Prisma.StoryUncheckedCreateNestedManyWithoutUserInput
   storyViews?: Prisma.StoryViewUncheckedCreateNestedManyWithoutUserInput
   storyReactions?: Prisma.StoryReactionUncheckedCreateNestedManyWithoutUserInput
+  storyComments?: Prisma.StoryCommentUncheckedCreateNestedManyWithoutUserInput
   conversations?: Prisma.ConversationParticipantUncheckedCreateNestedManyWithoutUserInput
   messagesSent?: Prisma.MessageUncheckedCreateNestedManyWithoutSenderInput
   messageReactions?: Prisma.MessageReactionUncheckedCreateNestedManyWithoutUserInput
@@ -22964,6 +23577,7 @@ export type UserUpdateWithoutVideoCommentsInput = {
   stories?: Prisma.StoryUpdateManyWithoutUserNestedInput
   storyViews?: Prisma.StoryViewUpdateManyWithoutUserNestedInput
   storyReactions?: Prisma.StoryReactionUpdateManyWithoutUserNestedInput
+  storyComments?: Prisma.StoryCommentUpdateManyWithoutUserNestedInput
   conversations?: Prisma.ConversationParticipantUpdateManyWithoutUserNestedInput
   messagesSent?: Prisma.MessageUpdateManyWithoutSenderNestedInput
   messageReactions?: Prisma.MessageReactionUpdateManyWithoutUserNestedInput
@@ -23047,6 +23661,7 @@ export type UserUncheckedUpdateWithoutVideoCommentsInput = {
   stories?: Prisma.StoryUncheckedUpdateManyWithoutUserNestedInput
   storyViews?: Prisma.StoryViewUncheckedUpdateManyWithoutUserNestedInput
   storyReactions?: Prisma.StoryReactionUncheckedUpdateManyWithoutUserNestedInput
+  storyComments?: Prisma.StoryCommentUncheckedUpdateManyWithoutUserNestedInput
   conversations?: Prisma.ConversationParticipantUncheckedUpdateManyWithoutUserNestedInput
   messagesSent?: Prisma.MessageUncheckedUpdateManyWithoutSenderNestedInput
   messageReactions?: Prisma.MessageReactionUncheckedUpdateManyWithoutUserNestedInput
@@ -23129,6 +23744,7 @@ export type UserCreateWithoutVideoCommentLikesInput = {
   stories?: Prisma.StoryCreateNestedManyWithoutUserInput
   storyViews?: Prisma.StoryViewCreateNestedManyWithoutUserInput
   storyReactions?: Prisma.StoryReactionCreateNestedManyWithoutUserInput
+  storyComments?: Prisma.StoryCommentCreateNestedManyWithoutUserInput
   conversations?: Prisma.ConversationParticipantCreateNestedManyWithoutUserInput
   messagesSent?: Prisma.MessageCreateNestedManyWithoutSenderInput
   messageReactions?: Prisma.MessageReactionCreateNestedManyWithoutUserInput
@@ -23212,6 +23828,7 @@ export type UserUncheckedCreateWithoutVideoCommentLikesInput = {
   stories?: Prisma.StoryUncheckedCreateNestedManyWithoutUserInput
   storyViews?: Prisma.StoryViewUncheckedCreateNestedManyWithoutUserInput
   storyReactions?: Prisma.StoryReactionUncheckedCreateNestedManyWithoutUserInput
+  storyComments?: Prisma.StoryCommentUncheckedCreateNestedManyWithoutUserInput
   conversations?: Prisma.ConversationParticipantUncheckedCreateNestedManyWithoutUserInput
   messagesSent?: Prisma.MessageUncheckedCreateNestedManyWithoutSenderInput
   messageReactions?: Prisma.MessageReactionUncheckedCreateNestedManyWithoutUserInput
@@ -23310,6 +23927,7 @@ export type UserUpdateWithoutVideoCommentLikesInput = {
   stories?: Prisma.StoryUpdateManyWithoutUserNestedInput
   storyViews?: Prisma.StoryViewUpdateManyWithoutUserNestedInput
   storyReactions?: Prisma.StoryReactionUpdateManyWithoutUserNestedInput
+  storyComments?: Prisma.StoryCommentUpdateManyWithoutUserNestedInput
   conversations?: Prisma.ConversationParticipantUpdateManyWithoutUserNestedInput
   messagesSent?: Prisma.MessageUpdateManyWithoutSenderNestedInput
   messageReactions?: Prisma.MessageReactionUpdateManyWithoutUserNestedInput
@@ -23393,6 +24011,7 @@ export type UserUncheckedUpdateWithoutVideoCommentLikesInput = {
   stories?: Prisma.StoryUncheckedUpdateManyWithoutUserNestedInput
   storyViews?: Prisma.StoryViewUncheckedUpdateManyWithoutUserNestedInput
   storyReactions?: Prisma.StoryReactionUncheckedUpdateManyWithoutUserNestedInput
+  storyComments?: Prisma.StoryCommentUncheckedUpdateManyWithoutUserNestedInput
   conversations?: Prisma.ConversationParticipantUncheckedUpdateManyWithoutUserNestedInput
   messagesSent?: Prisma.MessageUncheckedUpdateManyWithoutSenderNestedInput
   messageReactions?: Prisma.MessageReactionUncheckedUpdateManyWithoutUserNestedInput
@@ -23460,6 +24079,7 @@ export type UserCountOutputType = {
   stories: number
   storyViews: number
   storyReactions: number
+  storyComments: number
   conversations: number
   messagesSent: number
   messageReactions: number
@@ -23523,6 +24143,7 @@ export type UserCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.I
   stories?: boolean | UserCountOutputTypeCountStoriesArgs
   storyViews?: boolean | UserCountOutputTypeCountStoryViewsArgs
   storyReactions?: boolean | UserCountOutputTypeCountStoryReactionsArgs
+  storyComments?: boolean | UserCountOutputTypeCountStoryCommentsArgs
   conversations?: boolean | UserCountOutputTypeCountConversationsArgs
   messagesSent?: boolean | UserCountOutputTypeCountMessagesSentArgs
   messageReactions?: boolean | UserCountOutputTypeCountMessageReactionsArgs
@@ -23713,6 +24334,13 @@ export type UserCountOutputTypeCountStoryViewsArgs<ExtArgs extends runtime.Types
  */
 export type UserCountOutputTypeCountStoryReactionsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   where?: Prisma.StoryReactionWhereInput
+}
+
+/**
+ * UserCountOutputType without action
+ */
+export type UserCountOutputTypeCountStoryCommentsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.StoryCommentWhereInput
 }
 
 /**
@@ -24038,6 +24666,7 @@ export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   stories?: boolean | Prisma.User$storiesArgs<ExtArgs>
   storyViews?: boolean | Prisma.User$storyViewsArgs<ExtArgs>
   storyReactions?: boolean | Prisma.User$storyReactionsArgs<ExtArgs>
+  storyComments?: boolean | Prisma.User$storyCommentsArgs<ExtArgs>
   conversations?: boolean | Prisma.User$conversationsArgs<ExtArgs>
   messagesSent?: boolean | Prisma.User$messagesSentArgs<ExtArgs>
   messageReactions?: boolean | Prisma.User$messageReactionsArgs<ExtArgs>
@@ -24171,6 +24800,7 @@ export type UserInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = 
   stories?: boolean | Prisma.User$storiesArgs<ExtArgs>
   storyViews?: boolean | Prisma.User$storyViewsArgs<ExtArgs>
   storyReactions?: boolean | Prisma.User$storyReactionsArgs<ExtArgs>
+  storyComments?: boolean | Prisma.User$storyCommentsArgs<ExtArgs>
   conversations?: boolean | Prisma.User$conversationsArgs<ExtArgs>
   messagesSent?: boolean | Prisma.User$messagesSentArgs<ExtArgs>
   messageReactions?: boolean | Prisma.User$messageReactionsArgs<ExtArgs>
@@ -24241,6 +24871,7 @@ export type $UserPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     stories: Prisma.$StoryPayload<ExtArgs>[]
     storyViews: Prisma.$StoryViewPayload<ExtArgs>[]
     storyReactions: Prisma.$StoryReactionPayload<ExtArgs>[]
+    storyComments: Prisma.$StoryCommentPayload<ExtArgs>[]
     conversations: Prisma.$ConversationParticipantPayload<ExtArgs>[]
     messagesSent: Prisma.$MessagePayload<ExtArgs>[]
     messageReactions: Prisma.$MessageReactionPayload<ExtArgs>[]
@@ -24718,6 +25349,7 @@ export interface Prisma__UserClient<T, Null = never, ExtArgs extends runtime.Typ
   stories<T extends Prisma.User$storiesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$storiesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$StoryPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   storyViews<T extends Prisma.User$storyViewsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$storyViewsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$StoryViewPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   storyReactions<T extends Prisma.User$storyReactionsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$storyReactionsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$StoryReactionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  storyComments<T extends Prisma.User$storyCommentsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$storyCommentsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$StoryCommentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   conversations<T extends Prisma.User$conversationsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$conversationsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ConversationParticipantPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   messagesSent<T extends Prisma.User$messagesSentArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$messagesSentArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$MessagePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   messageReactions<T extends Prisma.User$messageReactionsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$messageReactionsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$MessageReactionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
@@ -25712,6 +26344,30 @@ export type User$storyReactionsArgs<ExtArgs extends runtime.Types.Extensions.Int
   take?: number
   skip?: number
   distinct?: Prisma.StoryReactionScalarFieldEnum | Prisma.StoryReactionScalarFieldEnum[]
+}
+
+/**
+ * User.storyComments
+ */
+export type User$storyCommentsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the StoryComment
+   */
+  select?: Prisma.StoryCommentSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the StoryComment
+   */
+  omit?: Prisma.StoryCommentOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.StoryCommentInclude<ExtArgs> | null
+  where?: Prisma.StoryCommentWhereInput
+  orderBy?: Prisma.StoryCommentOrderByWithRelationInput | Prisma.StoryCommentOrderByWithRelationInput[]
+  cursor?: Prisma.StoryCommentWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.StoryCommentScalarFieldEnum | Prisma.StoryCommentScalarFieldEnum[]
 }
 
 /**

@@ -41,7 +41,9 @@ const NOTIFICATION_LABELS: Record<string, string> = {
 	tag_in_comment: "mentioned you in a comment",
 };
 
-type NotificationItem = Awaited<ReturnType<typeof getRecentNotifications>>[number];
+type NotificationItem = Awaited<
+	ReturnType<typeof getRecentNotifications>
+>[number];
 
 export function NotificationBell() {
 	const router = useRouter();

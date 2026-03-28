@@ -6,7 +6,11 @@ import { cn } from "@/lib/utils";
 
 const STORAGE_KEY = "sociax-sidebar-collapsed";
 
-export function CollapsibleSidebar({ children }: { children: React.ReactNode }) {
+export function CollapsibleSidebar({
+	children,
+}: {
+	children: React.ReactNode;
+}) {
 	const [collapsed, setCollapsed] = useState(false);
 
 	useEffect(() => {

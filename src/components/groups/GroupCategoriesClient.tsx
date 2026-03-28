@@ -47,8 +47,6 @@ const STATIC_CATEGORIES = [
 	"Sports",
 ];
 
-
-
 export function GroupCategoriesClient({
 	groups,
 	membershipMap,
@@ -182,9 +180,8 @@ export function GroupCategoriesClient({
 											<GroupJoinButton
 												groupId={group.id}
 												initialState={
-													(membershipMap[
-														group.id
-													] ?? "none") as
+													(membershipMap[group.id] ??
+														"none") as
 														| "none"
 														| "Pending"
 														| "Approved"

@@ -658,7 +658,9 @@ export function ListingDetailClient({
 											>
 												{msg.content}
 											</div>
-											<div className={`flex items-center gap-2 mt-0.5 px-1 ${isMe ? "flex-row-reverse" : ""}`}>
+											<div
+												className={`flex items-center gap-2 mt-0.5 px-1 ${isMe ? "flex-row-reverse" : ""}`}
+											>
 												<span className="text-[10px] text-muted-foreground">
 													{format(
 														new Date(msg.createdAt),
@@ -666,14 +668,20 @@ export function ListingDetailClient({
 													)}
 												</span>
 												<button
-													onClick={() => handleToggleMessageLike(msg.id)}
+													onClick={() =>
+														handleToggleMessageLike(
+															msg.id,
+														)
+													}
 													className={`flex items-center gap-0.5 text-[10px] transition-colors ${msg.isLiked ? "text-red-500" : "text-muted-foreground hover:text-red-400"}`}
 												>
 													<Heart
 														className={`h-3 w-3 ${msg.isLiked ? "fill-red-500" : ""}`}
 													/>
 													{msg.likeCount > 0 && (
-														<span>{msg.likeCount}</span>
+														<span>
+															{msg.likeCount}
+														</span>
 													)}
 												</button>
 											</div>
