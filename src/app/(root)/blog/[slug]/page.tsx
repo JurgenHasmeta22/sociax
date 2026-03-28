@@ -4,7 +4,11 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 import { BlogDetailClient } from "@/components/feed/BlogDetailClient";
 
-export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }) {
+export async function generateMetadata({
+	params,
+}: {
+	params: Promise<{ slug: string }>;
+}) {
 	const { slug } = await params;
 	const blog = await getBlogBySlug(slug);
 	if (!blog) return { title: "Blog not found" };
@@ -14,7 +18,11 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
 	};
 }
 
-export default async function BlogDetailPage({ params }: { params: Promise<{ slug: string }> }) {
+export default async function BlogDetailPage({
+	params,
+}: {
+	params: Promise<{ slug: string }>;
+}) {
 	const { slug } = await params;
 	const blog = await getBlogBySlug(slug);
 

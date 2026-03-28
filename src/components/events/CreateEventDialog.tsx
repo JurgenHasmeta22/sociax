@@ -200,20 +200,24 @@ export function CreateEventDialog({
 						</div>
 					</div>
 
-					<div className="space-y-1.5">					<Label htmlFor="event-tags">Tags (optional)</Label>
-					<div className="relative">
-						<Hash className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-						<Input
-							id="event-tags"
-							placeholder="music, tech, art (comma or space separated)"
-							value={tagsInput}
-							onChange={(e) => setTagsInput(e.target.value)}
-							className="pl-9"
-						/>
+					<div className="space-y-1.5">
+						{" "}
+						<Label htmlFor="event-tags">Tags (optional)</Label>
+						<div className="relative">
+							<Hash className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+							<Input
+								id="event-tags"
+								placeholder="music, tech, art (comma or space separated)"
+								value={tagsInput}
+								onChange={(e) => setTagsInput(e.target.value)}
+								className="pl-9"
+							/>
+						</div>
 					</div>
-				</div>
 
-				<div className="space-y-1.5">						<Label>Audience</Label>
+					<div className="space-y-1.5">
+						{" "}
+						<Label>Audience</Label>
 						<Select
 							value={privacy}
 							onValueChange={(v) => setPrivacy(v as EventPrivacy)}

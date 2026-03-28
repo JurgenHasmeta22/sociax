@@ -112,7 +112,10 @@ export function StoriesBar({
 									<div className="w-full h-full rounded-full overflow-hidden border-2 border-background">
 										<Avatar className="h-full w-full rounded-full">
 											<AvatarImage
-												src={story.user.avatar?.photoSrc ?? undefined}
+												src={
+													story.user.avatar
+														?.photoSrc ?? undefined
+												}
 												className="object-cover"
 											/>
 											<AvatarFallback className="bg-primary text-primary-foreground text-sm font-bold rounded-full">

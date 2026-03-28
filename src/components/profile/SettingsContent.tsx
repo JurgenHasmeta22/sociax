@@ -22,7 +22,18 @@ import {
 	SelectTrigger,
 	SelectValue,
 } from "@/components/ui/select";
-import { User, Shield, Lock, Globe, Users, Eye, EyeOff, UserX, AlertTriangle, Trash2 } from "lucide-react";
+import {
+	User,
+	Shield,
+	Lock,
+	Globe,
+	Users,
+	Eye,
+	EyeOff,
+	UserX,
+	AlertTriangle,
+	Trash2,
+} from "lucide-react";
 import { toast } from "sonner";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
@@ -492,7 +503,13 @@ function SecuritySection({ hasPassword }: { hasPassword: boolean }) {
 	);
 }
 
-export function SettingsContent({ user, blockedUsers = [] }: { user: SettingsUser; blockedUsers?: BlockedUser[] }) {
+export function SettingsContent({
+	user,
+	blockedUsers = [],
+}: {
+	user: SettingsUser;
+	blockedUsers?: BlockedUser[];
+}) {
 	const [activeSection, setActiveSection] = useState<Section>("account");
 
 	return (
@@ -543,7 +560,11 @@ export function SettingsContent({ user, blockedUsers = [] }: { user: SettingsUse
 	);
 }
 
-function BlockedUsersSection({ initialBlocked }: { initialBlocked: BlockedUser[] }) {
+function BlockedUsersSection({
+	initialBlocked,
+}: {
+	initialBlocked: BlockedUser[];
+}) {
 	const [blocked, setBlocked] = useState<BlockedUser[]>(initialBlocked);
 	const [unblocking, setUnblocking] = useState<number | null>(null);
 
@@ -565,27 +586,44 @@ function BlockedUsersSection({ initialBlocked }: { initialBlocked: BlockedUser[]
 			<CardHeader>
 				<CardTitle>Blocked Users</CardTitle>
 				<CardDescription>
-					Blocked users cannot see your profile, message you, or follow you.
+					Blocked users cannot see your profile, message you, or
+					follow you.
 				</CardDescription>
 			</CardHeader>
 			<CardContent>
 				{blocked.length === 0 ? (
-					<p className="text-sm text-muted-foreground text-center py-8">You haven&apos;t blocked anyone.</p>
+					<p className="text-sm text-muted-foreground text-center py-8">
+						You haven&apos;t blocked anyone.
+					</p>
 				) : (
 					<div className="space-y-3">
 						{blocked.map((u) => {
-							const name = [u.firstName, u.lastName].filter(Boolean).join(" ") || u.userName;
+							const name =
+								[u.firstName, u.lastName]
+									.filter(Boolean)
+									.join(" ") || u.userName;
 							return (
-								<div key={u.id} className="flex items-center gap-3">
+								<div
+									key={u.id}
+									className="flex items-center gap-3"
+								>
 									<Avatar className="h-9 w-9 shrink-0">
-										<AvatarImage src={u.avatar?.photoSrc ?? undefined} />
+										<AvatarImage
+											src={
+												u.avatar?.photoSrc ?? undefined
+											}
+										/>
 										<AvatarFallback className="bg-primary text-primary-foreground font-semibold text-sm">
 											{name[0]?.toUpperCase()}
 										</AvatarFallback>
 									</Avatar>
 									<div className="flex-1 min-w-0">
-										<p className="text-sm font-semibold truncate">{name}</p>
-										<p className="text-xs text-muted-foreground">@{u.userName}</p>
+										<p className="text-sm font-semibold truncate">
+											{name}
+										</p>
+										<p className="text-xs text-muted-foreground">
+											@{u.userName}
+										</p>
 									</div>
 									<Button
 										size="sm"
@@ -593,7 +631,9 @@ function BlockedUsersSection({ initialBlocked }: { initialBlocked: BlockedUser[]
 										onClick={() => handleUnblock(u.id)}
 										disabled={unblocking === u.id}
 									>
-										{unblocking === u.id ? "Unblocking..." : "Unblock"}
+										{unblocking === u.id
+											? "Unblocking..."
+											: "Unblock"}
 									</Button>
 								</div>
 							);
@@ -633,7 +673,11 @@ function DangerSection({ hasPassword }: { hasPassword: boolean }) {
 				toast.success("Account deleted.");
 				router.push("/login");
 			} catch (e) {
-				toast.error(e instanceof Error ? e.message : "Failed to delete account.");
+				toast.error(
+					e instanceof Error
+						? e.message
+						: "Failed to delete account.",
+				);
 			} finally {
 				setDeleteOpen(false);
 				setPassword("");
@@ -651,7 +695,8 @@ function DangerSection({ hasPassword }: { hasPassword: boolean }) {
 							Deactivate Account
 						</CardTitle>
 						<CardDescription>
-							Temporarily hide your profile and content. You can reactivate by logging back in.
+							Temporarily hide your profile and content. You can
+							reactivate by logging back in.
 						</CardDescription>
 					</CardHeader>
 					<CardContent>
@@ -672,7 +717,8 @@ function DangerSection({ hasPassword }: { hasPassword: boolean }) {
 							Delete Account
 						</CardTitle>
 						<CardDescription>
-							Permanently delete your account and all data. This action cannot be undone.
+							Permanently delete your account and all data. This
+							action cannot be undone.
 						</CardDescription>
 					</CardHeader>
 					<CardContent>
@@ -690,9 +736,12 @@ function DangerSection({ hasPassword }: { hasPassword: boolean }) {
 			<AlertDialog open={deactivateOpen} onOpenChange={setDeactivateOpen}>
 				<AlertDialogContent>
 					<AlertDialogHeader>
-						<AlertDialogTitle>Deactivate your account?</AlertDialogTitle>
+						<AlertDialogTitle>
+							Deactivate your account?
+						</AlertDialogTitle>
 						<AlertDialogDescription>
-							Your profile and content will be hidden until you log back in. Your data will be preserved.
+							Your profile and content will be hidden until you
+							log back in. Your data will be preserved.
 						</AlertDialogDescription>
 					</AlertDialogHeader>
 					<AlertDialogFooter>
@@ -712,9 +761,12 @@ function DangerSection({ hasPassword }: { hasPassword: boolean }) {
 			<AlertDialog open={deleteOpen} onOpenChange={setDeleteOpen}>
 				<AlertDialogContent>
 					<AlertDialogHeader>
-						<AlertDialogTitle>Delete your account permanently?</AlertDialogTitle>
+						<AlertDialogTitle>
+							Delete your account permanently?
+						</AlertDialogTitle>
 						<AlertDialogDescription>
-							This is irreversible. All your posts, messages, and data will be deleted.
+							This is irreversible. All your posts, messages, and
+							data will be deleted.
 							{hasPassword && " Enter your password to confirm."}
 						</AlertDialogDescription>
 					</AlertDialogHeader>
@@ -729,7 +781,9 @@ function DangerSection({ hasPassword }: { hasPassword: boolean }) {
 						</div>
 					)}
 					<AlertDialogFooter>
-						<AlertDialogCancel onClick={() => setPassword("")}>Cancel</AlertDialogCancel>
+						<AlertDialogCancel onClick={() => setPassword("")}>
+							Cancel
+						</AlertDialogCancel>
 						<AlertDialogAction
 							onClick={handleDelete}
 							disabled={isPending || (hasPassword && !password)}

@@ -302,10 +302,12 @@ export default async function ProfilePage({ params }: PageProps) {
 			createdEvents={
 				createdEvents.map((e) => ({ ...e, isOwned: true })) as never[]
 			}
-			attendingEvents={attendingEvents.map((ae) => ({
-				...((ae as { event: unknown }).event as object),
-				isOwned: false,
-			})) as never[]}
+			attendingEvents={
+				attendingEvents.map((ae) => ({
+					...((ae as { event: unknown }).event as object),
+					isOwned: false,
+				})) as never[]
+			}
 			blogs={blogs}
 			albums={albums}
 		/>

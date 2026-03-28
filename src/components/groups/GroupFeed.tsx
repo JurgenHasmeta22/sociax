@@ -235,7 +235,9 @@ function GroupPostCard({
 	const [comments, setComments] = useState<GroupPostComment[]>([]);
 	const [commentText, setCommentText] = useState("");
 	const [commentMedia, setCommentMedia] = useState<File | null>(null);
-	const [commentMediaPreview, setCommentMediaPreview] = useState<string | null>(null);
+	const [commentMediaPreview, setCommentMediaPreview] = useState<
+		string | null
+	>(null);
 	const [isUploadingComment, setIsUploadingComment] = useState(false);
 	const commentMediaRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 	const commentFileRef = useRef<HTMLInputElement | null>(null);
@@ -248,7 +250,8 @@ function GroupPostCard({
 
 	const reactionCounts: Record<string, number> = {};
 	post.likes.forEach((l) => {
-		reactionCounts[l.reactionType] = (reactionCounts[l.reactionType] || 0) + 1;
+		reactionCounts[l.reactionType] =
+			(reactionCounts[l.reactionType] || 0) + 1;
 	});
 	const topReactions = Object.entries(reactionCounts)
 		.sort((a, b) => b[1] - a[1])
@@ -301,8 +304,14 @@ function GroupPostCard({
 			try {
 				const fd = new FormData();
 				fd.append("file", commentMedia);
-				const res = await fetch("/api/upload", { method: "POST", body: fd });
-				if (res.ok) { const { url } = await res.json(); uploadedUrl = url; }
+				const res = await fetch("/api/upload", {
+					method: "POST",
+					body: fd,
+				});
+				if (res.ok) {
+					const { url } = await res.json();
+					uploadedUrl = url;
+				}
 			} finally {
 				setIsUploadingComment(false);
 			}
@@ -328,7 +337,9 @@ function GroupPostCard({
 			},
 		};
 		setComments((p) => [...p, optimistic]);
-		startTransition(() => createGroupPostComment(post.id, text, uploadedUrl));
+		startTransition(() =>
+			createGroupPostComment(post.id, text, uploadedUrl),
+		);
 	};
 
 	const handleCommentLike = (commentId: number) => {
@@ -407,7 +418,9 @@ function GroupPostCard({
 								</DropdownMenuTrigger>
 								<DropdownMenuContent align="end">
 									<DropdownMenuItem
-										onClick={() => setShowDeletePostConfirm(true)}
+										onClick={() =>
+											setShowDeletePostConfirm(true)
+										}
 										className="text-destructive focus:text-destructive"
 									>
 										<Trash2 className="h-4 w-4 mr-2" />
@@ -423,18 +436,18 @@ function GroupPostCard({
 							{post.content}
 						</p>
 					)}
-				{post.mediaUrl && (
-					<div className="relative rounded-lg overflow-hidden bg-muted mt-3 h-72">
-						<Image
-							src={post.mediaUrl}
-							alt=""
-							fill
-							unoptimized
-							className="object-cover"
-							sizes="600px"
-						/>
-					</div>
-				)}
+					{post.mediaUrl && (
+						<div className="relative rounded-lg overflow-hidden bg-muted mt-3 h-72">
+							<Image
+								src={post.mediaUrl}
+								alt=""
+								fill
+								unoptimized
+								className="object-cover"
+								sizes="600px"
+							/>
+						</div>
+					)}
 				</CardContent>
 
 				<CardContent className="pt-3 pb-2">
@@ -443,7 +456,10 @@ function GroupPostCard({
 							<div className="flex items-center gap-1.5 text-sm text-muted-foreground mb-2">
 								<div className="flex -space-x-1">
 									{topReactions.map((r) => (
-										<span key={r} className="text-base leading-none">
+										<span
+											key={r}
+											className="text-base leading-none"
+										>
 											{REACTIONS[r]?.emoji}
 										</span>
 									))}
@@ -561,7 +577,11 @@ function GroupPostCard({
 											{c.content}
 											{c.mediaUrl && (
 												<div className="mt-1.5">
-													<img src={c.mediaUrl} alt="media" className="max-h-32 rounded-xl object-cover" />
+													<img
+														src={c.mediaUrl}
+														alt="media"
+														className="max-h-32 rounded-xl object-cover"
+													/>
 												</div>
 											)}
 										</div>
@@ -582,7 +602,9 @@ function GroupPostCard({
 									</div>
 									{c.user.id === currentUserId && (
 										<button
-											onClick={() => setCommentToDelete(c.id)}
+											onClick={() =>
+												setCommentToDelete(c.id)
+											}
 											className="opacity-0 group-hover:opacity-100 self-start mt-2 text-muted-foreground hover:text-destructive transition-opacity"
 										>
 											<Trash2 className="h-3.5 w-3.5" />
@@ -597,9 +619,23 @@ function GroupPostCard({
 									<div className="flex-1 flex flex-col gap-1.5 bg-muted rounded-2xl px-3 py-2">
 										{commentMediaPreview && (
 											<div className="relative inline-flex">
-												<img src={commentMediaPreview} alt="preview" className="max-h-24 rounded-xl object-cover" />
+												<img
+													src={commentMediaPreview}
+													alt="preview"
+													className="max-h-24 rounded-xl object-cover"
+												/>
 												<button
-													onClick={() => { setCommentMedia(null); setCommentMediaPreview(null); if (commentFileRef.current) commentFileRef.current.value = ""; }}
+													onClick={() => {
+														setCommentMedia(null);
+														setCommentMediaPreview(
+															null,
+														);
+														if (
+															commentFileRef.current
+														)
+															commentFileRef.current.value =
+																"";
+													}}
 													className="absolute -top-1.5 -right-1.5 bg-background border rounded-full p-0.5"
 												>
 													<X className="h-3 w-3" />
@@ -609,9 +645,16 @@ function GroupPostCard({
 										<div className="flex items-end gap-2">
 											<Textarea
 												value={commentText}
-												onChange={(e) => setCommentText(e.target.value)}
+												onChange={(e) =>
+													setCommentText(
+														e.target.value,
+													)
+												}
 												onKeyDown={(e) => {
-													if (e.key === "Enter" && !e.shiftKey) {
+													if (
+														e.key === "Enter" &&
+														!e.shiftKey
+													) {
 														e.preventDefault();
 														void handleComment();
 													}
@@ -625,26 +668,43 @@ function GroupPostCard({
 												accept="image/*,.gif"
 												className="hidden"
 												onChange={(e) => {
-													const file = e.target.files?.[0];
+													const file =
+														e.target.files?.[0];
 													if (!file) return;
 													setCommentMedia(file);
-													setCommentMediaPreview(URL.createObjectURL(file));
+													setCommentMediaPreview(
+														URL.createObjectURL(
+															file,
+														),
+													);
 												}}
 											/>
 											<Button
 												variant="ghost"
 												size="icon"
 												className="h-7 w-7 shrink-0 text-muted-foreground hover:text-foreground hover:bg-transparent"
-												onClick={() => commentFileRef.current?.click()}
-												disabled={isPending || isUploadingComment}
+												onClick={() =>
+													commentFileRef.current?.click()
+												}
+												disabled={
+													isPending ||
+													isUploadingComment
+												}
 											>
 												<ImagePlus className="h-4 w-4" />
 											</Button>
 											<Button
 												size="icon"
 												className="h-7 w-7 rounded-full shrink-0"
-												onClick={() => void handleComment()}
-												disabled={(!commentText.trim() && !commentMedia) || isPending || isUploadingComment}
+												onClick={() =>
+													void handleComment()
+												}
+												disabled={
+													(!commentText.trim() &&
+														!commentMedia) ||
+													isPending ||
+													isUploadingComment
+												}
 											>
 												<Send className="h-4 w-4" />
 											</Button>

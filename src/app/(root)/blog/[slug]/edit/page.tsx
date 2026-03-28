@@ -6,8 +6,15 @@ import { BlogForm } from "@/components/feed/BlogForm";
 
 export const metadata = { title: "Edit Blog · Sociax" };
 
-export default async function EditBlogPage({ params }: { params: Promise<{ slug: string }> }) {
-	const [{ slug }, session] = await Promise.all([params, getServerSession(authOptions)]);
+export default async function EditBlogPage({
+	params,
+}: {
+	params: Promise<{ slug: string }>;
+}) {
+	const [{ slug }, session] = await Promise.all([
+		params,
+		getServerSession(authOptions),
+	]);
 	if (!session) redirect("/login");
 
 	const blog = await getBlogBySlug(slug);

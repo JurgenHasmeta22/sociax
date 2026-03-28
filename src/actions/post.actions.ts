@@ -70,12 +70,21 @@ export async function getComments(postId: number) {
 	return comments;
 }
 
-export async function createComment(postId: number, content: string, mediaUrl?: string) {
+export async function createComment(
+	postId: number,
+	content: string,
+	mediaUrl?: string,
+) {
 	const userId = await getSessionUserId();
 	if (!content.trim() && !mediaUrl) return;
 
 	await prisma.postComment.create({
-		data: { postId, userId, content: content.trim(), ...(mediaUrl ? { mediaUrl } : {}) },
+		data: {
+			postId,
+			userId,
+			content: content.trim(),
+			...(mediaUrl ? { mediaUrl } : {}),
+		},
 	});
 	revalidatePath("/feed");
 }

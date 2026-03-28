@@ -155,7 +155,12 @@ export async function createGroupPostComment(
 	if (!content.trim() && !mediaUrl) return;
 
 	await prisma.groupPostComment.create({
-		data: { groupPostId, userId, content: content.trim(), ...(mediaUrl ? { mediaUrl } : {}) },
+		data: {
+			groupPostId,
+			userId,
+			content: content.trim(),
+			...(mediaUrl ? { mediaUrl } : {}),
+		},
 	});
 
 	const post = await prisma.groupPost.findUnique({
@@ -316,7 +321,11 @@ export async function fetchMyGroups(skip: number, query: string) {
 	const userId = await getSessionUserId();
 
 	const memberWhere = query.trim()
-		? { userId, status: "Approved" as const, group: { name: { contains: query.trim() } } }
+		? {
+				userId,
+				status: "Approved" as const,
+				group: { name: { contains: query.trim() } },
+			}
 		: { userId, status: "Approved" as const };
 
 	const [memberships, total] = await Promise.all([
@@ -417,7 +426,10 @@ export async function getGroupMembers(groupId: number, skip: number) {
 export async function deleteGroup(groupId: number) {
 	const userId = await getSessionUserId();
 
-	const group = await prisma.group.findUnique({ where: { id: groupId }, select: { ownerId: true } });
+	const group = await prisma.group.findUnique({
+		where: { id: groupId },
+		select: { ownerId: true },
+	});
 	if (!group) throw new Error("Group not found");
 	if (group.ownerId !== userId) throw new Error("Not authorized");
 

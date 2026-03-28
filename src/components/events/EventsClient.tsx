@@ -50,10 +50,14 @@ function FeaturedEventCard({ event }: { event: EventItem }) {
 	const [attendance, setAttendance] = useState(event.myAttendance);
 	const [isPending, startTransition] = useTransition();
 	const dateStr = formatDate(event.startDate);
-	const isSpecialDate = dateStr.includes("WED") || dateStr.includes("THU") || dateStr.includes("MON");
+	const isSpecialDate =
+		dateStr.includes("WED") ||
+		dateStr.includes("THU") ||
+		dateStr.includes("MON");
 
 	const handleRsvp = () => {
-		const next: AttendeeStatus = attendance === "Interested" ? "Going" : "Interested";
+		const next: AttendeeStatus =
+			attendance === "Interested" ? "Going" : "Interested";
 		setAttendance(next);
 		startTransition(() => rsvpEvent(event.id, next));
 	};
@@ -79,7 +83,9 @@ function FeaturedEventCard({ event }: { event: EventItem }) {
 				</div>
 			</Link>
 			<div className="p-3">
-				<p className={`text-xs font-semibold mb-0.5 ${isSpecialDate ? "text-red-400" : "text-primary"}`}>
+				<p
+					className={`text-xs font-semibold mb-0.5 ${isSpecialDate ? "text-red-400" : "text-primary"}`}
+				>
 					{dateStr}
 				</p>
 				<Link href={`/events/${event.slug}`}>
@@ -88,7 +94,9 @@ function FeaturedEventCard({ event }: { event: EventItem }) {
 					</h3>
 				</Link>
 				<p className="text-xs text-muted-foreground mt-0.5">
-					{event.isOnline ? "Online" : event.location ?? "Somewhere"}
+					{event.isOnline
+						? "Online"
+						: (event.location ?? "Somewhere")}
 				</p>
 				<p className="text-xs text-muted-foreground">
 					{event._count.attendees} Interested &middot; 0 Going
@@ -97,19 +105,29 @@ function FeaturedEventCard({ event }: { event: EventItem }) {
 					<Button
 						size="sm"
 						className="flex-1 font-semibold"
-						variant={attendance === "Interested" || attendance === "Going" ? "secondary" : "default"}
+						variant={
+							attendance === "Interested" ||
+							attendance === "Going"
+								? "secondary"
+								: "default"
+						}
 						onClick={handleRsvp}
 						disabled={isPending}
 					>
 						{isPending ? (
 							<Loader2 className="h-3.5 w-3.5 animate-spin" />
-						) : attendance === "Going" || attendance === "Interested" ? (
+						) : attendance === "Going" ||
+						  attendance === "Interested" ? (
 							"Interested"
 						) : (
 							"Interested"
 						)}
 					</Button>
-					<Button size="sm" variant="secondary" className="shrink-0 px-2">
+					<Button
+						size="sm"
+						variant="secondary"
+						className="shrink-0 px-2"
+					>
 						<Share2 className="h-3.5 w-3.5" />
 					</Button>
 				</div>
@@ -172,7 +190,9 @@ export function EventsClient({
 					<CalendarDays className="h-12 w-12 mx-auto mb-3 opacity-30" />
 					<p className="font-medium text-lg">No events found</p>
 					{tab === "myevents" && (
-						<p className="text-sm mt-1">You haven&apos;t RSVP&apos;d to any events yet</p>
+						<p className="text-sm mt-1">
+							You haven&apos;t RSVP&apos;d to any events yet
+						</p>
 					)}
 				</div>
 			) : (
@@ -181,7 +201,10 @@ export function EventsClient({
 					{featured.length > 0 && (
 						<div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-8">
 							{featured.map((event) => (
-								<FeaturedEventCard key={event.id} event={event} />
+								<FeaturedEventCard
+									key={event.id}
+									event={event}
+								/>
 							))}
 						</div>
 					)}
@@ -190,7 +213,9 @@ export function EventsClient({
 					<div className="mb-8">
 						<div className="flex items-center justify-between mb-1">
 							<div>
-								<h2 className="text-lg font-bold">Lists You May Like</h2>
+								<h2 className="text-lg font-bold">
+									Lists You May Like
+								</h2>
 								<p className="text-xs text-muted-foreground">
 									Find a group by browsing top categories.
 								</p>
@@ -208,8 +233,12 @@ export function EventsClient({
 									>
 										<div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent" />
 										<div className="absolute bottom-0 left-0 right-0 p-3">
-											<p className="text-white/70 text-xs">{item.city}</p>
-											<p className="text-white font-bold text-sm">{item.category}</p>
+											<p className="text-white/70 text-xs">
+												{item.city}
+											</p>
+											<p className="text-white font-bold text-sm">
+												{item.category}
+											</p>
 										</div>
 									</div>
 								))}
@@ -224,14 +253,19 @@ export function EventsClient({
 					{upcoming.length > 0 && (
 						<div className="mb-6">
 							<div className="flex items-center justify-between mb-3">
-								<h2 className="text-lg font-bold">Upcoming Events</h2>
+								<h2 className="text-lg font-bold">
+									Upcoming Events
+								</h2>
 								<button className="text-sm text-primary hover:underline font-medium">
 									See all
 								</button>
 							</div>
 							<div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
 								{upcoming.map((event) => (
-									<FeaturedEventCard key={event.id} event={event} />
+									<FeaturedEventCard
+										key={event.id}
+										event={event}
+									/>
 								))}
 							</div>
 						</div>

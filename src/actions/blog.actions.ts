@@ -27,13 +27,17 @@ function randomSuffix() {
 function extractExcerpt(content: string, maxLen = 200): string {
 	// content is JSON from Tiptap; extract plain text
 	try {
-		const parsed = JSON.parse(content) as { content?: { content?: { text?: string }[] }[] };
+		const parsed = JSON.parse(content) as {
+			content?: { content?: { text?: string }[] }[];
+		};
 		const texts: string[] = [];
 		function walk(node: unknown) {
 			if (!node || typeof node !== "object") return;
 			const n = node as Record<string, unknown>;
-			if (n.type === "text" && typeof n.text === "string") texts.push(n.text);
-			if (Array.isArray(n.content)) (n.content as unknown[]).forEach(walk);
+			if (n.type === "text" && typeof n.text === "string")
+				texts.push(n.text);
+			if (Array.isArray(n.content))
+				(n.content as unknown[]).forEach(walk);
 		}
 		walk(parsed);
 		const joined = texts.join(" ").trim();
@@ -71,7 +75,9 @@ export async function createBlog(data: {
 			},
 		});
 
-		const explicitTags = (data.hashtags ?? []).map((t) => t.toLowerCase().replace(/^#/, "").trim()).filter(Boolean);
+		const explicitTags = (data.hashtags ?? [])
+			.map((t) => t.toLowerCase().replace(/^#/, "").trim())
+			.filter(Boolean);
 		const allTags = [...new Set(explicitTags)];
 
 		for (const name of allTags) {
@@ -79,7 +85,9 @@ export async function createBlog(data: {
 			let tag = await tx.hashtag.findUnique({ where: { name } });
 			if (!tag) tag = await tx.hashtag.create({ data: { name } });
 			await tx.blogHashtag.upsert({
-				where: { blogId_hashtagId: { blogId: created.id, hashtagId: tag.id } },
+				where: {
+					blogId_hashtagId: { blogId: created.id, hashtagId: tag.id },
+				},
 				create: { blogId: created.id, hashtagId: tag.id },
 				update: {},
 			});
@@ -116,7 +124,10 @@ export async function updateBlog(
 				title: data.title?.trim() ?? blog.title,
 				content: data.content ?? blog.content,
 				excerpt: excerpt ?? blog.excerpt,
-				coverImageUrl: data.coverImageUrl !== undefined ? (data.coverImageUrl?.trim() || null) : blog.coverImageUrl,
+				coverImageUrl:
+					data.coverImageUrl !== undefined
+						? data.coverImageUrl?.trim() || null
+						: blog.coverImageUrl,
 				published: data.published ?? blog.published,
 			},
 		});
@@ -124,12 +135,16 @@ export async function updateBlog(
 		if (data.hashtags !== undefined) {
 			// Replace all hashtags
 			await tx.blogHashtag.deleteMany({ where: { blogId: id } });
-			const tags = data.hashtags.map((t) => t.toLowerCase().replace(/^#/, "").trim()).filter(Boolean);
+			const tags = data.hashtags
+				.map((t) => t.toLowerCase().replace(/^#/, "").trim())
+				.filter(Boolean);
 			for (const name of [...new Set(tags)]) {
 				if (!name) continue;
 				let tag = await tx.hashtag.findUnique({ where: { name } });
 				if (!tag) tag = await tx.hashtag.create({ data: { name } });
-				await tx.blogHashtag.create({ data: { blogId: id, hashtagId: tag.id } });
+				await tx.blogHashtag.create({
+					data: { blogId: id, hashtagId: tag.id },
+				});
 			}
 		}
 	});
@@ -145,7 +160,10 @@ export async function deleteBlog(id: number) {
 	if (!blog) throw new Error("Blog not found");
 	if (blog.authorId !== userId) throw new Error("Unauthorized");
 
-	await prisma.blog.update({ where: { id }, data: { isDeleted: true, published: false } });
+	await prisma.blog.update({
+		where: { id },
+		data: { isDeleted: true, published: false },
+	});
 	revalidatePath("/blog");
 }
 
@@ -198,7 +216,11 @@ export async function getBlogBySlug(slug: string) {
 	if (!blog) return null;
 
 	const isLiked = currentUserId
-		? !!(await prisma.blogLike.findUnique({ where: { userId_blogId: { userId: currentUserId, blogId: blog.id } } }))
+		? !!(await prisma.blogLike.findUnique({
+				where: {
+					userId_blogId: { userId: currentUserId, blogId: blog.id },
+				},
+			}))
 		: false;
 
 	const isAuthor = currentUserId === blog.authorId;
@@ -206,7 +228,10 @@ export async function getBlogBySlug(slug: string) {
 	return { ...blog, isLiked, isAuthor };
 }
 
-export async function getBlogsByAuthor(userId: number, includeUnpublished = false) {
+export async function getBlogsByAuthor(
+	userId: number,
+	includeUnpublished = false,
+) {
 	const session = await getServerSession(authOptions);
 	const currentUserId = session ? parseInt(session.user.id) : null;
 	const showUnpublished = includeUnpublished && currentUserId === userId;
@@ -233,7 +258,9 @@ export async function toggleBlogLike(blogId: number) {
 	});
 
 	if (existing) {
-		await prisma.blogLike.delete({ where: { userId_blogId: { userId, blogId } } });
+		await prisma.blogLike.delete({
+			where: { userId_blogId: { userId, blogId } },
+		});
 		return { liked: false };
 	} else {
 		await prisma.blogLike.create({ data: { userId, blogId } });

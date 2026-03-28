@@ -70,27 +70,29 @@ export function Navbar() {
 						</Link>
 						{session && (
 							<nav className="hidden md:flex items-center">
-								{NAV_LINKS.map(({ href, icon: Icon, label }) => {
-									const isActive =
-										pathname === href ||
-										pathname.startsWith(href + "/");
-									return (
-										<Link
-											key={href}
-											href={href}
-											title={label}
-											className={cn(
-												"relative flex items-center justify-center h-14 w-11 rounded-md transition-colors text-muted-foreground hover:bg-muted",
-												isActive && "text-primary",
-											)}
-										>
-											<Icon className="h-5 w-5" />
-											{isActive && (
-												<span className="absolute bottom-0 left-1 right-1 h-[3px] bg-primary rounded-t-full" />
-											)}
-										</Link>
-									);
-								})}
+								{NAV_LINKS.map(
+									({ href, icon: Icon, label }) => {
+										const isActive =
+											pathname === href ||
+											pathname.startsWith(href + "/");
+										return (
+											<Link
+												key={href}
+												href={href}
+												title={label}
+												className={cn(
+													"relative flex items-center justify-center h-14 w-11 rounded-md transition-colors text-muted-foreground hover:bg-muted",
+													isActive && "text-primary",
+												)}
+											>
+												<Icon className="h-5 w-5" />
+												{isActive && (
+													<span className="absolute bottom-0 left-1 right-1 h-[3px] bg-primary rounded-t-full" />
+												)}
+											</Link>
+										);
+									},
+								)}
 							</nav>
 						)}
 					</div>
@@ -119,7 +121,8 @@ export function Navbar() {
 									onClick={() => setSearchOpen(true)}
 								>
 									<Search className="h-5 w-5" />
-								</Button>							<ChatNavButton />								<NotificationBell />
+								</Button>{" "}
+								<ChatNavButton /> <NotificationBell />
 								<DropdownMenu>
 									<DropdownMenuTrigger asChild>
 										<Button
@@ -188,28 +191,28 @@ export function Navbar() {
 												Settings & privacy
 											</Link>
 										</DropdownMenuItem>
-									<DropdownMenuItem asChild>
-										<Link
-											href="/memories"
+										<DropdownMenuItem asChild>
+											<Link
+												href="/memories"
+												className="flex items-center gap-3 cursor-pointer rounded-md"
+											>
+												<div className="w-8 h-8 rounded-full bg-muted flex items-center justify-center">
+													<NotebookPen className="h-4 w-4" />
+												</div>
+												Memories
+											</Link>
+										</DropdownMenuItem>
+										<DropdownMenuSeparator />
+										<DropdownMenuItem
+											onClick={() =>
+												setTheme(
+													theme === "dark"
+														? "light"
+														: "dark",
+												)
+											}
 											className="flex items-center gap-3 cursor-pointer rounded-md"
 										>
-											<div className="w-8 h-8 rounded-full bg-muted flex items-center justify-center">
-												<NotebookPen className="h-4 w-4" />
-											</div>
-											Memories
-										</Link>
-									</DropdownMenuItem>
-									<DropdownMenuSeparator />
-									<DropdownMenuItem
-										onClick={() =>
-											setTheme(
-												theme === "dark"
-													? "light"
-													: "dark",
-											)
-										}
-										className="flex items-center gap-3 cursor-pointer rounded-md"
-									>
 											<div className="w-8 h-8 rounded-full bg-muted flex items-center justify-center">
 												{theme === "dark" ? (
 													<Sun className="h-4 w-4" />

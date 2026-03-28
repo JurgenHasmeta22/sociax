@@ -42,7 +42,9 @@ export default async function BlogListPage() {
 			{blogs.length === 0 ? (
 				<div className="text-center py-20 text-muted-foreground">
 					<BookOpen className="h-12 w-12 mx-auto mb-4 opacity-20" />
-					<p className="font-semibold text-lg">No blogs published yet</p>
+					<p className="font-semibold text-lg">
+						No blogs published yet
+					</p>
 					{session && (
 						<Button asChild className="mt-4 gap-2">
 							<Link href="/blog/new">
@@ -56,10 +58,14 @@ export default async function BlogListPage() {
 				<div className="space-y-6">
 					{blogs.map((blog) => {
 						const authorName =
-							[blog.author.firstName, blog.author.lastName].filter(Boolean).join(" ") ||
-							blog.author.userName;
+							[blog.author.firstName, blog.author.lastName]
+								.filter(Boolean)
+								.join(" ") || blog.author.userName;
 						return (
-							<Card key={blog.id} className="overflow-hidden hover:shadow-md transition-shadow">
+							<Card
+								key={blog.id}
+								className="overflow-hidden hover:shadow-md transition-shadow"
+							>
 								<Link href={`/blog/${blog.slug}`}>
 									<div className="flex gap-0 flex-col sm:flex-row">
 										{blog.coverImageUrl && (
@@ -75,27 +81,50 @@ export default async function BlogListPage() {
 										<CardContent className="p-4 flex-1">
 											<div className="flex items-center gap-2 mb-2">
 												<Avatar className="h-6 w-6">
-													<AvatarImage src={blog.author.avatar?.photoSrc ?? undefined} />
+													<AvatarImage
+														src={
+															blog.author.avatar
+																?.photoSrc ??
+															undefined
+														}
+													/>
 													<AvatarFallback className="bg-primary text-primary-foreground text-xs font-semibold">
 														{authorName[0]?.toUpperCase()}
 													</AvatarFallback>
 												</Avatar>
-												<span className="text-xs text-muted-foreground font-medium">{authorName}</span>
+												<span className="text-xs text-muted-foreground font-medium">
+													{authorName}
+												</span>
 												<span className="text-xs text-muted-foreground ml-auto">
-													{formatDistanceToNow(new Date(blog.createdAt), { addSuffix: true })}
+													{formatDistanceToNow(
+														new Date(
+															blog.createdAt,
+														),
+														{ addSuffix: true },
+													)}
 												</span>
 											</div>
-											<h2 className="font-semibold text-base line-clamp-2 leading-snug">{blog.title}</h2>
+											<h2 className="font-semibold text-base line-clamp-2 leading-snug">
+												{blog.title}
+											</h2>
 											{blog.excerpt && (
-												<p className="text-sm text-muted-foreground line-clamp-2 mt-1">{blog.excerpt}</p>
+												<p className="text-sm text-muted-foreground line-clamp-2 mt-1">
+													{blog.excerpt}
+												</p>
 											)}
 											{blog.hashtags.length > 0 && (
 												<div className="flex flex-wrap gap-1 mt-2">
-													{blog.hashtags.slice(0, 4).map(({ hashtag }) => (
-														<Badge key={hashtag.id} variant="secondary" className="text-xs font-normal">
-															#{hashtag.name}
-														</Badge>
-													))}
+													{blog.hashtags
+														.slice(0, 4)
+														.map(({ hashtag }) => (
+															<Badge
+																key={hashtag.id}
+																variant="secondary"
+																className="text-xs font-normal"
+															>
+																#{hashtag.name}
+															</Badge>
+														))}
 												</div>
 											)}
 											<div className="flex items-center gap-1 mt-2 text-xs text-muted-foreground">

@@ -31,7 +31,10 @@ export function NotificationBell() {
 
 		return () => {
 			eventSource.close();
-			window.removeEventListener("notifications:count", handleCountUpdate);
+			window.removeEventListener(
+				"notifications:count",
+				handleCountUpdate,
+			);
 		};
 	}, []);
 

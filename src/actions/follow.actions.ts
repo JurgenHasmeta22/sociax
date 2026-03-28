@@ -31,17 +31,25 @@ export async function sendFollowRequest(targetUserId: number) {
 	});
 
 	// Notify the target user about the friend request (skip if already exists)
-	await prisma.notification.deleteMany({
-		where: { userId: targetUserId, senderId: userId, type: "follow_request" },
-	}).catch(() => {});
-	await prisma.notification.create({
-		data: {
-			type: "follow_request",
-			content: "sent you a friend request",
-			userId: targetUserId,
-			senderId: userId,
-		},
-	}).catch(() => {});
+	await prisma.notification
+		.deleteMany({
+			where: {
+				userId: targetUserId,
+				senderId: userId,
+				type: "follow_request",
+			},
+		})
+		.catch(() => {});
+	await prisma.notification
+		.create({
+			data: {
+				type: "follow_request",
+				content: "sent you a friend request",
+				userId: targetUserId,
+				senderId: userId,
+			},
+		})
+		.catch(() => {});
 
 	revalidatePath("/people");
 }
@@ -85,14 +93,16 @@ export async function acceptFollowRequest(requesterId: number) {
 	]);
 
 	// Notify the requester that their request was accepted
-	await prisma.notification.create({
-		data: {
-			type: "follow_accepted",
-			content: "accepted your friend request",
-			userId: requesterId,
-			senderId: userId,
-		},
-	}).catch(() => {});
+	await prisma.notification
+		.create({
+			data: {
+				type: "follow_accepted",
+				content: "accepted your friend request",
+				userId: requesterId,
+				senderId: userId,
+			},
+		})
+		.catch(() => {});
 
 	revalidatePath("/people");
 	revalidatePath("/notifications");

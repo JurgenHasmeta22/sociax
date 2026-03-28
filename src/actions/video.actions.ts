@@ -35,7 +35,9 @@ export async function getVideos(opts?: {
 		where: {
 			isDeleted: false,
 			privacy: filter === "mine" ? undefined : "Public",
-			...(filter === "mine" && currentUserId ? { authorId: currentUserId } : {}),
+			...(filter === "mine" && currentUserId
+				? { authorId: currentUserId }
+				: {}),
 			...(filter === "friends" ? { authorId: { in: friendIds } } : {}),
 		},
 		orderBy: { createdAt: "desc" },
@@ -99,7 +101,11 @@ export async function getVideoById(id: number) {
 	if (!video) return null;
 
 	const isLiked = currentUserId
-		? !!(await prisma.videoLike.findUnique({ where: { userId_videoId: { userId: currentUserId, videoId: id } } }))
+		? !!(await prisma.videoLike.findUnique({
+				where: {
+					userId_videoId: { userId: currentUserId, videoId: id },
+				},
+			}))
 		: false;
 
 	return { ...video, isLiked };
@@ -132,16 +138,31 @@ export async function createVideo(data: {
 		});
 
 		// Extract hashtags from title + description + explicit
-		const textTags = ((data.title || "") + " " + (data.description || "")).match(/#[\w]+/g) ?? [];
-		const explicitTags = (data.hashtags ?? []).map((t) => t.toLowerCase().replace(/^#/, "").trim()).filter(Boolean);
-		const allTags = [...new Set([...textTags.map((t) => t.slice(1).toLowerCase()), ...explicitTags])];
+		const textTags =
+			((data.title || "") + " " + (data.description || "")).match(
+				/#[\w]+/g,
+			) ?? [];
+		const explicitTags = (data.hashtags ?? [])
+			.map((t) => t.toLowerCase().replace(/^#/, "").trim())
+			.filter(Boolean);
+		const allTags = [
+			...new Set([
+				...textTags.map((t) => t.slice(1).toLowerCase()),
+				...explicitTags,
+			]),
+		];
 
 		for (const name of allTags) {
 			if (!name) continue;
 			let tag = await tx.hashtag.findUnique({ where: { name } });
 			if (!tag) tag = await tx.hashtag.create({ data: { name } });
 			await tx.videoHashtag.upsert({
-				where: { videoId_hashtagId: { videoId: created.id, hashtagId: tag.id } },
+				where: {
+					videoId_hashtagId: {
+						videoId: created.id,
+						hashtagId: tag.id,
+					},
+				},
 				create: { videoId: created.id, hashtagId: tag.id },
 				update: {},
 			});
@@ -172,7 +193,9 @@ export async function toggleVideoLike(videoId: number) {
 	});
 
 	if (existing) {
-		await prisma.videoLike.delete({ where: { userId_videoId: { userId, videoId } } });
+		await prisma.videoLike.delete({
+			where: { userId_videoId: { userId, videoId } },
+		});
 		return { liked: false };
 	} else {
 		await prisma.videoLike.create({ data: { userId, videoId } });

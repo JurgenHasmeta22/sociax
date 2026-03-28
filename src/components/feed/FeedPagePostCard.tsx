@@ -8,7 +8,15 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import { Textarea } from "@/components/ui/textarea";
-import { Flag, MessageCircle, Send, Heart, Trash2, ImagePlus, X } from "lucide-react";
+import {
+	Flag,
+	MessageCircle,
+	Send,
+	Heart,
+	Trash2,
+	ImagePlus,
+	X,
+} from "lucide-react";
 import { cn } from "@/lib/utils";
 import {
 	togglePagePostLike,
@@ -80,7 +88,9 @@ export function FeedPagePostCard({
 	const [comments, setComments] = useState<PageComment[]>([]);
 	const [commentText, setCommentText] = useState("");
 	const [commentMedia, setCommentMedia] = useState<File | null>(null);
-	const [commentMediaPreview, setCommentMediaPreview] = useState<string | null>(null);
+	const [commentMediaPreview, setCommentMediaPreview] = useState<
+		string | null
+	>(null);
 	const [isUploadingComment, setIsUploadingComment] = useState(false);
 	const commentFileRef = useRef<HTMLInputElement | null>(null);
 	const [isPending, startTransition] = useTransition();
@@ -125,8 +135,14 @@ export function FeedPagePostCard({
 			try {
 				const fd = new FormData();
 				fd.append("file", commentMedia);
-				const res = await fetch("/api/upload", { method: "POST", body: fd });
-				if (res.ok) { const { url } = await res.json(); uploadedUrl = url; }
+				const res = await fetch("/api/upload", {
+					method: "POST",
+					body: fd,
+				});
+				if (res.ok) {
+					const { url } = await res.json();
+					uploadedUrl = url;
+				}
 			} finally {
 				setIsUploadingComment(false);
 			}
@@ -149,7 +165,9 @@ export function FeedPagePostCard({
 			},
 		};
 		setComments((p) => [...p, optimistic]);
-		startTransition(() => createPagePostComment(post.id, text, uploadedUrl));
+		startTransition(() =>
+			createPagePostComment(post.id, text, uploadedUrl),
+		);
 	};
 
 	const handleDeleteComment = (commentId: number) => {
@@ -332,7 +350,11 @@ export function FeedPagePostCard({
 										{c.content}
 										{c.mediaUrl && (
 											<div className="mt-1.5">
-												<img src={c.mediaUrl} alt="media" className="max-h-32 rounded-xl object-cover" />
+												<img
+													src={c.mediaUrl}
+													alt="media"
+													className="max-h-32 rounded-xl object-cover"
+												/>
 											</div>
 										)}
 									</div>

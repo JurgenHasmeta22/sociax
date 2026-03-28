@@ -114,7 +114,9 @@ export async function blockUser(targetUserId: number) {
 	if (userId === targetUserId) throw new Error("Cannot block yourself");
 
 	await prisma.userBlock.upsert({
-		where: { blockerId_blockedId: { blockerId: userId, blockedId: targetUserId } },
+		where: {
+			blockerId_blockedId: { blockerId: userId, blockedId: targetUserId },
+		},
 		create: { blockerId: userId, blockedId: targetUserId },
 		update: {},
 	});
@@ -206,4 +208,3 @@ export async function deleteAccount(password: string) {
 
 	await prisma.user.delete({ where: { id: userId } });
 }
-

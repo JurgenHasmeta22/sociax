@@ -53,7 +53,9 @@ export async function addPhotoToAlbum(data: {
 	const userId = await getSessionUserId();
 
 	if (data.albumId !== null) {
-		const album = await prisma.album.findUnique({ where: { id: data.albumId } });
+		const album = await prisma.album.findUnique({
+			where: { id: data.albumId },
+		});
 		if (!album) throw new Error("Album not found");
 		if (album.userId !== userId) throw new Error("Unauthorized");
 
@@ -100,7 +102,10 @@ export async function removePhotoFromAlbum(photoId: number) {
 	revalidatePath("/profile");
 }
 
-export async function getUserAlbums(userId: number, viewerUserId?: number | null) {
+export async function getUserAlbums(
+	userId: number,
+	viewerUserId?: number | null,
+) {
 	const isOwn = viewerUserId === userId;
 
 	return prisma.album.findMany({

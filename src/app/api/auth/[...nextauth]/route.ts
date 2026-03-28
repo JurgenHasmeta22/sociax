@@ -59,7 +59,10 @@ export const authOptions: NextAuthOptions = {
 				return {
 					id: user.id.toString(),
 					email: user.email,
-					name: [user.firstName, user.lastName].filter(Boolean).join(" ") || user.userName,
+					name:
+						[user.firstName, user.lastName]
+							.filter(Boolean)
+							.join(" ") || user.userName,
 				};
 			},
 		}),

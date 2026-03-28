@@ -23,7 +23,11 @@ import { createVideo } from "@/actions/video.actions";
 import { toast } from "sonner";
 import type { PostPrivacy } from "../../../prisma/generated/prisma/enums";
 
-const PRIVACY_OPTIONS: { value: PostPrivacy; label: string; icon: React.ElementType }[] = [
+const PRIVACY_OPTIONS: {
+	value: PostPrivacy;
+	label: string;
+	icon: React.ElementType;
+}[] = [
 	{ value: "Public", label: "Public", icon: Globe },
 	{ value: "FriendsOnly", label: "Friends only", icon: Users },
 	{ value: "OnlyMe", label: "Only me", icon: Lock },
@@ -49,11 +53,19 @@ export function UploadVideoDialog({
 	const [videoFile, setVideoFile] = useState<File | null>(null);
 
 	const reset = () => {
-		setTitle(""); setDescription(""); setVideoUrl(""); setThumbnailUrl("");
-		setTagsInput(""); setPrivacy("Public"); setVideoFile(null);
+		setTitle("");
+		setDescription("");
+		setVideoUrl("");
+		setThumbnailUrl("");
+		setTagsInput("");
+		setPrivacy("Public");
+		setVideoFile(null);
 	};
 
-	const handleClose = () => { reset(); onClose(); };
+	const handleClose = () => {
+		reset();
+		onClose();
+	};
 
 	async function handleVideoFile(e: React.ChangeEvent<HTMLInputElement>) {
 		const file = e.target.files?.[0];
@@ -63,9 +75,13 @@ export function UploadVideoDialog({
 		try {
 			const fd = new FormData();
 			fd.append("file", file);
-			const res = await fetch("/api/upload", { method: "POST", body: fd });
-			const data = await res.json() as { url?: string; error?: string };
-			if (!res.ok || !data.url) throw new Error(data.error ?? "Upload failed");
+			const res = await fetch("/api/upload", {
+				method: "POST",
+				body: fd,
+			});
+			const data = (await res.json()) as { url?: string; error?: string };
+			if (!res.ok || !data.url)
+				throw new Error(data.error ?? "Upload failed");
 			setVideoUrl(data.url);
 			toast.success("Video uploaded");
 		} catch {
@@ -82,9 +98,13 @@ export function UploadVideoDialog({
 		const fd = new FormData();
 		fd.append("file", file);
 		try {
-			const res = await fetch("/api/upload", { method: "POST", body: fd });
-			const data = await res.json() as { url?: string; error?: string };
-			if (!res.ok || !data.url) throw new Error(data.error ?? "Upload failed");
+			const res = await fetch("/api/upload", {
+				method: "POST",
+				body: fd,
+			});
+			const data = (await res.json()) as { url?: string; error?: string };
+			if (!res.ok || !data.url)
+				throw new Error(data.error ?? "Upload failed");
 			setThumbnailUrl(data.url);
 		} catch {
 			toast.error("Thumbnail upload failed");
@@ -92,8 +112,14 @@ export function UploadVideoDialog({
 	}
 
 	function handleSubmit() {
-		if (!title.trim()) { toast.warning("Title is required"); return; }
-		if (!videoUrl) { toast.warning("Please upload a video"); return; }
+		if (!title.trim()) {
+			toast.warning("Title is required");
+			return;
+		}
+		if (!videoUrl) {
+			toast.warning("Please upload a video");
+			return;
+		}
 
 		startTransition(async () => {
 			try {
@@ -127,9 +153,16 @@ export function UploadVideoDialog({
 						<Label>Video file *</Label>
 						{videoUrl ? (
 							<div className="relative rounded-lg overflow-hidden bg-muted aspect-video">
-								<video src={videoUrl} className="w-full h-full object-contain" controls={false} />
+								<video
+									src={videoUrl}
+									className="w-full h-full object-contain"
+									controls={false}
+								/>
 								<button
-									onClick={() => { setVideoUrl(""); setVideoFile(null); }}
+									onClick={() => {
+										setVideoUrl("");
+										setVideoFile(null);
+									}}
 									className="absolute top-2 right-2 h-7 w-7 rounded-full bg-black/60 flex items-center justify-center hover:bg-black"
 								>
 									<X className="h-3.5 w-3.5 text-white" />
@@ -145,8 +178,18 @@ export function UploadVideoDialog({
 								) : (
 									<Upload className="h-8 w-8 text-muted-foreground mb-2" />
 								)}
-								<span className="text-sm text-muted-foreground">{uploading ? "Uploading…" : "Click to upload video (MP4, WebM)"}</span>
-								<input type="file" accept="video/mp4,video/webm" className="hidden" onChange={handleVideoFile} disabled={uploading} />
+								<span className="text-sm text-muted-foreground">
+									{uploading
+										? "Uploading…"
+										: "Click to upload video (MP4, WebM)"}
+								</span>
+								<input
+									type="file"
+									accept="video/mp4,video/webm"
+									className="hidden"
+									onChange={handleVideoFile}
+									disabled={uploading}
+								/>
 							</label>
 						)}
 					</div>
@@ -156,21 +199,41 @@ export function UploadVideoDialog({
 						<Label>Thumbnail (optional)</Label>
 						<label className="flex items-center gap-3 border rounded-lg p-3 cursor-pointer hover:bg-muted transition-colors">
 							<Upload className="h-4 w-4 text-muted-foreground shrink-0" />
-							<span className="text-sm text-muted-foreground truncate">{thumbnailUrl ? "Thumbnail uploaded ✓" : "Upload thumbnail image"}</span>
-							<input type="file" accept="image/*" className="hidden" onChange={handleThumbnailFile} />
+							<span className="text-sm text-muted-foreground truncate">
+								{thumbnailUrl
+									? "Thumbnail uploaded ✓"
+									: "Upload thumbnail image"}
+							</span>
+							<input
+								type="file"
+								accept="image/*"
+								className="hidden"
+								onChange={handleThumbnailFile}
+							/>
 						</label>
 					</div>
 
 					{/* Title */}
 					<div className="space-y-1.5">
 						<Label htmlFor="video-title">Title *</Label>
-						<Input id="video-title" placeholder="Give your video a title" value={title} onChange={(e) => setTitle(e.target.value)} />
+						<Input
+							id="video-title"
+							placeholder="Give your video a title"
+							value={title}
+							onChange={(e) => setTitle(e.target.value)}
+						/>
 					</div>
 
 					{/* Description */}
 					<div className="space-y-1.5">
 						<Label htmlFor="video-desc">Description</Label>
-						<Textarea id="video-desc" placeholder="Tell viewers about your video…" value={description} onChange={(e) => setDescription(e.target.value)} className="resize-none min-h-[72px]" />
+						<Textarea
+							id="video-desc"
+							placeholder="Tell viewers about your video…"
+							value={description}
+							onChange={(e) => setDescription(e.target.value)}
+							className="resize-none min-h-[72px]"
+						/>
 					</div>
 
 					{/* Tags */}
@@ -178,29 +241,63 @@ export function UploadVideoDialog({
 						<Label htmlFor="video-tags">Tags</Label>
 						<div className="relative">
 							<Hash className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-							<Input id="video-tags" placeholder="music, tutorial, vlog" value={tagsInput} onChange={(e) => setTagsInput(e.target.value)} className="pl-9" />
+							<Input
+								id="video-tags"
+								placeholder="music, tutorial, vlog"
+								value={tagsInput}
+								onChange={(e) => setTagsInput(e.target.value)}
+								className="pl-9"
+							/>
 						</div>
 					</div>
 
 					{/* Privacy */}
 					<div className="space-y-1.5">
 						<Label>Visibility</Label>
-						<Select value={privacy} onValueChange={(v) => setPrivacy(v as PostPrivacy)}>
-							<SelectTrigger><SelectValue /></SelectTrigger>
+						<Select
+							value={privacy}
+							onValueChange={(v) => setPrivacy(v as PostPrivacy)}
+						>
+							<SelectTrigger>
+								<SelectValue />
+							</SelectTrigger>
 							<SelectContent>
-								{PRIVACY_OPTIONS.map(({ value, label, icon: Icon }) => (
-									<SelectItem key={value} value={value}>
-										<span className="flex items-center gap-2"><Icon className="h-4 w-4" />{label}</span>
-									</SelectItem>
-								))}
+								{PRIVACY_OPTIONS.map(
+									({ value, label, icon: Icon }) => (
+										<SelectItem key={value} value={value}>
+											<span className="flex items-center gap-2">
+												<Icon className="h-4 w-4" />
+												{label}
+											</span>
+										</SelectItem>
+									),
+								)}
 							</SelectContent>
 						</Select>
 					</div>
 
 					<div className="flex gap-2 pt-1">
-						<Button variant="secondary" className="flex-1" onClick={handleClose} disabled={isPending || uploading}>Cancel</Button>
-						<Button className="flex-1" onClick={handleSubmit} disabled={isPending || uploading || !videoUrl || !title.trim()}>
-							{isPending && <Loader2 className="h-4 w-4 mr-2 animate-spin" />}
+						<Button
+							variant="secondary"
+							className="flex-1"
+							onClick={handleClose}
+							disabled={isPending || uploading}
+						>
+							Cancel
+						</Button>
+						<Button
+							className="flex-1"
+							onClick={handleSubmit}
+							disabled={
+								isPending ||
+								uploading ||
+								!videoUrl ||
+								!title.trim()
+							}
+						>
+							{isPending && (
+								<Loader2 className="h-4 w-4 mr-2 animate-spin" />
+							)}
 							Publish
 						</Button>
 					</div>

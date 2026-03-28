@@ -190,12 +190,21 @@ export async function getPagePostReactions(postId: number) {
 	});
 }
 
-export async function createPagePostComment(postId: number, content: string, mediaUrl?: string) {
+export async function createPagePostComment(
+	postId: number,
+	content: string,
+	mediaUrl?: string,
+) {
 	const userId = await getSessionUserId();
 	if (!content.trim() && !mediaUrl) return;
 
 	await prisma.pagePostComment.create({
-		data: { pagePostId: postId, userId, content: content.trim(), ...(mediaUrl ? { mediaUrl } : {}) },
+		data: {
+			pagePostId: postId,
+			userId,
+			content: content.trim(),
+			...(mediaUrl ? { mediaUrl } : {}),
+		},
 	});
 }
 
@@ -430,11 +439,17 @@ export async function fetchPagePosts(
 export async function deletePage(pageId: number) {
 	const userId = await getSessionUserId();
 
-	const page = await prisma.page.findUnique({ where: { id: pageId }, select: { ownerId: true } });
+	const page = await prisma.page.findUnique({
+		where: { id: pageId },
+		select: { ownerId: true },
+	});
 	if (!page) throw new Error("Page not found");
 	if (page.ownerId !== userId) throw new Error("Not authorized");
 
-	await prisma.page.update({ where: { id: pageId }, data: { isActive: false } });
+	await prisma.page.update({
+		where: { id: pageId },
+		data: { isActive: false },
+	});
 
 	revalidatePath("/pages");
 }

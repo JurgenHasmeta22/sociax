@@ -7,14 +7,20 @@ import { VideosPageClient } from "@/components/feed/VideosPageClient";
 
 export const metadata = { title: "Videos · Sociax" };
 
-export default async function VideosPage({ searchParams }: { searchParams: Promise<{ filter?: string }> }) {
+export default async function VideosPage({
+	searchParams,
+}: {
+	searchParams: Promise<{ filter?: string }>;
+}) {
 	const session = await getServerSession(authOptions);
 	if (!session) redirect("/login");
 
 	const { filter = "all" } = await searchParams;
 	const currentUserId = parseInt(session.user.id);
 
-	const validFilter = (["all", "mine", "friends"] as const).includes(filter as "all" | "mine" | "friends")
+	const validFilter = (["all", "mine", "friends"] as const).includes(
+		filter as "all" | "mine" | "friends",
+	)
 		? (filter as "all" | "mine" | "friends")
 		: "all";
 

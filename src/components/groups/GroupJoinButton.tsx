@@ -32,11 +32,19 @@ export function GroupJoinButton({
 		startTransition(() => leaveGroup(groupId));
 	};
 
-	const base = compact ? "gap-1.5 font-semibold shrink-0" : "w-full mt-3 gap-1.5 font-semibold";
+	const base = compact
+		? "gap-1.5 font-semibold shrink-0"
+		: "w-full mt-3 gap-1.5 font-semibold";
 
 	if (state === "Approved") {
 		return (
-			<Button size="sm" variant="secondary" className={base} onClick={handleLeave} disabled={isPending}>
+			<Button
+				size="sm"
+				variant="secondary"
+				className={base}
+				onClick={handleLeave}
+				disabled={isPending}
+			>
 				<UserCheck className="h-3.5 w-3.5" />
 				{compact ? "Joined" : "Joined"}
 			</Button>
@@ -45,7 +53,13 @@ export function GroupJoinButton({
 
 	if (state === "Pending") {
 		return (
-			<Button size="sm" variant="outline" className={base} onClick={handleLeave} disabled={isPending}>
+			<Button
+				size="sm"
+				variant="outline"
+				className={base}
+				onClick={handleLeave}
+				disabled={isPending}
+			>
 				<Clock className="h-3.5 w-3.5" />
 				Requested
 			</Button>
@@ -62,7 +76,13 @@ export function GroupJoinButton({
 	}
 
 	return (
-		<Button size="sm" variant={compact ? "default" : "secondary"} className={base} onClick={handleJoin} disabled={isPending}>
+		<Button
+			size="sm"
+			variant={compact ? "default" : "secondary"}
+			className={base}
+			onClick={handleJoin}
+			disabled={isPending}
+		>
 			<UserPlus className="h-3.5 w-3.5" />
 			{compact ? "Join group" : "Join group"}
 		</Button>

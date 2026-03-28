@@ -10,13 +10,17 @@ export async function getHashtagPosts(tag: string) {
 	const session = await getServerSession(authOptions);
 	const currentUserId = session ? parseInt(session.user.id) : null;
 
-	const hashtag = await prisma.hashtag.findUnique({ where: { name: tag.toLowerCase() } });
+	const hashtag = await prisma.hashtag.findUnique({
+		where: { name: tag.toLowerCase() },
+	});
 	if (!hashtag) return [];
 
 	const posts = await prisma.post.findMany({
 		where: {
 			isDeleted: false,
-			privacy: currentUserId ? { in: ["Public", "FriendsOnly"] } : "Public",
+			privacy: currentUserId
+				? { in: ["Public", "FriendsOnly"] }
+				: "Public",
 			hashtags: { some: { hashtagId: hashtag.id } },
 		},
 		orderBy: { createdAt: "desc" },
@@ -41,7 +45,9 @@ export async function getHashtagPosts(tag: string) {
 }
 
 export async function getHashtagEvents(tag: string) {
-	const hashtag = await prisma.hashtag.findUnique({ where: { name: tag.toLowerCase() } });
+	const hashtag = await prisma.hashtag.findUnique({
+		where: { name: tag.toLowerCase() },
+	});
 	if (!hashtag) return [];
 
 	const events = await prisma.event.findMany({
@@ -69,7 +75,9 @@ export async function getHashtagEvents(tag: string) {
 }
 
 export async function getHashtagBlogs(tag: string) {
-	const hashtag = await prisma.hashtag.findUnique({ where: { name: tag.toLowerCase() } });
+	const hashtag = await prisma.hashtag.findUnique({
+		where: { name: tag.toLowerCase() },
+	});
 	if (!hashtag) return [];
 
 	const blogs = await prisma.blog.findMany({
@@ -98,7 +106,9 @@ export async function getHashtagBlogs(tag: string) {
 }
 
 export async function getHashtagVideos(tag: string) {
-	const hashtag = await prisma.hashtag.findUnique({ where: { name: tag.toLowerCase() } });
+	const hashtag = await prisma.hashtag.findUnique({
+		where: { name: tag.toLowerCase() },
+	});
 	if (!hashtag) return [];
 
 	const videos = await prisma.video.findMany({
@@ -127,7 +137,9 @@ export async function getHashtagVideos(tag: string) {
 }
 
 export async function getHashtagStats(tag: string) {
-	const hashtag = await prisma.hashtag.findUnique({ where: { name: tag.toLowerCase() } });
+	const hashtag = await prisma.hashtag.findUnique({
+		where: { name: tag.toLowerCase() },
+	});
 	if (!hashtag) return null;
 
 	const [postCount, eventCount, blogCount, videoCount] = await Promise.all([
@@ -137,5 +149,12 @@ export async function getHashtagStats(tag: string) {
 		prisma.videoHashtag.count({ where: { hashtagId: hashtag.id } }),
 	]);
 
-	return { hashtag, postCount, eventCount, blogCount, videoCount, total: postCount + eventCount + blogCount + videoCount };
+	return {
+		hashtag,
+		postCount,
+		eventCount,
+		blogCount,
+		videoCount,
+		total: postCount + eventCount + blogCount + videoCount,
+	};
 }

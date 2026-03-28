@@ -22,9 +22,12 @@ export function PostComposer({ user }: { user: ComposerUser }) {
 				<CardContent className="pt-4 pb-4">
 					<div className="flex items-center gap-3">
 						<Avatar className="h-10 w-10 shrink-0 ring-2 ring-primary/20">
-							<AvatarImage src={user.avatar?.photoSrc ?? undefined} />
+							<AvatarImage
+								src={user.avatar?.photoSrc ?? undefined}
+							/>
 							<AvatarFallback className="bg-primary text-primary-foreground font-semibold">
-								{(user.firstName || user.userName)[0]?.toUpperCase()}
+								{(user.firstName ||
+									user.userName)[0]?.toUpperCase()}
 							</AvatarFallback>
 						</Avatar>
 						<button

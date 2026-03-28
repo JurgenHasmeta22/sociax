@@ -89,7 +89,10 @@ export function VideosPageClient({
 								? "Your friends haven't posted any videos yet."
 								: "Be the first to upload a video!"}
 					</p>
-					<Button onClick={() => setUploadOpen(true)} className="gap-2">
+					<Button
+						onClick={() => setUploadOpen(true)}
+						className="gap-2"
+					>
 						<Upload className="h-4 w-4" />
 						Upload Video
 					</Button>
@@ -97,7 +100,11 @@ export function VideosPageClient({
 			) : (
 				<div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
 					{initialVideos.map((video) => (
-						<VideoCard key={video.id} video={video} currentUserId={currentUserId} />
+						<VideoCard
+							key={video.id}
+							video={video}
+							currentUserId={currentUserId}
+						/>
 					))}
 				</div>
 			)}

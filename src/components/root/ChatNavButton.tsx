@@ -12,18 +12,25 @@ import {
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { MessageCircle, ChevronRight, Loader2 } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { getChatNavData, getOrCreateConversation } from "@/actions/message.actions";
+import {
+	getChatNavData,
+	getOrCreateConversation,
+} from "@/actions/message.actions";
 
 type NavData = Awaited<ReturnType<typeof getChatNavData>>;
 type Friend = NavData["onlineFriends"][number];
 
 function friendName(f: Friend) {
-	return (
-		[f.firstName, f.lastName].filter(Boolean).join(" ") || f.userName
-	);
+	return [f.firstName, f.lastName].filter(Boolean).join(" ") || f.userName;
 }
 
-function FriendRow({ friend, onOpen }: { friend: Friend; onOpen: (id: number) => void }) {
+function FriendRow({
+	friend,
+	onOpen,
+}: {
+	friend: Friend;
+	onOpen: (id: number) => void;
+}) {
 	const [pending, startTransition] = useTransition();
 	const name = friendName(friend);
 
@@ -48,7 +55,9 @@ function FriendRow({ friend, onOpen }: { friend: Friend; onOpen: (id: number) =>
 				<p className="text-sm font-medium truncate">{name}</p>
 				<p className="text-xs text-muted-foreground">
 					{friend.isOnline ? (
-						<span className="text-green-500 font-medium">Active now</span>
+						<span className="text-green-500 font-medium">
+							Active now
+						</span>
 					) : (
 						"Offline"
 					)}
@@ -67,7 +76,10 @@ export function ChatNavButton() {
 	const router = useRouter();
 	const pathname = usePathname();
 	const [open, setOpen] = useState(false);
-	const [data, setData] = useState<NavData>({ unreadCount: 0, onlineFriends: [] });
+	const [data, setData] = useState<NavData>({
+		unreadCount: 0,
+		onlineFriends: [],
+	});
 	const [loading, setLoading] = useState(false);
 
 	const refresh = useCallback(async () => {
@@ -163,7 +175,9 @@ export function ChatNavButton() {
 					<div className="text-center py-10 text-muted-foreground px-4">
 						<MessageCircle className="h-9 w-9 mx-auto mb-2 opacity-30" />
 						<p className="text-sm font-medium">No friends yet</p>
-						<p className="text-xs mt-1">Add friends to start chatting</p>
+						<p className="text-xs mt-1">
+							Add friends to start chatting
+						</p>
 					</div>
 				) : (
 					<ScrollArea className="max-h-[420px]">
@@ -185,7 +199,12 @@ export function ChatNavButton() {
 
 							{offlineFriends.length > 0 && (
 								<>
-									<p className={cn("px-4 py-1 text-[11px] font-semibold text-muted-foreground uppercase tracking-wide", onlineFriends.length > 0 && "mt-2")}>
+									<p
+										className={cn(
+											"px-4 py-1 text-[11px] font-semibold text-muted-foreground uppercase tracking-wide",
+											onlineFriends.length > 0 && "mt-2",
+										)}
+									>
 										Friends
 									</p>
 									{offlineFriends.map((f) => (

@@ -8,7 +8,14 @@ import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { Textarea } from "@/components/ui/textarea";
 import { Skeleton } from "@/components/ui/skeleton";
-import { ThumbsUp, Trash2, SendHorizonal, ChevronDown, ImagePlus, X } from "lucide-react";
+import {
+	ThumbsUp,
+	Trash2,
+	SendHorizonal,
+	ChevronDown,
+	ImagePlus,
+	X,
+} from "lucide-react";
 import { cn } from "@/lib/utils";
 import {
 	getComments,
@@ -96,7 +103,9 @@ function CommentItem({
 							{displayName}
 						</Link>
 						{comment.content && (
-							<p className="text-sm leading-snug break-words">{comment.content}</p>
+							<p className="text-sm leading-snug break-words">
+								{comment.content}
+							</p>
 						)}
 						{comment.mediaUrl && (
 							<div className="mt-1.5 max-w-xs">
@@ -201,7 +210,10 @@ export function CommentsSection({
 			try {
 				const fd = new FormData();
 				fd.append("file", mediaFile);
-				const res = await fetch("/api/upload", { method: "POST", body: fd });
+				const res = await fetch("/api/upload", {
+					method: "POST",
+					body: fd,
+				});
 				if (res.ok) {
 					const { url } = await res.json();
 					uploadedUrl = url;
@@ -304,7 +316,11 @@ export function CommentsSection({
 				<div className="flex-1 flex flex-col gap-1.5 bg-muted rounded-2xl px-3 py-2">
 					{mediaPreview && (
 						<div className="relative inline-flex">
-							<img src={mediaPreview} alt="preview" className="max-h-32 rounded-xl object-cover" />
+							<img
+								src={mediaPreview}
+								alt="preview"
+								className="max-h-32 rounded-xl object-cover"
+							/>
 							<button
 								onClick={clearMedia}
 								className="absolute -top-1.5 -right-1.5 bg-background border rounded-full p-0.5 hover:bg-muted transition-colors"
@@ -345,7 +361,11 @@ export function CommentsSection({
 							size="icon"
 							className="h-6 w-6 shrink-0 text-primary hover:bg-transparent"
 							onClick={() => void handleSubmit()}
-							disabled={(!input.trim() && !mediaFile) || isPending || isUploading}
+							disabled={
+								(!input.trim() && !mediaFile) ||
+								isPending ||
+								isUploading
+							}
 						>
 							<SendHorizonal className="h-4 w-4" />
 						</Button>

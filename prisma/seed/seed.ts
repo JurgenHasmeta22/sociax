@@ -643,12 +643,25 @@ async function deleteAll() {
 
 // Change this single value to scale all seed volumes proportionally.
 // SCALE=1 ≈ original seed, SCALE=3 ≈ previous run, SCALE=10 ≈ big traffic simulation.
-const SCALE = 50;
+const SCALE = 10;
 
 async function main() {
     console.log(`Seeding Sociax database (SCALE=${SCALE})...\n`);
 
     await deleteAll();
+
+    // Maximize SQLite write throughput for seeding (no durability needed)
+    await prisma.$executeRawUnsafe("PRAGMA synchronous=OFF;");
+    await prisma.$executeRawUnsafe("PRAGMA journal_mode=MEMORY;");
+    await prisma.$executeRawUnsafe("PRAGMA cache_size=-131072;");
+    await prisma.$executeRawUnsafe("PRAGMA temp_store=MEMORY;");
+
+    // Helper: flush collected rows with createMany in safe SQLite-sized batches
+    async function batchInsert<T extends object>(model: { createMany: (args: { data: T[] }) => Promise<unknown> }, data: T[]) {
+        const BATCH = 500;
+        for (let i = 0; i < data.length; i += BATCH)
+            await model.createMany({ data: data.slice(i, i + BATCH) });
+    }
 
     const POST_COUNT = 800 * SCALE;
 
@@ -697,37 +710,35 @@ async function main() {
     console.log("  Creating follows...");
     const followPairs = new Set<string>();
     const followStateOptions = [FollowState.accepted, FollowState.accepted, FollowState.accepted, FollowState.pending];
-    let followCount = 0;
-    await runInChunks(users, 50, async (u) => {
+    const followData: { followerId: number; followingId: number; state: FollowState }[] = [];
+    for (const u of users) {
         const targets = pickMany(users.filter((x) => x.id !== u.id), randomInt(10, 30));
         for (const t of targets) {
             const key = `${u.id}-${t.id}`;
             if (!followPairs.has(key)) {
                 followPairs.add(key);
-                await prisma.userFollow.create({
-                    data: { followerId: u.id, followingId: t.id, state: pick(followStateOptions) },
-                });
-                followCount++;
+                followData.push({ followerId: u.id, followingId: t.id, state: pick(followStateOptions) });
             }
         }
-    });
-    console.log(`  -> ${followCount} follows`);
+    }
+    await batchInsert(prisma.userFollow, followData);
+    console.log(`  -> ${followData.length} follows`);
     // #endregion
 
     // #region Blocks
     console.log("  Creating blocks...");
     const blockPairs = new Set<string>();
-    let blockCount = 0;
+    const blockData: { blockerId: number; blockedId: number }[] = [];
     for (let i = 0; i < 80 * SCALE; i++) {
         const [a, b] = pickMany(users, 2);
         const key = `${a.id}-${b.id}`;
         if (!blockPairs.has(key) && a.id !== b.id) {
             blockPairs.add(key);
-            await prisma.userBlock.create({ data: { blockerId: a.id, blockedId: b.id } });
-            blockCount++;
+            blockData.push({ blockerId: a.id, blockedId: b.id });
         }
     }
-    console.log(`  -> ${blockCount} blocks`);
+    await batchInsert(prisma.userBlock, blockData);
+    console.log(`  -> ${blockData.length} blocks`);
     // #endregion
 
     // #region Hashtags
@@ -788,55 +799,52 @@ async function main() {
     const allPosts = [...posts, ...sharedPosts];
     const reactionTypes = Object.values(ReactionType);
     const likedPairs = new Set<string>();
-    let likeCount = 0;
-    await runInChunks(allPosts, 50, async (post) => {
-        const likers = pickMany(users, randomInt(5, 25));
-        for (const u of likers) {
+    const postLikeData: { userId: number; postId: number; reactionType: ReactionType }[] = [];
+    for (const post of allPosts) {
+        for (const u of pickMany(users, randomInt(5, 25))) {
             const key = `pl-${u.id}-${post.id}`;
             if (!likedPairs.has(key)) {
                 likedPairs.add(key);
-                await prisma.postLike.create({
-                    data: { userId: u.id, postId: post.id, reactionType: pick(reactionTypes) },
-                });
-                likeCount++;
+                postLikeData.push({ userId: u.id, postId: post.id, reactionType: pick(reactionTypes) });
             }
         }
-    });
-    console.log(`  -> ${likeCount} post likes`);
+    }
+    await batchInsert(prisma.postLike, postLikeData);
+    console.log(`  -> ${postLikeData.length} post likes`);
     // #endregion
 
     // #region PostSaves
     console.log("  Creating post saves...");
     const savedPairs = new Set<string>();
-    let saveCount = 0;
-    await runInChunks(users, 50, async (u) => {
+    const postSaveData: { userId: number; postId: number }[] = [];
+    for (const u of users) {
         for (const post of pickMany(allPosts, randomInt(3, 10))) {
             const key = `ps-${u.id}-${post.id}`;
             if (!savedPairs.has(key)) {
                 savedPairs.add(key);
-                await prisma.postSave.create({ data: { userId: u.id, postId: post.id } });
-                saveCount++;
+                postSaveData.push({ userId: u.id, postId: post.id });
             }
         }
-    });
-    console.log(`  -> ${saveCount} post saves`);
+    }
+    await batchInsert(prisma.postSave, postSaveData);
+    console.log(`  -> ${postSaveData.length} post saves`);
     // #endregion
 
     // #region PostShares
     console.log("  Creating post shares...");
     const sharePairs = new Set<string>();
-    let shareCount = 0;
+    const postShareData: { userId: number; postId: number }[] = [];
     for (let i = 0; i < 300 * SCALE; i++) {
         const u = pick(users);
         const post = pick(allPosts);
         const key = `psh-${u.id}-${post.id}`;
         if (!sharePairs.has(key)) {
             sharePairs.add(key);
-            await prisma.postShare.create({ data: { userId: u.id, postId: post.id } });
-            shareCount++;
+            postShareData.push({ userId: u.id, postId: post.id });
         }
     }
-    console.log(`  -> ${shareCount} post shares`);
+    await batchInsert(prisma.postShare, postShareData);
+    console.log(`  -> ${postShareData.length} post shares`);
     // #endregion
 
     // #region Comments & Replies
@@ -845,6 +853,8 @@ async function main() {
     let replyCount = 0;
     let commentLikeCount = 0;
     let replyLikeCount = 0;
+    const commentLikeData: { userId: number; commentId: number; reactionType: ReactionType }[] = [];
+    const replyLikeData: { userId: number; replyId: number; reactionType: ReactionType }[] = [];
     const commentedPosts = pickMany(allPosts, Math.min(allPosts.length, 400 * SCALE));
     for (const post of commentedPosts) {
         const commentors = pickMany(users, randomInt(3, 10));
@@ -862,9 +872,7 @@ async function main() {
                 const clKey = `cl-${liker.id}-${comment.id}`;
                 if (!likedPairs.has(clKey)) {
                     likedPairs.add(clKey);
-                    await prisma.commentLike.create({
-                        data: { userId: liker.id, commentId: comment.id, reactionType: pick(reactionTypes) },
-                    });
+                    commentLikeData.push({ userId: liker.id, commentId: comment.id, reactionType: pick(reactionTypes) });
                     commentLikeCount++;
                 }
             }
@@ -882,15 +890,15 @@ async function main() {
                     const rlKey = `rl-${liker.id}-${reply.id}`;
                     if (!likedPairs.has(rlKey)) {
                         likedPairs.add(rlKey);
-                        await prisma.replyLike.create({
-                            data: { userId: liker.id, replyId: reply.id, reactionType: pick(reactionTypes) },
-                        });
+                        replyLikeData.push({ userId: liker.id, replyId: reply.id, reactionType: pick(reactionTypes) });
                         replyLikeCount++;
                     }
                 }
             }
         }
     }
+    await batchInsert(prisma.commentLike, commentLikeData);
+    await batchInsert(prisma.replyLike, replyLikeData);
     console.log(`  -> ${commentCount} comments, ${replyCount} replies, ${commentLikeCount} comment likes, ${replyLikeCount} reply likes`);
     // #endregion
 
@@ -919,22 +927,24 @@ async function main() {
     let storyViewCount = 0;
     let storyReactionCount = 0;
     const svPairs = new Set<string>();
-    await runInChunks(stories, 50, async (story) => {
+    const storyViewData: { storyId: number; userId: number }[] = [];
+    const storyReactionData: { storyId: number; userId: number; reaction: ReactionType }[] = [];
+    for (const story of stories) {
         for (const u of pickMany(users, randomInt(4, 15))) {
             const key = `sv-${story.id}-${u.id}`;
             if (!svPairs.has(key)) {
                 svPairs.add(key);
-                await prisma.storyView.create({ data: { storyId: story.id, userId: u.id } });
+                storyViewData.push({ storyId: story.id, userId: u.id });
                 storyViewCount++;
                 if (Math.random() > 0.5) {
-                    await prisma.storyReaction.create({
-                        data: { storyId: story.id, userId: u.id, reaction: pick(reactionTypes) },
-                    });
+                    storyReactionData.push({ storyId: story.id, userId: u.id, reaction: pick(reactionTypes) });
                     storyReactionCount++;
                 }
             }
         }
-    });
+    }
+    await batchInsert(prisma.storyView, storyViewData);
+    await batchInsert(prisma.storyReaction, storyReactionData);
     console.log(`  -> ${storyViewCount} story views, ${storyReactionCount} story reactions`);
     // #endregion
 
@@ -1051,6 +1061,7 @@ async function main() {
     let groupCommentCount = 0;
     let groupLikeCount = 0;
     await runInChunks(groupList, 20, async (group) => {
+        const batchLikes: { userId: number; groupPostId: number; reactionType: ReactionType }[] = [];
         for (let p = 0; p < randomInt(5, 15); p++) {
             const author = pick(users);
             const gpost = await prisma.groupPost.create({
@@ -1067,9 +1078,7 @@ async function main() {
                 const key = `gpl-${liker.id}-${gpost.id}`;
                 if (!likedPairs.has(key)) {
                     likedPairs.add(key);
-                    await prisma.groupPostLike.create({
-                        data: { userId: liker.id, groupPostId: gpost.id, reactionType: pick(reactionTypes) },
-                    });
+                    batchLikes.push({ userId: liker.id, groupPostId: gpost.id, reactionType: pick(reactionTypes) });
                     groupLikeCount++;
                 }
             }
@@ -1084,6 +1093,7 @@ async function main() {
                 groupCommentCount++;
             }
         }
+        if (batchLikes.length > 0) await prisma.groupPostLike.createMany({ data: batchLikes });
     });
     console.log(`  -> ${groupPostCount} group posts, ${groupLikeCount} group likes, ${groupCommentCount} group comments`);
     // #endregion
@@ -1122,6 +1132,7 @@ async function main() {
     let pageLikeCount = 0;
     let pageCommentCount = 0;
     await runInChunks(pageList, 20, async (page) => {
+        const batchLikes: { userId: number; pagePostId: number; reactionType: ReactionType }[] = [];
         for (let p = 0; p < randomInt(4, 10); p++) {
             const ppost = await prisma.pagePost.create({
                 data: {
@@ -1137,9 +1148,7 @@ async function main() {
                 const key = `ppl-${liker.id}-${ppost.id}`;
                 if (!likedPairs.has(key)) {
                     likedPairs.add(key);
-                    await prisma.pagePostLike.create({
-                        data: { userId: liker.id, pagePostId: ppost.id, reactionType: pick(reactionTypes) },
-                    });
+                    batchLikes.push({ userId: liker.id, pagePostId: ppost.id, reactionType: pick(reactionTypes) });
                     pageLikeCount++;
                 }
             }
@@ -1154,6 +1163,7 @@ async function main() {
                 pageCommentCount++;
             }
         }
+        if (batchLikes.length > 0) await prisma.pagePostLike.createMany({ data: batchLikes });
     });
     console.log(`  -> ${pagePostCount} page posts, ${pageLikeCount} page likes, ${pageCommentCount} page comments`);
     // #endregion
@@ -1197,60 +1207,51 @@ async function main() {
     // #region Notifications (3600)
     console.log("  Creating notifications...");
     const notifTypes = Object.values(NotificationType);
-    let notifCount = 0;
-    for (let i = 0; i < 1200 * SCALE; i++) {
+    const notifData = Array.from({ length: 1200 * SCALE }, () => {
         const [receiver, sender] = pickMany(users, 2);
-        await prisma.notification.create({
-            data: {
-                type: pick(notifTypes),
-                content: faker.lorem.sentence({ min: 5, max: 12 }),
-                userId: receiver.id,
-                senderId: sender.id,
-                createdAt: randomDate(new Date("2025-01-01"), new Date()),
-            },
-        });
-        notifCount++;
-    }
-    console.log(`  -> ${notifCount} notifications`);
+        return {
+            type: pick(notifTypes),
+            content: faker.lorem.sentence({ min: 5, max: 12 }),
+            userId: receiver.id,
+            senderId: sender.id,
+            createdAt: randomDate(new Date("2025-01-01"), new Date()),
+        };
+    });
+    await batchInsert(prisma.notification, notifData);
+    console.log(`  -> ${notifData.length} notifications`);
     // #endregion
 
     // #region ReportedContent
     console.log("  Creating reports...");
     const reportTypes = Object.values(ReportType);
     const reportStatuses = Object.values(ReportStatus);
-    for (let i = 0; i < 120 * SCALE; i++) {
+    const reportData = Array.from({ length: 120 * SCALE }, () => {
         const [reporter, reported] = pickMany(users, 2);
-        await prisma.reportedContent.create({
-            data: {
-                reportType: pick(reportTypes),
-                reason: faker.lorem.sentence({ min: 8, max: 15 }),
-                status: pick(reportStatuses),
-                contentId: randomInt(1, POST_COUNT),
-                reportingUserId: reporter.id,
-                reportedUserId: reported.id,
-            },
-        });
-    }
-    console.log(`  -> ${120 * SCALE} reports`);
+        return {
+            reportType: pick(reportTypes),
+            reason: faker.lorem.sentence({ min: 8, max: 15 }),
+            status: pick(reportStatuses),
+            contentId: randomInt(1, POST_COUNT),
+            reportingUserId: reporter.id,
+            reportedUserId: reported.id,
+        };
+    });
+    await batchInsert(prisma.reportedContent, reportData);
+    console.log(`  -> ${reportData.length} reports`);
     // #endregion
 
     // #region ModerationLogs
     console.log("  Creating moderation logs...");
     const modActions = Object.values(ModerationAction);
-    for (let i = 0; i < 100 * SCALE; i++) {
-        const mod = users[i % 2];
-        const target = pick(users);
-        await prisma.moderationLog.create({
-            data: {
-                actionType: pick(modActions),
-                details: faker.lorem.sentence({ min: 8, max: 15 }),
-                moderatorUserId: mod.id,
-                targetUserId: target.id,
-                targetContentId: randomInt(1, POST_COUNT),
-            },
-        });
-    }
-    console.log(`  -> ${100 * SCALE} moderation logs`);
+    const modData = Array.from({ length: 100 * SCALE }, (_, i) => ({
+        actionType: pick(modActions),
+        details: faker.lorem.sentence({ min: 8, max: 15 }),
+        moderatorUserId: users[i % 2].id,
+        targetUserId: pick(users).id,
+        targetContentId: randomInt(1, POST_COUNT),
+    }));
+    await batchInsert(prisma.moderationLog, modData);
+    console.log(`  -> ${modData.length} moderation logs`);
     // #endregion
 
     // #region EventPosts
@@ -1261,6 +1262,8 @@ async function main() {
     const eventPostCommentLikedPairs = new Set<string>();
     let eventPostCommentLikeCount = 0;
     await runInChunks(eventList, 20, async (event) => {
+        const batchELikes: { userId: number; eventPostId: number; reactionType: ReactionType }[] = [];
+        const batchECommentLikes: { userId: number; eventPostCommentId: number }[] = [];
         for (let p = 0; p < randomInt(3, 10); p++) {
             const author = pick(users);
             const epost = await prisma.eventPost.create({
@@ -1277,9 +1280,7 @@ async function main() {
                 const key = `epl-${liker.id}-${epost.id}`;
                 if (!likedPairs.has(key)) {
                     likedPairs.add(key);
-                    await prisma.eventPostLike.create({
-                        data: { userId: liker.id, eventPostId: epost.id, reactionType: pick(reactionTypes) },
-                    });
+                    batchELikes.push({ userId: liker.id, eventPostId: epost.id, reactionType: pick(reactionTypes) });
                     eventPostLikeCount++;
                 }
             }
@@ -1296,33 +1297,33 @@ async function main() {
                     const key = `epcl-${liker.id}-${epComment.id}`;
                     if (!eventPostCommentLikedPairs.has(key)) {
                         eventPostCommentLikedPairs.add(key);
-                        await prisma.eventPostCommentLike.create({
-                            data: { userId: liker.id, eventPostCommentId: epComment.id },
-                        });
+                        batchECommentLikes.push({ userId: liker.id, eventPostCommentId: epComment.id });
                         eventPostCommentLikeCount++;
                     }
                 }
             }
         }
+        if (batchELikes.length > 0) await prisma.eventPostLike.createMany({ data: batchELikes });
+        if (batchECommentLikes.length > 0) await prisma.eventPostCommentLike.createMany({ data: batchECommentLikes });
     });
     console.log(`  -> ${eventPostCount} event posts, ${eventPostLikeCount} likes, ${eventPostCommentCount} comments, ${eventPostCommentLikeCount} comment likes`);
     // #endregion
 
     // #region EventHashtags
     console.log("  Creating event hashtags...");
-    let eventHashtagCount = 0;
     const eventHashtagPairs = new Set<string>();
-    await runInChunks(eventList, 20, async (event) => {
+    const eventHashtagData: { eventId: number; hashtagId: number }[] = [];
+    for (const event of eventList) {
         for (const h of pickMany(hashtags, randomInt(1, 3))) {
             const key = `eh-${event.id}-${h.id}`;
             if (!eventHashtagPairs.has(key)) {
                 eventHashtagPairs.add(key);
-                await prisma.eventHashtag.create({ data: { eventId: event.id, hashtagId: h.id } });
-                eventHashtagCount++;
+                eventHashtagData.push({ eventId: event.id, hashtagId: h.id });
             }
         }
-    });
-    console.log(`  -> ${eventHashtagCount} event hashtags`);
+    }
+    await batchInsert(prisma.eventHashtag, eventHashtagData);
+    console.log(`  -> ${eventHashtagData.length} event hashtags`);
     // #endregion
 
     // #region GroupPostCommentLikes
@@ -1426,39 +1427,36 @@ async function main() {
     });
 
     const videoLikedPairs = new Set<string>();
-    let videoLikeCount = 0;
-    let videoCommentCount = 0;
-    let videoHashtagCount = 0;
+    const videoLikeData: { userId: number; videoId: number }[] = [];
+    const videoCommentData: { content: string; userId: number; videoId: number; createdAt: Date }[] = [];
+    const videoHashtagData: { videoId: number; hashtagId: number }[] = [];
     const videoHashtagPairs = new Set<string>();
-    await runInChunks(videos, 50, async (video) => {
+    let videoLikeCount = 0, videoCommentCount = 0, videoHashtagCount = 0;
+    for (const video of videos) {
         for (const liker of pickMany(users, randomInt(5, 25))) {
             const key = `vl-${liker.id}-${video.id}`;
             if (!videoLikedPairs.has(key)) {
                 videoLikedPairs.add(key);
-                await prisma.videoLike.create({ data: { userId: liker.id, videoId: video.id } });
+                videoLikeData.push({ userId: liker.id, videoId: video.id });
                 videoLikeCount++;
             }
         }
         for (let c = 0; c < randomInt(2, 10); c++) {
-            await prisma.videoComment.create({
-                data: {
-                    content: g.comment(),
-                    userId: pick(users).id,
-                    videoId: video.id,
-                    createdAt: randomDate(new Date("2024-06-01"), new Date()),
-                },
-            });
+            videoCommentData.push({ content: g.comment(), userId: pick(users).id, videoId: video.id, createdAt: randomDate(new Date("2024-06-01"), new Date()) });
             videoCommentCount++;
         }
         for (const h of pickMany(hashtags, randomInt(1, 3))) {
             const key = `vh-${video.id}-${h.id}`;
             if (!videoHashtagPairs.has(key)) {
                 videoHashtagPairs.add(key);
-                await prisma.videoHashtag.create({ data: { videoId: video.id, hashtagId: h.id } });
+                videoHashtagData.push({ videoId: video.id, hashtagId: h.id });
                 videoHashtagCount++;
             }
         }
-    });
+    }
+    await batchInsert(prisma.videoLike, videoLikeData);
+    await batchInsert(prisma.videoComment, videoCommentData);
+    await batchInsert(prisma.videoHashtag, videoHashtagData);
     console.log(`  -> ${VIDEO_COUNT} videos, ${videoLikeCount} video likes, ${videoCommentCount} video comments, ${videoHashtagCount} video hashtags`);
     // #endregion
 
@@ -1486,15 +1484,16 @@ async function main() {
     });
 
     const blogLikedPairs = new Set<string>();
-    let blogLikeCount = 0;
-    let blogHashtagCount = 0;
+    const blogLikeData: { userId: number; blogId: number }[] = [];
+    const blogHashtagData: { blogId: number; hashtagId: number }[] = [];
     const blogHashtagPairs = new Set<string>();
-    await runInChunks(blogs, 50, async (blog) => {
+    let blogLikeCount = 0, blogHashtagCount = 0;
+    for (const blog of blogs) {
         for (const liker of pickMany(users, randomInt(5, 20))) {
             const key = `bl-${liker.id}-${blog.id}`;
             if (!blogLikedPairs.has(key)) {
                 blogLikedPairs.add(key);
-                await prisma.blogLike.create({ data: { userId: liker.id, blogId: blog.id } });
+                blogLikeData.push({ userId: liker.id, blogId: blog.id });
                 blogLikeCount++;
             }
         }
@@ -1502,11 +1501,13 @@ async function main() {
             const key = `bh-${blog.id}-${h.id}`;
             if (!blogHashtagPairs.has(key)) {
                 blogHashtagPairs.add(key);
-                await prisma.blogHashtag.create({ data: { blogId: blog.id, hashtagId: h.id } });
+                blogHashtagData.push({ blogId: blog.id, hashtagId: h.id });
                 blogHashtagCount++;
             }
         }
-    });
+    }
+    await batchInsert(prisma.blogLike, blogLikeData);
+    await batchInsert(prisma.blogHashtag, blogHashtagData);
     console.log(`  -> ${BLOG_COUNT} blogs, ${blogLikeCount} blog likes, ${blogHashtagCount} blog hashtags`);
     // #endregion
 
@@ -1546,67 +1547,53 @@ async function main() {
     });
 
     const listingSavedPairs = new Set<string>();
-    let listingSaveCount = 0;
-    let listingOfferCount = 0;
-    let listingMsgCount = 0;
-    await runInChunks(listings, 50, async (listing) => {
+    const listingSaveData: { userId: number; listingId: number }[] = [];
+    const listingOfferData: { amount: number; message: string | null; status: OfferStatus; buyerId: number; listingId: number }[] = [];
+    const listingMsgData: { content: string; senderId: number; listingId: number; createdAt: Date }[] = [];
+    for (const listing of listings) {
         for (const saver of pickMany(users.filter((u) => u.id !== listing.sellerId), randomInt(1, 10))) {
             const key = `ls-${saver.id}-${listing.id}`;
             if (!listingSavedPairs.has(key)) {
                 listingSavedPairs.add(key);
-                await prisma.listingSave.create({ data: { userId: saver.id, listingId: listing.id } });
-                listingSaveCount++;
+                listingSaveData.push({ userId: saver.id, listingId: listing.id });
             }
         }
-        const offersCount = randomInt(0, 3);
-        for (let o = 0; o < offersCount; o++) {
+        for (let o = 0; o < randomInt(0, 3); o++) {
             const buyer = pick(users.filter((u) => u.id !== listing.sellerId));
-            await prisma.listingOffer.create({
-                data: {
-                    amount: parseFloat((randomInt(1, 1800) + Math.random()).toFixed(2)),
-                    message: Math.random() > 0.5 ? g.message() : null,
-                    status: pick(offerStatuses),
-                    buyerId: buyer.id,
-                    listingId: listing.id,
-                },
+            listingOfferData.push({
+                amount: parseFloat((randomInt(1, 1800) + Math.random()).toFixed(2)),
+                message: Math.random() > 0.5 ? g.message() : null,
+                status: pick(offerStatuses),
+                buyerId: buyer.id,
+                listingId: listing.id,
             });
-            listingOfferCount++;
         }
-        const msgsCount = randomInt(0, 5);
-        for (let m = 0; m < msgsCount; m++) {
+        for (let m = 0; m < randomInt(0, 5); m++) {
             const sender = pick(users.filter((u) => u.id !== listing.sellerId));
-            await prisma.listingMessage.create({
-                data: {
-                    content: g.message(),
-                    senderId: sender.id,
-                    listingId: listing.id,
-                    createdAt: randomDate(new Date("2024-01-01"), new Date()),
-                },
-            });
-            listingMsgCount++;
+            listingMsgData.push({ content: g.message(), senderId: sender.id, listingId: listing.id, createdAt: randomDate(new Date("2024-01-01"), new Date()) });
         }
-    });
-    console.log(`  -> ${LISTING_COUNT} listings, ${listingSaveCount} saves, ${listingOfferCount} offers, ${listingMsgCount} messages`);
+    }
+    await batchInsert(prisma.listingSave, listingSaveData);
+    await batchInsert(prisma.listingOffer, listingOfferData);
+    await batchInsert(prisma.listingMessage, listingMsgData);
+    console.log(`  -> ${LISTING_COUNT} listings, ${listingSaveData.length} saves, ${listingOfferData.length} offers, ${listingMsgData.length} messages`);
     // #endregion
 
     // #region Memories
     console.log("  Creating memories...");
-    let memoryCount = 0;
-    await runInChunks(users, 50, async (u) => {
-        const count = randomInt(2, 5);
-        for (let m = 0; m < count; m++) {
-            await prisma.memory.create({
-                data: {
-                    note: Math.random() > 0.4 ? g.comment() : null,
-                    userId: u.id,
-                    postId: Math.random() > 0.5 ? pick(posts).id : null,
-                    createdAt: randomDate(new Date("2023-01-01"), new Date()),
-                },
+    const memoryData: { note: string | null; userId: number; postId: number | null; createdAt: Date }[] = [];
+    for (const u of users) {
+        for (let m = 0; m < randomInt(2, 5); m++) {
+            memoryData.push({
+                note: Math.random() > 0.4 ? g.comment() : null,
+                userId: u.id,
+                postId: Math.random() > 0.5 ? pick(posts).id : null,
+                createdAt: randomDate(new Date("2023-01-01"), new Date()),
             });
-            memoryCount++;
         }
-    });
-    console.log(`  -> ${memoryCount} memories`);
+    }
+    await batchInsert(prisma.memory, memoryData);
+    console.log(`  -> ${memoryData.length} memories`);
     // #endregion
 
     console.log(`\nSeeding complete! SCALE=${SCALE} → (${400 * SCALE} users, ${800 * SCALE} posts, ${200 * SCALE} groups, ${200 * SCALE} pages, ${200 * SCALE} events, ${300 * SCALE} videos, ${300 * SCALE} blogs, ${300 * SCALE} listings)`);

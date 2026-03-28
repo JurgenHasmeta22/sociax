@@ -89,102 +89,102 @@ export default async function PageDetailPage({ params }: PageProps) {
 	return (
 		<div className="bg-muted/20 min-h-[calc(100vh-56px)]">
 			<div className="relative h-48 md:h-64 bg-muted overflow-hidden">
-					{page.coverUrl ? (
-						<Image
-							src={page.coverUrl}
-							alt=""
-							fill
-							className="object-cover"
-							sizes="100vw"
-							priority
-						/>
-					) : (
-						<div className="w-full h-full bg-gradient-to-br from-primary/30 to-primary/10" />
-					)}
-				</div>
+				{page.coverUrl ? (
+					<Image
+						src={page.coverUrl}
+						alt=""
+						fill
+						className="object-cover"
+						sizes="100vw"
+						priority
+					/>
+				) : (
+					<div className="w-full h-full bg-gradient-to-br from-primary/30 to-primary/10" />
+				)}
+			</div>
 
-				<div className="max-w-4xl mx-auto px-4">
-					<div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4 -mt-12 mb-4">
-						<div className="flex items-end gap-4">
-							<div className="w-24 h-24 rounded-xl ring-4 ring-background bg-primary/10 flex items-center justify-center overflow-hidden shrink-0">
-								{page.avatarUrl ? (
-									<img
-										src={page.avatarUrl}
-										alt=""
-										className="w-full h-full object-cover"
-									/>
-								) : (
-									<Flag className="h-10 w-10 text-primary" />
-								)}
-							</div>
-							<div className="pb-1">
-								<h1 className="text-2xl font-bold leading-tight">
-									{page.name}
-								</h1>
-								<div className="flex items-center gap-2 mt-0.5">
-									<Badge variant="secondary">
-										{page.category}
-									</Badge>
-									<PageFollowersModal
-										pageId={page.id}
-										followerCount={page._count.followers}
-									/>
-								</div>
-							</div>
-						</div>
-						<div className="flex items-center gap-2 pb-1">
-							{isOwner ? (
-								<div className="flex items-center gap-2">
-									<div className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-primary/10 text-primary text-sm font-medium">
-										<Crown className="h-4 w-4" />
-										You manage this page
-									</div>
-								</div>
-							) : (
-								<PageFollowButton
-									pageId={page.id}
-									initialFollowing={isFollowing}
+			<div className="max-w-4xl mx-auto px-4">
+				<div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4 -mt-12 mb-4">
+					<div className="flex items-end gap-4">
+						<div className="w-24 h-24 rounded-xl ring-4 ring-background bg-primary/10 flex items-center justify-center overflow-hidden shrink-0">
+							{page.avatarUrl ? (
+								<img
+									src={page.avatarUrl}
+									alt=""
+									className="w-full h-full object-cover"
 								/>
+							) : (
+								<Flag className="h-10 w-10 text-primary" />
 							)}
 						</div>
+						<div className="pb-1">
+							<h1 className="text-2xl font-bold leading-tight">
+								{page.name}
+							</h1>
+							<div className="flex items-center gap-2 mt-0.5">
+								<Badge variant="secondary">
+									{page.category}
+								</Badge>
+								<PageFollowersModal
+									pageId={page.id}
+									followerCount={page._count.followers}
+								/>
+							</div>
+						</div>
 					</div>
-
-					{page.description && (
-						<p className="text-sm text-muted-foreground mb-3">
-							{page.description}
-						</p>
-					)}
-
-					{page.website && (
-						<a
-							href={page.website}
-							target="_blank"
-							rel="noopener noreferrer"
-							className="inline-flex items-center gap-1 text-sm text-primary hover:underline mb-4"
-						>
-							<Globe className="h-3.5 w-3.5" />
-							{page.website.replace(/^https?:\/\//, "")}
-						</a>
-					)}
-
-					<div className="text-xs text-muted-foreground mb-6">
-						Managed by{" "}
-						<Link
-							href={`/profile/${page.owner.userName}`}
-							className="font-medium text-foreground hover:underline"
-						>
-							{ownerName}
-						</Link>
+					<div className="flex items-center gap-2 pb-1">
+						{isOwner ? (
+							<div className="flex items-center gap-2">
+								<div className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-primary/10 text-primary text-sm font-medium">
+									<Crown className="h-4 w-4" />
+									You manage this page
+								</div>
+							</div>
+						) : (
+							<PageFollowButton
+								pageId={page.id}
+								initialFollowing={isFollowing}
+							/>
+						)}
 					</div>
-
-					<PageFeed
-						posts={page.posts}
-						pageId={page.id}
-						pageSlug={slug}
-						currentUser={currentUser}
-						isOwner={isOwner}
-					/>
 				</div>
+
+				{page.description && (
+					<p className="text-sm text-muted-foreground mb-3">
+						{page.description}
+					</p>
+				)}
+
+				{page.website && (
+					<a
+						href={page.website}
+						target="_blank"
+						rel="noopener noreferrer"
+						className="inline-flex items-center gap-1 text-sm text-primary hover:underline mb-4"
+					>
+						<Globe className="h-3.5 w-3.5" />
+						{page.website.replace(/^https?:\/\//, "")}
+					</a>
+				)}
+
+				<div className="text-xs text-muted-foreground mb-6">
+					Managed by{" "}
+					<Link
+						href={`/profile/${page.owner.userName}`}
+						className="font-medium text-foreground hover:underline"
+					>
+						{ownerName}
+					</Link>
+				</div>
+
+				<PageFeed
+					posts={page.posts}
+					pageId={page.id}
+					pageSlug={slug}
+					currentUser={currentUser}
+					isOwner={isOwner}
+				/>
+			</div>
 		</div>
 	);
 }

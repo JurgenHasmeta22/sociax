@@ -6,7 +6,9 @@ import { toast } from "sonner";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { getUnreadMessageNotifications } from "@/actions/message.actions";
 
-type UnreadMsg = Awaited<ReturnType<typeof getUnreadMessageNotifications>>[number];
+type UnreadMsg = Awaited<
+	ReturnType<typeof getUnreadMessageNotifications>
+>[number];
 
 function senderName(sender: UnreadMsg["sender"]) {
 	return (

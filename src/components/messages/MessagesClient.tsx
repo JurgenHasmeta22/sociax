@@ -74,10 +74,18 @@ function needsDateSeparator(prev: Message | undefined, curr: Message) {
 	return a.toDateString() !== b.toDateString();
 }
 
-function MessageStatusIcon({ status, isMine }: { status: string; isMine: boolean }) {
+function MessageStatusIcon({
+	status,
+	isMine,
+}: {
+	status: string;
+	isMine: boolean;
+}) {
 	if (!isMine) return null;
-	if (status === "Read") return <CheckCheck className="h-3.5 w-3.5 text-primary" />;
-	if (status === "Delivered") return <CheckCheck className="h-3.5 w-3.5 text-muted-foreground" />;
+	if (status === "Read")
+		return <CheckCheck className="h-3.5 w-3.5 text-primary" />;
+	if (status === "Delivered")
+		return <CheckCheck className="h-3.5 w-3.5 text-muted-foreground" />;
 	return <Check className="h-3.5 w-3.5 text-muted-foreground" />;
 }
 
@@ -97,21 +105,42 @@ function MessageBubble({
 	const isImage = msg.type === "Image";
 	const isFile = msg.type === "File";
 	const hasText = msg.content && msg.content.trim().length > 0;
-	const isPdf = isFile && (msg.mediaUrl?.toLowerCase().endsWith(".pdf") || msg.mediaUrl?.includes("/pdf"));
+	const isPdf =
+		isFile &&
+		(msg.mediaUrl?.toLowerCase().endsWith(".pdf") ||
+			msg.mediaUrl?.includes("/pdf"));
 
 	return (
-		<div className={cn("group flex gap-2 items-end", isMine ? "flex-row-reverse" : "flex-row")}>
+		<div
+			className={cn(
+				"group flex gap-2 items-end",
+				isMine ? "flex-row-reverse" : "flex-row",
+			)}
+		>
 			{!isMine && (
 				<Avatar className="h-7 w-7 shrink-0 mb-1">
-					<AvatarImage src={msg.sender.avatar?.photoSrc ?? undefined} />
+					<AvatarImage
+						src={msg.sender.avatar?.photoSrc ?? undefined}
+					/>
 					<AvatarFallback className="text-xs bg-primary text-primary-foreground">
-						{(msg.sender.firstName?.[0] ?? msg.sender.userName[0]).toUpperCase()}
+						{(
+							msg.sender.firstName?.[0] ?? msg.sender.userName[0]
+						).toUpperCase()}
 					</AvatarFallback>
 				</Avatar>
 			)}
-			<div className={cn("max-w-[65%] flex flex-col gap-0.5", isMine ? "items-end" : "items-start")}>
+			<div
+				className={cn(
+					"max-w-[65%] flex flex-col gap-0.5",
+					isMine ? "items-end" : "items-start",
+				)}
+			>
 				{isImage && msg.mediaUrl && (
-					<a href={msg.mediaUrl} target="_blank" rel="noopener noreferrer">
+					<a
+						href={msg.mediaUrl}
+						target="_blank"
+						rel="noopener noreferrer"
+					>
 						{/* eslint-disable-next-line @next/next/no-img-element */}
 						<img
 							src={msg.mediaUrl}
@@ -129,7 +158,7 @@ function MessageBubble({
 							"flex items-center gap-2 px-3 py-2 rounded-xl border text-sm font-medium hover:opacity-80 transition-opacity",
 							isMine
 								? "bg-primary text-primary-foreground border-primary/20"
-								: "bg-muted text-foreground border-border/60"
+								: "bg-muted text-foreground border-border/60",
 						)}
 					>
 						{isPdf ? (
@@ -137,7 +166,9 @@ function MessageBubble({
 						) : (
 							<FileText className="h-4 w-4 shrink-0" />
 						)}
-						<span className="truncate max-w-[200px]">{msg.mediaUrl.split("/").pop()}</span>
+						<span className="truncate max-w-[200px]">
+							{msg.mediaUrl.split("/").pop()}
+						</span>
 					</a>
 				)}
 				{hasText && (
@@ -146,33 +177,52 @@ function MessageBubble({
 							"px-3.5 py-2 rounded-2xl text-sm leading-relaxed",
 							isMine
 								? "bg-primary text-primary-foreground rounded-br-sm"
-								: "bg-muted text-foreground rounded-bl-sm"
+								: "bg-muted text-foreground rounded-bl-sm",
 						)}
 					>
 						{msg.content}
 					</div>
 				)}
-				<div className={cn("flex items-center gap-1 px-1", isMine ? "flex-row-reverse" : "flex-row")}>
+				<div
+					className={cn(
+						"flex items-center gap-1 px-1",
+						isMine ? "flex-row-reverse" : "flex-row",
+					)}
+				>
 					<span className="text-[10px] text-muted-foreground">
 						{format(new Date(msg.createdAt), "HH:mm")}
-						{msg.isEdited && <span className="ml-1 opacity-60">(edited)</span>}
+						{msg.isEdited && (
+							<span className="ml-1 opacity-60">(edited)</span>
+						)}
 					</span>
 					<MessageStatusIcon status={msg.status} isMine={isMine} />
 				</div>
 			</div>
 			{/* Context menu — visible on hover */}
 			{(isMine || onDeleteMe) && (
-				<div className={cn("self-center opacity-0 group-hover:opacity-100 transition-opacity", isMine ? "mr-1" : "ml-1")}>
+				<div
+					className={cn(
+						"self-center opacity-0 group-hover:opacity-100 transition-opacity",
+						isMine ? "mr-1" : "ml-1",
+					)}
+				>
 					<DropdownMenu>
 						<DropdownMenuTrigger asChild>
 							<button className="h-6 w-6 rounded-full bg-muted flex items-center justify-center hover:bg-muted/80">
 								<MoreHorizontal className="h-3.5 w-3.5 text-muted-foreground" />
 							</button>
 						</DropdownMenuTrigger>
-						<DropdownMenuContent align={isMine ? "end" : "start"} className="w-44">
+						<DropdownMenuContent
+							align={isMine ? "end" : "start"}
+							className="w-44"
+						>
 							{isMine && msg.type === "Text" && onEdit && (
-								<DropdownMenuItem onClick={() => onEdit(msg)} className="gap-2">
-									<Pencil className="h-3.5 w-3.5" /> Edit message
+								<DropdownMenuItem
+									onClick={() => onEdit(msg)}
+									className="gap-2"
+								>
+									<Pencil className="h-3.5 w-3.5" /> Edit
+									message
 								</DropdownMenuItem>
 							)}
 							{isMine && (
@@ -180,7 +230,8 @@ function MessageBubble({
 									onClick={() => onDeleteAll?.(msg.id)}
 									className="gap-2 text-destructive focus:text-destructive"
 								>
-									<Trash2 className="h-3.5 w-3.5" /> Delete for all
+									<Trash2 className="h-3.5 w-3.5" /> Delete
+									for all
 								</DropdownMenuItem>
 							)}
 							{onDeleteMe && (
@@ -190,7 +241,8 @@ function MessageBubble({
 										onClick={() => onDeleteMe(msg.id)}
 										className="gap-2 text-destructive focus:text-destructive"
 									>
-										<Trash className="h-3.5 w-3.5" /> Delete for me
+										<Trash className="h-3.5 w-3.5" /> Delete
+										for me
 									</DropdownMenuItem>
 								</>
 							)}
@@ -207,14 +259,18 @@ interface MessagesClientProps {
 	currentUserId: number;
 }
 
-export function MessagesClient({ initialConversations, currentUserId }: MessagesClientProps) {
+export function MessagesClient({
+	initialConversations,
+	currentUserId,
+}: MessagesClientProps) {
 	const router = useRouter();
 	const searchParams = useSearchParams();
 	const convIdParam = searchParams.get("conv");
 
-	const [conversations, setConversations] = useState<Conversation[]>(initialConversations);
+	const [conversations, setConversations] =
+		useState<Conversation[]>(initialConversations);
 	const [activeConvId, setActiveConvId] = useState<number | null>(
-		convIdParam ? parseInt(convIdParam) : null
+		convIdParam ? parseInt(convIdParam) : null,
 	);
 	const [messages, setMessages] = useState<Message[]>([]);
 	const [messageText, setMessageText] = useState("");
@@ -223,7 +279,11 @@ export function MessagesClient({ initialConversations, currentUserId }: Messages
 	const [isSearching, setIsSearching] = useState(false);
 	const [isSending, setIsSending] = useState(false);
 	const [isUploading, setIsUploading] = useState(false);
-	const [uploadPreview, setUploadPreview] = useState<{ url: string; name: string; type: string } | null>(null);
+	const [uploadPreview, setUploadPreview] = useState<{
+		url: string;
+		name: string;
+		type: string;
+	} | null>(null);
 	const [showMobileList, setShowMobileList] = useState(true);
 	// Edit state
 	const [editingMsg, setEditingMsg] = useState<Message | null>(null);
@@ -256,7 +316,7 @@ export function MessagesClient({ initialConversations, currentUserId }: Messages
 			setShowMobileList(false);
 			loadMessages(id);
 		}
-	// eslint-disable-next-line react-hooks/exhaustive-deps
+		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
 
 	// Refresh conversation list every 5s
@@ -279,11 +339,16 @@ export function MessagesClient({ initialConversations, currentUserId }: Messages
 			const cid = activeConvIdRef.current;
 			if (!cid) return;
 			try {
-				const newMsgs = await pollNewMessages(cid, lastMsgIdRef.current);
+				const newMsgs = await pollNewMessages(
+					cid,
+					lastMsgIdRef.current,
+				);
 				if (newMsgs.length > 0) {
 					setMessages((prev) => {
 						const existingIds = new Set(prev.map((m) => m.id));
-						const unique = newMsgs.filter((m) => !existingIds.has(m.id));
+						const unique = newMsgs.filter(
+							(m) => !existingIds.has(m.id),
+						);
 						if (unique.length === 0) return prev;
 						const updated = [...prev, ...unique];
 						lastMsgIdRef.current = updated[updated.length - 1].id;
@@ -344,7 +409,7 @@ export function MessagesClient({ initialConversations, currentUserId }: Messages
 			router.replace(`/messages?conv=${convId}`, { scroll: false });
 			await loadMessages(convId);
 		},
-		[router, loadMessages]
+		[router, loadMessages],
 	);
 
 	const openConversationWithUser = useCallback(
@@ -366,7 +431,8 @@ export function MessagesClient({ initialConversations, currentUserId }: Messages
 							otherUserName: conv.otherUserName,
 							isOnline: conv.isOnline,
 							lastActiveAt: conv.lastActiveAt,
-							lastMessage: null as unknown as Conversation["lastMessage"],
+							lastMessage:
+								null as unknown as Conversation["lastMessage"],
 							updatedAt: new Date(),
 						},
 						...prev,
@@ -377,32 +443,42 @@ export function MessagesClient({ initialConversations, currentUserId }: Messages
 				toast.error("Could not open conversation");
 			}
 		},
-		[selectConversation]
+		[selectConversation],
 	);
 
-	const handleFileSelect = useCallback(async (e: React.ChangeEvent<HTMLInputElement>) => {
-		const file = e.target.files?.[0];
-		if (!file) return;
+	const handleFileSelect = useCallback(
+		async (e: React.ChangeEvent<HTMLInputElement>) => {
+			const file = e.target.files?.[0];
+			if (!file) return;
 
-		setIsUploading(true);
-		try {
-			const fd = new FormData();
-			fd.append("file", file);
-			const res = await fetch("/api/upload/chat", { method: "POST", body: fd });
-			if (!res.ok) {
-				const err = await res.json();
-				toast.error(err.error ?? "Upload failed");
-				return;
+			setIsUploading(true);
+			try {
+				const fd = new FormData();
+				fd.append("file", file);
+				const res = await fetch("/api/upload/chat", {
+					method: "POST",
+					body: fd,
+				});
+				if (!res.ok) {
+					const err = await res.json();
+					toast.error(err.error ?? "Upload failed");
+					return;
+				}
+				const data = await res.json();
+				setUploadPreview({
+					url: data.url,
+					name: data.name ?? file.name,
+					type: file.type,
+				});
+			} catch {
+				toast.error("Upload failed");
+			} finally {
+				setIsUploading(false);
+				if (fileInputRef.current) fileInputRef.current.value = "";
 			}
-			const data = await res.json();
-			setUploadPreview({ url: data.url, name: data.name ?? file.name, type: file.type });
-		} catch {
-			toast.error("Upload failed");
-		} finally {
-			setIsUploading(false);
-			if (fileInputRef.current) fileInputRef.current.value = "";
-		}
-	}, []);
+		},
+		[],
+	);
 
 	const handleEditStart = useCallback((msg: Message) => {
 		setEditingMsg(msg);
@@ -414,7 +490,11 @@ export function MessagesClient({ initialConversations, currentUserId }: Messages
 		try {
 			const updated = await editMessage(editingMsg.id, editText.trim());
 			setMessages((prev) =>
-				prev.map((m) => (m.id === updated.id ? { ...m, content: updated.content, isEdited: true } : m))
+				prev.map((m) =>
+					m.id === updated.id
+						? { ...m, content: updated.content, isEdited: true }
+						: m,
+				),
 			);
 			setEditingMsg(null);
 			setEditText("");
@@ -450,14 +530,16 @@ export function MessagesClient({ initialConversations, currentUserId }: Messages
 		try {
 			let msgType: "Text" | "Image" | "File" = "Text";
 			if (uploadPreview) {
-				msgType = uploadPreview.type.startsWith("image/") ? "Image" : "File";
+				msgType = uploadPreview.type.startsWith("image/")
+					? "Image"
+					: "File";
 			}
 
 			const sent = await sendMessage(
 				activeConvId,
 				text || null,
 				uploadPreview?.url ?? null,
-				msgType
+				msgType,
 			);
 
 			setMessages((prev) => {
@@ -473,9 +555,13 @@ export function MessagesClient({ initialConversations, currentUserId }: Messages
 			setConversations((prev) =>
 				prev.map((c) =>
 					c.id === activeConvId
-						? { ...c, lastMessage: { ...sent, sender: sent.sender }, updatedAt: new Date() }
-						: c
-				)
+						? {
+								...c,
+								lastMessage: { ...sent, sender: sent.sender },
+								updatedAt: new Date(),
+							}
+						: c,
+				),
 			);
 		} catch {
 			toast.error("Failed to send message");
@@ -491,7 +577,23 @@ export function MessagesClient({ initialConversations, currentUserId }: Messages
 		}
 	};
 
-	const EMOJIS = ["😊", "😂", "❤️", "👍", "🔥", "😍", "🙏", "😭", "✨", "🎉", "😎", "🤔", "👀", "😢", "💯"];
+	const EMOJIS = [
+		"😊",
+		"😂",
+		"❤️",
+		"👍",
+		"🔥",
+		"😍",
+		"🙏",
+		"😭",
+		"✨",
+		"🎉",
+		"😎",
+		"🤔",
+		"👀",
+		"😢",
+		"💯",
+	];
 	const [showEmojis, setShowEmojis] = useState(false);
 
 	return (
@@ -501,7 +603,7 @@ export function MessagesClient({ initialConversations, currentUserId }: Messages
 				className={cn(
 					"w-full md:w-[340px] shrink-0 border-r border-border/60 flex flex-col",
 					activeConvId ? "hidden md:flex" : "flex",
-					!showMobileList && "hidden md:flex"
+					!showMobileList && "hidden md:flex",
 				)}
 			>
 				{/* Header */}
@@ -522,7 +624,10 @@ export function MessagesClient({ initialConversations, currentUserId }: Messages
 						/>
 						{userSearch && (
 							<button
-								onClick={() => { setUserSearch(""); setSearchResults([]); }}
+								onClick={() => {
+									setUserSearch("");
+									setSearchResults([]);
+								}}
 								className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground"
 							>
 								<X className="h-3.5 w-3.5" />
@@ -534,19 +639,31 @@ export function MessagesClient({ initialConversations, currentUserId }: Messages
 					{(searchResults.length > 0 || isSearching) && (
 						<div className="mt-2 bg-popover border border-border rounded-xl shadow-lg overflow-hidden z-10">
 							{isSearching ? (
-								<p className="text-sm text-muted-foreground text-center py-3">Searching...</p>
+								<p className="text-sm text-muted-foreground text-center py-3">
+									Searching...
+								</p>
 							) : (
 								searchResults.map((u) => (
 									<button
 										key={u.id}
-										onClick={() => openConversationWithUser(u)}
+										onClick={() =>
+											openConversationWithUser(u)
+										}
 										className="w-full flex items-center gap-2.5 px-3 py-2.5 hover:bg-muted/80 transition-colors text-left"
 									>
 										<div className="relative shrink-0">
 											<Avatar className="h-9 w-9">
-												<AvatarImage src={u.avatar?.photoSrc ?? undefined} />
+												<AvatarImage
+													src={
+														u.avatar?.photoSrc ??
+														undefined
+													}
+												/>
 												<AvatarFallback className="bg-primary text-primary-foreground text-xs">
-													{(u.firstName?.[0] ?? u.userName[0]).toUpperCase()}
+													{(
+														u.firstName?.[0] ??
+														u.userName[0]
+													).toUpperCase()}
 												</AvatarFallback>
 											</Avatar>
 											{u.isOnline && (
@@ -559,7 +676,9 @@ export function MessagesClient({ initialConversations, currentUserId }: Messages
 													? `${u.firstName} ${u.lastName}`
 													: u.userName}
 											</p>
-											<p className="text-xs text-muted-foreground">@{u.userName}</p>
+											<p className="text-xs text-muted-foreground">
+												@{u.userName}
+											</p>
 										</div>
 									</button>
 								))
@@ -574,7 +693,9 @@ export function MessagesClient({ initialConversations, currentUserId }: Messages
 						<div className="flex flex-col items-center justify-center h-full gap-3 text-muted-foreground px-6 text-center">
 							<MessageCircle className="h-12 w-12 opacity-30" />
 							<p className="font-medium">No conversations yet</p>
-							<p className="text-sm">Search for people above to start chatting</p>
+							<p className="text-sm">
+								Search for people above to start chatting
+							</p>
 						</div>
 					) : (
 						conversations.map((conv) => {
@@ -594,14 +715,18 @@ export function MessagesClient({ initialConversations, currentUserId }: Messages
 									onClick={() => selectConversation(conv.id)}
 									className={cn(
 										"w-full flex items-center gap-3 px-4 py-3 hover:bg-muted/60 transition-colors text-left",
-										isActive && "bg-primary/10 hover:bg-primary/10"
+										isActive &&
+											"bg-primary/10 hover:bg-primary/10",
 									)}
 								>
 									<div className="relative shrink-0">
 										<Avatar className="h-12 w-12">
-											<AvatarImage src={conv.coverUrl ?? undefined} />
+											<AvatarImage
+												src={conv.coverUrl ?? undefined}
+											/>
 											<AvatarFallback className="bg-primary text-primary-foreground font-semibold">
-												{(conv.name ?? "?")[0].toUpperCase()}
+												{(conv.name ??
+													"?")[0].toUpperCase()}
 											</AvatarFallback>
 										</Avatar>
 										{conv.isOnline && (
@@ -610,14 +735,20 @@ export function MessagesClient({ initialConversations, currentUserId }: Messages
 									</div>
 									<div className="flex-1 min-w-0">
 										<div className="flex items-baseline justify-between gap-2">
-											<p className="font-semibold text-sm truncate">{conv.name}</p>
+											<p className="font-semibold text-sm truncate">
+												{conv.name}
+											</p>
 											{lastMsg && (
 												<span className="text-[11px] text-muted-foreground shrink-0">
-													{timeLabel(lastMsg.createdAt)}
+													{timeLabel(
+														lastMsg.createdAt,
+													)}
 												</span>
 											)}
 										</div>
-										<p className="text-xs text-muted-foreground truncate mt-0.5">{preview}</p>
+										<p className="text-xs text-muted-foreground truncate mt-0.5">
+											{preview}
+										</p>
 									</div>
 								</button>
 							);
@@ -631,7 +762,7 @@ export function MessagesClient({ initialConversations, currentUserId }: Messages
 				className={cn(
 					"flex-1 flex flex-col min-w-0",
 					!activeConvId && "hidden md:flex",
-					showMobileList && "hidden md:flex"
+					showMobileList && "hidden md:flex",
 				)}
 			>
 				{!activeConvId ? (
@@ -640,8 +771,13 @@ export function MessagesClient({ initialConversations, currentUserId }: Messages
 							<MessageCircle className="h-10 w-10 opacity-40" />
 						</div>
 						<div className="text-center">
-							<p className="font-semibold text-lg">Your Messages</p>
-							<p className="text-sm mt-1">Select a conversation or search for someone to chat with</p>
+							<p className="font-semibold text-lg">
+								Your Messages
+							</p>
+							<p className="text-sm mt-1">
+								Select a conversation or search for someone to
+								chat with
+							</p>
 						</div>
 					</div>
 				) : (
@@ -650,15 +786,21 @@ export function MessagesClient({ initialConversations, currentUserId }: Messages
 						<div className="px-4 py-3 border-b border-border/60 flex items-center gap-3 bg-background shrink-0">
 							<button
 								className="md:hidden text-muted-foreground hover:text-foreground p-1"
-								onClick={() => { setShowMobileList(true); setActiveConvId(null); }}
+								onClick={() => {
+									setShowMobileList(true);
+									setActiveConvId(null);
+								}}
 							>
 								<ArrowLeft className="h-5 w-5" />
 							</button>
 							<div className="relative shrink-0">
 								<Avatar className="h-10 w-10">
-									<AvatarImage src={activeConv?.coverUrl ?? undefined} />
+									<AvatarImage
+										src={activeConv?.coverUrl ?? undefined}
+									/>
 									<AvatarFallback className="bg-primary text-primary-foreground font-semibold">
-										{(activeConv?.name ?? "?")[0].toUpperCase()}
+										{(activeConv?.name ??
+											"?")[0].toUpperCase()}
 									</AvatarFallback>
 								</Avatar>
 								{activeConv?.isOnline && (
@@ -666,23 +808,37 @@ export function MessagesClient({ initialConversations, currentUserId }: Messages
 								)}
 							</div>
 							<div className="flex-1 min-w-0">
-								<p className="font-semibold text-sm truncate">{activeConv?.name}</p>
+								<p className="font-semibold text-sm truncate">
+									{activeConv?.name}
+								</p>
 								<p className="text-xs text-muted-foreground">
 									{activeConv?.isOnline
 										? "Online"
 										: activeConv?.lastActiveAt
-										? `Active ${formatDistanceToNow(new Date(activeConv.lastActiveAt), { addSuffix: true })}`
-										: "Offline"}
+											? `Active ${formatDistanceToNow(new Date(activeConv.lastActiveAt), { addSuffix: true })}`
+											: "Offline"}
 								</p>
 							</div>
 							<div className="flex items-center gap-1">
-								<Button variant="ghost" size="icon" className="h-8 w-8">
+								<Button
+									variant="ghost"
+									size="icon"
+									className="h-8 w-8"
+								>
 									<Phone className="h-4 w-4" />
 								</Button>
-								<Button variant="ghost" size="icon" className="h-8 w-8">
+								<Button
+									variant="ghost"
+									size="icon"
+									className="h-8 w-8"
+								>
 									<Video className="h-4 w-4" />
 								</Button>
-								<Button variant="ghost" size="icon" className="h-8 w-8">
+								<Button
+									variant="ghost"
+									size="icon"
+									className="h-8 w-8"
+								>
 									<Info className="h-4 w-4" />
 								</Button>
 							</div>
@@ -693,12 +849,20 @@ export function MessagesClient({ initialConversations, currentUserId }: Messages
 							{messages.length === 0 && (
 								<div className="flex flex-col items-center justify-center h-full gap-3 text-muted-foreground">
 									<Avatar className="h-16 w-16">
-										<AvatarImage src={activeConv?.coverUrl ?? undefined} />
+										<AvatarImage
+											src={
+												activeConv?.coverUrl ??
+												undefined
+											}
+										/>
 										<AvatarFallback className="bg-primary text-primary-foreground font-bold text-xl">
-											{(activeConv?.name ?? "?")[0].toUpperCase()}
+											{(activeConv?.name ??
+												"?")[0].toUpperCase()}
 										</AvatarFallback>
 									</Avatar>
-									<p className="font-medium">{activeConv?.name}</p>
+									<p className="font-medium">
+										{activeConv?.name}
+									</p>
 									<p className="text-sm">Say hello! 👋</p>
 								</div>
 							)}
@@ -713,7 +877,9 @@ export function MessagesClient({ initialConversations, currentUserId }: Messages
 											<div className="flex items-center gap-3 my-4">
 												<div className="flex-1 h-px bg-border/60" />
 												<span className="text-xs text-muted-foreground font-medium px-2">
-													{dateSeparatorLabel(msg.createdAt)}
+													{dateSeparatorLabel(
+														msg.createdAt,
+													)}
 												</span>
 												<div className="flex-1 h-px bg-border/60" />
 											</div>
@@ -735,8 +901,16 @@ export function MessagesClient({ initialConversations, currentUserId }: Messages
 						{editingMsg && (
 							<div className="px-4 py-2 border-t border-border/40 bg-muted/30 flex items-center gap-2">
 								<Pencil className="h-4 w-4 text-primary shrink-0" />
-								<span className="text-xs text-muted-foreground flex-1 truncate">Editing: {editingMsg.content}</span>
-								<button onClick={() => { setEditingMsg(null); setEditText(""); }} className="text-muted-foreground hover:text-foreground">
+								<span className="text-xs text-muted-foreground flex-1 truncate">
+									Editing: {editingMsg.content}
+								</span>
+								<button
+									onClick={() => {
+										setEditingMsg(null);
+										setEditText("");
+									}}
+									className="text-muted-foreground hover:text-foreground"
+								>
 									<X className="h-4 w-4" />
 								</button>
 							</div>
@@ -758,7 +932,9 @@ export function MessagesClient({ initialConversations, currentUserId }: Messages
 									) : (
 										<FileText className="h-8 w-8 text-primary shrink-0" />
 									)}
-									<span className="text-xs truncate flex-1">{uploadPreview.name}</span>
+									<span className="text-xs truncate flex-1">
+										{uploadPreview.name}
+									</span>
 									<button
 										onClick={() => setUploadPreview(null)}
 										className="text-muted-foreground hover:text-foreground shrink-0"
@@ -777,7 +953,9 @@ export function MessagesClient({ initialConversations, currentUserId }: Messages
 										<button
 											key={emoji}
 											onClick={() => {
-												setMessageText((prev) => prev + emoji);
+												setMessageText(
+													(prev) => prev + emoji,
+												);
 												setShowEmojis(false);
 											}}
 											className="text-xl hover:scale-125 transition-transform leading-none"
@@ -803,7 +981,9 @@ export function MessagesClient({ initialConversations, currentUserId }: Messages
 									variant="ghost"
 									size="icon"
 									className="h-9 w-9 shrink-0 text-muted-foreground hover:text-foreground"
-									onClick={() => fileInputRef.current?.click()}
+									onClick={() =>
+										fileInputRef.current?.click()
+									}
 									disabled={isUploading}
 								>
 									{isUploading ? (
@@ -817,7 +997,9 @@ export function MessagesClient({ initialConversations, currentUserId }: Messages
 									size="icon"
 									className={cn(
 										"h-9 w-9 shrink-0",
-										showEmojis ? "text-primary" : "text-muted-foreground hover:text-foreground"
+										showEmojis
+											? "text-primary"
+											: "text-muted-foreground hover:text-foreground",
 									)}
 									onClick={() => setShowEmojis((v) => !v)}
 								>
@@ -825,26 +1007,44 @@ export function MessagesClient({ initialConversations, currentUserId }: Messages
 								</Button>
 								<Textarea
 									value={editingMsg ? editText : messageText}
-									onChange={(e) => editingMsg ? setEditText(e.target.value) : setMessageText(e.target.value)}
+									onChange={(e) =>
+										editingMsg
+											? setEditText(e.target.value)
+											: setMessageText(e.target.value)
+									}
 									onKeyDown={(e) => {
 										if (e.key === "Enter" && !e.shiftKey) {
 											e.preventDefault();
-											editingMsg ? handleEditSave() : handleSend();
+											editingMsg
+												? handleEditSave()
+												: handleSend();
 										}
 										if (e.key === "Escape" && editingMsg) {
 											setEditingMsg(null);
 											setEditText("");
 										}
 									}}
-									placeholder={editingMsg ? "Edit message..." : "Type a message..."}
+									placeholder={
+										editingMsg
+											? "Edit message..."
+											: "Type a message..."
+									}
 									rows={1}
 									className="flex-1 resize-none min-h-[38px] max-h-28 py-2 text-sm leading-relaxed rounded-2xl border-border/60 focus-visible:ring-1 focus-visible:ring-primary"
 								/>
 								<Button
 									size="icon"
 									className="h-9 w-9 shrink-0 rounded-full"
-									onClick={editingMsg ? handleEditSave : handleSend}
-									disabled={isSending || (editingMsg ? !editText.trim() : (!messageText.trim() && !uploadPreview))}
+									onClick={
+										editingMsg ? handleEditSave : handleSend
+									}
+									disabled={
+										isSending ||
+										(editingMsg
+											? !editText.trim()
+											: !messageText.trim() &&
+												!uploadPreview)
+									}
 								>
 									<Send className="h-4 w-4" />
 								</Button>

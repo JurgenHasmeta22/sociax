@@ -24,7 +24,9 @@ export async function GET() {
 						where: { userId, status: "unread" },
 					});
 					controller.enqueue(
-						encoder.encode(`data: ${JSON.stringify({ count })}\n\n`),
+						encoder.encode(
+							`data: ${JSON.stringify({ count })}\n\n`,
+						),
 					);
 				} catch {
 					controller.close();

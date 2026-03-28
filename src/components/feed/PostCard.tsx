@@ -477,11 +477,17 @@ export function PostCard({
 							<div className="flex items-center gap-1.5">
 								{likeCount > 0 && (
 									<button
-										onClick={() => setShowReactionsModal(true)}
+										onClick={() =>
+											setShowReactionsModal(true)
+										}
 										className="flex items-center gap-1 hover:text-foreground transition-colors"
 									>
-										<span className="text-base leading-none">❤️</span>
-										<span>{likeCount.toLocaleString()}</span>
+										<span className="text-base leading-none">
+											❤️
+										</span>
+										<span>
+											{likeCount.toLocaleString()}
+										</span>
 									</button>
 								)}
 							</div>
@@ -492,7 +498,9 @@ export function PostCard({
 										className="flex items-center gap-1 hover:text-foreground transition-colors"
 									>
 										<MessageCircle className="h-3.5 w-3.5" />
-										<span>{commentCount.toLocaleString()}</span>
+										<span>
+											{commentCount.toLocaleString()}
+										</span>
 									</button>
 								)}
 								<button className="hover:text-foreground transition-colors">
@@ -543,7 +551,7 @@ export function PostCard({
 									{REACTIONS[myReaction]?.emoji}
 								</span>
 							) : (
-							<Heart className="h-[18px] w-[18px]" />
+								<Heart className="h-[18px] w-[18px]" />
 							)}
 							{myReaction ? REACTIONS[myReaction]?.label : "Like"}
 						</Button>

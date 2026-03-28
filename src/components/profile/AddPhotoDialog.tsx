@@ -34,7 +34,9 @@ export function AddPhotoDialog({
 	onClose: () => void;
 	albums: AlbumOption[];
 	defaultAlbumId?: number | null;
-	onAdded?: (photo: { id: number; photoUrl: string; caption: string | null } | null) => void;
+	onAdded?: (
+		photo: { id: number; photoUrl: string; caption: string | null } | null,
+	) => void;
 }) {
 	const [isPending, startTransition] = useTransition();
 	const [photoUrl, setPhotoUrl] = useState("");
@@ -44,9 +46,16 @@ export function AddPhotoDialog({
 	);
 	const [uploading, setUploading] = useState(false);
 
-	const reset = () => { setPhotoUrl(""); setCaption(""); setAlbumId(defaultAlbumId != null ? String(defaultAlbumId) : "none"); };
+	const reset = () => {
+		setPhotoUrl("");
+		setCaption("");
+		setAlbumId(defaultAlbumId != null ? String(defaultAlbumId) : "none");
+	};
 
-	function handleClose() { reset(); onClose(); }
+	function handleClose() {
+		reset();
+		onClose();
+	}
 
 	async function handleFileChange(e: React.ChangeEvent<HTMLInputElement>) {
 		const file = e.target.files?.[0];
@@ -55,9 +64,13 @@ export function AddPhotoDialog({
 		try {
 			const fd = new FormData();
 			fd.append("file", file);
-			const res = await fetch("/api/upload", { method: "POST", body: fd });
-			const data = await res.json() as { url?: string; error?: string };
-			if (!res.ok || !data.url) throw new Error(data.error ?? "Upload failed");
+			const res = await fetch("/api/upload", {
+				method: "POST",
+				body: fd,
+			});
+			const data = (await res.json()) as { url?: string; error?: string };
+			if (!res.ok || !data.url)
+				throw new Error(data.error ?? "Upload failed");
 			setPhotoUrl(data.url);
 		} catch {
 			toast.error("Upload failed");
@@ -67,7 +80,10 @@ export function AddPhotoDialog({
 	}
 
 	function handleAdd() {
-		if (!photoUrl) { toast.warning("Please upload a photo"); return; }
+		if (!photoUrl) {
+			toast.warning("Please upload a photo");
+			return;
+		}
 		startTransition(async () => {
 			try {
 				const result = await addPhotoToAlbum({
@@ -75,8 +91,20 @@ export function AddPhotoDialog({
 					photoUrl,
 					caption: caption || undefined,
 				});
-				toast.success(albumId === "none" ? "Photo added to your posts!" : "Photo added to album!");
-				onAdded?.(result ? { id: result.id, photoUrl: result.photoUrl, caption: result.caption } : null);
+				toast.success(
+					albumId === "none"
+						? "Photo added to your posts!"
+						: "Photo added to album!",
+				);
+				onAdded?.(
+					result
+						? {
+								id: result.id,
+								photoUrl: result.photoUrl,
+								caption: result.caption,
+							}
+						: null,
+				);
 				handleClose();
 			} catch {
 				toast.error("Failed to add photo");
@@ -97,8 +125,15 @@ export function AddPhotoDialog({
 						{photoUrl ? (
 							<div className="relative rounded-lg overflow-hidden bg-muted aspect-video">
 								{/* eslint-disable-next-line @next/next/no-img-element */}
-								<img src={photoUrl} alt="Preview" className="w-full h-full object-cover" />
-								<button onClick={() => setPhotoUrl("")} className="absolute top-2 right-2 h-7 w-7 rounded-full bg-black/60 flex items-center justify-center hover:bg-black">
+								<img
+									src={photoUrl}
+									alt="Preview"
+									className="w-full h-full object-cover"
+								/>
+								<button
+									onClick={() => setPhotoUrl("")}
+									className="absolute top-2 right-2 h-7 w-7 rounded-full bg-black/60 flex items-center justify-center hover:bg-black"
+								>
 									<X className="h-3.5 w-3.5 text-white" />
 								</button>
 							</div>
@@ -109,16 +144,33 @@ export function AddPhotoDialog({
 								) : (
 									<Upload className="h-7 w-7 text-muted-foreground mb-1" />
 								)}
-								<span className="text-sm text-muted-foreground">{uploading ? "Uploading…" : "Click to upload photo"}</span>
-								<input type="file" accept="image/*" className="hidden" onChange={handleFileChange} disabled={uploading} />
+								<span className="text-sm text-muted-foreground">
+									{uploading
+										? "Uploading…"
+										: "Click to upload photo"}
+								</span>
+								<input
+									type="file"
+									accept="image/*"
+									className="hidden"
+									onChange={handleFileChange}
+									disabled={uploading}
+								/>
 							</label>
 						)}
 					</div>
 
 					{/* Caption */}
 					<div className="space-y-1.5">
-						<Label htmlFor="photo-caption">Caption (optional)</Label>
-						<Input id="photo-caption" placeholder="Add a caption…" value={caption} onChange={(e) => setCaption(e.target.value)} />
+						<Label htmlFor="photo-caption">
+							Caption (optional)
+						</Label>
+						<Input
+							id="photo-caption"
+							placeholder="Add a caption…"
+							value={caption}
+							onChange={(e) => setCaption(e.target.value)}
+						/>
 					</div>
 
 					{/* Album selector */}
@@ -129,18 +181,35 @@ export function AddPhotoDialog({
 								<SelectValue placeholder="Choose an album" />
 							</SelectTrigger>
 							<SelectContent>
-								<SelectItem value="none">No album (add to photos)</SelectItem>
+								<SelectItem value="none">
+									No album (add to photos)
+								</SelectItem>
 								{albums.map((a) => (
-									<SelectItem key={a.id} value={String(a.id)}>{a.name}</SelectItem>
+									<SelectItem key={a.id} value={String(a.id)}>
+										{a.name}
+									</SelectItem>
 								))}
 							</SelectContent>
 						</Select>
 					</div>
 
 					<div className="flex gap-2">
-						<Button variant="secondary" className="flex-1" onClick={handleClose} disabled={isPending || uploading}>Cancel</Button>
-						<Button className="flex-1" onClick={handleAdd} disabled={isPending || uploading || !photoUrl}>
-							{isPending && <Loader2 className="h-4 w-4 mr-2 animate-spin" />}
+						<Button
+							variant="secondary"
+							className="flex-1"
+							onClick={handleClose}
+							disabled={isPending || uploading}
+						>
+							Cancel
+						</Button>
+						<Button
+							className="flex-1"
+							onClick={handleAdd}
+							disabled={isPending || uploading || !photoUrl}
+						>
+							{isPending && (
+								<Loader2 className="h-4 w-4 mr-2 animate-spin" />
+							)}
 							Add Photo
 						</Button>
 					</div>

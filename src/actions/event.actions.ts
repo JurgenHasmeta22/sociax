@@ -69,16 +69,31 @@ export async function createEvent(data: {
 		});
 
 		// Extract hashtags from title + description + explicit tags
-		const textTags = ((data.title || "") + " " + (data.description || "")).match(/#[\w]+/g) ?? [];
-		const explicitTags = (data.hashtags ?? []).map((t) => t.toLowerCase().replace(/^#/, "").trim()).filter(Boolean);
-		const allTags = [...new Set([...textTags.map((t) => t.slice(1).toLowerCase()), ...explicitTags])];
+		const textTags =
+			((data.title || "") + " " + (data.description || "")).match(
+				/#[\w]+/g,
+			) ?? [];
+		const explicitTags = (data.hashtags ?? [])
+			.map((t) => t.toLowerCase().replace(/^#/, "").trim())
+			.filter(Boolean);
+		const allTags = [
+			...new Set([
+				...textTags.map((t) => t.slice(1).toLowerCase()),
+				...explicitTags,
+			]),
+		];
 
 		for (const name of allTags) {
 			if (!name) continue;
 			let tag = await tx.hashtag.findUnique({ where: { name } });
 			if (!tag) tag = await tx.hashtag.create({ data: { name } });
 			await tx.eventHashtag.upsert({
-				where: { eventId_hashtagId: { eventId: created.id, hashtagId: tag.id } },
+				where: {
+					eventId_hashtagId: {
+						eventId: created.id,
+						hashtagId: tag.id,
+					},
+				},
 				create: { eventId: created.id, hashtagId: tag.id },
 				update: {},
 			});
@@ -278,7 +293,10 @@ export async function fetchPopularEvents(skip = 0) {
 	return {
 		events: events.map((e) => ({
 			...e,
-			myAttendance: (userId && Array.isArray(e.attendees) ? e.attendees[0]?.status : null) ?? null,
+			myAttendance:
+				(userId && Array.isArray(e.attendees)
+					? e.attendees[0]?.status
+					: null) ?? null,
 		})),
 	};
 }
@@ -470,12 +488,21 @@ export async function getEventPostComments(
 	}));
 }
 
-export async function createEventPostComment(postId: number, content: string, mediaUrl?: string) {
+export async function createEventPostComment(
+	postId: number,
+	content: string,
+	mediaUrl?: string,
+) {
 	const userId = await getSessionUserId();
 	if (!content.trim() && !mediaUrl) throw new Error("Content required");
 
 	await prisma.eventPostComment.create({
-		data: { content: content.trim(), eventPostId: postId, userId, ...(mediaUrl ? { mediaUrl } : {}) },
+		data: {
+			content: content.trim(),
+			eventPostId: postId,
+			userId,
+			...(mediaUrl ? { mediaUrl } : {}),
+		},
 	});
 }
 
