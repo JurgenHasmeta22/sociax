@@ -47,7 +47,9 @@ node_modules/
 /playwright/.cache/
 
 # SQLite database
-/database/*.db
+*.db
+*.db-shm
+*.db-wal
 /database/*.db-journal
 /database/*.db-shm
 /database/*.db-wal
