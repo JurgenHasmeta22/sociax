@@ -121,10 +121,11 @@ model User {
     moderationLogsTargeted  ModerationLog[]   @relation("TargetUser")
 
     // Marketplace Relations
-    listings         MarketplaceListing[] @relation("ListingSeller")
-    listingSaves     ListingSave[]        @relation("ListingSaver")
-    listingOffers    ListingOffer[]       @relation("ListingBuyer")
-    listingMessages  ListingMessage[]     @relation("ListingMessageSender")
+    listings              MarketplaceListing[]  @relation("ListingSeller")
+    listingSaves          ListingSave[]         @relation("ListingSaver")
+    listingOffers         ListingOffer[]        @relation("ListingBuyer")
+    listingMessages       ListingMessage[]      @relation("ListingMessageSender")
+    listingMessageLikes   ListingMessageLike[]  @relation("ListingMessageLiker")
 
     // Video Relations
     videos       Video[]

@@ -171,10 +171,10 @@ export async function getAllBlogs(page = 1) {
 	const take = 20;
 	const skip = (page - 1) * take;
 
-	return prisma.blog.findMany({
+	const blogs = await prisma.blog.findMany({
 		where: { published: true, isDeleted: false },
 		orderBy: { createdAt: "desc" },
-		take,
+		take: take + 1,
 		skip,
 		include: {
 			author: {
@@ -190,6 +190,9 @@ export async function getAllBlogs(page = 1) {
 			_count: { select: { likes: true } },
 		},
 	});
+
+	const hasMore = blogs.length > take;
+	return { blogs: hasMore ? blogs.slice(0, take) : blogs, hasMore };
 }
 
 export async function getBlogBySlug(slug: string) {
@@ -266,4 +269,23 @@ export async function toggleBlogLike(blogId: number) {
 		await prisma.blogLike.create({ data: { userId, blogId } });
 		return { liked: true };
 	}
+}
+
+export async function getBlogLikers(blogId: number) {
+	const likers = await prisma.blogLike.findMany({
+		where: { blogId },
+		orderBy: { createdAt: "desc" },
+		select: {
+			user: {
+				select: {
+					id: true,
+					userName: true,
+					firstName: true,
+					lastName: true,
+					avatar: { select: { photoSrc: true } },
+				},
+			},
+		},
+	});
+	return likers.map((l) => l.user);
 }

@@ -26,7 +26,6 @@ import {
 	User,
 	Moon,
 	Sun,
-	NotebookPen,
 	ShoppingBag,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
@@ -189,17 +188,6 @@ export function Navbar() {
 													<Settings className="h-4 w-4" />
 												</div>
 												Settings & privacy
-											</Link>
-										</DropdownMenuItem>
-										<DropdownMenuItem asChild>
-											<Link
-												href="/memories"
-												className="flex items-center gap-3 cursor-pointer rounded-md"
-											>
-												<div className="w-8 h-8 rounded-full bg-muted flex items-center justify-center">
-													<NotebookPen className="h-4 w-4" />
-												</div>
-												Memories
 											</Link>
 										</DropdownMenuItem>
 										<DropdownMenuSeparator />

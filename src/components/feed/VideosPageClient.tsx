@@ -1,12 +1,13 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useTransition } from "react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { VideoCard } from "./VideoCard";
 import { UploadVideoDialog } from "./UploadVideoDialog";
-import { Video, Upload } from "lucide-react";
+import { Video, Upload, Loader2 } from "lucide-react";
+import { getVideos } from "@/actions/video.actions";
+import { useRouter } from "next/navigation";
 
 type VideoItem = {
 	id: number;
@@ -34,15 +35,31 @@ const FILTER_TABS: { id: "all" | "mine" | "friends"; label: string }[] = [
 
 export function VideosPageClient({
 	initialVideos,
+	initialHasMore,
 	currentFilter,
 	currentUserId,
 }: {
 	initialVideos: VideoItem[];
+	initialHasMore: boolean;
 	currentFilter: "all" | "mine" | "friends";
 	currentUserId: number;
 }) {
 	const router = useRouter();
 	const [uploadOpen, setUploadOpen] = useState(false);
+	const [videos, setVideos] = useState<VideoItem[]>(initialVideos);
+	const [hasMore, setHasMore] = useState(initialHasMore);
+	const [page, setPage] = useState(1);
+	const [isPending, startTransition] = useTransition();
+
+	function handleLoadMore() {
+		const nextPage = page + 1;
+		startTransition(async () => {
+			const result = await getVideos({ filter: currentFilter, page: nextPage });
+			setVideos((prev) => [...prev, ...(result.videos as VideoItem[])]);
+			setHasMore(result.hasMore);
+			setPage(nextPage);
+		});
+	}
 
 	return (
 		<div className="max-w-6xl mx-auto px-4 py-8">
@@ -78,7 +95,7 @@ export function VideosPageClient({
 			</div>
 
 			{/* Grid */}
-			{initialVideos.length === 0 ? (
+			{videos.length === 0 ? (
 				<div className="text-center py-20 text-muted-foreground">
 					<Video className="h-12 w-12 mx-auto mb-4 opacity-20" />
 					<p className="font-semibold text-lg">No videos yet</p>
@@ -89,24 +106,36 @@ export function VideosPageClient({
 								? "Your friends haven't posted any videos yet."
 								: "Be the first to upload a video!"}
 					</p>
-					<Button
-						onClick={() => setUploadOpen(true)}
-						className="gap-2"
-					>
+					<Button onClick={() => setUploadOpen(true)} className="gap-2">
 						<Upload className="h-4 w-4" />
 						Upload Video
 					</Button>
 				</div>
 			) : (
-				<div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
-					{initialVideos.map((video) => (
-						<VideoCard
-							key={video.id}
-							video={video}
-							currentUserId={currentUserId}
-						/>
-					))}
-				</div>
+				<>
+					<div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+						{videos.map((video) => (
+							<VideoCard
+								key={video.id}
+								video={video}
+								currentUserId={currentUserId}
+							/>
+						))}
+					</div>
+					{hasMore && (
+						<div className="flex justify-center mt-8">
+							<Button
+								variant="outline"
+								onClick={handleLoadMore}
+								disabled={isPending}
+								className="gap-2"
+							>
+								{isPending && <Loader2 className="h-4 w-4 animate-spin" />}
+								Load more videos
+							</Button>
+						</div>
+					)}
+				</>
 			)}
 
 			<UploadVideoDialog

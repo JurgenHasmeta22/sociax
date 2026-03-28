@@ -345,6 +345,13 @@ export async function getListing(slug: string) {
 							avatar: { select: { photoSrc: true } },
 						},
 					},
+					likes: currentUserId
+						? {
+								where: { userId: currentUserId },
+								select: { id: true },
+							}
+						: { select: { id: true }, take: 0 },
+					_count: { select: { likes: true } },
 				},
 			},
 			_count: { select: { saves: true } },
@@ -397,4 +404,18 @@ export async function getSavedListings() {
 		},
 	});
 	return saves.map((s: { listing: unknown }) => s.listing);
+}
+
+export async function toggleListingMessageLike(messageId: number) {
+	const userId = await getSessionUserId();
+	const existing = await prisma.listingMessageLike.findUnique({
+		where: { userId_messageId: { userId, messageId } },
+	});
+	if (existing) {
+		await prisma.listingMessageLike.delete({ where: { id: existing.id } });
+		return { liked: false };
+	} else {
+		await prisma.listingMessageLike.create({ data: { userId, messageId } });
+		return { liked: true };
+	}
 }

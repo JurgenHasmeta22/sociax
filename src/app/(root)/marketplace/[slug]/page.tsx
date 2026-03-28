@@ -56,6 +56,11 @@ export default async function ListingPage({ params }: PageProps) {
 							avatar: { select: { photoSrc: true } },
 						},
 					},
+					likes: {
+						where: { userId },
+						select: { id: true },
+					},
+					_count: { select: { likes: true } },
 				},
 			},
 			_count: { select: { saves: true } },

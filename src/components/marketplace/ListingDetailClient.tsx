@@ -43,6 +43,7 @@ import {
 	makeOffer,
 	sendListingMessage,
 	respondToOffer,
+	toggleListingMessageLike,
 } from "@/actions/marketplace.actions";
 
 const CATEGORY_ICONS: Record<string, string> = {
@@ -81,6 +82,23 @@ type Message = {
 	id: number;
 	content: string;
 	createdAt: Date;
+	isLiked: boolean;
+	likeCount: number;
+	sender: {
+		id: number;
+		userName: string;
+		firstName: string | null;
+		lastName: string | null;
+		avatar: { photoSrc: string } | null;
+	};
+};
+
+type RawMessage = {
+	id: number;
+	content: string;
+	createdAt: Date;
+	likes: { id: number }[];
+	_count: { likes: number };
 	sender: {
 		id: number;
 		userName: string;
@@ -122,7 +140,7 @@ type Listing = {
 	images: { url: string; order: number }[];
 	saves: { id: number }[];
 	offers: Offer[];
-	messages: Message[];
+	messages: RawMessage[];
 	_count: { saves: number };
 };
 
@@ -240,7 +258,11 @@ export function ListingDetailClient({
 	const [listing, setListing] = useState(initialListing);
 	const [saved, setSaved] = useState(initialListing.saves.length > 0);
 	const [messages, setMessages] = useState<Message[]>(
-		initialListing.messages,
+		initialListing.messages.map((m) => ({
+			...m,
+			isLiked: m.likes.length > 0,
+			likeCount: m._count.likes,
+		})),
 	);
 	const [offers, setOffers] = useState<Offer[]>(initialListing.offers);
 	const [msgText, setMsgText] = useState("");
@@ -252,6 +274,39 @@ export function ListingDetailClient({
 
 	const isMine = listing.seller.id === currentUserId;
 	const myOffer = offers.find((o) => o.buyer.id === currentUserId);
+
+	const handleToggleMessageLike = (messageId: number) => {
+		setMessages((prev) =>
+			prev.map((m) => {
+				if (m.id !== messageId) return m;
+				const nextLiked = !m.isLiked;
+				return {
+					...m,
+					isLiked: nextLiked,
+					likeCount: m.likeCount + (nextLiked ? 1 : -1),
+				};
+			}),
+		);
+		startTransition(async () => {
+			try {
+				await toggleListingMessageLike(messageId);
+			} catch {
+				// Revert on error
+				setMessages((prev) =>
+					prev.map((m) => {
+						if (m.id !== messageId) return m;
+						const reverted = !m.isLiked;
+						return {
+							...m,
+							isLiked: reverted,
+							likeCount: m.likeCount + (reverted ? 1 : -1),
+						};
+					}),
+				);
+				toast.error("Failed to like message");
+			}
+		});
+	};
 
 	const handleSave = () => {
 		const next = !saved;
@@ -274,7 +329,17 @@ export function ListingDetailClient({
 		startTransition(async () => {
 			try {
 				const msg = await sendListingMessage(listing.id, content);
-				setMessages((prev) => [...prev, msg as Message]);
+				setMessages((prev) => [
+					...prev,
+					{
+						id: msg.id,
+						content: msg.content,
+						createdAt: msg.createdAt,
+						isLiked: false,
+						likeCount: 0,
+						sender: msg.sender,
+					},
+				]);
 			} catch {
 				toast.error("Failed to send message");
 			}
@@ -593,12 +658,25 @@ export function ListingDetailClient({
 											>
 												{msg.content}
 											</div>
-											<span className="text-[10px] text-muted-foreground mt-0.5 px-1">
-												{format(
-													new Date(msg.createdAt),
-													"MMM d, h:mm a",
-												)}
-											</span>
+											<div className={`flex items-center gap-2 mt-0.5 px-1 ${isMe ? "flex-row-reverse" : ""}`}>
+												<span className="text-[10px] text-muted-foreground">
+													{format(
+														new Date(msg.createdAt),
+														"MMM d, h:mm a",
+													)}
+												</span>
+												<button
+													onClick={() => handleToggleMessageLike(msg.id)}
+													className={`flex items-center gap-0.5 text-[10px] transition-colors ${msg.isLiked ? "text-red-500" : "text-muted-foreground hover:text-red-400"}`}
+												>
+													<Heart
+														className={`h-3 w-3 ${msg.isLiked ? "fill-red-500" : ""}`}
+													/>
+													{msg.likeCount > 0 && (
+														<span>{msg.likeCount}</span>
+													)}
+												</button>
+											</div>
 										</div>
 									</div>
 								);

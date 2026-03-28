@@ -265,30 +265,35 @@ export async function fetchPopularEvents(skip = 0) {
 	const session = await getServerSession(authOptions);
 	const userId = session ? parseInt(session.user.id) : null;
 
-	const events = await prisma.event.findMany({
-		where: {
-			privacy: "Public",
-			startDate: { gte: new Date() },
-		},
-		orderBy: { attendees: { _count: "desc" } },
-		skip,
-		take: EVENTS_LIMIT,
-		include: {
-			creator: {
-				select: {
-					id: true,
-					userName: true,
-					firstName: true,
-					lastName: true,
-					avatar: { select: { photoSrc: true } },
+	const where = {
+		privacy: "Public" as const,
+		startDate: { gte: new Date() },
+	};
+
+	const [events, total] = await Promise.all([
+		prisma.event.findMany({
+			where,
+			orderBy: { attendees: { _count: "desc" } },
+			skip,
+			take: EVENTS_LIMIT,
+			include: {
+				creator: {
+					select: {
+						id: true,
+						userName: true,
+						firstName: true,
+						lastName: true,
+						avatar: { select: { photoSrc: true } },
+					},
 				},
+				attendees: userId
+					? { where: { userId }, select: { status: true } }
+					: false,
+				_count: { select: { attendees: true } },
 			},
-			attendees: userId
-				? { where: { userId }, select: { status: true } }
-				: false,
-			_count: { select: { attendees: true } },
-		},
-	});
+		}),
+		prisma.event.count({ where }),
+	]);
 
 	return {
 		events: events.map((e) => ({
@@ -298,44 +303,51 @@ export async function fetchPopularEvents(skip = 0) {
 					? e.attendees[0]?.status
 					: null) ?? null,
 		})),
+		total,
 	};
 }
 
 export async function fetchMyEvents(skip = 0) {
 	const userId = await getSessionUserId();
 
-	const attendances = await prisma.eventAttendee.findMany({
-		where: {
-			userId,
-			status: { in: ["Going", "Interested"] },
-		},
-		skip,
-		take: EVENTS_LIMIT,
-		orderBy: { createdAt: "desc" },
-		include: {
-			event: {
-				include: {
-					creator: {
-						select: {
-							id: true,
-							userName: true,
-							firstName: true,
-							lastName: true,
-							avatar: { select: { photoSrc: true } },
+	const where = {
+		userId,
+		status: { in: ["Going", "Interested"] as const },
+	};
+
+	const [attendances, total] = await Promise.all([
+		prisma.eventAttendee.findMany({
+			where,
+			skip,
+			take: EVENTS_LIMIT,
+			orderBy: { createdAt: "desc" },
+			include: {
+				event: {
+					include: {
+						creator: {
+							select: {
+								id: true,
+								userName: true,
+								firstName: true,
+								lastName: true,
+								avatar: { select: { photoSrc: true } },
+							},
 						},
+						attendees: { where: { userId }, select: { status: true } },
+						_count: { select: { attendees: true } },
 					},
-					attendees: { where: { userId }, select: { status: true } },
-					_count: { select: { attendees: true } },
 				},
 			},
-		},
-	});
+		}),
+		prisma.eventAttendee.count({ where }),
+	]);
 
 	return {
 		events: attendances.map((a) => ({
 			...a.event,
 			myAttendance: a.status,
 		})),
+		total,
 	};
 }
 

@@ -130,7 +130,25 @@ model ListingMessage {
     // Relations
     sender  User               @relation("ListingMessageSender", fields: [senderId], references: [id], onDelete: Cascade)
     listing MarketplaceListing @relation(fields: [listingId], references: [id], onDelete: Cascade)
+    likes   ListingMessageLike[]
 
     @@index([senderId])
     @@index([listingId])
+}
+
+model ListingMessageLike {
+    id        Int      @id @default(autoincrement())
+    createdAt DateTime @default(now())
+
+    // FK Keys
+    userId    Int
+    messageId Int
+
+    // Relations
+    user    User           @relation("ListingMessageLiker", fields: [userId], references: [id], onDelete: Cascade)
+    message ListingMessage @relation(fields: [messageId], references: [id], onDelete: Cascade)
+
+    @@unique([userId, messageId])
+    @@index([userId])
+    @@index([messageId])
 }

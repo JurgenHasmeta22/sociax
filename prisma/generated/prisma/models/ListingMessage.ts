@@ -226,6 +226,7 @@ export type ListingMessageWhereInput = {
   listingId?: Prisma.IntFilter<"ListingMessage"> | number
   sender?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
   listing?: Prisma.XOR<Prisma.MarketplaceListingScalarRelationFilter, Prisma.MarketplaceListingWhereInput>
+  likes?: Prisma.ListingMessageLikeListRelationFilter
 }
 
 export type ListingMessageOrderByWithRelationInput = {
@@ -236,6 +237,7 @@ export type ListingMessageOrderByWithRelationInput = {
   listingId?: Prisma.SortOrder
   sender?: Prisma.UserOrderByWithRelationInput
   listing?: Prisma.MarketplaceListingOrderByWithRelationInput
+  likes?: Prisma.ListingMessageLikeOrderByRelationAggregateInput
 }
 
 export type ListingMessageWhereUniqueInput = Prisma.AtLeast<{
@@ -249,6 +251,7 @@ export type ListingMessageWhereUniqueInput = Prisma.AtLeast<{
   listingId?: Prisma.IntFilter<"ListingMessage"> | number
   sender?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
   listing?: Prisma.XOR<Prisma.MarketplaceListingScalarRelationFilter, Prisma.MarketplaceListingWhereInput>
+  likes?: Prisma.ListingMessageLikeListRelationFilter
 }, "id">
 
 export type ListingMessageOrderByWithAggregationInput = {
@@ -280,6 +283,7 @@ export type ListingMessageCreateInput = {
   createdAt?: Date | string
   sender: Prisma.UserCreateNestedOneWithoutListingMessagesInput
   listing: Prisma.MarketplaceListingCreateNestedOneWithoutMessagesInput
+  likes?: Prisma.ListingMessageLikeCreateNestedManyWithoutMessageInput
 }
 
 export type ListingMessageUncheckedCreateInput = {
@@ -288,6 +292,7 @@ export type ListingMessageUncheckedCreateInput = {
   createdAt?: Date | string
   senderId: number
   listingId: number
+  likes?: Prisma.ListingMessageLikeUncheckedCreateNestedManyWithoutMessageInput
 }
 
 export type ListingMessageUpdateInput = {
@@ -295,6 +300,7 @@ export type ListingMessageUpdateInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   sender?: Prisma.UserUpdateOneRequiredWithoutListingMessagesNestedInput
   listing?: Prisma.MarketplaceListingUpdateOneRequiredWithoutMessagesNestedInput
+  likes?: Prisma.ListingMessageLikeUpdateManyWithoutMessageNestedInput
 }
 
 export type ListingMessageUncheckedUpdateInput = {
@@ -303,6 +309,7 @@ export type ListingMessageUncheckedUpdateInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   senderId?: Prisma.IntFieldUpdateOperationsInput | number
   listingId?: Prisma.IntFieldUpdateOperationsInput | number
+  likes?: Prisma.ListingMessageLikeUncheckedUpdateManyWithoutMessageNestedInput
 }
 
 export type ListingMessageCreateManyInput = {
@@ -372,6 +379,11 @@ export type ListingMessageSumOrderByAggregateInput = {
   listingId?: Prisma.SortOrder
 }
 
+export type ListingMessageScalarRelationFilter = {
+  is?: Prisma.ListingMessageWhereInput
+  isNot?: Prisma.ListingMessageWhereInput
+}
+
 export type ListingMessageCreateNestedManyWithoutListingInput = {
   create?: Prisma.XOR<Prisma.ListingMessageCreateWithoutListingInput, Prisma.ListingMessageUncheckedCreateWithoutListingInput> | Prisma.ListingMessageCreateWithoutListingInput[] | Prisma.ListingMessageUncheckedCreateWithoutListingInput[]
   connectOrCreate?: Prisma.ListingMessageCreateOrConnectWithoutListingInput | Prisma.ListingMessageCreateOrConnectWithoutListingInput[]
@@ -412,6 +424,20 @@ export type ListingMessageUncheckedUpdateManyWithoutListingNestedInput = {
   update?: Prisma.ListingMessageUpdateWithWhereUniqueWithoutListingInput | Prisma.ListingMessageUpdateWithWhereUniqueWithoutListingInput[]
   updateMany?: Prisma.ListingMessageUpdateManyWithWhereWithoutListingInput | Prisma.ListingMessageUpdateManyWithWhereWithoutListingInput[]
   deleteMany?: Prisma.ListingMessageScalarWhereInput | Prisma.ListingMessageScalarWhereInput[]
+}
+
+export type ListingMessageCreateNestedOneWithoutLikesInput = {
+  create?: Prisma.XOR<Prisma.ListingMessageCreateWithoutLikesInput, Prisma.ListingMessageUncheckedCreateWithoutLikesInput>
+  connectOrCreate?: Prisma.ListingMessageCreateOrConnectWithoutLikesInput
+  connect?: Prisma.ListingMessageWhereUniqueInput
+}
+
+export type ListingMessageUpdateOneRequiredWithoutLikesNestedInput = {
+  create?: Prisma.XOR<Prisma.ListingMessageCreateWithoutLikesInput, Prisma.ListingMessageUncheckedCreateWithoutLikesInput>
+  connectOrCreate?: Prisma.ListingMessageCreateOrConnectWithoutLikesInput
+  upsert?: Prisma.ListingMessageUpsertWithoutLikesInput
+  connect?: Prisma.ListingMessageWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.ListingMessageUpdateToOneWithWhereWithoutLikesInput, Prisma.ListingMessageUpdateWithoutLikesInput>, Prisma.ListingMessageUncheckedUpdateWithoutLikesInput>
 }
 
 export type ListingMessageCreateNestedManyWithoutSenderInput = {
@@ -460,6 +486,7 @@ export type ListingMessageCreateWithoutListingInput = {
   content: string
   createdAt?: Date | string
   sender: Prisma.UserCreateNestedOneWithoutListingMessagesInput
+  likes?: Prisma.ListingMessageLikeCreateNestedManyWithoutMessageInput
 }
 
 export type ListingMessageUncheckedCreateWithoutListingInput = {
@@ -467,6 +494,7 @@ export type ListingMessageUncheckedCreateWithoutListingInput = {
   content: string
   createdAt?: Date | string
   senderId: number
+  likes?: Prisma.ListingMessageLikeUncheckedCreateNestedManyWithoutMessageInput
 }
 
 export type ListingMessageCreateOrConnectWithoutListingInput = {
@@ -505,10 +533,57 @@ export type ListingMessageScalarWhereInput = {
   listingId?: Prisma.IntFilter<"ListingMessage"> | number
 }
 
+export type ListingMessageCreateWithoutLikesInput = {
+  content: string
+  createdAt?: Date | string
+  sender: Prisma.UserCreateNestedOneWithoutListingMessagesInput
+  listing: Prisma.MarketplaceListingCreateNestedOneWithoutMessagesInput
+}
+
+export type ListingMessageUncheckedCreateWithoutLikesInput = {
+  id?: number
+  content: string
+  createdAt?: Date | string
+  senderId: number
+  listingId: number
+}
+
+export type ListingMessageCreateOrConnectWithoutLikesInput = {
+  where: Prisma.ListingMessageWhereUniqueInput
+  create: Prisma.XOR<Prisma.ListingMessageCreateWithoutLikesInput, Prisma.ListingMessageUncheckedCreateWithoutLikesInput>
+}
+
+export type ListingMessageUpsertWithoutLikesInput = {
+  update: Prisma.XOR<Prisma.ListingMessageUpdateWithoutLikesInput, Prisma.ListingMessageUncheckedUpdateWithoutLikesInput>
+  create: Prisma.XOR<Prisma.ListingMessageCreateWithoutLikesInput, Prisma.ListingMessageUncheckedCreateWithoutLikesInput>
+  where?: Prisma.ListingMessageWhereInput
+}
+
+export type ListingMessageUpdateToOneWithWhereWithoutLikesInput = {
+  where?: Prisma.ListingMessageWhereInput
+  data: Prisma.XOR<Prisma.ListingMessageUpdateWithoutLikesInput, Prisma.ListingMessageUncheckedUpdateWithoutLikesInput>
+}
+
+export type ListingMessageUpdateWithoutLikesInput = {
+  content?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  sender?: Prisma.UserUpdateOneRequiredWithoutListingMessagesNestedInput
+  listing?: Prisma.MarketplaceListingUpdateOneRequiredWithoutMessagesNestedInput
+}
+
+export type ListingMessageUncheckedUpdateWithoutLikesInput = {
+  id?: Prisma.IntFieldUpdateOperationsInput | number
+  content?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  senderId?: Prisma.IntFieldUpdateOperationsInput | number
+  listingId?: Prisma.IntFieldUpdateOperationsInput | number
+}
+
 export type ListingMessageCreateWithoutSenderInput = {
   content: string
   createdAt?: Date | string
   listing: Prisma.MarketplaceListingCreateNestedOneWithoutMessagesInput
+  likes?: Prisma.ListingMessageLikeCreateNestedManyWithoutMessageInput
 }
 
 export type ListingMessageUncheckedCreateWithoutSenderInput = {
@@ -516,6 +591,7 @@ export type ListingMessageUncheckedCreateWithoutSenderInput = {
   content: string
   createdAt?: Date | string
   listingId: number
+  likes?: Prisma.ListingMessageLikeUncheckedCreateNestedManyWithoutMessageInput
 }
 
 export type ListingMessageCreateOrConnectWithoutSenderInput = {
@@ -554,6 +630,7 @@ export type ListingMessageUpdateWithoutListingInput = {
   content?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   sender?: Prisma.UserUpdateOneRequiredWithoutListingMessagesNestedInput
+  likes?: Prisma.ListingMessageLikeUpdateManyWithoutMessageNestedInput
 }
 
 export type ListingMessageUncheckedUpdateWithoutListingInput = {
@@ -561,6 +638,7 @@ export type ListingMessageUncheckedUpdateWithoutListingInput = {
   content?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   senderId?: Prisma.IntFieldUpdateOperationsInput | number
+  likes?: Prisma.ListingMessageLikeUncheckedUpdateManyWithoutMessageNestedInput
 }
 
 export type ListingMessageUncheckedUpdateManyWithoutListingInput = {
@@ -581,6 +659,7 @@ export type ListingMessageUpdateWithoutSenderInput = {
   content?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   listing?: Prisma.MarketplaceListingUpdateOneRequiredWithoutMessagesNestedInput
+  likes?: Prisma.ListingMessageLikeUpdateManyWithoutMessageNestedInput
 }
 
 export type ListingMessageUncheckedUpdateWithoutSenderInput = {
@@ -588,6 +667,7 @@ export type ListingMessageUncheckedUpdateWithoutSenderInput = {
   content?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   listingId?: Prisma.IntFieldUpdateOperationsInput | number
+  likes?: Prisma.ListingMessageLikeUncheckedUpdateManyWithoutMessageNestedInput
 }
 
 export type ListingMessageUncheckedUpdateManyWithoutSenderInput = {
@@ -598,6 +678,35 @@ export type ListingMessageUncheckedUpdateManyWithoutSenderInput = {
 }
 
 
+/**
+ * Count Type ListingMessageCountOutputType
+ */
+
+export type ListingMessageCountOutputType = {
+  likes: number
+}
+
+export type ListingMessageCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  likes?: boolean | ListingMessageCountOutputTypeCountLikesArgs
+}
+
+/**
+ * ListingMessageCountOutputType without action
+ */
+export type ListingMessageCountOutputTypeDefaultArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the ListingMessageCountOutputType
+   */
+  select?: Prisma.ListingMessageCountOutputTypeSelect<ExtArgs> | null
+}
+
+/**
+ * ListingMessageCountOutputType without action
+ */
+export type ListingMessageCountOutputTypeCountLikesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.ListingMessageLikeWhereInput
+}
+
 
 export type ListingMessageSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -607,6 +716,8 @@ export type ListingMessageSelect<ExtArgs extends runtime.Types.Extensions.Intern
   listingId?: boolean
   sender?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   listing?: boolean | Prisma.MarketplaceListingDefaultArgs<ExtArgs>
+  likes?: boolean | Prisma.ListingMessage$likesArgs<ExtArgs>
+  _count?: boolean | Prisma.ListingMessageCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["listingMessage"]>
 
 export type ListingMessageSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -641,6 +752,8 @@ export type ListingMessageOmit<ExtArgs extends runtime.Types.Extensions.Internal
 export type ListingMessageInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   sender?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   listing?: boolean | Prisma.MarketplaceListingDefaultArgs<ExtArgs>
+  likes?: boolean | Prisma.ListingMessage$likesArgs<ExtArgs>
+  _count?: boolean | Prisma.ListingMessageCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type ListingMessageIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   sender?: boolean | Prisma.UserDefaultArgs<ExtArgs>
@@ -656,6 +769,7 @@ export type $ListingMessagePayload<ExtArgs extends runtime.Types.Extensions.Inte
   objects: {
     sender: Prisma.$UserPayload<ExtArgs>
     listing: Prisma.$MarketplaceListingPayload<ExtArgs>
+    likes: Prisma.$ListingMessageLikePayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: number
@@ -1059,6 +1173,7 @@ export interface Prisma__ListingMessageClient<T, Null = never, ExtArgs extends r
   readonly [Symbol.toStringTag]: "PrismaPromise"
   sender<T extends Prisma.UserDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.UserDefaultArgs<ExtArgs>>): Prisma.Prisma__UserClient<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   listing<T extends Prisma.MarketplaceListingDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.MarketplaceListingDefaultArgs<ExtArgs>>): Prisma.Prisma__MarketplaceListingClient<runtime.Types.Result.GetResult<Prisma.$MarketplaceListingPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+  likes<T extends Prisma.ListingMessage$likesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.ListingMessage$likesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ListingMessageLikePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1489,6 +1604,30 @@ export type ListingMessageDeleteManyArgs<ExtArgs extends runtime.Types.Extension
    * Limit how many ListingMessages to delete.
    */
   limit?: number
+}
+
+/**
+ * ListingMessage.likes
+ */
+export type ListingMessage$likesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the ListingMessageLike
+   */
+  select?: Prisma.ListingMessageLikeSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the ListingMessageLike
+   */
+  omit?: Prisma.ListingMessageLikeOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ListingMessageLikeInclude<ExtArgs> | null
+  where?: Prisma.ListingMessageLikeWhereInput
+  orderBy?: Prisma.ListingMessageLikeOrderByWithRelationInput | Prisma.ListingMessageLikeOrderByWithRelationInput[]
+  cursor?: Prisma.ListingMessageLikeWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.ListingMessageLikeScalarFieldEnum | Prisma.ListingMessageLikeScalarFieldEnum[]
 }
 
 /**

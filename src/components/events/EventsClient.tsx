@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useState, useTransition } from "react";
 import Link from "next/link";
@@ -6,7 +6,7 @@ import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { CalendarDays, ChevronRight, Loader2, Share2 } from "lucide-react";
 import { format } from "date-fns";
-import { rsvpEvent } from "@/actions/event.actions";
+import { rsvpEvent, fetchEvents, fetchPopularEvents, fetchMyEvents } from "@/actions/event.actions";
 import type { AttendeeStatus } from "../../../prisma/generated/prisma/enums";
 
 type Tab = "suggestions" | "popular" | "myevents";
@@ -136,26 +136,73 @@ function FeaturedEventCard({ event }: { event: EventItem }) {
 	);
 }
 
+const EVENTS_LIMIT = 20;
+
 export function EventsClient({
 	initialSuggestions,
+	initialSuggestionsTotal,
 	initialPopular,
+	initialPopularTotal,
 	initialMyEvents,
+	initialMyEventsTotal,
 }: {
 	initialSuggestions: EventItem[];
+	initialSuggestionsTotal: number;
 	initialPopular: EventItem[];
+	initialPopularTotal: number;
 	initialMyEvents: EventItem[];
+	initialMyEventsTotal: number;
 }) {
 	const [tab, setTab] = useState<Tab>("suggestions");
+	const [suggestions, setSuggestions] = useState(initialSuggestions);
+	const [suggestionsTotal] = useState(initialSuggestionsTotal);
+	const [popular, setPopular] = useState(initialPopular);
+	const [popularTotal] = useState(initialPopularTotal);
+	const [myEvents, setMyEvents] = useState(initialMyEvents);
+	const [myEventsTotal] = useState(initialMyEventsTotal);
+	const [loadingMore, setLoadingMore] = useState(false);
 
 	const events =
 		tab === "suggestions"
-			? initialSuggestions
+			? suggestions
 			: tab === "popular"
-				? initialPopular
-				: initialMyEvents;
+				? popular
+				: myEvents;
+
+	const total =
+		tab === "suggestions"
+			? suggestionsTotal
+			: tab === "popular"
+				? popularTotal
+				: myEventsTotal;
+
+	const hasMore = events.length < total;
 
 	const featured = events.slice(0, 4);
-	const upcoming = events.filter((e) => isUpcoming(e.startDate)).slice(0, 8);
+	const upcoming = events.filter((e) => isUpcoming(e.startDate));
+	const upcomingAfterFeatured = upcoming.filter(
+		(e) => !featured.find((f) => f.id === e.id),
+	);
+
+	const handleLoadMore = async () => {
+		setLoadingMore(true);
+		try {
+			const skip = events.length;
+			let result: { events: EventItem[]; total: number };
+			if (tab === "suggestions") {
+				result = await fetchEvents("all", skip) as typeof result;
+				setSuggestions((prev) => [...prev, ...result.events]);
+			} else if (tab === "popular") {
+				result = await fetchPopularEvents(skip) as typeof result;
+				setPopular((prev) => [...prev, ...result.events]);
+			} else {
+				result = await fetchMyEvents(skip) as typeof result;
+				setMyEvents((prev) => [...prev, ...result.events]);
+			}
+		} finally {
+			setLoadingMore(false);
+		}
+	};
 
 	const TABS: { key: Tab; label: string }[] = [
 		{ key: "suggestions", label: "Suggestions" },
@@ -250,24 +297,38 @@ export function EventsClient({
 					</div>
 
 					{/* Upcoming Events */}
-					{upcoming.length > 0 && (
+					{upcomingAfterFeatured.length > 0 && (
 						<div className="mb-6">
 							<div className="flex items-center justify-between mb-3">
 								<h2 className="text-lg font-bold">
 									Upcoming Events
 								</h2>
-								<button className="text-sm text-primary hover:underline font-medium">
-									See all
-								</button>
 							</div>
 							<div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
-								{upcoming.map((event) => (
+								{upcomingAfterFeatured.map((event) => (
 									<FeaturedEventCard
 										key={event.id}
 										event={event}
 									/>
 								))}
 							</div>
+						</div>
+					)}
+
+					{/* Load More */}
+					{hasMore && (
+						<div className="flex justify-center mt-6">
+							<Button
+								variant="outline"
+								onClick={handleLoadMore}
+								disabled={loadingMore}
+								className="gap-2"
+							>
+								{loadingMore ? (
+									<Loader2 className="h-4 w-4 animate-spin" />
+								) : null}
+								{loadingMore ? "Loading..." : "Load More Events"}
+							</Button>
 						</div>
 					)}
 				</>

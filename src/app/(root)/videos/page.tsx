@@ -24,11 +24,12 @@ export default async function VideosPage({
 		? (filter as "all" | "mine" | "friends")
 		: "all";
 
-	const videos = await getVideos({ filter: validFilter });
+	const { videos, hasMore } = await getVideos({ filter: validFilter });
 
 	return (
 		<VideosPageClient
 			initialVideos={videos}
+			initialHasMore={hasMore}
 			currentFilter={validFilter}
 			currentUserId={currentUserId}
 		/>

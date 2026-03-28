@@ -83,6 +83,7 @@ export const ModelName = {
   ListingSave: 'ListingSave',
   ListingOffer: 'ListingOffer',
   ListingMessage: 'ListingMessage',
+  ListingMessageLike: 'ListingMessageLike',
   Memory: 'Memory',
   Conversation: 'Conversation',
   ConversationParticipant: 'ConversationParticipant',
@@ -540,6 +541,16 @@ export const ListingMessageScalarFieldEnum = {
 } as const
 
 export type ListingMessageScalarFieldEnum = (typeof ListingMessageScalarFieldEnum)[keyof typeof ListingMessageScalarFieldEnum]
+
+
+export const ListingMessageLikeScalarFieldEnum = {
+  id: 'id',
+  createdAt: 'createdAt',
+  userId: 'userId',
+  messageId: 'messageId'
+} as const
+
+export type ListingMessageLikeScalarFieldEnum = (typeof ListingMessageLikeScalarFieldEnum)[keyof typeof ListingMessageLikeScalarFieldEnum]
 
 
 export const MemoryScalarFieldEnum = {

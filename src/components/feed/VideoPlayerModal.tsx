@@ -6,7 +6,11 @@ import Link from "next/link";
 import Image from "next/image";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
-import { Dialog, DialogContent } from "@/components/ui/dialog";
+import {
+	Dialog,
+	DialogContent,
+	DialogTitle,
+} from "@/components/ui/dialog";
 import { Textarea } from "@/components/ui/textarea";
 import { Separator } from "@/components/ui/separator";
 import { ScrollArea } from "@/components/ui/scroll-area";
@@ -120,6 +124,7 @@ export function VideoPlayerModal({
 	return (
 		<Dialog open onOpenChange={(o) => !o && onClose()}>
 			<DialogContent className="max-w-4xl p-0 overflow-hidden flex flex-col md:flex-row h-[90vh]">
+				<DialogTitle className="sr-only">{video.title}</DialogTitle>
 				{/* Video player */}
 				<div className="flex-1 bg-black flex items-center min-h-[240px]">
 					<video

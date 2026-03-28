@@ -35,7 +35,12 @@ export function AddPhotoDialog({
 	albums: AlbumOption[];
 	defaultAlbumId?: number | null;
 	onAdded?: (
-		photo: { id: number; photoUrl: string; caption: string | null } | null,
+		photo: {
+			id: number;
+			photoUrl: string;
+			caption: string | null;
+			albumId: number | null;
+		} | null,
 	) => void;
 }) {
 	const [isPending, startTransition] = useTransition();
@@ -96,12 +101,15 @@ export function AddPhotoDialog({
 						? "Photo added to your posts!"
 						: "Photo added to album!",
 				);
+				const pickedAlbumId =
+					albumId === "none" ? null : parseInt(albumId);
 				onAdded?.(
 					result
 						? {
 								id: result.id,
 								photoUrl: result.photoUrl,
 								caption: result.caption,
+								albumId: pickedAlbumId,
 							}
 						: null,
 				);

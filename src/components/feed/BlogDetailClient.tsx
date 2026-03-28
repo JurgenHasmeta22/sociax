@@ -7,14 +7,29 @@ import { formatDistanceToNow } from "date-fns";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { toggleBlogLike, deleteBlog } from "@/actions/blog.actions";
+import {
+	Dialog,
+	DialogContent,
+	DialogHeader,
+	DialogTitle,
+} from "@/components/ui/dialog";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import { toggleBlogLike, deleteBlog, getBlogLikers } from "@/actions/blog.actions";
 import { toast } from "sonner";
-import { Heart, PenLine, Trash2, ArrowLeft } from "lucide-react";
+import { Heart, PenLine, Trash2, ArrowLeft, Loader2 } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { generateHTML } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
 import TiptapImage from "@tiptap/extension-image";
 import TiptapLink from "@tiptap/extension-link";
+
+type Liker = {
+	id: number;
+	userName: string;
+	firstName: string | null;
+	lastName: string | null;
+	avatar: { photoSrc: string } | null;
+};
 
 type BlogDetailProps = {
 	blog: {
@@ -54,11 +69,17 @@ function renderContent(jsonContent: string): string {
 	}
 }
 
+const displayName = (u: { firstName: string | null; lastName: string | null; userName: string }) =>
+	[u.firstName, u.lastName].filter(Boolean).join(" ") || u.userName;
+
 export function BlogDetailClient({ blog }: BlogDetailProps) {
 	const router = useRouter();
 	const [isPending, startTransition] = useTransition();
 	const [isLiked, setIsLiked] = useState(blog.isLiked);
 	const [likeCount, setLikeCount] = useState(blog._count.likes);
+	const [likersOpen, setLikersOpen] = useState(false);
+	const [likers, setLikers] = useState<Liker[] | null>(null);
+	const [loadingLikers, setLoadingLikers] = useState(false);
 
 	const authorName =
 		[blog.author.firstName, blog.author.lastName]
@@ -72,6 +93,22 @@ export function BlogDetailClient({ blog }: BlogDetailProps) {
 			setIsLiked(result.liked);
 			setLikeCount((c) => c + (result.liked ? 1 : -1));
 		});
+	}
+
+	async function handleShowLikers() {
+		if (likeCount === 0) return;
+		setLikersOpen(true);
+		if (likers === null) {
+			setLoadingLikers(true);
+			try {
+				const result = await getBlogLikers(blog.id);
+				setLikers(result);
+			} catch {
+				toast.error("Failed to load likers");
+			} finally {
+				setLoadingLikers(false);
+			}
+		}
 	}
 
 	function handleDelete() {
@@ -147,15 +184,23 @@ export function BlogDetailClient({ blog }: BlogDetailProps) {
 					</div>
 					{/* Actions */}
 					<div className="flex items-center gap-2">
-						<button
-							onClick={handleLike}
-							className="flex items-center gap-1.5 text-sm text-muted-foreground hover:text-red-500 transition-colors"
-						>
-							<Heart
-								className={`h-4 w-4 ${isLiked ? "fill-red-500 text-red-500" : ""}`}
-							/>
-							{likeCount}
-						</button>
+						<div className="flex items-center gap-1">
+							<button
+								onClick={handleLike}
+								disabled={isPending}
+								className="flex items-center gap-1 text-sm text-muted-foreground hover:text-red-500 transition-colors"
+							>
+								<Heart
+									className={`h-4 w-4 ${isLiked ? "fill-red-500 text-red-500" : ""}`}
+								/>
+							</button>
+							<button
+								onClick={handleShowLikers}
+								className={`text-sm font-medium transition-colors ${likeCount > 0 ? "hover:underline cursor-pointer text-muted-foreground hover:text-foreground" : "text-muted-foreground cursor-default"}`}
+							>
+								{likeCount}
+							</button>
+						</div>
 						{blog.isAuthor && (
 							<>
 								<Button
@@ -210,6 +255,63 @@ export function BlogDetailClient({ blog }: BlogDetailProps) {
 				className="prose prose-sm max-w-none dark:prose-invert"
 				dangerouslySetInnerHTML={{ __html: htmlContent }}
 			/>
+
+			{/* Likers modal */}
+			<Dialog open={likersOpen} onOpenChange={setLikersOpen}>
+				<DialogContent className="sm:max-w-sm">
+					<DialogHeader>
+						<DialogTitle className="flex items-center gap-2">
+							<Heart className="h-4 w-4 fill-red-500 text-red-500" />
+							Liked by ({likeCount})
+						</DialogTitle>
+					</DialogHeader>
+					<ScrollArea className="max-h-80">
+						{loadingLikers ? (
+							<div className="flex justify-center py-8">
+								<Loader2 className="h-6 w-6 animate-spin text-muted-foreground" />
+							</div>
+						) : likers && likers.length === 0 ? (
+							<p className="text-center text-sm text-muted-foreground py-8">
+								No likes yet
+							</p>
+						) : (
+							<div className="space-y-1 pr-3">
+								{(likers ?? []).map((liker) => {
+									const name = displayName(liker);
+									return (
+										<Link
+											key={liker.id}
+											href={`/profile/${liker.userName}`}
+											onClick={() => setLikersOpen(false)}
+											className="flex items-center gap-3 p-2 rounded-lg hover:bg-muted transition-colors"
+										>
+											<Avatar className="h-9 w-9 shrink-0">
+												<AvatarImage
+													src={
+														liker.avatar?.photoSrc ??
+														undefined
+													}
+												/>
+												<AvatarFallback className="bg-primary text-primary-foreground font-semibold text-sm">
+													{name[0]?.toUpperCase()}
+												</AvatarFallback>
+											</Avatar>
+											<div className="min-w-0">
+												<p className="font-semibold text-sm truncate">
+													{name}
+												</p>
+												<p className="text-xs text-muted-foreground truncate">
+													@{liker.userName}
+												</p>
+											</div>
+										</Link>
+									);
+								})}
+							</div>
+						)}
+					</ScrollArea>
+				</DialogContent>
+			</Dialog>
 		</div>
 	);
 }

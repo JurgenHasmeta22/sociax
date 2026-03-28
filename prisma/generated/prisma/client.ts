@@ -202,6 +202,11 @@ export type ListingOffer = Prisma.ListingOfferModel
  */
 export type ListingMessage = Prisma.ListingMessageModel
 /**
+ * Model ListingMessageLike
+ * 
+ */
+export type ListingMessageLike = Prisma.ListingMessageLikeModel
+/**
  * Model Memory
  * 
  */

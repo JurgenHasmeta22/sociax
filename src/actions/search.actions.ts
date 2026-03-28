@@ -4,13 +4,17 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 import { prisma } from "@/lib/prisma";
 
-export async function globalSearch(query: string) {
-	if (!query.trim()) return { people: [], groups: [], pages: [] };
+const PAGE_SIZE = 20;
+
+export async function globalSearch(query: string, page = 1) {
+	if (!query.trim()) return { people: [], groups: [], pages: [], followStates: {}, hasMore: { people: false, groups: false, pages: false } };
 
 	const session = await getServerSession(authOptions);
 	const currentUserId = session ? parseInt(session.user.id) : null;
 
 	const q = query.trim();
+	const skip = (page - 1) * PAGE_SIZE;
+	const take = PAGE_SIZE;
 
 	const [people, groups, pages] = await Promise.all([
 		prisma.user.findMany({
@@ -22,7 +26,8 @@ export async function globalSearch(query: string) {
 					{ lastName: { contains: q } },
 				],
 			},
-			take: 8,
+			skip,
+			take: take + 1,
 			select: {
 				id: true,
 				userName: true,
@@ -40,7 +45,8 @@ export async function globalSearch(query: string) {
 					{ description: { contains: q } },
 				],
 			},
-			take: 8,
+			skip,
+			take: take + 1,
 			select: {
 				id: true,
 				name: true,
@@ -58,7 +64,8 @@ export async function globalSearch(query: string) {
 					{ description: { contains: q } },
 				],
 			},
-			take: 8,
+			skip,
+			take: take + 1,
 			select: {
 				id: true,
 				name: true,
@@ -70,9 +77,14 @@ export async function globalSearch(query: string) {
 		}),
 	]);
 
+	const hasMorePeople = people.length > take;
+	const hasMoreGroups = groups.length > take;
+	const hasMorePages = pages.length > take;
+
 	let followStates: Record<number, string> = {};
-	if (currentUserId && people.length > 0) {
-		const personIds = people.map((p) => p.id);
+	const peoplePage = people.slice(0, take);
+	if (currentUserId && peoplePage.length > 0) {
+		const personIds = peoplePage.map((p) => p.id);
 		const follows = await prisma.userFollow.findMany({
 			where: {
 				followerId: currentUserId,
@@ -85,5 +97,15 @@ export async function globalSearch(query: string) {
 		);
 	}
 
-	return { people, groups, pages, followStates };
+	return {
+		people: peoplePage,
+		groups: groups.slice(0, take),
+		pages: pages.slice(0, take),
+		followStates,
+		hasMore: {
+			people: hasMorePeople,
+			groups: hasMoreGroups,
+			pages: hasMorePages,
+		},
+	};
 }

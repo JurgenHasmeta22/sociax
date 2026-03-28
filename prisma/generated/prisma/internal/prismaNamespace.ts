@@ -416,6 +416,7 @@ export const ModelName = {
   ListingSave: 'ListingSave',
   ListingOffer: 'ListingOffer',
   ListingMessage: 'ListingMessage',
+  ListingMessageLike: 'ListingMessageLike',
   Memory: 'Memory',
   Conversation: 'Conversation',
   ConversationParticipant: 'ConversationParticipant',
@@ -465,7 +466,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "album" | "albumPhoto" | "account" | "session" | "verificationToken" | "activateToken" | "resetPasswordToken" | "blog" | "blogLike" | "blogHashtag" | "postComment" | "commentLike" | "commentReply" | "replyLike" | "event" | "eventAttendee" | "eventPost" | "eventPostLike" | "eventPostComment" | "eventPostCommentLike" | "eventHashtag" | "group" | "groupMember" | "groupPost" | "groupPostLike" | "groupPostComment" | "groupPostCommentLike" | "marketplaceListing" | "listingImage" | "listingSave" | "listingOffer" | "listingMessage" | "memory" | "conversation" | "conversationParticipant" | "message" | "messageReaction" | "reportedContent" | "moderationLog" | "notification" | "page" | "pageFollower" | "pagePost" | "pagePostLike" | "pagePostComment" | "pagePostCommentLike" | "post" | "postMedia" | "postLike" | "postSave" | "postShare" | "postHistory" | "hashtag" | "postHashtag" | "story" | "storyView" | "storyReaction" | "user" | "avatar" | "coverPhoto" | "userFollow" | "userBlock" | "video" | "videoLike" | "videoComment" | "videoHashtag"
+    modelProps: "album" | "albumPhoto" | "account" | "session" | "verificationToken" | "activateToken" | "resetPasswordToken" | "blog" | "blogLike" | "blogHashtag" | "postComment" | "commentLike" | "commentReply" | "replyLike" | "event" | "eventAttendee" | "eventPost" | "eventPostLike" | "eventPostComment" | "eventPostCommentLike" | "eventHashtag" | "group" | "groupMember" | "groupPost" | "groupPostLike" | "groupPostComment" | "groupPostCommentLike" | "marketplaceListing" | "listingImage" | "listingSave" | "listingOffer" | "listingMessage" | "listingMessageLike" | "memory" | "conversation" | "conversationParticipant" | "message" | "messageReaction" | "reportedContent" | "moderationLog" | "notification" | "page" | "pageFollower" | "pagePost" | "pagePostLike" | "pagePostComment" | "pagePostCommentLike" | "post" | "postMedia" | "postLike" | "postSave" | "postShare" | "postHistory" | "hashtag" | "postHashtag" | "story" | "storyView" | "storyReaction" | "user" | "avatar" | "coverPhoto" | "userFollow" | "userBlock" | "video" | "videoLike" | "videoComment" | "videoHashtag"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -2834,6 +2835,80 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         count: {
           args: Prisma.ListingMessageCountArgs<ExtArgs>
           result: runtime.Types.Utils.Optional<Prisma.ListingMessageCountAggregateOutputType> | number
+        }
+      }
+    }
+    ListingMessageLike: {
+      payload: Prisma.$ListingMessageLikePayload<ExtArgs>
+      fields: Prisma.ListingMessageLikeFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.ListingMessageLikeFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ListingMessageLikePayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.ListingMessageLikeFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ListingMessageLikePayload>
+        }
+        findFirst: {
+          args: Prisma.ListingMessageLikeFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ListingMessageLikePayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.ListingMessageLikeFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ListingMessageLikePayload>
+        }
+        findMany: {
+          args: Prisma.ListingMessageLikeFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ListingMessageLikePayload>[]
+        }
+        create: {
+          args: Prisma.ListingMessageLikeCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ListingMessageLikePayload>
+        }
+        createMany: {
+          args: Prisma.ListingMessageLikeCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.ListingMessageLikeCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ListingMessageLikePayload>[]
+        }
+        delete: {
+          args: Prisma.ListingMessageLikeDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ListingMessageLikePayload>
+        }
+        update: {
+          args: Prisma.ListingMessageLikeUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ListingMessageLikePayload>
+        }
+        deleteMany: {
+          args: Prisma.ListingMessageLikeDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.ListingMessageLikeUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.ListingMessageLikeUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ListingMessageLikePayload>[]
+        }
+        upsert: {
+          args: Prisma.ListingMessageLikeUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ListingMessageLikePayload>
+        }
+        aggregate: {
+          args: Prisma.ListingMessageLikeAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateListingMessageLike>
+        }
+        groupBy: {
+          args: Prisma.ListingMessageLikeGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.ListingMessageLikeGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.ListingMessageLikeCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.ListingMessageLikeCountAggregateOutputType> | number
         }
       }
     }
@@ -5799,6 +5874,16 @@ export const ListingMessageScalarFieldEnum = {
 export type ListingMessageScalarFieldEnum = (typeof ListingMessageScalarFieldEnum)[keyof typeof ListingMessageScalarFieldEnum]
 
 
+export const ListingMessageLikeScalarFieldEnum = {
+  id: 'id',
+  createdAt: 'createdAt',
+  userId: 'userId',
+  messageId: 'messageId'
+} as const
+
+export type ListingMessageLikeScalarFieldEnum = (typeof ListingMessageLikeScalarFieldEnum)[keyof typeof ListingMessageLikeScalarFieldEnum]
+
+
 export const MemoryScalarFieldEnum = {
   id: 'id',
   note: 'note',
@@ -6589,6 +6674,7 @@ export type GlobalOmitConfig = {
   listingSave?: Prisma.ListingSaveOmit
   listingOffer?: Prisma.ListingOfferOmit
   listingMessage?: Prisma.ListingMessageOmit
+  listingMessageLike?: Prisma.ListingMessageLikeOmit
   memory?: Prisma.MemoryOmit
   conversation?: Prisma.ConversationOmit
   conversationParticipant?: Prisma.ConversationParticipantOmit

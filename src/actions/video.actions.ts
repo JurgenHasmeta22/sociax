@@ -41,7 +41,7 @@ export async function getVideos(opts?: {
 			...(filter === "friends" ? { authorId: { in: friendIds } } : {}),
 		},
 		orderBy: { createdAt: "desc" },
-		take,
+		take: take + 1,
 		skip,
 		include: {
 			author: {
@@ -58,7 +58,8 @@ export async function getVideos(opts?: {
 		},
 	});
 
-	return videos;
+	const hasMore = videos.length > take;
+	return { videos: hasMore ? videos.slice(0, take) : videos, hasMore };
 }
 
 export async function getVideoById(id: number) {

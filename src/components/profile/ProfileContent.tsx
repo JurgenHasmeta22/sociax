@@ -1402,9 +1402,36 @@ export function ProfileContent({
 										id: a.id,
 										name: a.name,
 									}))}
-									onAdded={() => {
+									onAdded={(photo) => {
 										setAddPhotoOpen(false);
-										router.refresh();
+										if (photo?.albumId) {
+											setAlbumsList((prev) =>
+												prev.map((a) =>
+													a.id === photo.albumId
+														? {
+																...a,
+																_count: {
+																	photos:
+																		a._count
+																			.photos +
+																		1,
+																},
+																photos:
+																	a.photos
+																		.length ===
+																	0
+																		? [
+																				{
+																					photoUrl:
+																						photo.photoUrl,
+																				},
+																			]
+																		: a.photos,
+															}
+														: a,
+												),
+											);
+										}
 									}}
 								/>
 							</div>

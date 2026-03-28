@@ -4,6 +4,7 @@ import { useState, useEffect, useTransition } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import {
@@ -15,7 +16,6 @@ import {
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Search, Users, UsersRound, Flag, Loader2 } from "lucide-react";
 import { globalSearch } from "@/actions/search.actions";
-import { cn } from "@/lib/utils";
 
 type SearchResult = Awaited<ReturnType<typeof globalSearch>>;
 
@@ -34,17 +34,21 @@ export function SearchModal({
 }) {
 	const [query, setQuery] = useState("");
 	const [results, setResults] = useState<SearchResult | null>(null);
+	const [pages, setPages] = useState({ people: 1, groups: 1, pages: 1 });
+	const [loadingMore, setLoadingMore] = useState<"people" | "groups" | "pages" | null>(null);
 	const [isPending, startTransition] = useTransition();
 	const router = useRouter();
 
 	useEffect(() => {
 		if (!query.trim()) {
 			setResults(null);
+			setPages({ people: 1, groups: 1, pages: 1 });
 			return;
 		}
+		setPages({ people: 1, groups: 1, pages: 1 });
 		const timer = setTimeout(() => {
 			startTransition(async () => {
-				const r = await globalSearch(query);
+				const r = await globalSearch(query, 1);
 				setResults(r);
 			});
 		}, 400);
@@ -54,12 +58,51 @@ export function SearchModal({
 	const handleClose = () => {
 		setQuery("");
 		setResults(null);
+		setPages({ people: 1, groups: 1, pages: 1 });
 		onClose();
 	};
 
 	const handleNavigate = (href: string) => {
 		handleClose();
 		router.push(href);
+	};
+
+	const handleLoadMore = async (tab: "people" | "groups" | "pages") => {
+		if (!query.trim() || !results) return;
+		const nextPage = pages[tab] + 1;
+		setLoadingMore(tab);
+		try {
+			const more = await globalSearch(query, nextPage);
+			setPages((p) => ({ ...p, [tab]: nextPage }));
+			setResults((prev) => {
+				if (!prev) return more;
+				return {
+					...prev,
+					people:
+						tab === "people"
+							? [...prev.people, ...more.people]
+							: prev.people,
+					groups:
+						tab === "groups"
+							? [...prev.groups, ...more.groups]
+							: prev.groups,
+					pages:
+						tab === "pages"
+							? [...prev.pages, ...more.pages]
+							: prev.pages,
+					hasMore: {
+						people:
+							tab === "people" ? more.hasMore.people : prev.hasMore.people,
+						groups:
+							tab === "groups" ? more.hasMore.groups : prev.hasMore.groups,
+						pages:
+							tab === "pages" ? more.hasMore.pages : prev.hasMore.pages,
+					},
+				};
+			});
+		} finally {
+			setLoadingMore(null);
+		}
 	};
 
 	const totalResults =
@@ -110,7 +153,7 @@ export function SearchModal({
 								People{" "}
 								{results.people.length > 0 && (
 									<span className="text-xs text-muted-foreground">
-										({results.people.length})
+										({results.people.length}{results.hasMore.people ? "+" : ""})
 									</span>
 								)}
 							</TabsTrigger>
@@ -122,7 +165,7 @@ export function SearchModal({
 								Groups{" "}
 								{results.groups.length > 0 && (
 									<span className="text-xs text-muted-foreground">
-										({results.groups.length})
+										({results.groups.length}{results.hasMore.groups ? "+" : ""})
 									</span>
 								)}
 							</TabsTrigger>
@@ -134,59 +177,74 @@ export function SearchModal({
 								Pages{" "}
 								{results.pages.length > 0 && (
 									<span className="text-xs text-muted-foreground">
-										({results.pages.length})
+										({results.pages.length}{results.hasMore.pages ? "+" : ""})
 									</span>
 								)}
 							</TabsTrigger>
 						</TabsList>
 
-						<ScrollArea className="max-h-[360px]">
+						<ScrollArea className="max-h-[400px]">
 							<TabsContent value="people" className="mt-0 p-2">
 								{results.people.length === 0 ? (
 									<p className="text-center text-sm text-muted-foreground py-8">
 										No people found
 									</p>
 								) : (
-									results.people.map((person) => {
-										const name = displayName(person);
-										return (
-											<button
-												key={person.id}
-												onClick={() =>
-													handleNavigate(
-														`/profile/${person.userName}`,
-													)
-												}
-												className="w-full flex items-center gap-3 p-2.5 rounded-lg hover:bg-muted transition-colors"
-											>
-												<Avatar className="h-10 w-10 shrink-0">
-													<AvatarImage
-														src={
-															person.avatar
-																?.photoSrc ??
-															undefined
-														}
-													/>
-													<AvatarFallback className="bg-primary text-primary-foreground font-semibold text-sm">
-														{name[0]?.toUpperCase()}
-													</AvatarFallback>
-												</Avatar>
-												<div className="text-left min-w-0">
-													<p className="font-semibold text-sm leading-tight truncate">
-														{name}
-													</p>
-													<p className="text-xs text-muted-foreground truncate">
-														@{person.userName} ·{" "}
-														{
-															person._count
-																.followers
-														}{" "}
-														followers
-													</p>
-												</div>
-											</button>
-										);
-									})
+									<>
+										{results.people.map((person) => {
+											const name = displayName(person);
+											return (
+												<button
+													key={person.id}
+													onClick={() =>
+														handleNavigate(
+															`/profile/${person.userName}`,
+														)
+													}
+													className="w-full flex items-center gap-3 p-2.5 rounded-lg hover:bg-muted transition-colors"
+												>
+													<Avatar className="h-10 w-10 shrink-0">
+														<AvatarImage
+															src={
+																person.avatar
+																	?.photoSrc ??
+																undefined
+															}
+														/>
+														<AvatarFallback className="bg-primary text-primary-foreground font-semibold text-sm">
+															{name[0]?.toUpperCase()}
+														</AvatarFallback>
+													</Avatar>
+													<div className="text-left min-w-0">
+														<p className="font-semibold text-sm leading-tight truncate">
+															{name}
+														</p>
+														<p className="text-xs text-muted-foreground truncate">
+															@{person.userName} ·{" "}
+															{person._count.followers}{" "}
+															followers
+														</p>
+													</div>
+												</button>
+											);
+										})}
+										{results.hasMore.people && (
+											<div className="flex justify-center pt-2 pb-1">
+												<Button
+													variant="ghost"
+													size="sm"
+													onClick={() => handleLoadMore("people")}
+													disabled={loadingMore === "people"}
+													className="text-xs text-muted-foreground"
+												>
+													{loadingMore === "people" ? (
+														<Loader2 className="h-3 w-3 animate-spin mr-1" />
+													) : null}
+													Load more
+												</Button>
+											</div>
+										)}
+									</>
 								)}
 							</TabsContent>
 
@@ -196,39 +254,57 @@ export function SearchModal({
 										No groups found
 									</p>
 								) : (
-									results.groups.map((group) => (
-										<button
-											key={group.id}
-											onClick={() =>
-												handleNavigate(
-													`/groups/${group.slug}`,
-												)
-											}
-											className="w-full flex items-center gap-3 p-2.5 rounded-lg hover:bg-muted transition-colors"
-										>
-											<div className="h-10 w-10 rounded-full bg-primary/10 flex items-center justify-center shrink-0">
-												{group.avatarUrl ? (
-													<img
-														src={group.avatarUrl}
-														alt=""
-														className="h-10 w-10 rounded-full object-cover"
-													/>
-												) : (
-													<UsersRound className="h-5 w-5 text-primary" />
-												)}
+									<>
+										{results.groups.map((group) => (
+											<button
+												key={group.id}
+												onClick={() =>
+													handleNavigate(
+														`/groups/${group.slug}`,
+													)
+												}
+												className="w-full flex items-center gap-3 p-2.5 rounded-lg hover:bg-muted transition-colors"
+											>
+												<div className="h-10 w-10 rounded-full bg-primary/10 flex items-center justify-center shrink-0">
+													{group.avatarUrl ? (
+														<img
+															src={group.avatarUrl}
+															alt=""
+															className="h-10 w-10 rounded-full object-cover"
+														/>
+													) : (
+														<UsersRound className="h-5 w-5 text-primary" />
+													)}
+												</div>
+												<div className="text-left min-w-0">
+													<p className="font-semibold text-sm leading-tight truncate">
+														{group.name}
+													</p>
+													<p className="text-xs text-muted-foreground truncate">
+														{group.privacy} ·{" "}
+														{group._count.members}{" "}
+														members
+													</p>
+												</div>
+											</button>
+										))}
+										{results.hasMore.groups && (
+											<div className="flex justify-center pt-2 pb-1">
+												<Button
+													variant="ghost"
+													size="sm"
+													onClick={() => handleLoadMore("groups")}
+													disabled={loadingMore === "groups"}
+													className="text-xs text-muted-foreground"
+												>
+													{loadingMore === "groups" ? (
+														<Loader2 className="h-3 w-3 animate-spin mr-1" />
+													) : null}
+													Load more
+												</Button>
 											</div>
-											<div className="text-left min-w-0">
-												<p className="font-semibold text-sm leading-tight truncate">
-													{group.name}
-												</p>
-												<p className="text-xs text-muted-foreground truncate">
-													{group.privacy} ·{" "}
-													{group._count.members}{" "}
-													members
-												</p>
-											</div>
-										</button>
-									))
+										)}
+									</>
 								)}
 							</TabsContent>
 
@@ -238,39 +314,57 @@ export function SearchModal({
 										No pages found
 									</p>
 								) : (
-									results.pages.map((page) => (
-										<button
-											key={page.id}
-											onClick={() =>
-												handleNavigate(
-													`/pages/${page.slug}`,
-												)
-											}
-											className="w-full flex items-center gap-3 p-2.5 rounded-lg hover:bg-muted transition-colors"
-										>
-											<div className="h-10 w-10 rounded-full bg-primary/10 flex items-center justify-center shrink-0">
-												{page.avatarUrl ? (
-													<img
-														src={page.avatarUrl}
-														alt=""
-														className="h-10 w-10 rounded-full object-cover"
-													/>
-												) : (
-													<Flag className="h-5 w-5 text-primary" />
-												)}
+									<>
+										{results.pages.map((page) => (
+											<button
+												key={page.id}
+												onClick={() =>
+													handleNavigate(
+														`/pages/${page.slug}`,
+													)
+												}
+												className="w-full flex items-center gap-3 p-2.5 rounded-lg hover:bg-muted transition-colors"
+											>
+												<div className="h-10 w-10 rounded-full bg-primary/10 flex items-center justify-center shrink-0">
+													{page.avatarUrl ? (
+														<img
+															src={page.avatarUrl}
+															alt=""
+															className="h-10 w-10 rounded-full object-cover"
+														/>
+													) : (
+														<Flag className="h-5 w-5 text-primary" />
+													)}
+												</div>
+												<div className="text-left min-w-0">
+													<p className="font-semibold text-sm leading-tight truncate">
+														{page.name}
+													</p>
+													<p className="text-xs text-muted-foreground truncate">
+														{page.category} ·{" "}
+														{page._count.followers}{" "}
+														followers
+													</p>
+												</div>
+											</button>
+										))}
+										{results.hasMore.pages && (
+											<div className="flex justify-center pt-2 pb-1">
+												<Button
+													variant="ghost"
+													size="sm"
+													onClick={() => handleLoadMore("pages")}
+													disabled={loadingMore === "pages"}
+													className="text-xs text-muted-foreground"
+												>
+													{loadingMore === "pages" ? (
+														<Loader2 className="h-3 w-3 animate-spin mr-1" />
+													) : null}
+													Load more
+												</Button>
 											</div>
-											<div className="text-left min-w-0">
-												<p className="font-semibold text-sm leading-tight truncate">
-													{page.name}
-												</p>
-												<p className="text-xs text-muted-foreground truncate">
-													{page.category} ·{" "}
-													{page._count.followers}{" "}
-													followers
-												</p>
-											</div>
-										</button>
-									))
+										)}
+									</>
 								)}
 							</TabsContent>
 						</ScrollArea>

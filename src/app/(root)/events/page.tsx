@@ -29,8 +29,11 @@ export default async function EventsPage() {
 			</div>
 			<EventsClient
 				initialSuggestions={suggestions.events as never[]}
+				initialSuggestionsTotal={suggestions.total}
 				initialPopular={popular.events as never[]}
+				initialPopularTotal={popular.total}
 				initialMyEvents={myEvents.events as never[]}
+				initialMyEventsTotal={myEvents.total}
 			/>
 		</div>
 	);
