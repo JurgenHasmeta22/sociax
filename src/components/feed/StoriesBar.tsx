@@ -7,6 +7,7 @@ import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 import { Plus } from "lucide-react";
 import { CreateStoryDialog } from "@/components/feed/CreateStoryDialog";
 import { StoryViewer, type StoryItem } from "@/components/feed/StoryViewer";
+import { ReactionType } from "@prisma/client/enums";
 
 type Story = {
 	id: number;
@@ -78,6 +79,10 @@ export function StoriesBar({
 	const viewerStories: StoryItem[] = stories.map((s) => ({
 		...s,
 		user: { ...s.user },
+		reactions: s.reactions.map((r) => ({
+			...r,
+			reaction: r.reaction as ReactionType,
+		})),
 	}));
 
 	return (
