@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useTransition } from "react";
 import Link from "next/link";
+import { formatCount } from "@/lib/utils";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import {
@@ -38,11 +39,7 @@ type OwnedPage = {
 	updatedAt: Date | string;
 };
 
-function formatCount(n: number) {
-	if (n >= 1_000_000) return `${(n / 1_000_000).toFixed(1)}M`;
-	if (n >= 1000) return `${(n / 1000).toFixed(0)}k`;
-	return String(n);
-}
+
 
 function timeAgo(date: Date | string) {
 	const now = new Date();
@@ -132,7 +129,7 @@ function SuggestionPageCard({
 					</h3>
 				</Link>
 				<p className="text-xs text-muted-foreground mt-0.5">
-					{formatCount(page._count.followers)}k Following
+					{formatCount(page._count.followers)} followers
 				</p>
 				<Button
 					size="sm"
@@ -193,7 +190,7 @@ function PopularPageRow({
 					</p>
 				</Link>
 				<p className="text-xs text-muted-foreground">
-					{formatCount(page._count.followers)}k Following
+					{formatCount(page._count.followers)} followers
 				</p>
 			</div>
 			<div className="flex gap-2 shrink-0">
@@ -277,12 +274,12 @@ function MyPageCard({
 					</h3>
 				</Link>
 				<p className="text-xs text-muted-foreground mt-0.5">
-					{formatCount(page._count.followers)}k Following
+					{formatCount(page._count.followers)} followers
 				</p>
-				<div className="flex gap-2 mt-3">
+				<div className="mt-3">
 					<Button
 						size="sm"
-						className="flex-1"
+						className="w-full"
 						variant={page.isFollowing ? "secondary" : "default"}
 						onClick={handleFollow}
 						disabled={isPending}
@@ -292,16 +289,8 @@ function MyPageCard({
 						) : page.isFollowing ? (
 							"Following"
 						) : (
-							"Join"
+							"Follow"
 						)}
-					</Button>
-					<Button
-						size="sm"
-						variant="secondary"
-						className="shrink-0"
-						asChild
-					>
-						<Link href={`/pages/${page.slug}`}>View</Link>
 					</Button>
 				</div>
 			</div>

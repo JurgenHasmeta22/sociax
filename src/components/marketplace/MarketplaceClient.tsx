@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useTransition } from "react";
+import { useState, useTransition, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -410,6 +410,19 @@ export function MarketplaceClient({
 	const [savedListings, setSavedListings] =
 		useState<Listing[]>(initialSavedListings);
 	const [createOpen, setCreateOpen] = useState(false);
+
+	// Sync state when server re-renders with new filtered props
+	useEffect(() => {
+		setListings(initialListings);
+	}, [initialListings]);
+
+	useEffect(() => {
+		setCategory(initialCategory);
+	}, [initialCategory]);
+
+	useEffect(() => {
+		setSearch(initialSearch);
+	}, [initialSearch]);
 
 	const handleCategoryChange = (cat: string) => {
 		setCategory(cat);

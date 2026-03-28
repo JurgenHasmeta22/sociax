@@ -71,7 +71,7 @@ export async function addPhotoToAlbum(data: {
 	}
 
 	// No album — store as a standalone post (image only post)
-	await prisma.post.create({
+	const post = await prisma.post.create({
 		data: {
 			userId,
 			privacy: "Public",
@@ -86,7 +86,7 @@ export async function addPhotoToAlbum(data: {
 	});
 
 	revalidatePath("/profile");
-	return null;
+	return { id: post.id, photoUrl: data.photoUrl, caption: data.caption?.trim() || null, albumId: null };
 }
 
 export async function removePhotoFromAlbum(photoId: number) {

@@ -437,12 +437,13 @@ function PagePostCard({
 					)}
 
 					{post.mediaUrl && (
-						<div className="relative rounded-lg overflow-hidden bg-muted mb-3 h-72">
+						<div className="relative rounded-lg overflow-hidden bg-muted mb-3">
 							<Image
 								src={post.mediaUrl}
 								alt=""
-								fill
-								className="object-cover"
+								width={600}
+								height={400}
+								className="w-full h-auto max-h-[500px] object-contain"
 								sizes="600px"
 							/>
 						</div>
@@ -452,12 +453,28 @@ function PagePostCard({
 				<CardContent className="pt-2 pb-2">
 					{likeCount > 0 && (
 						<>
-							<button
-								onClick={() => setShowReactionsModal(true)}
-								className="text-sm text-muted-foreground mb-2 hover:underline cursor-pointer"
-							>
-								{likeCount} reaction{likeCount !== 1 ? "s" : ""}
-							</button>
+							<div className="flex items-center justify-between text-sm text-muted-foreground mb-2">
+								<button
+									onClick={() => setShowReactionsModal(true)}
+									className="flex items-center gap-1 hover:text-foreground transition-colors"
+								>
+									{topReactions.map((type) => (
+										<span key={type} className="text-base leading-none">
+											{REACTIONS[type]?.emoji}
+										</span>
+									))}
+									<span>{likeCount.toLocaleString()}</span>
+								</button>
+								{post._count.comments > 0 && (
+									<button
+										onClick={handleOpenComments}
+										className="flex items-center gap-1 hover:text-foreground transition-colors"
+									>
+										<MessageCircle className="h-3.5 w-3.5" />
+										<span>{post._count.comments}</span>
+									</button>
+								)}
+							</div>
 							<Separator className="mb-1" />
 						</>
 					)}

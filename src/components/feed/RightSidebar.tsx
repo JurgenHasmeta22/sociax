@@ -2,6 +2,7 @@
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { RefreshCw, Hash } from "lucide-react";
 import { SidebarFollowButton } from "@/components/feed/SidebarFollowButton";
+import { formatCount } from "@/lib/utils";
 
 type SuggestedUser = {
 	id: number;
@@ -94,8 +95,8 @@ export function RightSidebar({
 										</p>
 									</Link>
 									<p className="text-xs text-muted-foreground mt-0.5">
-										{user._count.followers.toLocaleString()}
-										k Following
+									{formatCount(user._count.followers)}{" "}
+									followers
 									</p>
 								</div>
 								<SidebarFollowButton
@@ -189,8 +190,8 @@ export function RightSidebar({
 											{displayName}
 										</p>
 										<p className="text-[11px] text-muted-foreground">
-											{user._count.followers.toLocaleString()}
-											K Followers
+										{formatCount(user._count.followers)}{" "}
+										followers
 										</p>
 									</div>
 									<SidebarFollowButton

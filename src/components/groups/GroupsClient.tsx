@@ -3,9 +3,11 @@
 import { useState, useTransition, useRef, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { formatCount } from "@/lib/utils";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
-import { Users, ChevronRight, Loader2 } from "lucide-react";
+import { Users, ChevronRight, ChevronLeft, Loader2 } from "lucide-react";
 import { GroupJoinButton } from "@/components/groups/GroupJoinButton";
 import { CreateGroupDialog } from "@/components/groups/CreateGroupDialog";
 import {
@@ -56,11 +58,7 @@ const STATIC_CATEGORIES = [
 	"Sports",
 ];
 
-function formatCount(n: number) {
-	if (n >= 1_000_000) return `${(n / 1_000_000).toFixed(1)}M`;
-	if (n >= 1000) return `${(n / 1000).toFixed(0)}k`;
-	return String(n);
-}
+
 
 function FeaturedGroupCard({
 	group,
@@ -118,7 +116,7 @@ function FeaturedGroupCard({
 					members
 				</p>
 				{isLoggedIn && (
-					<div className="flex gap-2 mt-3">
+					<div className="mt-3">
 						<GroupJoinButton
 							groupId={group.id}
 							initialState={
@@ -130,14 +128,6 @@ function FeaturedGroupCard({
 							}
 							privacy={group.privacy}
 						/>
-						<Button
-							variant="secondary"
-							size="sm"
-							className="shrink-0"
-							asChild
-						>
-							<Link href={`/groups/${group.slug}`}>View</Link>
-						</Button>
 					</div>
 				)}
 			</div>
@@ -247,6 +237,17 @@ export function GroupsClient({
 	const [isPending, startTransition] = useTransition();
 	const [showCreate, setShowCreate] = useState(false);
 	const debounceRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+	const carouselRef = useRef<HTMLDivElement>(null);
+	const router = useRouter();
+
+	const scrollCarousel = (dir: "left" | "right") => {
+		if (carouselRef.current) {
+			carouselRef.current.scrollBy({
+				left: dir === "right" ? 220 : -220,
+				behavior: "smooth",
+			});
+		}
+	};
 
 	useEffect(() => {
 		if (tab === "suggestions") {
@@ -390,30 +391,47 @@ export function GroupsClient({
 										Find a group by browsing top categories.
 									</p>
 								</div>
-								<button className="text-sm text-primary hover:underline font-medium">
-									See all
-								</button>
-							</div>
-							<div className="relative mt-3">
-								<div className="flex gap-3 overflow-x-auto pb-2 scrollbar-hide">
-									{STATIC_CATEGORIES.map((cat) => (
-										<div
-											key={cat}
-											className={`relative shrink-0 w-36 h-24 rounded-xl overflow-hidden cursor-pointer bg-gradient-to-br ${
-												CATEGORY_COLORS[cat] ??
-												"from-gray-600 to-gray-800"
-											} hover:opacity-90 transition-opacity`}
-										>
-											<div className="absolute inset-0 flex items-end p-3">
-												<span className="text-white font-semibold text-sm drop-shadow">
-													{cat}
-												</span>
-											</div>
+							<Link
+								href="/groups/categories"
+								className="text-sm text-primary hover:underline font-medium"
+							>
+								See all
+							</Link>
+						</div>
+						<div className="relative mt-3">
+							<button
+								onClick={() => scrollCarousel("left")}
+								className="absolute left-0 top-1/2 -translate-y-1/2 z-10 w-8 h-8 rounded-full bg-background border border-border shadow-md flex items-center justify-center hover:bg-muted transition-colors"
+								aria-label="Scroll left"
+							>
+								<ChevronLeft className="h-4 w-4" />
+							</button>
+							<div
+								ref={carouselRef}
+								className="flex gap-3 overflow-x-auto pb-2 scrollbar-hide px-4"
+							>
+								{STATIC_CATEGORIES.map((cat) => (
+									<Link
+										key={cat}
+										href={`/groups/categories?cat=${encodeURIComponent(cat)}`}
+										className={`relative shrink-0 w-36 h-24 rounded-xl overflow-hidden bg-gradient-to-br ${
+											CATEGORY_COLORS[cat] ??
+											"from-gray-600 to-gray-800"
+										} hover:opacity-90 transition-opacity`}
+									>
+										<div className="absolute inset-0 flex items-end p-3">
+											<span className="text-white font-semibold text-sm drop-shadow">
+												{cat}
+											</span>
 										</div>
-									))}
-								</div>
-								<button className="absolute right-0 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full bg-background border border-border shadow-md flex items-center justify-center hover:bg-muted transition-colors">
-									<ChevronRight className="h-4 w-4" />
+									</Link>
+								))}
+							</div>
+							<button
+								onClick={() => scrollCarousel("right")}
+								className="absolute right-0 top-1/2 -translate-y-1/2 z-10 w-8 h-8 rounded-full bg-background border border-border shadow-md flex items-center justify-center hover:bg-muted transition-colors"
+								aria-label="Scroll right"
+							>
 								</button>
 							</div>
 						</div>
@@ -434,10 +452,13 @@ export function GroupsClient({
 											: "Find a group you might be interested in."}
 									</p>
 								</div>
-								<button className="text-sm text-primary hover:underline font-medium">
-									See all
-								</button>
-							</div>
+							<button
+								onClick={() => handleLoadMore()}
+								className="text-sm text-primary hover:underline font-medium"
+							>
+								See all
+							</button>
+						</div>
 							<div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mt-3">
 								{suggestionList.map((group) => (
 									<SuggestionGroupRow

@@ -546,6 +546,7 @@ export function ProfileContent({
 	const [createAlbumOpen, setCreateAlbumOpen] = useState(false);
 	const [addPhotoOpen, setAddPhotoOpen] = useState(false);
 	const [albumsList, setAlbumsList] = useState<AlbumItem[]>(albums);
+	const [standalonePhotos, setStandalonePhotos] = useState<{ id: number; url: string }[]>([]);
 	const [createStoryOpen, setCreateStoryOpen] = useState(false);
 	const [pagesSubTab, setPagesSubTab] = useState<"mine" | "following">(
 		"mine",
@@ -1174,6 +1175,7 @@ export function ProfileContent({
 						{!canViewContent ? (
 							<PrivacyGate privacy={user.profilePrivacy} />
 						) : activeTab === "Videos" ? (
+							<>
 							<div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-2">
 								{posts
 									.flatMap((p) => p.media)
@@ -1200,7 +1202,13 @@ export function ProfileContent({
 									</div>
 								)}
 							</div>
-						) : selectedAlbumId !== null ? (
+						<div className="flex justify-center mt-4">
+							<Button variant="outline" size="sm" asChild>
+								<Link href="/videos">Browse all videos</Link>
+							</Button>
+						</div>
+						</>
+					) : selectedAlbumId !== null ? (
 							(() => {
 								const selAlbum = albumsList.find(
 									(a) => a.id === selectedAlbumId,
@@ -1350,33 +1358,44 @@ export function ProfileContent({
 									<h3 className="font-semibold text-base mb-3">
 										Photos
 									</h3>
-									<div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-2">
-										{posts
+									{(() => {
+										const postPhotos = posts
 											.flatMap((p) => p.media)
 											.filter((m) => m.type === "image")
-											.map((m) => (
-												<div
-													key={m.id}
-													className="aspect-square rounded-lg overflow-hidden bg-muted"
-												>
-													<img
-														src={m.url}
-														alt=""
-														className="w-full h-full object-cover hover:opacity-90 transition-opacity cursor-pointer"
-													/>
+											.map((m) => ({ id: m.id, url: m.url }));
+										const allPhotos = [
+											...standalonePhotos,
+											...postPhotos.filter(
+												(p) => !standalonePhotos.find((sp) => sp.id === p.id)
+											),
+										];
+										if (allPhotos.length === 0) {
+											return (
+												<div className="col-span-4 text-center py-10 text-muted-foreground border border-dashed rounded-lg">
+													<p className="text-sm">No individual photos yet</p>
+													{isOwnProfile && (
+														<p className="text-sm mt-1">Use &ldquo;Add Photo&rdquo; to upload photos here</p>
+													)}
 												</div>
-											))}
-										{posts
-											.flatMap((p) => p.media)
-											.filter((m) => m.type === "image")
-											.length === 0 && (
-											<div className="col-span-4 text-center py-10 text-muted-foreground">
-												<p className="text-sm">
-													No individual photos yet
-												</p>
+											);
+										}
+										return (
+											<div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-2">
+												{allPhotos.map((photo) => (
+													<div
+														key={photo.id}
+														className="aspect-square rounded-lg overflow-hidden bg-muted"
+													>
+														<img
+															src={photo.url}
+															alt=""
+															className="w-full h-full object-cover hover:opacity-90 transition-opacity cursor-pointer"
+														/>
+													</div>
+												))}
 											</div>
-										)}
-									</div>
+										);
+									})()}
 								</div>
 
 								{/* Dialogs */}
@@ -1404,7 +1423,8 @@ export function ProfileContent({
 									}))}
 									onAdded={(photo) => {
 										setAddPhotoOpen(false);
-										if (photo?.albumId) {
+										if (!photo) return;
+										if (photo.albumId) {
 											setAlbumsList((prev) =>
 												prev.map((a) =>
 													a.id === photo.albumId
@@ -1431,6 +1451,12 @@ export function ProfileContent({
 														: a,
 												),
 											);
+										} else {
+											// Added without an album – show in Individual Photos
+											setStandalonePhotos((prev) => [
+												{ id: photo.id, url: photo.photoUrl },
+												...prev,
+											]);
 										}
 									}}
 								/>

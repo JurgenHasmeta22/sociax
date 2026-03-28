@@ -129,7 +129,10 @@ export function AddPhotoDialog({
 				<div className="space-y-4">
 					{/* Upload */}
 					<div className="space-y-1.5">
-						<Label>Photo *</Label>
+						<Label>
+							Photo{" "}
+							<span className="text-destructive text-xs">*required</span>
+						</Label>
 						{photoUrl ? (
 							<div className="relative rounded-lg overflow-hidden bg-muted aspect-video">
 								{/* eslint-disable-next-line @next/next/no-img-element */}
