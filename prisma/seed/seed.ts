@@ -29,6 +29,7 @@ import {
 } from "../generated/prisma/client";
 import { PrismaBetterSqlite3 } from "@prisma/adapter-better-sqlite3";
 import { hashSync } from "bcrypt";
+import { faker } from "@faker-js/faker";
 
 const adapter = new PrismaBetterSqlite3({ url: process.env.DATABASE_URL ?? "" });
 const prisma = new PrismaClient({ adapter });
@@ -538,6 +539,37 @@ const ALBUM_NAMES = [
 ];
 // #endregion
 
+// #region Faker generators — called fresh per row; unique content at any SCALE
+const g = {
+    firstName:     () => faker.person.firstName(),
+    lastName:      () => faker.person.lastName(),
+    bio:           () => faker.person.bio(),
+    location:      () => `${faker.location.city()}, ${faker.location.country()}`,
+    postContent:   () => faker.lorem.sentences({ min: 1, max: 3 }),
+    comment:       () => faker.lorem.sentence({ min: 5, max: 15 }),
+    reply:         () => faker.lorem.sentence({ min: 3, max: 10 }),
+    message:       () => faker.lorem.sentence({ min: 3, max: 12 }),
+    imageUrl:      () => `https://picsum.photos/seed/${faker.string.alphanumeric(8)}/800/600`,
+    avatarUrl:     () => `https://i.pravatar.cc/150?img=${randomInt(1, 70)}`,
+    thumbnailUrl:  () => `https://picsum.photos/seed/${faker.string.alphanumeric(8)}/1280/720`,
+    videoUrl:      (i: number) => `https://example-cdn.sociax.dev/videos/v${i}.mp4`,
+    groupName:     () => `${faker.word.adjective()} ${faker.word.noun()} Community`,
+    groupDesc:     () => faker.company.catchPhrase(),
+    pageName:      () => faker.company.name(),
+    pageDesc:      () => faker.company.catchPhrase(),
+    eventTitle:    () => faker.lorem.words({ min: 3, max: 5 }).split(" ").map(w => w[0].toUpperCase() + w.slice(1)).join(" "),
+    videoTitle:    () => faker.lorem.sentence({ min: 4, max: 8 }).replace(/\.$/, ""),
+    videoDesc:     () => faker.lorem.paragraph(),
+    blogTitle:     () => faker.lorem.sentence({ min: 5, max: 10 }).replace(/\.$/, ""),
+    blogExcerpt:   () => faker.lorem.sentence({ min: 10, max: 20 }),
+    blogContent:   () => faker.lorem.paragraphs({ min: 3, max: 6 }),
+    listingTitle:  () => faker.commerce.productName(),
+    listingDesc:   () => faker.commerce.productDescription(),
+    albumName:     () => `${faker.word.adjective()} ${faker.word.noun()} Album`,
+    groupChatName: () => `${faker.word.adjective()} ${faker.word.noun()} Chat`,
+};
+// #endregion
+
 // #region Delete all data
 async function deleteAll() {
     console.log("  Clearing existing data...");
@@ -628,12 +660,9 @@ async function main() {
 
     const USER_COUNT = 400 * SCALE;
     const userDataList = Array.from({ length: USER_COUNT }, (_, i) => {
-        const first = FIRST_NAMES[i % FIRST_NAMES.length];
-        const last = LAST_NAMES[i % LAST_NAMES.length];
-        const suffix = Math.floor(i / FIRST_NAMES.length);
-        const userName = suffix === 0
-            ? `${first.toLowerCase()}${last.toLowerCase()}`
-            : `${first.toLowerCase()}${last.toLowerCase()}${suffix}`;
+        const first = g.firstName();
+        const last = g.lastName();
+        const userName = `${first.toLowerCase().replace(/[^a-z0-9]/g, "")}${last.toLowerCase().replace(/[^a-z0-9]/g, "")}${i}`;
         const role = i === 0 ? UserRole.Admin : i === 1 ? UserRole.Moderator : UserRole.User;
         return { i, first, last, userName, role };
     });
@@ -647,16 +676,16 @@ async function main() {
                 password,
                 firstName: u.first,
                 lastName: u.last,
-                bio: pick(BIOS),
+                bio: g.bio(),
                 gender: pick(genders),
-                location: pick(LOCATIONS),
+                location: g.location(),
                 phone: `+1${randomInt(2000000000, 9999999999)}`,
                 profilePrivacy: pick(privacies),
                 active: true,
                 role: u.role,
                 birthday: randomDate(new Date("1970-01-01"), new Date("2002-12-31")),
-                avatar: { create: { photoSrc: AVATAR_URLS[u.i % AVATAR_URLS.length] } },
-                coverPhoto: { create: { photoSrc: pick(IMAGE_URLS) } },
+                avatar: { create: { photoSrc: g.avatarUrl() } },
+                coverPhoto: { create: { photoSrc: g.imageUrl() } },
             },
         });
         users.push(created);
@@ -717,13 +746,13 @@ async function main() {
         const user = users[i % users.length];
         const post = await prisma.post.create({
             data: {
-                content: pick(POST_CONTENTS),
+                content: g.postContent(),
                 type: PostType.Original,
                 privacy: pick(postPrivacies),
                 userId: user.id,
                 createdAt: randomDate(new Date("2025-01-01"), new Date()),
                 media: i % 3 === 0
-                    ? { create: [{ url: pick(IMAGE_URLS), type: PostMediaType.Image, order: 0 }] }
+                    ? { create: [{ url: g.imageUrl(), type: PostMediaType.Image, order: 0 }] }
                     : undefined,
                 hashtags: {
                     create: pickMany(hashtags, randomInt(1, 3)).map((h) => ({ hashtagId: h.id })),
@@ -822,7 +851,7 @@ async function main() {
         for (const u of commentors) {
             const comment = await prisma.postComment.create({
                 data: {
-                    content: pick(COMMENT_CONTENTS),
+                    content: g.comment(),
                     postId: post.id,
                     userId: u.id,
                     createdAt: randomDate(new Date("2025-01-01"), new Date()),
@@ -842,7 +871,7 @@ async function main() {
             if (Math.random() > 0.4) {
                 const reply = await prisma.commentReply.create({
                     data: {
-                        content: pick(REPLY_CONTENTS),
+                        content: g.reply(),
                         commentId: comment.id,
                         userId: pick(users).id,
                         createdAt: randomDate(new Date("2025-01-01"), new Date()),
@@ -874,8 +903,8 @@ async function main() {
         for (let i = 0; i < count; i++) {
             const story = await prisma.story.create({
                 data: {
-                    mediaUrl: pick(IMAGE_URLS),
-                    caption: Math.random() > 0.5 ? pick(POST_CONTENTS) : null,
+                    mediaUrl: g.imageUrl(),
+                    caption: Math.random() > 0.5 ? g.postContent() : null,
                     privacy: pick(storyPrivacies),
                     userId: u.id,
                     expiresAt: new Date(Date.now() + 1000 * 60 * 60 * 24),
@@ -935,7 +964,7 @@ async function main() {
             const actualSender = j % 2 === 0 ? sender : receiver;
             const msg = await prisma.message.create({
                 data: {
-                    content: pick(MESSAGE_TEXTS),
+                    content: g.message(),
                     type: MessageType.Text,
                     status: MessageStatus.Read,
                     senderId: actualSender.id,
@@ -957,8 +986,8 @@ async function main() {
         const conv = await prisma.conversation.create({
             data: {
                 isGroup: true,
-                name: `Group Chat ${i + 1}`,
-                coverUrl: pick(IMAGE_URLS),
+                name: g.groupChatName(),
+                coverUrl: g.imageUrl(),
                 participants: {
                     create: members.map((m, idx) => ({ userId: m.id, isAdmin: idx === 0 })),
                 },
@@ -968,7 +997,7 @@ async function main() {
         for (let j = 0; j < randomInt(5, 15); j++) {
             await prisma.message.create({
                 data: {
-                    content: pick(MESSAGE_TEXTS),
+                    content: g.message(),
                     type: MessageType.Text,
                     status: MessageStatus.Delivered,
                     senderId: pick(members).id,
@@ -990,16 +1019,15 @@ async function main() {
 
     await runInChunks(Array.from({ length: GROUPS_COUNT }, (_, i) => i), 20, async (i) => {
         const owner = users[i % users.length];
-        const baseName = GROUP_NAMES[i % GROUP_NAMES.length];
-        const name = i >= GROUP_NAMES.length ? `${baseName} ${Math.floor(i / GROUP_NAMES.length) + 1}` : baseName;
-        const baseSlug = `${slugify(baseName)}-${i}`;
+        const name = g.groupName();
+        const baseSlug = `${slugify(name)}-${i}`;
         const group = await prisma.group.create({
             data: {
                 name,
                 slug: baseSlug,
-                description: GROUP_DESCS[i % GROUP_DESCS.length],
-                coverUrl: pick(IMAGE_URLS),
-                avatarUrl: pick(AVATAR_URLS),
+                description: g.groupDesc(),
+                coverUrl: g.imageUrl(),
+                avatarUrl: g.avatarUrl(),
                 privacy: pick(groupPrivacies),
                 ownerId: owner.id,
                 members: {
@@ -1027,8 +1055,8 @@ async function main() {
             const author = pick(users);
             const gpost = await prisma.groupPost.create({
                 data: {
-                    content: pick(POST_CONTENTS),
-                    mediaUrl: Math.random() > 0.6 ? pick(IMAGE_URLS) : null,
+                    content: g.postContent(),
+                    mediaUrl: Math.random() > 0.6 ? g.imageUrl() : null,
                     groupId: group.id,
                     userId: author.id,
                     createdAt: randomDate(new Date("2025-01-01"), new Date()),
@@ -1048,7 +1076,7 @@ async function main() {
             for (let c = 0; c < randomInt(0, 6); c++) {
                 await prisma.groupPostComment.create({
                     data: {
-                        content: pick(COMMENT_CONTENTS),
+                        content: g.comment(),
                         groupPostId: gpost.id,
                         userId: pick(users).id,
                     },
@@ -1068,16 +1096,15 @@ async function main() {
 
     await runInChunks(Array.from({ length: PAGES_COUNT }, (_, i) => i), 20, async (i) => {
         const owner = users[i % users.length];
-        const baseName = PAGE_NAMES[i % PAGE_NAMES.length];
-        const name = i >= PAGE_NAMES.length ? `${baseName} ${Math.floor(i / PAGE_NAMES.length) + 1}` : baseName;
-        const baseSlug = `${slugify(baseName)}-${i}`;
+        const name = g.pageName();
+        const baseSlug = `${slugify(name)}-${i}`;
         const page = await prisma.page.create({
             data: {
                 name,
                 slug: baseSlug,
-                description: PAGE_DESC_TPLS[i % PAGE_DESC_TPLS.length],
-                coverUrl: pick(IMAGE_URLS),
-                avatarUrl: pick(AVATAR_URLS),
+                description: g.pageDesc(),
+                coverUrl: g.imageUrl(),
+                avatarUrl: g.avatarUrl(),
                 category: pick(pageCategories),
                 isVerified: Math.random() > 0.6,
                 ownerId: owner.id,
@@ -1098,8 +1125,8 @@ async function main() {
         for (let p = 0; p < randomInt(4, 10); p++) {
             const ppost = await prisma.pagePost.create({
                 data: {
-                    content: pick(POST_CONTENTS),
-                    mediaUrl: Math.random() > 0.5 ? pick(IMAGE_URLS) : null,
+                    content: g.postContent(),
+                    mediaUrl: Math.random() > 0.5 ? g.imageUrl() : null,
                     pageId: page.id,
                     userId: pick(users).id,
                     createdAt: randomDate(new Date("2025-01-01"), new Date()),
@@ -1119,7 +1146,7 @@ async function main() {
             for (let c = 0; c < randomInt(0, 6); c++) {
                 await prisma.pagePostComment.create({
                     data: {
-                        content: pick(COMMENT_CONTENTS),
+                        content: g.comment(),
                         pagePostId: ppost.id,
                         userId: pick(users).id,
                     },
@@ -1140,17 +1167,16 @@ async function main() {
 
     await runInChunks(Array.from({ length: EVENTS_COUNT }, (_, i) => i), 20, async (i) => {
         const creator = users[i % users.length];
-        const baseTitle = EVENT_TITLES[i % EVENT_TITLES.length];
-        const title = i >= EVENT_TITLES.length ? `${baseTitle} (${Math.floor(i / EVENT_TITLES.length) + 1})` : baseTitle;
-        const baseSlug = `${slugify(baseTitle)}-${i}`;
+        const title = g.eventTitle();
+        const baseSlug = `${slugify(title)}-${i}`;
         const startDate = randomDate(new Date("2026-04-01"), new Date("2027-06-30"));
         const event = await prisma.event.create({
             data: {
                 title,
                 slug: baseSlug,
-                description: `Join us for ${baseTitle}. It's going to be epic!`,
-                coverUrl: pick(IMAGE_URLS),
-                location: pick(LOCATIONS),
+                description: faker.lorem.paragraph(),
+                coverUrl: g.imageUrl(),
+                location: g.location(),
                 isOnline: Math.random() > 0.7,
                 privacy: pick(eventPrivacies),
                 startDate,
@@ -1177,7 +1203,7 @@ async function main() {
         await prisma.notification.create({
             data: {
                 type: pick(notifTypes),
-                content: `You have a new notification from user #${sender.id}.`,
+                content: faker.lorem.sentence({ min: 5, max: 12 }),
                 userId: receiver.id,
                 senderId: sender.id,
                 createdAt: randomDate(new Date("2025-01-01"), new Date()),
@@ -1197,7 +1223,7 @@ async function main() {
         await prisma.reportedContent.create({
             data: {
                 reportType: pick(reportTypes),
-                reason: "This content violates community guidelines.",
+                reason: faker.lorem.sentence({ min: 8, max: 15 }),
                 status: pick(reportStatuses),
                 contentId: randomInt(1, POST_COUNT),
                 reportingUserId: reporter.id,
@@ -1217,7 +1243,7 @@ async function main() {
         await prisma.moderationLog.create({
             data: {
                 actionType: pick(modActions),
-                details: "Action taken against user for policy violation.",
+                details: faker.lorem.sentence({ min: 8, max: 15 }),
                 moderatorUserId: mod.id,
                 targetUserId: target.id,
                 targetContentId: randomInt(1, POST_COUNT),
@@ -1239,8 +1265,8 @@ async function main() {
             const author = pick(users);
             const epost = await prisma.eventPost.create({
                 data: {
-                    content: pick(POST_CONTENTS),
-                    mediaUrl: Math.random() > 0.6 ? pick(IMAGE_URLS) : null,
+                    content: g.postContent(),
+                    mediaUrl: Math.random() > 0.6 ? g.imageUrl() : null,
                     eventId: event.id,
                     userId: author.id,
                     createdAt: randomDate(new Date("2025-01-01"), new Date()),
@@ -1260,7 +1286,7 @@ async function main() {
             for (let c = 0; c < randomInt(0, 6); c++) {
                 const epComment = await prisma.eventPostComment.create({
                     data: {
-                        content: pick(COMMENT_CONTENTS),
+                        content: g.comment(),
                         eventPostId: epost.id,
                         userId: pick(users).id,
                     },
@@ -1350,9 +1376,9 @@ async function main() {
         for (let a = 0; a < albumsPerUser; a++) {
             const album = await prisma.album.create({
                 data: {
-                    name: pick(ALBUM_NAMES),
-                    description: Math.random() > 0.5 ? pick(BIOS) : null,
-                    coverUrl: pick(IMAGE_URLS),
+                    name: g.albumName(),
+                    description: Math.random() > 0.5 ? g.bio() : null,
+                    coverUrl: g.imageUrl(),
                     privacy: pick([PostPrivacy.Public, PostPrivacy.Public, PostPrivacy.FriendsOnly, PostPrivacy.OnlyMe]),
                     userId: u.id,
                     createdAt: randomDate(new Date("2024-01-01"), new Date()),
@@ -1363,8 +1389,8 @@ async function main() {
             for (let p = 0; p < photoCount; p++) {
                 await prisma.albumPhoto.create({
                     data: {
-                        photoUrl: pick(IMAGE_URLS),
-                        caption: Math.random() > 0.6 ? pick(POST_CONTENTS).slice(0, 80) : null,
+                        photoUrl: g.imageUrl(),
+                        caption: Math.random() > 0.6 ? g.comment() : null,
                         order: p,
                         albumId: album.id,
                         createdAt: randomDate(new Date("2024-01-01"), new Date()),
@@ -1383,13 +1409,12 @@ async function main() {
     const videos: { id: number }[] = [];
     await runInChunks(Array.from({ length: VIDEO_COUNT }, (_, i) => i), 50, async (i) => {
         const author = users[i % users.length];
-        const titleIdx = i % VIDEO_TITLES.length;
         const video = await prisma.video.create({
             data: {
-                title: VIDEO_TITLES[titleIdx],
-                description: VIDEO_DESCS[titleIdx],
-                url: VIDEO_URLS[i % VIDEO_URLS.length],
-                thumbnailUrl: VIDEO_THUMBNAIL_URLS[i % VIDEO_THUMBNAIL_URLS.length],
+                title: g.videoTitle(),
+                description: g.videoDesc(),
+                url: g.videoUrl(i),
+                thumbnailUrl: g.thumbnailUrl(),
                 duration: randomInt(60, 3600),
                 views: randomInt(0, 50000),
                 privacy: pick([PostPrivacy.Public, PostPrivacy.Public, PostPrivacy.FriendsOnly, PostPrivacy.OnlyMe]),
@@ -1417,7 +1442,7 @@ async function main() {
         for (let c = 0; c < randomInt(2, 10); c++) {
             await prisma.videoComment.create({
                 data: {
-                    content: pick(COMMENT_CONTENTS),
+                    content: g.comment(),
                     userId: pick(users).id,
                     videoId: video.id,
                     createdAt: randomDate(new Date("2024-06-01"), new Date()),
@@ -1443,15 +1468,15 @@ async function main() {
     const blogs: { id: number }[] = [];
     await runInChunks(Array.from({ length: BLOG_COUNT }, (_, i) => i), 50, async (i) => {
         const author = users[i % users.length];
-        const titleIdx = i % BLOG_TITLES.length;
-        const slugBase = slugify(BLOG_TITLES[titleIdx]);
+        const blogTitle = g.blogTitle();
+        const slugBase = slugify(blogTitle);
         const blog = await prisma.blog.create({
             data: {
                 slug: `${slugBase}-${author.id}-${i}`,
-                title: BLOG_TITLES[titleIdx],
-                content: BLOG_CONTENTS[i % BLOG_CONTENTS.length],
-                excerpt: BLOG_EXCERPTS[i % BLOG_EXCERPTS.length],
-                coverImageUrl: Math.random() > 0.3 ? pick(IMAGE_URLS) : null,
+                title: blogTitle,
+                content: g.blogContent(),
+                excerpt: g.blogExcerpt(),
+                coverImageUrl: Math.random() > 0.3 ? g.imageUrl() : null,
                 published: Math.random() > 0.2,
                 authorId: author.id,
                 createdAt: randomDate(new Date("2024-01-01"), new Date()),
@@ -1495,24 +1520,23 @@ async function main() {
     const listings: { id: number; sellerId: number }[] = [];
     await runInChunks(Array.from({ length: LISTING_COUNT }, (_, i) => i), 50, async (i) => {
         const seller = users[i % users.length];
-        const titleIdx = i % LISTING_TITLES.length;
         const listing = await prisma.marketplaceListing.create({
             data: {
-                title: LISTING_TITLES[titleIdx],
-                description: LISTING_DESCS[titleIdx],
+                title: g.listingTitle(),
+                description: g.listingDesc(),
                 price: parseFloat((randomInt(5, 2000) + Math.random()).toFixed(2)),
                 isFree: Math.random() > 0.95,
                 category: pick(listingCategories),
                 condition: pick(listingConditions),
                 status: pick(listingStatuses),
-                location: pick(LOCATIONS),
+                location: g.location(),
                 slug: `listing-${seller.id}-${i}`,
                 viewCount: randomInt(0, 5000),
                 sellerId: seller.id,
                 createdAt: randomDate(new Date("2024-01-01"), new Date()),
                 images: {
                     create: Array.from({ length: randomInt(1, 4) }, (_, o) => ({
-                        url: pick(IMAGE_URLS),
+                        url: g.imageUrl(),
                         order: o,
                     })),
                 },
@@ -1540,7 +1564,7 @@ async function main() {
             await prisma.listingOffer.create({
                 data: {
                     amount: parseFloat((randomInt(1, 1800) + Math.random()).toFixed(2)),
-                    message: Math.random() > 0.5 ? pick(MESSAGE_TEXTS) : null,
+                    message: Math.random() > 0.5 ? g.message() : null,
                     status: pick(offerStatuses),
                     buyerId: buyer.id,
                     listingId: listing.id,
@@ -1553,7 +1577,7 @@ async function main() {
             const sender = pick(users.filter((u) => u.id !== listing.sellerId));
             await prisma.listingMessage.create({
                 data: {
-                    content: pick(MESSAGE_TEXTS),
+                    content: g.message(),
                     senderId: sender.id,
                     listingId: listing.id,
                     createdAt: randomDate(new Date("2024-01-01"), new Date()),
@@ -1573,7 +1597,7 @@ async function main() {
         for (let m = 0; m < count; m++) {
             await prisma.memory.create({
                 data: {
-                    note: Math.random() > 0.4 ? pick(POST_CONTENTS).slice(0, 120) : null,
+                    note: Math.random() > 0.4 ? g.comment() : null,
                     userId: u.id,
                     postId: Math.random() > 0.5 ? pick(posts).id : null,
                     createdAt: randomDate(new Date("2023-01-01"), new Date()),
