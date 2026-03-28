@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useRef, useTransition } from "react";
+import { useState, useRef, useTransition, useEffect } from "react";
 import Link from "next/link";
 import { formatDistanceToNow } from "date-fns";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
@@ -9,6 +9,13 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import { Textarea } from "@/components/ui/textarea";
 import {
+	Dialog,
+	DialogContent,
+	DialogHeader,
+	DialogTitle,
+} from "@/components/ui/dialog";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import {
 	MessageCircle,
 	Send,
 	Heart,
@@ -16,6 +23,7 @@ import {
 	Users,
 	ImagePlus,
 	X,
+	Share2,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import {
@@ -23,6 +31,8 @@ import {
 	createGroupPostComment,
 	deleteGroupPostComment,
 	getGroupPostComments,
+	getGroupPostReactions,
+	toggleGroupPostCommentLike,
 } from "@/actions/group.actions";
 import type { ReactionType } from "../../../prisma/generated/prisma/enums";
 
@@ -40,6 +50,8 @@ type GroupComment = {
 	content: string;
 	mediaUrl?: string | null;
 	createdAt: Date;
+	likeCount?: number;
+	isLikedByMe?: boolean;
 	user: {
 		id: number;
 		userName: string;
@@ -48,6 +60,102 @@ type GroupComment = {
 		avatar: { photoSrc: string } | null;
 	};
 };
+
+type ReactionUser = {
+	id: number;
+	reactionType: string;
+	user: {
+		id: number;
+		userName: string;
+		firstName: string | null;
+		lastName: string | null;
+		avatar: { photoSrc: string } | null;
+	};
+};
+
+function ReactionsModal({
+	postId,
+	open,
+	onClose,
+}: {
+	postId: number;
+	open: boolean;
+	onClose: () => void;
+}) {
+	const [reactions, setReactions] = useState<ReactionUser[]>([]);
+	const [loaded, setLoaded] = useState(false);
+
+	useEffect(() => {
+		if (open && !loaded) {
+			getGroupPostReactions(postId).then((r) => {
+				setReactions(r as ReactionUser[]);
+				setLoaded(true);
+			});
+		}
+	}, [open, loaded, postId]);
+
+	if (!open) return null;
+
+	const tabs = ["All", ...Object.keys(REACTIONS)];
+	const grouped = Object.fromEntries(
+		Object.keys(REACTIONS).map((key) => [
+			key,
+			reactions.filter((r) => r.reactionType === key),
+		]),
+	);
+
+	return (
+		<Dialog open={open} onOpenChange={(v) => !v && onClose()}>
+			<DialogContent className="max-w-md">
+				<DialogHeader>
+					<DialogTitle>Reactions</DialogTitle>
+				</DialogHeader>
+				<Tabs defaultValue="All">
+					<TabsList className="flex-wrap h-auto gap-1 mb-2">
+						{tabs.map((tab) => {
+							const count =
+								tab === "All"
+									? reactions.length
+									: (grouped[tab]?.length ?? 0);
+							if (tab !== "All" && count === 0) return null;
+							return (
+								<TabsTrigger key={tab} value={tab} className="text-xs px-2 py-1">
+									{tab === "All" ? `All ${count}` : `${REACTIONS[tab].emoji} ${count}`}
+								</TabsTrigger>
+							);
+						})}
+					</TabsList>
+					{tabs.map((tab) => (
+						<TabsContent key={tab} value={tab} className="max-h-72 overflow-y-auto space-y-2">
+							{(tab === "All" ? reactions : (grouped[tab] ?? [])).map((r) => (
+								<div key={r.id} className="flex items-center gap-3">
+									<div className="relative">
+										<Avatar className="h-9 w-9">
+											<AvatarImage src={r.user.avatar?.photoSrc ?? undefined} />
+											<AvatarFallback className="bg-primary text-primary-foreground text-xs">
+												{((r.user.firstName || r.user.userName)[0] ?? "?").toUpperCase()}
+											</AvatarFallback>
+										</Avatar>
+										<span className="absolute -bottom-0.5 -right-0.5 text-sm leading-none">
+											{REACTIONS[r.reactionType]?.emoji}
+										</span>
+									</div>
+									<Link
+										href={`/profile/${r.user.userName}`}
+										className="text-sm font-medium hover:underline"
+										onClick={() => onClose()}
+									>
+										{[r.user.firstName, r.user.lastName].filter(Boolean).join(" ") || r.user.userName}
+									</Link>
+								</div>
+							))}
+						</TabsContent>
+					))}
+				</Tabs>
+			</DialogContent>
+		</Dialog>
+	);
+}
 
 export type FeedGroupPost = {
 	id: number;
@@ -101,6 +209,7 @@ export function FeedGroupPostCard({
 	const [isPending, startTransition] = useTransition();
 	const hoverTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
 	const [showPicker, setShowPicker] = useState(false);
+	const [showReactionsModal, setShowReactionsModal] = useState(false);
 
 	const name = displayName(post.user);
 
@@ -124,10 +233,27 @@ export function FeedGroupPostCard({
 		setShowComments(true);
 		if (comments.length === 0) {
 			startTransition(async () => {
-				const fetched = await getGroupPostComments(post.id);
+				const fetched = await getGroupPostComments(post.id, currentUserId);
 				setComments(fetched);
 			});
 		}
+	};
+
+	const handleCommentLike = (commentId: number) => {
+		setComments((prev) =>
+			prev.map((c) =>
+				c.id === commentId
+					? {
+							...c,
+							likeCount: c.isLikedByMe
+								? (c.likeCount ?? 1) - 1
+								: (c.likeCount ?? 0) + 1,
+							isLikedByMe: !c.isLikedByMe,
+						}
+					: c,
+			),
+		);
+		startTransition(() => toggleGroupPostCommentLike(commentId));
 	};
 
 	const handleComment = async () => {
@@ -328,6 +454,14 @@ export function FeedGroupPostCard({
 						<MessageCircle className="h-[18px] w-[18px]" />
 						Comment
 					</Button>
+					<Button
+						variant="ghost"
+						size="sm"
+						className="flex-1 gap-2 text-muted-foreground hover:text-foreground rounded-lg font-semibold text-sm h-9"
+					>
+						<Share2 className="h-[18px] w-[18px]" />
+						Share
+					</Button>
 				</div>
 			</CardContent>
 
@@ -458,6 +592,12 @@ export function FeedGroupPostCard({
 					</div>
 				</CardContent>
 			)}
-		</Card>
+
+		<ReactionsModal
+			postId={post.id}
+			open={showReactionsModal}
+			onClose={() => setShowReactionsModal(false)}
+		/>
+	</Card>
 	);
 }

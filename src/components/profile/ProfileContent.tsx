@@ -102,6 +102,7 @@ import {
 	AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
 import { Textarea } from "@/components/ui/textarea";
+import { Input } from "@/components/ui/input";
 
 type FriendUser = {
 	id: number;
@@ -611,9 +612,13 @@ export function ProfileContent({
 	// Sort states for tabs
 	const [postSort, setPostSort] = useState<"newest" | "oldest" | "most_liked" | "most_commented">("newest");
 	const [blogSort, setBlogSort] = useState<"newest" | "oldest" | "most_liked">("newest");
+	const [blogPublishFilter, setBlogPublishFilter] = useState<"all" | "published" | "drafts">("all");
 	const [photoSort, setPhotoSort] = useState<"newest" | "oldest">("newest");
 	const [videoSort, setVideoSort] = useState<"newest" | "oldest">("newest");
 	const [marketSort, setMarketSort] = useState<"newest" | "oldest" | "price_asc" | "price_desc">("newest");
+	const [marketStatusFilter, setMarketStatusFilter] = useState<"all" | "Active" | "Sold">("all");
+	const [friendSearch, setFriendSearch] = useState("");
+	const [groupSort, setGroupSort] = useState<"default" | "most_members" | "alphabetical">("default");
 
 	const handleBlock = async () => {
 		setBlockPending(true);
@@ -781,19 +786,43 @@ export function ProfileContent({
 		return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime();
 	});
 
-	// Sorted blogs
-	const sortedBlogs = [...blogs].sort((a, b) => {
+	// Sorted + filtered blogs
+	const filteredBlogs = blogs.filter((b) => {
+		if (!isOwnProfile) return b.published;
+		if (blogPublishFilter === "published") return b.published;
+		if (blogPublishFilter === "drafts") return !b.published;
+		return true;
+	});
+	const sortedBlogs = [...filteredBlogs].sort((a, b) => {
 		if (blogSort === "oldest") return new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime();
 		if (blogSort === "most_liked") return b._count.likes - a._count.likes;
 		return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime();
 	});
 
-	// Sorted market listings
-	const sortedMarket = [...marketListings].sort((a, b) => {
+	// Sorted + filtered market listings
+	const filteredMarket = marketListings.filter((m) =>
+		marketStatusFilter === "all" ? true : m.status === marketStatusFilter,
+	);
+	const sortedMarket = [...filteredMarket].sort((a, b) => {
 		if (marketSort === "oldest") return new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime();
 		if (marketSort === "price_asc") return a.price - b.price;
 		if (marketSort === "price_desc") return b.price - a.price;
 		return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime();
+	});
+
+	// Filtered friends
+	const filteredFriends = friendSearch.trim()
+		? friends.filter((f) =>
+				displayName(f).toLowerCase().includes(friendSearch.toLowerCase()) ||
+				f.userName.toLowerCase().includes(friendSearch.toLowerCase()),
+			)
+		: friends;
+
+	// Sorted groups
+	const sortedAllGroups = [...allGroups].sort((a, b) => {
+		if (groupSort === "most_members") return b._count.members - a._count.members;
+		if (groupSort === "alphabetical") return a.name.localeCompare(b.name);
+		return 0;
 	});
 
 	return (
@@ -1260,11 +1289,21 @@ export function ProfileContent({
 							<PrivacyGate privacy={user.profilePrivacy} />
 						) : (
 							<>
-								<p className="text-sm text-muted-foreground mb-4">
-									{user._count.followers.toLocaleString()}{" "}
-									friends &middot; showing {friends.length}
-								</p>
-								<FriendGrid people={friends} />
+								<div className="flex items-center justify-between gap-3 mb-4">
+									<div className="relative flex-1 max-w-sm">
+										<Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
+										<Input
+											placeholder="Search friends…"
+											value={friendSearch}
+											onChange={(e) => setFriendSearch(e.target.value)}
+											className="pl-9 h-9 text-sm"
+										/>
+									</div>
+									<p className="text-sm text-muted-foreground shrink-0">
+										{filteredFriends.length} / {user._count.followers.toLocaleString()} friends
+									</p>
+								</div>
+								<FriendGrid people={filteredFriends} />
 							</>
 						)}
 					</div>
@@ -1645,55 +1684,52 @@ export function ProfileContent({
 							<PrivacyGate privacy={user.profilePrivacy} />
 						) : (
 							<>
-								<div className="flex items-center justify-between">
-									<h2 className="font-semibold text-base">
-										Groups
-									</h2>
-									{(ownedGroups.length > 0 ||
-										groups.length > 0) && (
-										<div className="flex rounded-lg border overflow-hidden text-sm">
-											<button
-												onClick={() =>
-													setGroupsSubTab("mine")
-												}
-												className={`px-3 py-1 font-medium transition-colors ${groupsSubTab === "mine" ? "bg-primary text-primary-foreground" : "text-muted-foreground hover:bg-muted"}`}
-											>
-												{isOwnProfile
-													? "My Groups"
-													: "Created"}
-											</button>
-											<button
-												onClick={() =>
-													setGroupsSubTab("joined")
-												}
-												className={`px-3 py-1 font-medium transition-colors ${groupsSubTab === "joined" ? "bg-primary text-primary-foreground" : "text-muted-foreground hover:bg-muted"}`}
-											>
-												Joined
-											</button>
-										</div>
-									)}
+								<div className="flex items-center justify-between gap-3 flex-wrap">
+									<div className="flex items-center gap-2">
+										<h2 className="font-semibold text-base">Groups</h2>
+										{(ownedGroups.length > 0 || groups.length > 0) && (
+											<div className="flex rounded-lg border overflow-hidden text-sm">
+												<button
+													onClick={() => setGroupsSubTab("mine")}
+													className={`px-3 py-1 font-medium transition-colors ${groupsSubTab === "mine" ? "bg-primary text-primary-foreground" : "text-muted-foreground hover:bg-muted"}`}
+												>
+													{isOwnProfile ? "My Groups" : "Created"}
+												</button>
+												<button
+													onClick={() => setGroupsSubTab("joined")}
+													className={`px-3 py-1 font-medium transition-colors ${groupsSubTab === "joined" ? "bg-primary text-primary-foreground" : "text-muted-foreground hover:bg-muted"}`}
+												>
+													Joined
+												</button>
+											</div>
+										)}
+									</div>
+									<Select value={groupSort} onValueChange={(v) => setGroupSort(v as typeof groupSort)}>
+										<SelectTrigger className="w-44 h-8 text-xs">
+											<SlidersHorizontal className="h-3.5 w-3.5 mr-1.5" />
+											<SelectValue />
+										</SelectTrigger>
+										<SelectContent>
+											<SelectItem value="default">Default order</SelectItem>
+											<SelectItem value="most_members">Most members</SelectItem>
+											<SelectItem value="alphabetical">A → Z</SelectItem>
+										</SelectContent>
+									</Select>
 								</div>
 								{groupsSubTab === "mine" ? (
 									ownedGroups.length === 0 ? (
 										<div className="text-center py-8 text-muted-foreground border border-dashed rounded-lg">
-											<p className="text-sm">
-												No groups created yet
-											</p>
+											<p className="text-sm">No groups created yet</p>
 										</div>
 									) : (
 										<GroupGrid
-											groups={ownedGroups}
+											groups={sortedAllGroups.filter((g) => g.isOwned)}
 											emptyLabel="No groups created"
 										/>
 									)
 								) : (
 									<GroupGrid
-										groups={groups.filter(
-											(g) =>
-												!ownedGroups.find(
-													(og) => og.id === g.id,
-												),
-										)}
+										groups={sortedAllGroups.filter((g) => !g.isOwned)}
 										emptyLabel="Not a member of any groups"
 									/>
 								)}
@@ -1721,14 +1757,27 @@ export function ProfileContent({
 							</div>
 						) : (
 							<div className="space-y-4">
-								<div className="flex items-center justify-between mb-2">
+								<div className="flex items-center justify-between gap-2 mb-2 flex-wrap">
 									{isOwnProfile ? (
-										<Link href="/blog/new">
-											<Button size="sm" className="gap-1.5">
-												<BookOpen className="h-3.5 w-3.5" />
-												Write New Blog
-											</Button>
-										</Link>
+										<div className="flex items-center gap-2">
+											<Link href="/blog/new">
+												<Button size="sm" className="gap-1.5">
+													<BookOpen className="h-3.5 w-3.5" />
+													Write New Blog
+												</Button>
+											</Link>
+											<div className="flex rounded-lg border overflow-hidden text-xs">
+												{(["all", "published", "drafts"] as const).map((f) => (
+													<button
+														key={f}
+														onClick={() => setBlogPublishFilter(f)}
+														className={`px-2.5 py-1.5 font-medium capitalize transition-colors ${blogPublishFilter === f ? "bg-primary text-primary-foreground" : "text-muted-foreground hover:bg-muted"}`}
+													>
+														{f === "all" ? `All (${blogs.length})` : f === "published" ? `Published` : `Drafts`}
+													</button>
+												))}
+											</div>
+										</div>
 									) : <span />}
 									<Select value={blogSort} onValueChange={(v) => setBlogSort(v as typeof blogSort)}>
 										<SelectTrigger className="w-44 h-8 text-xs">
@@ -1835,7 +1884,7 @@ export function ProfileContent({
 					<div className="pb-10">
 						{!canViewContent ? (
 							<PrivacyGate privacy={user.profilePrivacy} />
-						) : sortedMarket.length === 0 ? (
+						) : marketListings.length === 0 ? (
 							<div className="text-center py-16 text-muted-foreground">
 								<ShoppingBag className="h-10 w-10 mx-auto mb-3 opacity-30" />
 								<p className="font-medium">No marketplace listings</p>
@@ -1847,8 +1896,21 @@ export function ProfileContent({
 							</div>
 						) : (
 							<div className="space-y-4">
-								<div className="flex items-center justify-between mb-2">
-									<p className="text-sm text-muted-foreground">{sortedMarket.length} listings</p>
+								<div className="flex items-center justify-between gap-2 mb-2 flex-wrap">
+									<div className="flex items-center gap-2">
+										<div className="flex rounded-lg border overflow-hidden text-xs">
+											{(["all", "Active", "Sold"] as const).map((s) => (
+												<button
+													key={s}
+													onClick={() => setMarketStatusFilter(s)}
+													className={`px-3 py-1.5 font-medium transition-colors ${marketStatusFilter === s ? "bg-primary text-primary-foreground" : "text-muted-foreground hover:bg-muted"}`}
+												>
+													{s === "all" ? `All (${marketListings.length})` : s}
+												</button>
+											))}
+										</div>
+										<span className="text-xs text-muted-foreground">{sortedMarket.length} listings</span>
+									</div>
 									<Select value={marketSort} onValueChange={(v) => setMarketSort(v as typeof marketSort)}>
 										<SelectTrigger className="w-48 h-8 text-xs">
 											<SlidersHorizontal className="h-3.5 w-3.5 mr-1.5" />
@@ -1857,8 +1919,8 @@ export function ProfileContent({
 										<SelectContent>
 											<SelectItem value="newest">Newest first</SelectItem>
 											<SelectItem value="oldest">Oldest first</SelectItem>
-											<SelectItem value="price_asc">Price: Low to High</SelectItem>
-											<SelectItem value="price_desc">Price: High to Low</SelectItem>
+											<SelectItem value="price_asc">Price: Low → High</SelectItem>
+											<SelectItem value="price_desc">Price: High → Low</SelectItem>
 										</SelectContent>
 									</Select>
 								</div>
