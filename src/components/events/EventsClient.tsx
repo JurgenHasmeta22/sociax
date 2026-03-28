@@ -8,6 +8,7 @@ import { CalendarDays, ChevronRight, Loader2, Share2 } from "lucide-react";
 import { format } from "date-fns";
 import { rsvpEvent, fetchEvents, fetchPopularEvents, fetchMyEvents } from "@/actions/event.actions";
 import type { AttendeeStatus } from "../../../prisma/generated/prisma/enums";
+import { useInfiniteScroll } from "@/hooks/use-infinite-scroll";
 
 type Tab = "suggestions" | "popular" | "myevents";
 
@@ -204,6 +205,8 @@ export function EventsClient({
 		}
 	};
 
+	const sentinelRef = useInfiniteScroll(handleLoadMore, { hasMore, loading: loadingMore });
+
 	const TABS: { key: Tab; label: string }[] = [
 		{ key: "suggestions", label: "Suggestions" },
 		{ key: "popular", label: "Popular" },
@@ -315,20 +318,10 @@ export function EventsClient({
 						</div>
 					)}
 
-					{/* Load More */}
+					{/* Load More sentinel */}
 					{hasMore && (
-						<div className="flex justify-center mt-6">
-							<Button
-								variant="outline"
-								onClick={handleLoadMore}
-								disabled={loadingMore}
-								className="gap-2"
-							>
-								{loadingMore ? (
-									<Loader2 className="h-4 w-4 animate-spin" />
-								) : null}
-								{loadingMore ? "Loading..." : "Load More Events"}
-							</Button>
+						<div ref={sentinelRef} className="flex justify-center py-6">
+							{loadingMore && <Loader2 className="h-5 w-5 animate-spin text-muted-foreground" />}
 						</div>
 					)}
 				</>

@@ -7,6 +7,7 @@ import { ArrowLeft, Plus, Trash2, X, Loader2, CheckSquare, Square } from "lucide
 import { removePhotoFromAlbum, removeMultiplePhotosFromAlbum, getAlbumById, deleteAlbum } from "@/actions/album.actions";
 import { toast } from "sonner";
 import { AddPhotoDialog } from "@/components/profile/AddPhotoDialog";
+import { ConfirmDeleteDialog } from "@/components/ui/confirm-delete-dialog";
 
 type AlbumPhoto = {
 	id: number;
@@ -56,6 +57,13 @@ export function AlbumView({
 	const [selectMode, setSelectMode] = useState(false);
 	const [selectedIds, setSelectedIds] = useState<Set<number>>(new Set());
 
+	// Confirm dialog state
+	const [confirmAction, setConfirmAction] = useState<{
+		type: "bulk" | "all" | "album";
+		title: string;
+		description: string;
+	} | null>(null);
+
 	useEffect(() => {
 		setLoading(true);
 		getAlbumById(albumId)
@@ -82,51 +90,54 @@ export function AlbumView({
 
 	const handleBulkDelete = () => {
 		if (selectedIds.size === 0) return;
-		if (!confirm(`Delete ${selectedIds.size} photo${selectedIds.size > 1 ? "s" : ""}?`)) return;
-		startTransition(async () => {
-			try {
-				await removeMultiplePhotosFromAlbum([...selectedIds]);
-				const next = photos.filter((p) => !selectedIds.has(p.id));
-				setPhotos(next);
-				onPhotosChanged?.(albumId, next.length, next[0]?.photoUrl ?? null);
-				setSelectedIds(new Set());
-				setSelectMode(false);
-				toast.success(`${selectedIds.size} photo${selectedIds.size > 1 ? "s" : ""} deleted`);
-			} catch {
-				toast.error("Failed to delete photos");
-			}
+		setConfirmAction({
+			type: "bulk",
+			title: `Delete ${selectedIds.size} photo${selectedIds.size > 1 ? "s" : ""}?`,
+			description: "This action cannot be undone. The selected photos will be permanently removed from this album.",
 		});
 	};
 
 	const handleDeleteAll = () => {
 		if (photos.length === 0) return;
-		if (!confirm(`Delete all ${photos.length} photos from this album?`)) return;
-		startTransition(async () => {
-			try {
-				await removeMultiplePhotosFromAlbum(photos.map((p) => p.id));
-				setPhotos([]);
-				onPhotosChanged?.(albumId, 0, null);
-				setSelectedIds(new Set());
-				setSelectMode(false);
-				toast.success("All photos deleted");
-			} catch {
-				toast.error("Failed to delete photos");
-			}
+		setConfirmAction({
+			type: "all",
+			title: `Delete all ${photos.length} photos?`,
+			description: "This will permanently remove every photo from this album. This cannot be undone.",
 		});
 	};
 
 	const handleDeleteAlbum = () => {
-		if (!confirm(`Delete album "${albumMeta.name}" and all its photos? This cannot be undone.`)) return;
-		startTransition(async () => {
-			try {
-				await deleteAlbum(albumId);
-				toast.success("Album deleted");
-				onAlbumDeleted?.(albumId);
-				onBack();
-			} catch {
-				toast.error("Failed to delete album");
-			}
+		setConfirmAction({
+			type: "album",
+			title: `Delete album "${albumMeta.name}"?`,
+			description: "This will permanently delete the album and all its photos. This action cannot be undone.",
 		});
+	};
+
+	const executeConfirmedAction = async () => {
+		if (!confirmAction) return;
+		const { type } = confirmAction;
+		if (type === "bulk") {
+			await removeMultiplePhotosFromAlbum([...selectedIds]);
+			const next = photos.filter((p) => !selectedIds.has(p.id));
+			setPhotos(next);
+			onPhotosChanged?.(albumId, next.length, next[0]?.photoUrl ?? null);
+			setSelectedIds(new Set());
+			setSelectMode(false);
+			toast.success(`${selectedIds.size} photo${selectedIds.size > 1 ? "s" : ""} deleted`);
+		} else if (type === "all") {
+			await removeMultiplePhotosFromAlbum(photos.map((p) => p.id));
+			setPhotos([]);
+			onPhotosChanged?.(albumId, 0, null);
+			setSelectedIds(new Set());
+			setSelectMode(false);
+			toast.success("All photos deleted");
+		} else if (type === "album") {
+			await deleteAlbum(albumId);
+			toast.success("Album deleted");
+			onAlbumDeleted?.(albumId);
+			onBack();
+		}
 	};
 
 	const toggleSelect = (id: number) => {
@@ -339,6 +350,16 @@ export function AlbumView({
 					</div>
 				</div>
 			)}
+
+			{/* Confirm delete dialog */}
+			<ConfirmDeleteDialog
+				open={!!confirmAction}
+				onClose={() => setConfirmAction(null)}
+				onConfirm={executeConfirmedAction}
+				title={confirmAction?.title ?? ""}
+				description={confirmAction?.description ?? ""}
+				confirmLabel={confirmAction?.type === "album" ? "Delete Album" : "Delete"}
+			/>
 		</div>
 	);
 }

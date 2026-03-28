@@ -95,6 +95,7 @@ function NavLink({
 	return (
 		<Link
 			href={href}
+			title={label}
 			className={cn(
 				"flex items-center gap-3 px-2 py-2 rounded-xl transition-colors font-medium text-sm",
 				isActive
@@ -110,7 +111,7 @@ function NavLink({
 			>
 				<Icon className="h-[18px] w-[18px] text-white" />
 			</div>
-			{label}
+			<span className="sidebar-label truncate">{label}</span>
 		</Link>
 	);
 }
@@ -142,7 +143,7 @@ export function LeftSidebar({
 						{displayName[0]?.toUpperCase()}
 					</AvatarFallback>
 				</Avatar>
-				<div className="min-w-0">
+				<div className="min-w-0 sidebar-label">
 					<span className="font-semibold text-sm block truncate">
 						{displayName}
 					</span>
@@ -184,13 +185,13 @@ export function LeftSidebar({
 						)}
 					/>
 				</div>
-				{showMore ? "See Less" : "See More"}
+				<span className="sidebar-label">{showMore ? "See Less" : "See More"}</span>
 			</button>
 
 			{/* Shortcut friends */}
 			{shortcuts.length > 0 && (
 				<>
-					<p className="px-2 pt-4 pb-1 text-xs font-semibold text-muted-foreground uppercase tracking-wider">
+					<p className="px-2 pt-4 pb-1 text-xs font-semibold text-muted-foreground uppercase tracking-wider sidebar-label">
 						Online Friends
 					</p>
 					{shortcuts.map((friend) => {
@@ -218,7 +219,7 @@ export function LeftSidebar({
 									</Avatar>
 									<span className="absolute bottom-0 right-0 w-2.5 h-2.5 rounded-full bg-green-500 border-2 border-background" />
 								</div>
-								<span className="text-sm font-medium truncate text-foreground/80">
+							<span className="text-sm font-medium truncate text-foreground/80 sidebar-label">
 									{friendName}
 								</span>
 							</Link>
@@ -228,23 +229,24 @@ export function LeftSidebar({
 			)}
 
 			{/* Pages section */}
-			<p className="px-2 pt-4 pb-1 text-xs font-semibold text-muted-foreground uppercase tracking-wider">
+			<p className="px-2 pt-4 pb-1 text-xs font-semibold text-muted-foreground uppercase tracking-wider sidebar-label">
 				Pages
 			</p>
 			{PAGE_LINKS.map(({ href, icon: Icon, label }) => (
 				<Link
 					key={href}
 					href={href}
+					title={label}
 					className="flex items-center gap-3 px-2 py-2 rounded-xl hover:bg-muted transition-colors text-sm font-medium text-foreground/75 hover:text-foreground"
 				>
 					<div className="w-9 h-9 rounded-full bg-muted flex items-center justify-center shrink-0">
 						<Icon className="h-[18px] w-[18px] text-muted-foreground" />
 					</div>
-					{label}
+					<span className="sidebar-label">{label}</span>
 				</Link>
 			))}
 
-			<p className="px-2 pt-4 text-xs text-muted-foreground/60">
+			<p className="px-2 pt-4 text-xs text-muted-foreground/60 sidebar-label">
 				Sociax © 2026 · Privacy · Terms
 			</p>
 		</div>

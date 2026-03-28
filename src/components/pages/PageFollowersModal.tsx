@@ -12,6 +12,7 @@ import {
 } from "@/components/ui/dialog";
 import { Loader2, Users } from "lucide-react";
 import { getPageFollowers } from "@/actions/page.actions";
+import { useInfiniteScroll } from "@/hooks/use-infinite-scroll";
 
 type Follower = {
 	id: number;
@@ -50,6 +51,12 @@ export function PageFollowersModal({
 		},
 		[pageId],
 	);
+
+	const loadMoreFollowers = useCallback(() => {
+		loadFollowers(followers.length);
+	}, [loadFollowers, followers.length]);
+
+	const sentinelRef = useInfiniteScroll(loadMoreFollowers, { hasMore, loading: isPending });
 
 	const handleOpen = () => {
 		setOpen(true);
@@ -114,18 +121,9 @@ export function PageFollowersModal({
 					</div>
 
 					{hasMore && (
-						<Button
-							variant="outline"
-							size="sm"
-							className="w-full mt-2"
-							disabled={isPending}
-							onClick={() => loadFollowers(followers.length)}
-						>
-							{isPending ? (
-								<Loader2 className="h-4 w-4 animate-spin mr-2" />
-							) : null}
-							Load more
-						</Button>
+						<div ref={sentinelRef} className="flex justify-center py-3">
+							{isPending && <Loader2 className="h-4 w-4 animate-spin text-muted-foreground" />}
+						</div>
 					)}
 				</DialogContent>
 			</Dialog>

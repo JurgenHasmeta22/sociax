@@ -27,6 +27,8 @@ import {
 	Moon,
 	Sun,
 	ShoppingBag,
+	Video,
+	BookOpen,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { SearchModal } from "@/components/root/SearchModal";
@@ -39,7 +41,17 @@ const NAV_LINKS = [
 	{ href: "/groups", icon: UsersRound, label: "Groups" },
 	{ href: "/pages", icon: Flag, label: "Pages" },
 	{ href: "/events", icon: CalendarDays, label: "Events" },
-	{ href: "/marketplace", icon: ShoppingBag, label: "Marketplace" },
+	{ href: "/videos", icon: Video, label: "Videos" },
+	{ href: "/marketplace", icon: ShoppingBag, label: "Market" },
+	{ href: "/blog", icon: BookOpen, label: "Blog" },
+];
+
+const MOBILE_NAV_LINKS = [
+	{ href: "/feed", icon: Home, label: "Home" },
+	{ href: "/groups", icon: UsersRound, label: "Groups" },
+	{ href: "/videos", icon: Video, label: "Videos" },
+	{ href: "/events", icon: CalendarDays, label: "Events" },
+	{ href: "/marketplace", icon: ShoppingBag, label: "Market" },
 ];
 
 export function Navbar() {
@@ -247,6 +259,30 @@ export function Navbar() {
 				open={searchOpen}
 				onClose={() => setSearchOpen(false)}
 			/>
+
+			{/* Mobile bottom nav */}
+			{session && (
+				<nav className="fixed bottom-0 left-0 right-0 z-50 md:hidden bg-background/95 backdrop-blur border-t border-border safe-area-pb">
+					<div className="flex items-center justify-around h-14">
+						{MOBILE_NAV_LINKS.map(({ href, icon: Icon, label }) => {
+							const isActive = pathname === href || pathname.startsWith(href + "/");
+							return (
+								<Link
+									key={href}
+									href={href}
+									className={cn(
+										"flex flex-col items-center justify-center gap-0.5 flex-1 h-full transition-colors",
+										isActive ? "text-primary" : "text-muted-foreground",
+									)}
+								>
+									<Icon className="h-5 w-5" />
+									<span className="text-[10px] font-medium">{label}</span>
+								</Link>
+							);
+						})}
+					</div>
+				</nav>
+			)}
 		</>
 	);
 }

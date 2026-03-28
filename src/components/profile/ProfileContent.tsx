@@ -35,6 +35,7 @@ import {
 	ShieldAlert,
 	OctagonX,
 	Trash2,
+	Video,
 } from "lucide-react";
 import { format } from "date-fns";
 import {
@@ -59,6 +60,7 @@ import { PostComposer } from "@/components/feed/PostComposer";
 import { CreateAlbumDialog } from "@/components/profile/CreateAlbumDialog";
 import { AddPhotoDialog } from "@/components/profile/AddPhotoDialog";
 import { AlbumView } from "@/components/profile/AlbumView";
+import { ConfirmDeleteDialog } from "@/components/ui/confirm-delete-dialog";
 import { CreateStoryDialog } from "@/components/feed/CreateStoryDialog";
 import { toast } from "sonner";
 import {
@@ -549,6 +551,11 @@ export function ProfileContent({
 	const [albumsList, setAlbumsList] = useState<AlbumItem[]>(albums);
 	const [standalonePhotos, setStandalonePhotos] = useState<{ id: number; url: string }[]>([]);
 	const [createStoryOpen, setCreateStoryOpen] = useState(false);
+	const [photoConfirm, setPhotoConfirm] = useState<{
+		action: () => Promise<void>;
+		title: string;
+		description: string;
+	} | null>(null);
 	const [pagesSubTab, setPagesSubTab] = useState<"mine" | "following">(
 		"mine",
 	);
@@ -1177,6 +1184,16 @@ export function ProfileContent({
 							<PrivacyGate privacy={user.profilePrivacy} />
 						) : activeTab === "Videos" ? (
 							<>
+							{isOwnProfile && (
+								<div className="flex justify-end mb-4">
+									<Button size="sm" className="gap-2" asChild>
+										<Link href="/videos">
+											<Video className="h-4 w-4" />
+											Upload Video
+										</Link>
+									</Button>
+								</div>
+							)}
 							<div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-2">
 								{posts
 									.flatMap((p) => p.media)
@@ -1358,12 +1375,17 @@ export function ProfileContent({
 													</button>
 													{isOwnProfile && (
 														<button
-															onClick={async (e) => {
+															onClick={(e) => {
 																e.stopPropagation();
-																if (!confirm("Delete this album and all its photos?")) return;
-																await deleteAlbum(album.id);
-																setAlbumsList((prev) => prev.filter((a) => a.id !== album.id));
-																toast.success("Album deleted");
+																setPhotoConfirm({
+																	title: `Delete album "${album.name}"?`,
+																	description: "This will permanently delete the album and all its photos.",
+																	action: async () => {
+																		await deleteAlbum(album.id);
+																		setAlbumsList((prev) => prev.filter((a) => a.id !== album.id));
+																		toast.success("Album deleted");
+																	},
+																});
 															}}
 															className="absolute top-1.5 right-1.5 p-1 rounded-full bg-black/60 text-white opacity-0 group-hover:opacity-100 transition-opacity hover:bg-red-600"
 														>
@@ -1415,20 +1437,21 @@ export function ProfileContent({
 														/>
 														{isOwnProfile && (
 															<button
-																onClick={async () => {
-																	if (!confirm("Delete this photo?")) return;
-																	try {
-																		if (photo.isStandalone) {
-																			await deleteStandalonePhoto(photo.postId!);
-																			setStandalonePhotos((prev) => prev.filter((sp) => sp.id !== photo.id));
-																		} else {
-																			await deleteStandalonePhoto(photo.postId!);
-																			setPosts((prev) => prev.filter((p) => p.id !== photo.postId));
-																		}
-																		toast.success("Photo deleted");
-																	} catch {
-																		toast.error("Failed to delete photo");
-																	}
+																onClick={() => {
+																	setPhotoConfirm({
+																		title: "Delete this photo?",
+																		description: "This photo will be permanently removed and cannot be recovered.",
+																		action: async () => {
+																			if (photo.isStandalone) {
+																				await deleteStandalonePhoto(photo.postId!);
+																				setStandalonePhotos((prev) => prev.filter((sp) => sp.id !== photo.id));
+																			} else {
+																				await deleteStandalonePhoto(photo.postId!);
+																				setPosts((prev) => prev.filter((p) => p.id !== photo.postId));
+																			}
+																			toast.success("Photo deleted");
+																		},
+																	});
 																}}
 																className="absolute top-1.5 right-1.5 p-1 rounded-full bg-black/60 text-white opacity-0 group-hover:opacity-100 transition-opacity hover:bg-red-600"
 															>
@@ -1503,6 +1526,13 @@ export function ProfileContent({
 											]);
 										}
 									}}
+								/>
+								<ConfirmDeleteDialog
+									open={!!photoConfirm}
+									onClose={() => setPhotoConfirm(null)}
+									onConfirm={photoConfirm?.action ?? (() => {})}
+									title={photoConfirm?.title ?? ""}
+									description={photoConfirm?.description ?? ""}
 								/>
 							</div>
 						)}

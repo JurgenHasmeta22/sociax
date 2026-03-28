@@ -43,7 +43,7 @@ export function RightSidebar({
 	const onlineFriends = suggestedUsers.filter((u) =>
 		onlineFriendIds.includes(u.id),
 	);
-	const proMembers = suggestedUsers.slice(0, 2);
+	const topCreators = suggestedUsers.slice(0, 2);
 	const trends =
 		trendingTags.length > 0
 			? trendingTags.map((t) => ({ tag: t.name, posts: t._count.posts }))
@@ -158,16 +158,16 @@ export function RightSidebar({
 				</div>
 			)}
 
-			{/* Pro Members */}
-			{proMembers.length > 0 && (
+			{/* Top Creators */}
+			{topCreators.length > 0 && (
 				<div>
 					<div className="flex items-center justify-between mb-3">
 						<h3 className="font-semibold text-sm text-foreground">
-							Pro Members
+							Top Creators
 						</h3>
 					</div>
 					<div className="grid grid-cols-2 gap-2">
-						{proMembers.map((user) => {
+						{topCreators.map((user) => {
 							const displayName = name(user);
 							return (
 								<div

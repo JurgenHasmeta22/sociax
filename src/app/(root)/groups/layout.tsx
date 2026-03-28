@@ -3,6 +3,7 @@ import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 import { redirect } from "next/navigation";
 import { prisma } from "@/lib/prisma";
 import { LeftSidebar } from "@/components/feed/LeftSidebar";
+import { CollapsibleSidebar } from "@/components/feed/CollapsibleSidebar";
 
 export default async function GroupsLayout({
 	children,
@@ -43,9 +44,9 @@ export default async function GroupsLayout({
 
 	return (
 		<div className="flex min-h-[calc(100vh-56px)]">
-			<aside className="hidden lg:block w-[280px] shrink-0 sticky top-14 h-[calc(100vh-56px)] overflow-y-auto border-r border-border/60">
+			<CollapsibleSidebar>
 				<LeftSidebar user={currentUser} shortcuts={shortcuts} />
-			</aside>
+			</CollapsibleSidebar>
 			<main className="flex-1 min-w-0">{children}</main>
 		</div>
 	);

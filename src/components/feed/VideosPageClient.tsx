@@ -8,6 +8,7 @@ import { UploadVideoDialog } from "./UploadVideoDialog";
 import { Video, Upload, Loader2 } from "lucide-react";
 import { getVideos } from "@/actions/video.actions";
 import { useRouter } from "next/navigation";
+import { useInfiniteScroll } from "@/hooks/use-infinite-scroll";
 
 type VideoItem = {
 	id: number;
@@ -60,6 +61,8 @@ export function VideosPageClient({
 			setPage(nextPage);
 		});
 	}
+
+	const sentinelRef = useInfiniteScroll(handleLoadMore, { hasMore, loading: isPending });
 
 	return (
 		<div className="max-w-6xl mx-auto px-4 py-8">
@@ -123,16 +126,8 @@ export function VideosPageClient({
 						))}
 					</div>
 					{hasMore && (
-						<div className="flex justify-center mt-8">
-							<Button
-								variant="outline"
-								onClick={handleLoadMore}
-								disabled={isPending}
-								className="gap-2"
-							>
-								{isPending && <Loader2 className="h-4 w-4 animate-spin" />}
-								Load more videos
-							</Button>
+						<div ref={sentinelRef} className="flex justify-center py-6 col-span-full">
+							{isPending && <Loader2 className="h-5 w-5 animate-spin text-muted-foreground" />}
 						</div>
 					)}
 				</>

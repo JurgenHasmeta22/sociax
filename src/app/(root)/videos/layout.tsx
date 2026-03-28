@@ -5,7 +5,7 @@ import { prisma } from "@/lib/prisma";
 import { LeftSidebar } from "@/components/feed/LeftSidebar";
 import { CollapsibleSidebar } from "@/components/feed/CollapsibleSidebar";
 
-export default async function GroupsLayout({
+export default async function VideosLayout({
 	children,
 }: {
 	children: React.ReactNode;

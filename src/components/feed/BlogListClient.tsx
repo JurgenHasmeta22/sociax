@@ -10,6 +10,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { BookOpen, Heart, Loader2, PenLine } from "lucide-react";
 import { getAllBlogs } from "@/actions/blog.actions";
+import { useInfiniteScroll } from "@/hooks/use-infinite-scroll";
 
 type BlogItem = {
 	id: number;
@@ -52,6 +53,8 @@ export function BlogListClient({
 			setPage(nextPage);
 		});
 	}
+
+	const sentinelRef = useInfiniteScroll(handleLoadMore, { hasMore, loading: isPending });
 
 	if (blogs.length === 0) {
 		return (
@@ -149,16 +152,8 @@ export function BlogListClient({
 				})}
 			</div>
 			{hasMore && (
-				<div className="flex justify-center mt-8">
-					<Button
-						variant="outline"
-						onClick={handleLoadMore}
-						disabled={isPending}
-						className="gap-2"
-					>
-						{isPending && <Loader2 className="h-4 w-4 animate-spin" />}
-						Load more posts
-					</Button>
+				<div ref={sentinelRef} className="flex justify-center py-6">
+					{isPending && <Loader2 className="h-5 w-5 animate-spin text-muted-foreground" />}
 				</div>
 			)}
 		</>

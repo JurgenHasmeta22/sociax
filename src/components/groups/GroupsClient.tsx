@@ -15,6 +15,7 @@ import {
 	fetchPopularGroups,
 	fetchMyGroups,
 } from "@/actions/group.actions";
+import { useInfiniteScroll } from "@/hooks/use-infinite-scroll";
 
 type Tab = "suggestions" | "popular" | "mygroups";
 
@@ -309,6 +310,7 @@ export function GroupsClient({
 	};
 
 	const hasMore = groups.length < total;
+	const sentinelRef = useInfiniteScroll(handleLoadMore, { hasMore, loading: isPending });
 	const featured = groups.slice(0, 4);
 	const suggestionList = groups.slice(4);
 
@@ -473,19 +475,8 @@ export function GroupsClient({
 					)}
 
 					{hasMore && (
-						<div className="flex justify-center mt-4">
-							<Button
-								variant="outline"
-								onClick={handleLoadMore}
-								disabled={isPending}
-								className="min-w-36"
-							>
-								{isPending ? (
-									<Loader2 className="h-4 w-4 animate-spin" />
-								) : (
-									"Load more"
-								)}
-							</Button>
+						<div ref={sentinelRef} className="flex justify-center py-6">
+							{isPending && <Loader2 className="h-5 w-5 animate-spin text-muted-foreground" />}
 						</div>
 					)}
 				</>

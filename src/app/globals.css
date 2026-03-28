@@ -134,3 +134,22 @@
 		@apply bg-muted-foreground/40;
 	}
 }
+
+/* Collapsible sidebar */
+.sidebar-collapsed .sidebar-label {
+	display: none;
+}
+
+/* Mobile bottom nav safe area */
+.safe-area-pb {
+	padding-bottom: env(safe-area-inset-bottom, 0px);
+}
+
+/* Scrollbar-hide utility */
+.scrollbar-hide {
+	-ms-overflow-style: none;
+	scrollbar-width: none;
+}
+.scrollbar-hide::-webkit-scrollbar {
+	display: none;
+}

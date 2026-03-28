@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Search, Users, Loader2 } from "lucide-react";
 import { PersonCard } from "@/components/people/PersonCard";
 import { fetchMorePeople } from "@/actions/follow.actions";
+import { useInfiniteScroll } from "@/hooks/use-infinite-scroll";
 
 type FollowState =
 	| "none"
@@ -69,6 +70,7 @@ export function PeopleClient({
 	};
 
 	const hasMore = people.length < total;
+	const sentinelRef = useInfiniteScroll(handleLoadMore, { hasMore, loading: isPending });
 
 	return (
 		<div className="max-w-5xl mx-auto px-4 py-8">
@@ -115,19 +117,8 @@ export function PeopleClient({
 					</div>
 
 					{hasMore && (
-						<div className="flex justify-center mt-6">
-							<Button
-								variant="outline"
-								onClick={handleLoadMore}
-								disabled={isPending}
-								className="min-w-36"
-							>
-								{isPending ? (
-									<Loader2 className="h-4 w-4 animate-spin" />
-								) : (
-									"Load more"
-								)}
-							</Button>
+						<div ref={sentinelRef} className="flex justify-center py-6">
+							{isPending && <Loader2 className="h-5 w-5 animate-spin text-muted-foreground" />}
 						</div>
 					)}
 				</>

@@ -3,6 +3,7 @@ import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 import { redirect } from "next/navigation";
 import { prisma } from "@/lib/prisma";
 import { LeftSidebar } from "@/components/feed/LeftSidebar";
+import { CollapsibleSidebar } from "@/components/feed/CollapsibleSidebar";
 import { RightSidebar } from "@/components/feed/RightSidebar";
 import { StoriesBar } from "@/components/feed/StoriesBar";
 import { PostComposer } from "@/components/feed/PostComposer";
@@ -240,9 +241,9 @@ export default async function FeedPage() {
 
 	return (
 		<div className="flex min-h-[calc(100vh-56px)]">
-			<aside className="hidden lg:block w-[280px] shrink-0 sticky top-14 h-[calc(100vh-56px)] overflow-y-auto border-r border-border/60">
+			<CollapsibleSidebar>
 				<LeftSidebar user={currentUser} shortcuts={shortcutFriends} />
-			</aside>
+			</CollapsibleSidebar>
 
 			<main className="flex-1 py-4 px-3 overflow-hidden">
 				<div className="max-w-[600px] mx-auto space-y-3">

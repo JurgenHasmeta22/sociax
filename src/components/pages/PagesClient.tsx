@@ -16,6 +16,7 @@ import {
 } from "lucide-react";
 import { fetchPages, followPage, unfollowPage } from "@/actions/page.actions";
 import { CreatePageDialog } from "@/components/pages/CreatePageDialog";
+import { useInfiniteScroll } from "@/hooks/use-infinite-scroll";
 
 type Tab = "suggestions" | "popular" | "mypages";
 
@@ -437,6 +438,8 @@ export function PagesClient({
 		setIsLoadingMore(false);
 	};
 
+	const sentinelRef = useInfiniteScroll(loadMore, { hasMore, loading: isLoadingMore });
+
 	const handleToggleFollow = (id: number, nowFollowing: boolean) => {
 		setPages((prev) =>
 			prev.map((p) =>
@@ -611,21 +614,8 @@ export function PagesClient({
 							)}
 
 							{hasMore && tab !== "mypages" && (
-								<div className="text-center mt-8">
-									<Button
-										variant="secondary"
-										onClick={loadMore}
-										disabled={isLoadingMore}
-									>
-										{isLoadingMore ? (
-											<>
-												<Loader2 className="h-4 w-4 mr-2 animate-spin" />
-												Loading&hellip;
-											</>
-										) : (
-											"Load more..."
-										)}
-									</Button>
+								<div ref={sentinelRef} className="flex justify-center py-6">
+									{isLoadingMore && <Loader2 className="h-5 w-5 animate-spin text-muted-foreground" />}
 								</div>
 							)}
 						</>

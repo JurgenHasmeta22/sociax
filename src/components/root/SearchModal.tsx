@@ -155,7 +155,7 @@ export function SearchModal({
 
 	return (
 		<Dialog open={open} onOpenChange={(o) => !o && handleClose()}>
-			<DialogContent className="sm:max-w-2xl p-0 overflow-hidden gap-0">
+			<DialogContent className="sm:max-w-2xl p-0 overflow-hidden gap-0 border-border/80 bg-background shadow-2xl [&>button]:top-3 [&>button]:right-3 [&>button]:z-20 [&>button]:rounded-full [&>button]:bg-muted [&>button]:p-1.5 [&>button]:opacity-100">
 				<DialogHeader className="px-4 pt-4 pb-0">
 					<DialogTitle className="sr-only">Search</DialogTitle>
 					<div className="relative">

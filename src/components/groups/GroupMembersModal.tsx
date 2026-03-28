@@ -16,6 +16,7 @@ import {
 	sendFollowRequest,
 	cancelFollowRequest,
 } from "@/actions/follow.actions";
+import { useInfiniteScroll } from "@/hooks/use-infinite-scroll";
 
 type Member = {
 	id: number;
@@ -138,6 +139,12 @@ export function GroupMembersModal({
 		[groupId],
 	);
 
+	const loadMoreMembers = useCallback(() => {
+		loadMembers(members.length);
+	}, [loadMembers, members.length]);
+
+	const sentinelRef = useInfiniteScroll(loadMoreMembers, { hasMore, loading: isPending });
+
 	const handleOpen = () => {
 		setOpen(true);
 		if (!loaded) loadMembers(0, true);
@@ -186,18 +193,9 @@ export function GroupMembersModal({
 					</div>
 
 					{hasMore && (
-						<Button
-							variant="outline"
-							size="sm"
-							className="w-full mt-2"
-							disabled={isPending}
-							onClick={() => loadMembers(members.length)}
-						>
-							{isPending ? (
-								<Loader2 className="h-4 w-4 animate-spin mr-2" />
-							) : null}
-							Load more
-						</Button>
+						<div ref={sentinelRef} className="flex justify-center py-3">
+							{isPending && <Loader2 className="h-4 w-4 animate-spin text-muted-foreground" />}
+						</div>
 					)}
 				</DialogContent>
 			</Dialog>
